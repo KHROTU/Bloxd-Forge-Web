@@ -16,7 +16,7 @@
             justify-content: center;
             text-align: center;
             color: white;
-            background-color: #181818; /* Fallback color */
+            background-color: #181818;
         }
 
         .nav-bar {
@@ -171,12 +171,10 @@
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
         }
 
-        /* Smooth scroll animation */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Additional animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -186,7 +184,6 @@
             animation: fadeIn 1s ease-in-out;
         }
 
-        /* Dark theme */
         .dark-theme {
             background-color: #181818;
             color: #ffffff;
@@ -239,42 +236,9 @@
             background-color: #242424;
             color: #FFA500;
         }
-
-        /* Theme toggle button */
-        .theme-toggle {
-            background-color: #FFA500;
-            color: #000;
-            border: none;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .theme-toggle:hover {
-            background-color: #FF7F00;
-        }
-
-        .theme-toggle img {
-            width: 20px;
-            height: 20px;
-        }
-
-        .dark-theme .theme-toggle {
-            background-color: #FFA500;
-            color: #000;
-        }
-
-        .dark-theme .theme-toggle:hover {
-            background-color: #FF7F00;
-        }
     </style>
 </head>
 <body class="dark-theme">
-    <!-- Navigation Bar -->
     <nav class="nav-bar" id="navbar">
         <div class="container mx-auto flex justify-between items-center">
             <div class="text-xl font-bold text-white">BloxdForge</div>
@@ -283,26 +247,20 @@
                 <a href="#team" class="hover:text-gray-300">Team</a>
                 <a href="#testimonials" class="hover:text-gray-300">Testimonials</a>
                 <a href="#projects" class="hover:text-gray-300">Projects</a>
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <img src="https://img.icons8.com/ios-filled/50/000000/sun--v1.png" alt="Light Theme" id="theme-icon">
-                    Toggle Theme
-                </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="hero fade-in">
         <div class="text-center">
             <h1 class="text-4xl font-bold mb-8">Try BloxdForge now, on the web.</h1>
             <div class="space-x-4">
-                <a href="#lite" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">BloxdForge Lite</a>
-                <a href="#plus" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300">BloxdForge Plus</a>
+                <a href="https://www.bloxdforge.com/app" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">BloxdForge Lite</a>
+                <a href="http://github.com/KHROTU/Bloxd-Forge/raw/refs/heads/main/Bloxd%20Forge/Bloxd%20Forge%20Plus-1.0.0%20Setup.rar?download=" onclick="window.open('https://www.bloxdforge.com/plus', '_blank');" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300">BloxdForge Plus</a>
             </div>
         </div>
     </div>
 
-    <!-- Feature Comparison -->
     <div id="features" class="feature-comparison fade-in">
         <div class="container mx-auto">
             <h2 class="text-3xl font-bold text-center mb-12">Feature Comparison</h2>
@@ -335,18 +293,15 @@
         </div>
     </div>
 
-    <!-- Team Section -->
     <div id="team" class="dev-section fade-in">
         <div class="container mx-auto">
             <h2 class="text-3xl font-bold text-center mb-12">Meet the Developers</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- A_I_X Profile -->
                 <div class="developer-profile">
                     <img src="https://cdn.discordapp.com/avatars/1036667139660206191/df9f311685e7615e7f001d06c17409d4?size=1024" alt="A_I_X">
                     <h3 class="text-2xl font-bold mt-4">A_I_X</h3>
                     <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                 </div>
-                <!-- KHROTU Profile -->
                 <div class="developer-profile">
                     <img src="https://cdn.discordapp.com/avatars/1215882225279701023/4476c5746aa59354fff2e18e0a5d058c?size=1024" alt="KHROTU">
                     <h3 class="text-2xl font-bold mt-4">KHROTU</h3>
@@ -356,12 +311,10 @@
         </div>
     </div>
 
-    <!-- Testimonials Section -->
     <div id="testimonials" class="testimonial-slider fade-in">
         <button class="testimonial-nav-btn left" onclick="prevTestimonial()"><</button>
         <button class="testimonial-nav-btn right" onclick="nextTestimonial()">></button>
         <div class="testimonial-slider-inner" id="testimonialSlider">
-            <!-- Testimonial Cards -->
             <div class="testimonial-card">
                 <p>"Amazing tool!"</p>
                 <p class="font-bold mt-4">- User 1</p>
@@ -389,24 +342,20 @@
         </div>
     </div>
 
-    <!-- Projects Section -->
     <div id="projects" class="projects-section fade-in">
         <div class="container mx-auto">
             <h2 class="text-3xl font-bold text-center mb-12">Our Projects</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Project Card 1 -->
                 <div class="project-card">
                     <h3 class="text-xl font-bold mb-2">Project 1</h3>
                     <p>Description of project 1</p>
                     <a href="#" class="text-blue-500 hover:underline">View on GitHub</a>
                 </div>
-                <!-- Project Card 2 -->
                 <div class="project-card">
                     <h3 class="text-xl font-bold mb-2">Project 2</h3>
                     <p>Description of project 2</p>
                     <a href="#" class="text-blue-500 hover:underline">View on GitHub</a>
                 </div>
-                <!-- Project Card 3 -->
                 <div class="project-card">
                     <h3 class="text-xl font-bold mb-2">Project 3</h3>
                     <p>Description of project 3</p>
@@ -416,7 +365,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="fade-in">
         <div class="container mx-auto">
             <p>Copyright © 2024 ProduX, Ltd. All Rights Reserved.</p>
@@ -425,7 +373,6 @@
     </footer>
 
     <script>
-        // Navigation bar hide/show on scroll
         let lastScroll = 0;
         const navbar = document.getElementById('navbar');
 
@@ -441,7 +388,6 @@
             lastScroll = currentScroll;
         });
 
-        // Testimonial slider
         let testimonialIndex = 2;
         const testimonials = document.querySelectorAll('.testimonial-card');
         const slider = document.getElementById('testimonialSlider');
@@ -467,22 +413,7 @@
             showTestimonial(testimonialIndex);
         }
 
-        // Auto rotate testimonials
         setInterval(nextTestimonial, 5000);
-
-        // Theme toggle
-        const themeIcon = document.getElementById('theme-icon');
-        const body = document.body;
-
-        function toggleTheme() {
-            body.classList.toggle('dark-theme');
-            body.classList.toggle('light-theme');
-            if (body.classList.contains('dark-theme')) {
-                themeIcon.src = "https://img.icons8.com/ios-filled/50/000000/sun--v1.png";
-            } else {
-                themeIcon.src = "https://img.icons8.com/ios-filled/50/000000/moon-symbol.png";
-            }
-        }
     </script>
 </body>
 </html>
