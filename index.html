@@ -16,17 +16,18 @@
             justify-content: center;
             text-align: center;
             color: white;
-            background-color: #ededed; /* Fallback color */
+            background-color: #181818; /* Fallback color */
         }
 
         .nav-bar {
             position: fixed;
             width: 100%;
-            background-color: #181818;
+            background-color: #242424;
             text-align: center;
             padding: 1rem 0;
             transition: transform 0.3s ease-in-out;
             z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
         .nav-bar.hidden {
@@ -34,35 +35,36 @@
         }
 
         .nav-bar a {
-            color: white;
+            color: #FFA500;
             transition: color 0.3s ease;
         }
 
         .nav-bar a:hover {
-            color: gray;
+            color: #FF7F00;
         }
 
         .feature-comparison {
-            background-color: #ededed;
+            background-color: #181818;
             padding: 4rem 0;
         }
 
         .feature-table {
-            width: 60%; /* Adjusted width */
+            width: 60%;
             margin: 0 auto;
             border-collapse: collapse;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #2a2a2a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .feature-table th, .feature-table td {
-            border: 1px solid #ddd;
+            border: 1px solid #555555;
             padding: 1rem;
             text-align: left;
+            color: #ffffff;
         }
 
         .feature-table th {
-            background-color: #f1f1f1;
+            background-color: #333333;
         }
 
         .feature-comparison-icon {
@@ -70,7 +72,7 @@
         }
 
         .dev-section {
-            background-color: #ededed;
+            background-color: #181818;
             padding: 4rem 0;
         }
 
@@ -90,20 +92,22 @@
             position: relative;
             overflow: hidden;
             padding: 4rem 0;
+            background-color: #181818;
         }
 
         .testimonial-slider-inner {
             display: flex;
             transition: transform 0.5s ease;
+            justify-content: center;
         }
 
         .testimonial-card {
             width: 30%;
             padding: 2rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             margin: 0 1rem;
             text-align: center;
-            background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
+            background-color: #2a2a2a;
             border-radius: 10px;
             transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
             opacity: 0.5;
@@ -118,8 +122,8 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background-color: #181818;
-            color: #fff;
+            background-color: #FFA500;
+            color: #000;
             border: none;
             padding: 0.5rem 1rem;
             cursor: pointer;
@@ -128,7 +132,7 @@
         }
 
         .testimonial-nav-btn:hover {
-            background-color: #333;
+            background-color: #FF7F00;
         }
 
         .testimonial-nav-btn.left {
@@ -140,14 +144,14 @@
         }
 
         .projects-section {
-            background-color: #ededed;
+            background-color: #181818;
             padding: 4rem 0;
         }
 
         .project-card {
-            background-color: #fff;
+            background-color: #2a2a2a;
             padding: 2rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             margin: 1rem;
             text-align: center;
             border-radius: 10px;
@@ -156,14 +160,15 @@
 
         .project-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
         }
 
         footer {
-            background-color: #181818;
-            color: #fff;
+            background-color: #242424;
+            color: #FFA500;
             text-align: center;
             padding: 2rem 0;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
         }
 
         /* Smooth scroll animation */
@@ -184,93 +189,104 @@
         /* Dark theme */
         .dark-theme {
             background-color: #181818;
-            color: #fff;
+            color: #ffffff;
         }
 
         .dark-theme .nav-bar {
-            background-color: #fff;
+            background-color: #242424;
         }
 
         .dark-theme .nav-bar a {
-            color: #181818;
+            color: #FFA500;
         }
 
         .dark-theme .nav-bar a:hover {
-            color: #555;
+            color: #FF7F00;
         }
 
         .dark-theme .feature-comparison {
-            background-color: #333;
+            background-color: #181818;
         }
 
         .dark-theme .feature-table {
-            background-color: #444;
-            color: #fff;
+            background-color: #2a2a2a;
+            color: #ffffff;
         }
 
         .dark-theme .feature-table th {
-            background-color: #555;
+            background-color: #333333;
         }
 
         .dark-theme .dev-section {
-            background-color: #333;
+            background-color: #181818;
         }
 
         .dark-theme .testimonial-card {
-            background: linear-gradient(135deg, #444, #555);
-            color: #fff;
+            background-color: #2a2a2a;
+            color: #ffffff;
         }
 
         .dark-theme .projects-section {
-            background-color: #333;
+            background-color: #181818;
         }
 
         .dark-theme .project-card {
-            background-color: #444;
-            color: #fff;
+            background-color: #2a2a2a;
+            color: #ffffff;
         }
 
         .dark-theme footer {
-            background-color: #fff;
-            color: #181818;
+            background-color: #242424;
+            color: #FFA500;
         }
 
         /* Theme toggle button */
         .theme-toggle {
-            background-color: #181818;
-            color: #fff;
+            background-color: #FFA500;
+            color: #000;
             border: none;
             padding: 0.5rem 1rem;
             cursor: pointer;
             transition: background-color 0.3s ease;
             border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .theme-toggle:hover {
-            background-color: #333;
+            background-color: #FF7F00;
+        }
+
+        .theme-toggle img {
+            width: 20px;
+            height: 20px;
         }
 
         .dark-theme .theme-toggle {
-            background-color: #fff;
-            color: #181818;
+            background-color: #FFA500;
+            color: #000;
         }
 
         .dark-theme .theme-toggle:hover {
-            background-color: #ddd;
+            background-color: #FF7F00;
         }
     </style>
 </head>
-<body class="light-theme">
+<body class="dark-theme">
     <!-- Navigation Bar -->
     <nav class="nav-bar" id="navbar">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold">BloxdForge</div>
+            <div class="text-xl font-bold text-white">BloxdForge</div>
             <div class="space-x-6">
                 <a href="#features" class="hover:text-gray-300">Features</a>
                 <a href="#team" class="hover:text-gray-300">Team</a>
                 <a href="#testimonials" class="hover:text-gray-300">Testimonials</a>
                 <a href="#projects" class="hover:text-gray-300">Projects</a>
-                <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/sun--v1.png" alt="Light Theme" id="theme-icon">
+                    Toggle Theme
+                </button>
             </div>
         </div>
     </nav>
@@ -455,10 +471,17 @@
         setInterval(nextTestimonial, 5000);
 
         // Theme toggle
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
         function toggleTheme() {
-            const body = document.body;
             body.classList.toggle('dark-theme');
             body.classList.toggle('light-theme');
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.src = "https://img.icons8.com/ios-filled/50/000000/sun--v1.png";
+            } else {
+                themeIcon.src = "https://img.icons8.com/ios-filled/50/000000/moon-symbol.png";
+            }
         }
     </script>
 </body>
