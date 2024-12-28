@@ -327,42 +327,76 @@
         </div>
     </div>
 
-    <!-- Testimonial Slider Container -->
     <div id="testimonials" class="testimonial-slider fade-in relative">
-        <div class="absolute top-0 left-0 right-0 z-10 flex justify-between px-4 py-2">
-            <button class="testimonial-nav-btn left" onclick="moveTestimonial(-1)">←</button>
-            <button class="testimonial-nav-btn right" onclick="moveTestimonial(1)">→</button>
-        </div>
-        
-        <div class="testimonial-slider-inner" id="testimonialSlider">
-            <div class="testimonial-card">
-                <p>"Amazing tool!"</p>
-                <p class="font-bold mt-4">- User 1</p>
-            </div>
-            <div class="testimonial-card">
-                <p>"Best development experience ever!"</p>
-                <p class="font-bold mt-4">- User 2</p>
-            </div>
-            <div class="testimonial-card active">
-                <p>"Incredible features!"</p>
-                <p class="font-bold mt-4">- User 3</p>
-            </div>
-            <div class="testimonial-card">
-                <p>"Highly recommended!"</p>
-                <p class="font-bold mt-4">- User 4</p>
-            </div>
-            <div class="testimonial-card">
-                <p>"Great support team!"</p>
-                <p class="font-bold mt-4">- User 5</p>
-            </div>
-            <div class="testimonial-card">
-                <p>"Easy to use!"</p>
-                <p class="font-bold mt-4">- User 6</p>
+        <div class="container mx-auto px-4"></div>
+            <h2 class="text-3xl font-bold text-center mb-8 text-white">Testimonials</h2>
+            
+            <div class="relative">
+                <div class="testimonial-slider-inner" id="testimonialSlider">
+                    <div class="testimonial-card mx-2">
+                        <p>"Amazing tool!"</p>
+                        <p class="font-bold mt-4">- User 1</p>
+                    </div>
+                    <div class="testimonial-card mx-2">
+                        <p>"Best user experience ever!"</p>
+                        <p class="font-bold mt-4">- User 2</p>
+                    </div>
+                    <div class="testimonial-card active mx-2">
+                        <p>"Incredible features!"</p>
+                        <p class="font-bold mt-4">- User 3</p>
+                    </div>
+                    <div class="testimonial-card mx-2">
+                        <p>"Highly recommended!"</p>
+                        <p class="font-bold mt-4">- User 4</p>
+                    </div>
+                    <div class="testimonial-card mx-2">
+                        <p>"Great support team!"</p>
+                        <p class="font-bold mt-4">- User 5</p>
+                    </div>
+                    <div class="testimonial-card mx-2">
+                        <p>"Easy to use!"</p>
+                        <p class="font-bold mt-4">- User 6</p>
+                    </div>
+                </div>
+
+                <button class="testimonial-nav-btn left absolute top-1/2 left-4 transform -translate-y-1/2 rounded-full w-10 h-10 flex items-center justify-center" onclick="moveTestimonial(-1)">←</button>
+                <button class="testimonial-nav-btn right absolute top-1/2 right-4 transform -translate-y-1/2 rounded-full w-10 h-10 flex items-center justify-center" onclick="moveTestimonial(1)">→</button>
             </div>
         </div>
 
+        <style>
+            .testimonial-slider-inner {
+                display: flex;
+                transition: transform 0.5s ease;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+                width: fit-content;
+            }
+
+            .testimonial-card {
+                flex: 0 0 280px;
+                margin: 0 0.5rem;
+                transform-origin: center;
+                transition: all 0.5s ease;
+            }
+
+            .testimonial-nav-btn {
+                background: rgba(255, 165, 0, 0.8);
+                backdrop-filter: blur(4px);
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                z-index: 10;
+            }
+
+            .testimonial-nav-btn:hover {
+                background: rgba(255, 165, 0, 1);
+            }
+        </style>
+
         <script>
-            let currentIndex = 2; // Start with middle card active
+            let currentIndex = 2;
             const testimonialCards = document.querySelectorAll('.testimonial-card');
             const totalCards = testimonialCards.length;
             let isAnimating = false;
@@ -376,26 +410,22 @@
 
                 setTimeout(() => {
                     isAnimating = false;
-                }, 500); // Match transition duration
+                }, 500);
             }
 
             function updateTestimonials() {
-                // Remove active class from all cards
-                testimonialCards.forEach(card => card.classList.remove('active'));
+                testimonialCards.forEach((card, index) => {
+                    card.classList.remove('active');
+                    const offset = (index - currentIndex) * 300;
+                    card.style.transform = `translateX(${offset}px) scale(${index === currentIndex ? 1 : 0.8})`;
+                    card.style.opacity = index === currentIndex ? 1 : 0.5;
+                });
                 
-                // Add active class to current card
                 testimonialCards[currentIndex].classList.add('active');
-
-                // Calculate offset to keep active card centered
-                const cardWidth = testimonialCards[0].offsetWidth + 32; // Including margins
-                const offset = (currentIndex * cardWidth) - (window.innerWidth / 2) + (cardWidth / 2);
-                document.getElementById('testimonialSlider').style.transform = `translateX(-${offset}px)`;
             }
 
-            // Auto-advance every 5 seconds
             let autoPlayInterval = setInterval(() => moveTestimonial(1), 5000);
 
-            // Pause auto-advance when user interacts with buttons
             document.querySelectorAll('.testimonial-nav-btn').forEach(btn => {
                 btn.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
                 btn.addEventListener('mouseleave', () => {
@@ -403,7 +433,6 @@
                 });
             });
 
-            // Initial setup
             window.addEventListener('load', updateTestimonials);
             window.addEventListener('resize', updateTestimonials);
         </script>
@@ -415,18 +444,18 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="project-card">
                     <h3 class="text-xl font-bold mb-2">Mushroomy-home</h3>
-                    <p>Bloxd project</p>
-                    <a href="https://bloxd.io/?lobby=mushroomy-home&g=worlds" class="text-blue-500 hover:underline">View in Bloxd</a>
+                    <p>Bloxd world project.</p>
+                    <a href="https://bloxd.io/?lobby=mushroomy-home&g=worlds" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">View in Bloxd</a>
                 </div>
                 <div class="project-card">
-                    <h3 class="text-xl font-bold mb-2">Project 2</h3>
-                    <p>Description of project 2</p>
-                    <a href="#" class="text-blue-500 hover:underline">View on GitHub</a>
+                    <h3 class="text-xl font-bold mb-2">Website Checker</h3>
+                    <p>Powerful tool to checkout websites.</p>
+                    <a href="https://github.com/KHROTU/websiteChecker" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">View on GitHub</a>
                 </div>
                 <div class="project-card">
-                    <h3 class="text-xl font-bold mb-2">Project 3</h3>
-                    <p>Description of project 3</p>
-                    <a href="#" class="text-blue-500 hover:underline">View on GitHub</a>
+                    <h3 class="text-xl font-bold mb-2">MouthpieceAI</h3>
+                    <p>Talk to AI in Discord, with a handful of features!</p>
+                    <a href="https://github.com/KHROTU/MouthpieceAI" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">View on GitHub</a>
                 </div>
             </div>
         </div>
