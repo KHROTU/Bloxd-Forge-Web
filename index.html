@@ -48,7 +48,7 @@
         }
 
         .feature-table {
-            width: 80%;
+            width: 60%; /* Adjusted width */
             margin: 0 auto;
             border-collapse: collapse;
             background-color: #fff;
@@ -105,12 +105,13 @@
             text-align: center;
             background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
             border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            opacity: 0.5;
         }
 
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        .testimonial-card.active {
+            transform: scale(1.1);
+            opacity: 1;
         }
 
         .testimonial-nav-btn {
@@ -120,10 +121,10 @@
             background-color: #181818;
             color: #fff;
             border: none;
-            padding: 1rem;
+            padding: 0.5rem 1rem;
             cursor: pointer;
-            border-radius: 50%;
             transition: background-color 0.3s ease;
+            border-radius: 5px;
         }
 
         .testimonial-nav-btn:hover {
@@ -179,9 +180,87 @@
         .fade-in {
             animation: fadeIn 1s ease-in-out;
         }
+
+        /* Dark theme */
+        .dark-theme {
+            background-color: #181818;
+            color: #fff;
+        }
+
+        .dark-theme .nav-bar {
+            background-color: #fff;
+        }
+
+        .dark-theme .nav-bar a {
+            color: #181818;
+        }
+
+        .dark-theme .nav-bar a:hover {
+            color: #555;
+        }
+
+        .dark-theme .feature-comparison {
+            background-color: #333;
+        }
+
+        .dark-theme .feature-table {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .dark-theme .feature-table th {
+            background-color: #555;
+        }
+
+        .dark-theme .dev-section {
+            background-color: #333;
+        }
+
+        .dark-theme .testimonial-card {
+            background: linear-gradient(135deg, #444, #555);
+            color: #fff;
+        }
+
+        .dark-theme .projects-section {
+            background-color: #333;
+        }
+
+        .dark-theme .project-card {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .dark-theme footer {
+            background-color: #fff;
+            color: #181818;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            background-color: #181818;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .theme-toggle:hover {
+            background-color: #333;
+        }
+
+        .dark-theme .theme-toggle {
+            background-color: #fff;
+            color: #181818;
+        }
+
+        .dark-theme .theme-toggle:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
-<body>
+<body class="light-theme">
     <!-- Navigation Bar -->
     <nav class="nav-bar" id="navbar">
         <div class="container mx-auto flex justify-between items-center">
@@ -191,6 +270,7 @@
                 <a href="#team" class="hover:text-gray-300">Team</a>
                 <a href="#testimonials" class="hover:text-gray-300">Testimonials</a>
                 <a href="#projects" class="hover:text-gray-300">Projects</a>
+                <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
             </div>
         </div>
     </nav>
@@ -270,15 +350,26 @@
                 <p>"Amazing tool!"</p>
                 <p class="font-bold mt-4">- User 1</p>
             </div>
-            <div class="testimonial-card active">
+            <div class="testimonial-card">
                 <p>"Best development experience ever!"</p>
                 <p class="font-bold mt-4">- User 2</p>
             </div>
-            <div class="testimonial-card">
+            <div class="testimonial-card active">
                 <p>"Incredible features!"</p>
                 <p class="font-bold mt-4">- User 3</p>
             </div>
-            <!-- Add more testimonial cards as needed -->
+            <div class="testimonial-card">
+                <p>"Highly recommended!"</p>
+                <p class="font-bold mt-4">- User 4</p>
+            </div>
+            <div class="testimonial-card">
+                <p>"Great support team!"</p>
+                <p class="font-bold mt-4">- User 5</p>
+            </div>
+            <div class="testimonial-card">
+                <p>"Easy to use!"</p>
+                <p class="font-bold mt-4">- User 6</p>
+            </div>
         </div>
     </div>
 
@@ -305,7 +396,6 @@
                     <p>Description of project 3</p>
                     <a href="#" class="text-blue-500 hover:underline">View on GitHub</a>
                 </div>
-                <!-- Add more project cards as needed -->
             </div>
         </div>
     </div>
@@ -336,26 +426,40 @@
         });
 
         // Testimonial slider
-        let testimonialIndex = 1;
+        let testimonialIndex = 2;
         const testimonials = document.querySelectorAll('.testimonial-card');
         const slider = document.getElementById('testimonialSlider');
 
         function showTestimonial(index) {
+            testimonials.forEach((card, i) => {
+                if (i === index) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
             slider.style.transform = `translateX(-${(index - 1) * (100 / testimonials.length)}%)`;
         }
 
         function nextTestimonial() {
-            testimonialIndex = (testimonialIndex % testimonials.length) + 1;
+            testimonialIndex = (testimonialIndex + 1) % testimonials.length;
             showTestimonial(testimonialIndex);
         }
 
         function prevTestimonial() {
-            testimonialIndex = (testimonialIndex - 2 + testimonials.length) % testimonials.length + 1;
+            testimonialIndex = (testimonialIndex - 1 + testimonials.length) % testimonials.length;
             showTestimonial(testimonialIndex);
         }
 
         // Auto rotate testimonials
         setInterval(nextTestimonial, 5000);
+
+        // Theme toggle
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-theme');
+            body.classList.toggle('light-theme');
+        }
     </script>
 </body>
 </html>
