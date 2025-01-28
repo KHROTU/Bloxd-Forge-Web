@@ -142,6 +142,7 @@ body {
     }
 }
 
+
 a {
     text-decoration: none;
     color: var(--accent-color);
@@ -204,7 +205,7 @@ a:hover {
     width: 100%;
     position: sticky;
     bottom: 0;
-    background: var(--glass-bg);
+    background: #383838;
     padding: 10px 0;
     border-radius: 0 10px 10px 15px;
 }
@@ -215,14 +216,16 @@ a:hover {
     border: none;
     padding: 12px 24px;
     font-size: 1.1em;
-    border-radius: 15px 0px 0px 15px;
+    border-radius: 10px 0px 0px 10px;
     cursor: pointer;
     transition: padding 0.3s ease, box-shadow 0.3s ease;
 }
 
 .popup button:hover {
-    padding: 12px 40px; 
+    padding: 12px 36px; 
 }
+
+
 
 .loading-spinner {
     border: 4px solid rgba(255, 255, 255, 0.3);
@@ -232,12 +235,14 @@ a:hover {
     height: 60px;
     animation: spin 2s linear infinite;
 
+   
     position: fixed; 
     top: 10px; 
     left: 10px; 
     transform: none; 
     z-index: 9999; 
 }
+
 
 @keyframes spin {
     0% {
@@ -247,6 +252,9 @@ a:hover {
         transform: rotate(360deg);
     }
 }
+
+
+
 
 ::-webkit-scrollbar {
     width: 12px;
@@ -293,6 +301,7 @@ a:hover {
         let currentBatch = 0;
         let allZipFiles = [];
 
+   
         function debounce(func, delay) {
             let timeout;
             return function (...args) {
@@ -301,9 +310,10 @@ a:hover {
             };
         }
 
+       
         async function fetchZipFiles() {
             try {
-                const response = await fetch(`https:
+                const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents`);
                 if (!response.ok) throw new Error("Failed to fetch files");
                 const files = await response.json();
                 allZipFiles = files.filter(file => file.type === "file" && file.name.endsWith(".zip"));
@@ -314,6 +324,7 @@ a:hover {
             }
         }
 
+      
         async function loadNextBatch() {
             const start = currentBatch * batchSize;
             const end = start + batchSize;
@@ -342,6 +353,7 @@ a:hover {
             }
         }
 
+   
         async function extractBanner(zipUrl) {
             try {
                 const response = await fetch(zipUrl);
@@ -361,6 +373,7 @@ a:hover {
             return "https://via.placeholder.com/220x220?text=No+Banner";
         }
 
+     
         async function extractDescription(zipUrl) {
             try {
                 const response = await fetch(zipUrl);
@@ -378,6 +391,7 @@ a:hover {
             return "No description available.";
         }
 
+
         function displayCard(name, url, bannerUrl) {
             const container = document.getElementById("cards-container");
 
@@ -388,7 +402,7 @@ a:hover {
             const img = document.createElement("img");
             img.src = bannerUrl;
             img.alt = `${name} Banner`;
-            img.loading = "lazy"; 
+            img.loading = "lazy";
 
             img.addEventListener("click", async () => {
                 const descText = await extractDescription(url);
@@ -404,6 +418,7 @@ a:hover {
             container.appendChild(card);
         }
 
+ 
         const debounceFilterCards = debounce(filterCards, 300);
         function filterCards() {
             const query = document.getElementById("search-input").value.toLowerCase();
@@ -414,6 +429,7 @@ a:hover {
                 card.style.display = name.includes(query) ? "block" : "none";
             });
         }
+
 
         function openPopup(imageUrl, descText, downloadUrl) {
             const popup = document.getElementById("popup");
@@ -431,12 +447,14 @@ a:hover {
             popup.style.display = "flex";
         }
 
+  
         document.getElementById("popup").addEventListener("click", (event) => {
             if (event.target === document.getElementById("popup")) {
                 document.getElementById("popup").style.display = "none";
             }
         });
 
+    
         const script = document.createElement("script");
         script.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
         script.onload = fetchZipFiles;
