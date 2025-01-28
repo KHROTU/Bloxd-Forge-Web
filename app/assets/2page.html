@@ -7,162 +7,282 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5775871151193839" crossorigin="anonymous"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #181818;
-            color: #e5e5e5;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .search-bar {
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            align-items: center;
-            background-color: #333;
-            border-radius: 5px;
-            padding: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .search-bar input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: transparent;
-            color: #e5e5e5;
-            font-size: 1em;
-            border-radius: 5px;
-        }
-        .search-bar input:focus {
-            outline: none;
-            box-shadow: 0 2px 6px rgba(255, 165, 0, 0.8);
-        }
-        .search-bar .icon {
-            color: #FFA500;
-            padding: 0 10px;
-        }
-        .info-icon {
-            margin: 10px;
-            cursor: pointer;
-            color: #FFA500;
-            font-size: 1.5em;
-        }
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-            max-width: 1200px;
-        }
-        .card {
-            background-color: #333;
-            border-radius: 10px;
-            width: 220px;
-            margin: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-        }
-        .card img {
-            width: 220px;
-            height: 220px;
-            object-fit: cover;
-        }
-        .card-title {
-            text-align: center;
-            padding: 10px;
-            font-size: 1em;
-            text-transform: capitalize;
-            color: #FFA500;
-        }
-        a {
-            text-decoration: none;
-            color: #FFA500;
-        }
+:root {
+    --background-color: #181818;
+    --text-color: #e5e5e5;
+    --card-bg-color: #333;
+    --accent-color: #FFA500;
+    --accent-gradient: linear-gradient(45deg, #FFA500, #FF8C00);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --glass-bg: rgba(51, 51, 51, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
 
-        ::-webkit-scrollbar {
-            width: 0.1px;
-        }
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.6;
+}
 
-        .popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-        }
-        .popup-content {
-            background-color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            max-width: 900px;
-            max-height: 700px;
-            position: relative;
-            overflow-y: auto;
-        }
-        .popup img {
-            width: 400px;
-            height: auto;
-            object-fit: contain;
-            margin-right: 20px;
-            border-radius: 10px;
-            border: none;
-        }
-        .popup .desc-text {
-            color: #e5e5e5;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-        }
-        .popup .popup-buttons {
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            margin-left: 30px;
-        }
-        .popup button {
-            background-color: #FFA500;
-            color: #333;
-            border: none;
-            padding: 10px;
-            font-size: 1.1em;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 30px;
-        }
-        .popup button:hover {
-            background-color: #ffae1a;
-        }
-        .popup .desc-text {
-            margin-bottom: 20px;
-        }
+.search-bar {
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    background-color: var(--card-bg-color);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: box-shadow 0.3s ease;
+}
+
+.search-bar:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.9);
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    font-size: 1em;
+    border-radius: 5px;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    color: #999;
+}
+
+.search-bar input:focus {
+    box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+.search-bar .icon {
+    color: var(--accent-color);
+    padding: 0 10px;
+    font-size: 1.2em;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    border-radius: 15px;
+    width: 240px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    background-color: #444;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+.card-title {
+    text-align: center;
+    padding: 15px;
+    font-size: 1.14em;
+    text-transform: capitalize;
+    color: var(--accent-color);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 200px;
+    }
+
+    .card img {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 100%;
+    }
+
+    .card img {
+        height: auto;
+    }
+}
+
+
+a {
+    text-decoration: none;
+    color: var(--accent-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #ff8c00;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    z-index: 69;
+}
+
+.popup-content {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 25px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 800px;
+    max-height: 80vh;
+    position: relative;
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.popup img {
+    width: 400px;
+    height: auto;
+    object-fit: contain;
+    margin-right: 20px;
+    border-radius: 10px 10px 0px 0px;
+    border: none;
+}
+
+.popup .desc-text {
+    color: var(--text-color);
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.popup .popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    background: var(--glass-bg);
+    padding: 10px 0;
+    border-radius: 0 10px 10px 15px;
+}
+
+.popup button {
+    background: var(--accent-gradient);
+    color: var(--card-bg-color);
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    border-radius: 15px 0px 0px 15px;
+    cursor: pointer;
+    transition: padding 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popup button:hover {
+    padding: 12px 40px; 
+}
+
+
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+
+    /* Top-left positioning */
+    position: fixed; /* Stays fixed relative to the viewport */
+    top: 10px; /* Add some spacing from the top */
+    left: 10px; /* Add some spacing from the left */
+    transform: none; /* Remove centering offset */
+    z-index: 9999; /* Ensure it stays above other elements */
+}
+
+/* Optional: Keyframes for spinning animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--card-bg-color);
+    border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff8c00;
+}
     </style>
 </head>
 <body>
     <div class="search-bar">
-        <i class="fas fa-search icon"></i>
-        <input id="search-input" type="text" placeholder="Search..." oninput="filterCards()">
+        <i class="fas fa-search icon" aria-hidden="true"></i>
+        <input id="search-input" type="text" placeholder="Search..." aria-label="Search" oninput="debounceFilterCards()">
     </div>
-    <div class="cards-container" id="cards-container"></div>
+    <div class="cards-container" id="cards-container">
+        <div class="loading-spinner" id="loading-spinner"></div>
+    </div>
     <div class="popup" id="popup">
         <div class="popup-content">
             <div style="display: flex;">
@@ -181,23 +301,39 @@
         let currentBatch = 0;
         let allZipFiles = [];
 
+        // Debounce function for search input
+        function debounce(func, delay) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        // Fetch ZIP files from GitHub
         async function fetchZipFiles() {
             try {
                 const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents`);
+                if (!response.ok) throw new Error("Failed to fetch files");
                 const files = await response.json();
                 allZipFiles = files.filter(file => file.type === "file" && file.name.endsWith(".zip"));
                 loadNextBatch();
             } catch (error) {
                 console.error("Error fetching files:", error);
+                document.getElementById("loading-spinner").style.display = "none";
             }
         }
 
+        // Load next batch of cards
         async function loadNextBatch() {
             const start = currentBatch * batchSize;
             const end = start + batchSize;
             const batch = allZipFiles.slice(start, end);
 
-            if (batch.length === 0) return;
+            if (batch.length === 0) {
+                document.getElementById("loading-spinner").style.display = "none";
+                return;
+            }
 
             const zipPromises = batch.map(async file => {
                 const zipUrl = file.download_url;
@@ -212,12 +348,16 @@
             currentBatch++;
             if (currentBatch * batchSize < allZipFiles.length) {
                 setTimeout(loadNextBatch, 500);
+            } else {
+                document.getElementById("loading-spinner").style.display = "none";
             }
         }
 
+        // Extract banner image from ZIP
         async function extractBanner(zipUrl) {
             try {
                 const response = await fetch(zipUrl);
+                if (!response.ok) throw new Error("Failed to fetch ZIP file");
                 const blob = await response.blob();
                 const zip = await JSZip.loadAsync(blob);
 
@@ -230,20 +370,20 @@
             } catch (error) {
                 console.warn("No banner.png found in:", zipUrl);
             }
-
             return "https://via.placeholder.com/220x220?text=No+Banner";
         }
 
+        // Extract description from ZIP
         async function extractDescription(zipUrl) {
             try {
                 const response = await fetch(zipUrl);
+                if (!response.ok) throw new Error("Failed to fetch ZIP file");
                 const blob = await response.blob();
                 const zip = await JSZip.loadAsync(blob);
 
                 const descFile = zip.files["desc.txt"];
                 if (descFile) {
-                    const descText = await descFile.async("string");
-                    return descText;
+                    return await descFile.async("string");
                 }
             } catch (error) {
                 console.warn("No desc.txt found in:", zipUrl);
@@ -251,6 +391,7 @@
             return "No description available.";
         }
 
+        // Display a card
         function displayCard(name, url, bannerUrl) {
             const container = document.getElementById("cards-container");
 
@@ -260,7 +401,8 @@
 
             const img = document.createElement("img");
             img.src = bannerUrl;
-            img.alt = name;
+            img.alt = `${name} Banner`;
+            img.loading = "lazy"; // Lazy loading
 
             img.addEventListener("click", async () => {
                 const descText = await extractDescription(url);
@@ -276,6 +418,8 @@
             container.appendChild(card);
         }
 
+        // Filter cards based on search input
+        const debounceFilterCards = debounce(filterCards, 300);
         function filterCards() {
             const query = document.getElementById("search-input").value.toLowerCase();
             const cards = document.querySelectorAll(".card");
@@ -286,6 +430,7 @@
             });
         }
 
+        // Open popup with details
         function openPopup(imageUrl, descText, downloadUrl) {
             const popup = document.getElementById("popup");
             const popupImage = document.getElementById("popup-image");
@@ -302,12 +447,14 @@
             popup.style.display = "flex";
         }
 
+        // Close popup when clicking outside
         document.getElementById("popup").addEventListener("click", (event) => {
             if (event.target === document.getElementById("popup")) {
                 document.getElementById("popup").style.display = "none";
             }
         });
 
+        // Load JSZip and fetch files
         const script = document.createElement("script");
         script.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
         script.onload = fetchZipFiles;
