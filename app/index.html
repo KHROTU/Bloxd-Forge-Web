@@ -347,11 +347,11 @@ iframe.fullscreen {
 
     <div class="content">
         <div class="iframe-container" id="start-iframe-container">
-            <iframe name="start-iframe" src="https://raw.githack.com/Cyaben/bloxdforge-files/main/1page.html?min=1"></iframe>
+            <iframe name="start-iframe" src="/assets/1page.html"></iframe>
         </div>
 
         <div class="iframe-container" id="dynamic-iframe-container">
-            <iframe name="iframe" src="https://raw.githack.com/AIX32/BloxdForge-Files/main/start.html"></iframe>
+            <iframe name="iframe" src="/assets/start.html"></iframe>
         </div>
 
         <div class="top-right-box">
@@ -375,12 +375,12 @@ iframe.fullscreen {
 
     <script>
 const pages = {
-    page2: 'https://raw.githack.com/Cyaben/bloxdforge-files/main/2page.html?min=1',
-    page3: 'https://raw.githack.com/Cyaben/bloxdforge-files/main/3page.html?min=1',
-    page4: 'https://raw.githack.com/Cyaben/bloxdforge-files/main/4page.html?min=1',
-    page5: 'https://raw.githack.com/Cyaben/bloxdforge-files/main/5page.html?min=1',
-    page6: 'https://raw.githack.com/Cyaben/bloxdforge-files/main/6page.html?min=1',
-    page7: 'https://raw.githack.com/Cyaben/bloxdforge-files/main/7page.html?min=1',
+    page2: '/assets/2page.html',
+    page3: '/assets/3page.html',
+    page4: '/assets/4page.html',
+    page5: '/assets/5page.html',
+    page6: '/assets/6page.html',
+    page7: '/assets/7page.html',
 };
 
 
@@ -420,109 +420,3 @@ function toggleFullScreen() {
         cornerBox.classList.remove('smaller');
     }
 }
-
-
-
-const folderMenu = document.getElementById('folder-menu');
-const folderContainer = document.getElementById('folder-container');
-const folderInput = document.getElementById('folder-input');
-let uploadedFolders = 0;
-
-
-function toggleFolderMenu() {
-    folderMenu.style.display = folderMenu.style.display === 'none' ? 'block' : 'none';
-}
-
-
-function addFolderIcon(name) {
-    const folderDiv = document.createElement('div');
-    folderDiv.textContent = name;
-    folderDiv.draggable = true;
-    folderDiv.style.cssText = `
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 80px;
-        height: 80px;
-        background-color: #555;
-        color: white;
-        border-radius: 5px;
-        cursor: grab;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    `;
-
-    folderDiv.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/plain', name);
-    });
-
-    folderDiv.addEventListener('click', () => {
-        folderInput.click();
-    });
-
-    folderDiv.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        removeFolder(folderDiv, name);
-    });
-
-    folderContainer.appendChild(folderDiv);
-}
-
-
-function saveFolders(folders) {
-    localStorage.setItem('savedFolders', JSON.stringify(folders));
-}
-
-function loadFolders() {
-    const savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-    savedFolders.forEach(folder => {
-        addFolderIcon(folder);
-    });
-    uploadedFolders = savedFolders.length;
-}
-
-function removeFolder(folderDiv, folderName) {
-    folderDiv.remove();
-    let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-    savedFolders = savedFolders.filter(folder => folder !== folderName);
-    saveFolders(savedFolders);
-    uploadedFolders--; 
-}
-
-
-folderInput.addEventListener('change', async (event) => {
-    const files = event.target.files;
-    if (files.length > 0) {
-        if (uploadedFolders >= 2) {
-            const password = prompt("You have uploaded 2 texture packs already. Please enter the key to upload more. Get a key in the Key tab.");
-            async function sha256(message) {
-                const msgBuffer = new TextEncoder().encode(message);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            }
-            
-            const hash = await sha256(password);
-            if (hash !== "47da55e5ea5d96ba8e3a33b0a697401d1d85fae97088a8234f0d4e5e14298817") {
-                alert("Incorrect key. You cannot upload more texture packs.");
-                return;
-            }
-        }
-
-        const folderName = files[0].webkitRelativePath.split('/')[0];
-        addFolderIcon(folderName);
-
-        let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-        savedFolders.push(folderName);
-        saveFolders(savedFolders);
-
-        uploadedFolders++; 
-    }
-});
-
-
-window.addEventListener('load', loadFolders);
-
-    </script>
-</body>
-</html>

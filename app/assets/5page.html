@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge Wiki</title>
+    <style>
+        :root {
+            --bg-color: #181818;
+            --card-color: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: #ffffff;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: #242424;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 28px;
+            color: #FFA500;
+            margin: 0;
+            transition: color 0.3s, text-shadow 0.3s;
+            text-shadow: 0 0 10px #FF7F00, 0 0 20px #FFA500;
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            gap: 1rem;
+            flex-grow: 1;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid #444;
+            border-radius: 25px;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+            border-color: #FFA500;
+        }
+
+        .search-filter-btn {
+            background-color: #FFA500;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-filter-btn:hover {
+            background-color: #FF7F00;
+        }
+
+        .search-filter-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        .search-filter-menu.active {
+            display: block;
+        }
+
+        .filter-option {
+            padding: 0.5rem 1rem;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option:hover {
+            background-color: #FFA500;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            cursor: pointer;
+            position: relative;
+            height: 260px;
+        }
+
+        .card:hover::before,
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card::before,
+        .card::after {
+            border-radius: inherit;
+            content: "";
+            height: 100%;
+            left: 0px;
+            opacity: 0;
+            position: absolute;
+            top: 0px;
+            transition: opacity 500ms;
+            width: 100%;
+        }
+
+        .card::before {
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 255, 255, 0.06),
+                transparent 40%
+            );
+            z-index: 3;
+        }
+
+        .card::after {
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 255, 255, 0.4),
+                transparent 40%
+            );
+            z-index: 1;
+        }
+
+        .card-content {
+            background-color: var(--card-color);
+            border-radius: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            inset: 1px;
+            padding: 10px;
+            position: absolute;
+            z-index: 2;
+        }
+
+        .card-content h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #FFA500;
+            transition: color 0.3s, text-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-content h2 .tag {
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        .card-content p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        .details-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .details-view.active {
+            display: flex;
+        }
+
+        .details-content {
+            background-color: #222222;
+            color: #ffffff;
+            max-width: 900px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .details-content h1 {
+            font-size: 32px;
+            color: #FFA500;
+            text-shadow: 0 0 10px #FF7F00, 0 0 20px #FFA500;
+            margin-bottom: 20px;
+        }
+
+        .details-content h3 {
+            font-size: 24px;
+            color: #FFA500;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .details-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
+            color: #b0b0b0;
+        }
+
+        .back-button {
+            background-color: #FFA500;
+            color: #000;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #FF7F00;
+            box-shadow: 0 0 10px #FF7F00;
+        }
+
+        .line-break {
+            white-space: pre-wrap;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.1px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #343434;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4C4D4D;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BloxdForge Wiki</h1>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search wikis...">
+            <button class="search-filter-btn" onclick="toggleSearchFilter()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+            </button>
+            <div class="search-filter-menu" id="searchFilterMenu">
+                <div class="filter-option" data-filter="title">Title</div>
+                <div class="filter-option" data-filter="tag">Tag</div>
+                <div class="filter-option" data-filter="description">Description</div>
+            </div>
+        </div>
+    </header>
+    <div class="container" id="card-container"></div>
+    <div id="details-view" class="details-view">
+        <div class="details-content">
+            <button class="back-button" onclick="goBack()">Back</button>
+            <div id="details-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById("card-container");
+        const searchInput = document.querySelector(".search-bar");
+        const detailsView = document.getElementById("details-view");
+        const detailsContent = document.getElementById("details-content");
+
+        let allData = [];
+        let currentSearchFilter = 'title';
+
+        async function fetchWikiData() {
+            const url = "https://raw.githack.com/Cyaben/bloxdforge-files/main/src/wiki.json";
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+        }
+
+        async function loadFiles() {
+            const wikiData = await fetchWikiData();
+            allData = wikiData;
+            renderCards(allData);
+        }
+
+        function renderCards(data) {
+            container.innerHTML = '';
+            data.forEach(item => createCard(item));
+        }
+
+        function createCard(data) {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+                <div class="card-content">
+                    <h2>${data.title} <span class="tag">${data.tag}</span></h2>
+                    <p>${data.description}</p>
+                </div>
+            `;
+            card.onclick = () => showDetails(data);
+            container.appendChild(card);
+        }
+
+        function showDetails(data) {
+            detailsView.classList.add('active');
+            detailsContent.innerHTML = `
+                <h1>${data.title}</h1>
+                <h3>Description</h3>
+                <p>${data.description}</p>
+                <h3>Content</h3>
+                <p class="line-break">${data.content}</p>
+            `;
+        }
+
+        function goBack() {
+            detailsView.classList.remove('active');
+        }
+
+        function toggleSearchFilter() {
+            const menu = document.getElementById('searchFilterMenu');
+            menu.classList.toggle('active');
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('searchFilterMenu');
+            const filterBtn = document.querySelector('.search-filter-btn');
+            
+            if (!menu.contains(e.target) && !filterBtn.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', () => {
+                currentSearchFilter = option.dataset.filter;
+                document.querySelector('.search-bar').placeholder = `Search in ${option.textContent.toLowerCase()}...`;
+                toggleSearchFilter();
+                document.querySelector('.search-bar').focus();
+            });
+        });
+
+        searchInput.addEventListener("input", () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredData = allData.filter(data => {
+                if (data.title.toLowerCase() === "whoa there, adventurer! (or should I say, 'eternal scroller'?)") {
+                    return searchTerm === "";
+                }
+                switch (currentSearchFilter) {
+                    case 'title':
+                        return data.title.toLowerCase().includes(searchTerm);
+                    case 'tag':
+                        return data.tag.toLowerCase().includes(searchTerm);
+                    case 'description':
+                        return data.description.toLowerCase().includes(searchTerm);
+                    default:
+                        return false;
+                }
+            });
+            renderCards(filteredData);
+        });
+
+        document.getElementById("card-container").onmousemove = e => {
+            for(const card of document.getElementsByClassName("card")) {
+                const rect = card.getBoundingClientRect(),
+                      x = e.clientX - rect.left,
+                      y = e.clientY - rect.top;
+
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            };
+        }
+
+        loadFiles();
+    </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge Creator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background: #181818;
+            flex-direction: row-reverse;
+        }
+
+        #sidebar {
+            width: 80px;
+            background: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+            border-radius: 15px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        #workspace {
+            flex: 1;
+            position: relative;
+            background: #181818;
+            overflow: hidden;
+            display: none;
+        }
+
+        #sidebar .icon-button {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        #sidebar .icon-button:hover {
+            color: #ff7b00;
+        }
+
+        .window {
+            position: absolute;
+            width: 400px;
+            height: 300px;
+            background: #181818;
+            border: 1px solid #181818;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            resize: both;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease-out;
+        }
+
+        .window.open {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .window.closing {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .window-header {
+            background: #ff7b00;
+            color: white;
+            padding: 10px;
+            cursor: move;
+            user-select: none;
+            font-size: 14px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+
+        iframe {
+            flex: 1;
+            border: none;
+        }
+
+        #password-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        #password-popup input {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        #password-popup button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff7b00;
+            color: white;
+            cursor: pointer;
+        }
+
+        #password-popup button:hover {
+            background-color: #ff9900;
+        }
+
+        #password-popup a {
+            margin-top: 10px;
+            color: #ff7b00;
+            text-decoration: none;
+        }
+
+        #password-popup a:hover {
+            color: #ff9900;
+        }
+
+        .close-button {
+            background-color: #ff7b00;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-button:hover {
+            background-color: #ff9900;
+        }
+    </style>
+</head>
+<body>
+    <div id="password-popup">
+        <h2 style="color: white;">Enter your Key</h2>
+        <input type="password" id="password-input" placeholder="BF#69420 (placeholder)">
+        <button onclick="checkPassword()">Submit</button>
+        <a href="https://linkvertise.com/1268796/key-for-bloxdforge-tpack?o=sharing" target="_blank">Get Key?</a>
+    </div>
+
+    <div id="sidebar">
+        <div class="icon-button" onclick="openWindow('MoveTheIconsDownABit', 'https://www.MoveTheIconsDownABit.com/', this)">
+            <i class="fas fa-MoveTheIconsDownABit"></i>
+        </div>
+        <div class="icon-button" onclick="openWindow('Piskel', 'https://www.piskelapp.com/', this)">
+            <i class="fas fa-paint-brush"></i>
+        </div>
+        <div class="icon-button" onclick="openWindow('3D Modeling', 'https://web.blockbench.net', this)">
+            <i class="fas fa-shapes"></i>
+        </div>
+        <div class="icon-button" onclick="openWindow('Skybox Maker', 'https://skybox-generator.vercel.app', this)">
+            <i class="fas fa-cube"></i>
+        </div>
+        <div class="icon-button" onclick="openWindow('File Manager/PackVault', 'https://raw.githack.com/Cyaben/bloxdforge-texture-maker/refs/heads/main/PackVault.html', this)">
+            <i class="fas fa-file-archive"></i>
+        </div>
+        <div class="icon-button" onclick="openWindow('Tpack Creator', 'https://raw.githack.com/Cyaben/bloxdforge-texture-maker/refs/heads/main/Materialize%20.html', this)">
+            <i class="fas fa-paint-brush"></i>
+        </div>
+        <div class="icon-button" onclick="openWindow('Color Maker', 'https://colordesigner.io/color-palette-builder', this)">
+            <i class="fas fa-palette"></i>
+        </div>
+        <div class="icon-button" onclick="openWindow('Guide', 'https://example-guide.com', this)">
+            <i class="fas fa-book"></i>
+        </div>
+    </div>
+
+    <div id="workspace"></div>
+
+    <script>
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function checkPassword() {
+            const input = document.getElementById("password-input").value;
+            const hash = await sha256(input);
+            if (hash === "6caf7c13171dbb0598cd9b52dbb77e0d75f049c78c7d08ccd20307e95c021991") {
+                document.getElementById("password-popup").style.display = "none";
+                document.getElementById("workspace").style.display = "block";
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        }
+
+        let zIndexCounter = 1;
+        function openWindow(title, url, iconElement) {
+            const workspace = document.getElementById('workspace');
+            const windowDiv = document.createElement('div');
+            windowDiv.className = 'window';
+            
+            const iconRect = iconElement.getBoundingClientRect();
+            const workspaceRect = workspace.getBoundingClientRect();
+            
+            windowDiv.style.top = `${iconRect.top - workspaceRect.top}px`;
+            windowDiv.style.left = `${iconRect.left - workspaceRect.left}px`;
+            windowDiv.style.width = '400px';
+            windowDiv.style.height = '300px';
+            windowDiv.style.zIndex = zIndexCounter++;
+
+            const header = document.createElement('div');
+            header.className = 'window-header';
+            header.textContent = title;
+
+            const closeButton = document.createElement('button');
+            closeButton.className = 'close-button';
+            closeButton.textContent = '✖';
+            closeButton.onclick = () => closeWindow(windowDiv, iconElement);
+
+            header.appendChild(closeButton);
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            windowDiv.appendChild(header);
+            windowDiv.appendChild(iframe);
+
+            workspace.appendChild(windowDiv);
+            
+            setTimeout(() => {
+                windowDiv.style.top = '50px';
+                windowDiv.style.left = '50px';
+                windowDiv.classList.add('open');
+            }, 0);
+
+            header.onmousedown = function(e) {
+                e.preventDefault();
+                let offsetX = e.clientX - windowDiv.offsetLeft;
+                let offsetY = e.clientY - windowDiv.offsetTop;
+                let isDragging = true;
+
+                function moveAt(mouseEvent) {
+                    if (isDragging) {
+                        const workspaceRect = workspace.getBoundingClientRect();
+                        windowDiv.style.transition = 'none';
+                        const newLeft = Math.max(0, Math.min(workspaceRect.width - windowDiv.offsetWidth, mouseEvent.clientX - offsetX));
+                        const newTop = Math.max(0, Math.min(workspaceRect.height - windowDiv.offsetHeight, mouseEvent.clientY - offsetY));
+                        windowDiv.style.left = `${newLeft}px`;
+                        windowDiv.style.top = `${newTop}px`;
+                    }
+                }
+
+                document.addEventListener('mousemove', moveAt);
+                document.onmouseup = () => {
+                    isDragging = false;
+                    document.removeEventListener('mousemove', moveAt);
+                    document.onmouseup = null;
+                    windowDiv.style.transition = '';
+                };
+            };
+
+            windowDiv.onmousedown = () => windowDiv.style.zIndex = zIndexCounter++;
+        }
+
+        function closeWindow(windowDiv, iconElement) {
+            const iconRect = iconElement.getBoundingClientRect();
+            const workspaceRect = workspace.getBoundingClientRect();
+            
+            windowDiv.classList.add('closing');
+            windowDiv.classList.remove('open');
+            
+            windowDiv.style.top = `${iconRect.top - workspaceRect.top}px`;
+            windowDiv.style.left = `${iconRect.left - workspaceRect.left}px`;
+            
+            setTimeout(() => {
+                workspace.removeChild(windowDiv);
+            }, 300);
+        }
+    </script>
+</body>
+</html>
