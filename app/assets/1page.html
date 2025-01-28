@@ -223,7 +223,7 @@
     #keystroke-display {
       position: fixed;
       bottom: 100px;
-      right: 50px; /* Adjusted to move slightly to the left */
+      right: 50px;
       display: none;
       z-index: 100;
     }
@@ -239,7 +239,7 @@
       padding: 20px;
       background: #333;
       border-radius: 8px;
-      justify-items: center; /* Center keys horizontally */
+      justify-items: center;
     }
 
     .keystroke-container .key {
@@ -551,7 +551,6 @@ button:active {
   transform: translateY(0);
 }
 
-/* Board Clip Styles */
 .board {
     background-color: #282828;
     border-radius: 0.5rem;
@@ -816,7 +815,6 @@ button:active {
         <p class="text-lg mt-2">Double-click outside the pop-up to close the window.</p>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="board-container">
-        <!-- Dynamic board content will appear here -->
       </div>
       <button class="add-board" onclick="addBoard()">
         <i class="fas fa-plus"></i>
