@@ -645,48 +645,45 @@ button:active {
 }
 
 #bigbutton {
-      width: 620px;
-      height: 200px;
-      background-color: #333;
-      border: 2px solid #333;
-      color: #fff;
-      font-size: 24px;
-      cursor: pointer;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border-radius: 12px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: absolute;
-      top: 10%; 
-      left: 33.5%; 
-      
-    }
+  width: 620px;
+  height: 200px;
+  background-color: #333;
+  border: 2px solid #333;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  margin-bottom: 20px;
+}
 
-    #bigbutton :hover {
-        transform: scale(1.2);
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    }
+#bigbutton:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
 
-    #bigbutton img {
-  max-width: 100%; 
-  max-height: 100%; 
-  height: auto; 
-  width: auto; 
+#bigbutton img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
 }
   </style>
 </head>
 <body>
   <div id="menu">
-    
     <div id="iframe-modal">
-  <iframe id="modal-iframe" src=""></iframe>
+      <iframe id="modal-iframe" src=""></iframe>
     </div>
-    <bigbutton id="bigbutton">
-        <img alt="bigbutton" height="240" src="https://i.imgur.com/CCPxh91.jpeg" width="620"/>
-      </bigbutton>
+    <button id="bigbutton">
+      <img alt="bigbutton" height="240" src="https://i.imgur.com/CCPxh91.jpeg" width="620"/>
+    </button>
     <button id="bloxd">
       <img alt="bloxd.io" height="240" src="https://i.imgur.com/3vDqx4q.png" width="240"/>
       Bloxd.io
