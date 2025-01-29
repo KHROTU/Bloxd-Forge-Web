@@ -225,8 +225,6 @@ a:hover {
     padding: 12px 36px; 
 }
 
-
-
 .loading-spinner {
     border: 4px solid rgba(255, 255, 255, 0.3);
     border-top: 4px solid var(--accent-color);
@@ -243,7 +241,6 @@ a:hover {
     z-index: 9999; 
 }
 
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -252,9 +249,6 @@ a:hover {
         transform: rotate(360deg);
     }
 }
-
-
-
 
 ::-webkit-scrollbar {
     width: 12px;
@@ -295,8 +289,6 @@ a:hover {
         </div>
     </div>
     <script>
-        const repoOwner = "Cyaben";
-        const repoName = "bloxdforge-workshop";
         const batchSize = 4;
         let currentBatch = 0;
         let allZipFiles = [];
@@ -313,7 +305,7 @@ a:hover {
        
         async function fetchZipFiles() {
             try {
-                const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents`);
+                const response = await fetch(`https://api.github.com/repos/KHROTU/Bloxd-Forge-Web/contents/app/assets/src/tpacks?ref=main`);
                 if (!response.ok) throw new Error("Failed to fetch files");
                 const files = await response.json();
                 allZipFiles = files.filter(file => file.type === "file" && file.name.endsWith(".zip"));
