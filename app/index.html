@@ -307,17 +307,36 @@ iframe.fullscreen {
     z-index: 4206969;
 }
 
+#fullscreen-iframe-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    z-index: 69696969; 
+}
+
+#fullscreen-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 
     </style>
 </head>
 <body>
+  <div id="fullscreen-iframe-container">
+    <iframe id="fullscreen-iframe" src="https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/load.html"></iframe>
+</div>
+
 <div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
 
     <div class="sidebar">
-        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page1')">
-            <i class="fas fa-home"></i>
-            <span>Start</span>
-        </a>
+<a href="javascript:void(0)" class="sidebar-link selected" onclick="setActiveLink(this, 'page1')">
+    <i class="fas fa-home"></i>
+    <span>Start</span>
+</a>
         <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page2')">
             <i class="fas fa-toolbox"></i>
             <span>Workshop</span>
@@ -522,6 +541,14 @@ folderInput.addEventListener('change', async (event) => {
 
 
 window.addEventListener('load', loadFolders);
+setTimeout(() => {
+    document.getElementById('fullscreen-iframe-container').style.display = 'none';
+}, 8000);
+
+window.onload = function() {
+    const startButton = document.querySelector('.sidebar-link'); 
+    setActiveLink(startButton, 'page1'); 
+};
 
     </script>
 </body>
