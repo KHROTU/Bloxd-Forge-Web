@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge - One Stop Solution to Bloxd Gaming</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #181818;
+            color: #ffffff;
+        }
+
+        h1 {
+            color: #FFA500;
+            text-align: center;
+            border-bottom: 2px solid #FFA500;
+            padding-bottom: 10px;
+            text-shadow: 0 0 10px #FF7F00, 0 0 20px #FFA500;
+        }
+
+        .intro {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 5px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            color: #FFA500;
+            margin-top: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar li:hover {
+            background-color: #333333;
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar .category {
+            margin-bottom: 20px;
+        }
+
+        .faq-content {
+            flex: 1;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #FFA500;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+        }
+
+        .faq-item {
+            background-color: #2a2a2a;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+        }
+
+        .faq-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            background-color: #333333;
+        }
+
+        .question {
+            font-weight: bold;
+            color: #FFA500;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .answer {
+            color: #b0b0b0;
+            line-height: 1.7;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #888;
+            font-size: 0.8em;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Help & Support</h1>
+    <p class="intro">Find help articles and support here. What do you need help with?</p>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="category">
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="#general">General Questions</a></li>
+                    <li><a href="#technical">Technical Issues</a></li>
+                    <li><a href="#software">Software Problems</a></li>
+                    <li><a href="#support">Support</a></li>
+                    <li><a href="#account">Account & Settings</a></li>
+                    <li><a href="#troubleshooting">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-content">
+            <section id="general">
+                <h2>General Questions</h2>
+                <div class="faq-item">
+                    <div class="question">Q: Why are there so few features?</div>
+                    <div class="answer">A: There are currently only two active developers, plus both of us have school/work to do.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: Why isn't it open sourced?</div>
+                    <div class="answer">A: The code behind the application contains sensitive information, so sadly we can't share it.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: What platforms does Bloxd Forge support?</div>
+                    <div class="answer">A: Currently, Bloxd Forge is only available for Windows, but we are working on support for macOS and Linux systems.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: Is Bloxd Forge free to use?</div>
+                    <div class="answer">A: Yes, Bloxd Forge is completely free, though we appreciate any support through our donation links.</div>
+                </div>
+            </section>
+
+            <section id="technical">
+                <h2>Technical Issues</h2>
+                <div class="faq-item">
+                    <div class="question">Q: My computer/virus scanning website says it's a virus. What should I do?</div>
+                    <div class="answer">A: We try to use safe methods, but if we were to become a "trusted publisher", we would need to pay a hefty bill to Microsoft(around $500/yr), which is not happening anytime soon.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: Why isn't the AI chat working?</div>
+                    <div class="answer">A: Forge Chat utilizes free Llama models, which may experience significant rate limitations. Additionally, Forge Chat Plus is not supported in the European Union.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: How do I report a bug?</div>
+                    <div class="answer">A: You can report bugs through our Discord server or by creating an issue in our Github repository. Please include detailed information about the issue.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: Why am I experiencing crashes?</div>
+                    <div class="answer">A: Crashes can occur due to insufficient system resources, conflicts with other software, or bugs in the application. Try updating to the latest version and checking your system requirements.</div>
+                </div>
+            </section>
+
+            <section id="software">
+                <h2>Software Problems</h2>
+                <div class="faq-item">
+                    <div class="question">Q: The application is running slowly. How can I improve performance?</div>
+                    <div class="answer">A: Try clearing the cache, ensuring your system meets minimum requirements, and closing unnecessary background applications.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: The application won't start. What should I check?</div>
+                    <div class="answer">A: Verify you have the latest version installed, check if your antivirus is blocking it, and ensure all dependencies are installed correctly.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: How do I update Bloxd Forge?</div>
+                    <div class="answer">A: You can check for updates in the settings menu, and download the newest version from the Github repository if nessecary</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: Can I use Bloxd Forge offline?</div>
+                    <div class="answer">A: Some features work offline, but most core functionality like texture pack downloading or AI chat requires an internet connection.</div>
+                </div>
+            </section>
+
+            <section id="support">
+                <h2>Support Us</h2>
+                <div class="faq-item">
+                    <div class="question">Q: Can I support the developers?</div>
+                    <div class="answer">A: Yes! Feel free to join our <a href="https://discord.gg/bwGRAC4WgE">Discord</a> and <a href="https://www.amazon.com/dp/B0CF4J58QK/?th=1">buy me a cup of coffee</a> or <a href="https://www.amazon.com/b?ie=UTF8&node=117394558011">some snacks</a>.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: How can I contribute to the project?</div>
+                    <div class="answer">A: You can contribute by reporting bugs, suggesting features, or helping with documentation through our GitHub repository or Discord server.</div>
+                </div>
+            </section>
+
+            <section id="account">
+                <h2>Account & Settings</h2>
+                <div class="faq-item">
+                    <div class="question">Q: How do I change my settings?</div>
+                    <div class="answer">A: You can access settings through the menu in the top-right corner of the application.</div>
+                </div>
+            </section>
+
+            <section id="troubleshooting">
+                <h2>Troubleshooting</h2>
+                <div class="faq-item">
+                    <div class="question">Q: What should I do if the application freezes?</div>
+                    <div class="answer">A: Try restarting the application. If the issue persists, check for updates or reinstall the application.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: Why are some features not working?</div>
+                    <div class="answer">A: Some features may be disabled due to compatibility issues or server limitations. Check our status page for updates.</div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>Copyright © 2024 ProduX, Ltd. All Rights Reserved.</div>
+        <div>Made with ❤️ from Iran, Singapore, and Australia.</div>
+    </div>
+</body>
+</html>
