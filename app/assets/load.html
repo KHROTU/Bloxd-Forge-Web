@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a1a1a;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Container for Main Content */
+        .container {
+            text-align: center;
+            z-index: 1;
+            animation: float 3s ease-in-out infinite;
+        }
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.title {
+    font-size: 80px;
+    font-weight: bold;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+
+        .title span {
+            color: #F06105;
+        }
+
+        /* Subtitle Styling */
+        .subtitle {
+            margin-top: 20px;
+            font-size: 16px;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        /* Progress Bar Styling */
+        .progress-bar {
+            margin-top: 20px;
+            width: 400px;
+            height: 14px;
+            background-color: #333;
+            position: relative;
+            overflow: hidden;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 6px;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(90deg, #F06105, #FFA500);
+            animation: loading 2s infinite ease-in-out;
+            border-radius: 4px;
+        }
+
+        /* Keyframes for Animations */
+        @keyframes loading {
+            0% { left: -100px; }
+            100% { left: 100%; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Cube Styling */
+        .cube {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-color: #FF7C17;
+            opacity: 0.5;
+            border-radius: 10px;
+            filter: blur(2px);
+            animation: moveRandom infinite;
+        }
+
+        @keyframes moveRandom {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30vw, -30vh) rotate(90deg); }
+            50% { transform: translate(-40vw, 30vh) rotate(180deg); }
+            75% { transform: translate(20vw, 10vh) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Particle Background Styling */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: rgba(255, 165, 0, 0.5);
+            border-radius: 50%;
+            animation: floatParticle 5s infinite ease-in-out;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0) translateX(0); opacity: 0.5; }
+            50% { transform: translateY(-100px) translateX(100px); opacity: 1; }
+            100% { transform: translateY(0) translateX(0); opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="title">Bloxd<span>Forge</span></div>
+        <div class="subtitle">Wait... something amazing is coming...</div>
+        <div class="progress-bar"></div>
+    </div>
+
+    <!-- Cubes for Background Animation -->
+    <div class="cube" style="top: 10%; left: 20%;"></div>
+    <div class="cube" style="top: 30%; left: 40%;"></div>
+    <div class="cube" style="top: 50%; left: 60%;"></div>
+    <div class="cube" style="top: 20%; left: 80%;"></div>
+    <div class="cube" style="top: 90%; left: 10%;"></div>
+
+    <script>
+        // Function to generate random values for animations
+        function getRandomValue(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // Apply random animation-duration and size to cubes
+        const cubes = document.querySelectorAll('.cube');
+        cubes.forEach(cube => {
+            cube.style.animationDuration = `${getRandomValue(12, 25)}s`;
+            const size = getRandomValue(100, 200);
+            cube.style.width = `${size}px`;
+            cube.style.height = `${size}px`;
+        });
+
+        // Generate particles dynamically
+        const particlesContainer = document.querySelector('.particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${getRandomValue(0, 100)}%`;
+            particle.style.top = `${getRandomValue(0, 100)}%`;
+            particle.style.animationDuration = `${getRandomValue(3, 8)}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Add interactivity to the title
+        const title = document.querySelector('.title');
+        title.addEventListener('mousemove', (e) => {
+            const rect = title.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+            title.style.transform = `scale(1.05) rotateX(${y * 10}deg) rotateY(${x * 10}deg)`;
+        });
+
+        title.addEventListener('mouseleave', () => {
+            title.style.transform = 'scale(1) rotateX(0) rotateY(0)';
+        });
+    </script>
+</body>
+</html>
