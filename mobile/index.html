@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloxdForge - Mobile</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #333;
+      color: white;
+    }
+
+    /* Button styling */
+    .sidebar-toggle {
+      position: fixed;
+      top: 3%;
+      left: 2.5%;
+      background-color: #181818;
+      border: none;
+      color: white;
+      font-size: 2vw;
+      cursor: pointer;
+      z-index: 20;
+      border-radius: 50%; /* Make the button circular */
+      width: 50px; /* Fixed size for the button */
+      height: 50px; /* Fixed size for the button */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: top 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Add shadow for a floating effect */
+    }
+
+.menu {
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  align-items: center;
+  padding: 2%;
+  z-index: 10;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 10%;
+  box-sizing: border-box;
+  border-radius: 15px; /* Rounded corners for the menu */
+}
+
+.menu .button {
+  background-color: #181818;
+  border: none;
+  color: white;
+  padding: 2%;
+  width: 6vw;
+  height: 6vw;
+  font-size: 3vw;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 0; /* No rounded corners for the middle buttons */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* buttons with kids. */
+.menu .button:first-child {
+  border-top-left-radius: 15px; 
+  border-top-right-radius: 15px; 
+}
+
+
+.menu .button:last-child {
+  border-bottom-left-radius: 15px; 
+  border-bottom-right-radius: 15px; 
+}
+
+
+    .main-content {
+      padding-top: 0;
+    }
+
+    iframe {
+      width: 100%;
+      height: 99.99vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+
+  <button class="sidebar-toggle" onclick="toggleMenu()">
+    <i class="fas fa-bars"></i> 
+  </button>
+
+  <div class="menu" id="menu">
+    <button class="button" onclick="loadContent('https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/1page.html')">
+      <i class="fas fa-play"></i>
+    </button>
+    <button class="button" onclick="loadContent('https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/2page.html')">
+      <i class="fas fa-toolbox"></i>
+    </button>
+    <button class="button" onclick="loadContent('https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/5page.html')">
+      <i class="fas fa-book"></i>
+    </button>
+            <button class="button" onclick="loadContent('https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/4page.html')">
+      <i class="fas fa-shop"></i>
+    </button>
+    <button class="button" onclick="loadContent('https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/6page.html')">
+      <i class="fas fa-info-circle"></i>
+    </button>
+    
+    <button class="button" onclick="toggleFullscreen()">
+      <i class="fas fa-expand"></i>
+    </button>
+  </div>
+
+  <div class="main-content">
+    <iframe id="iframe" src="https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/Startm.html"></iframe>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      const sidebarToggle = document.querySelector('.sidebar-toggle');
+      const sidebarToggleIcon = sidebarToggle.querySelector('i');
+
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+        sidebarToggleIcon.classList.remove('fa-chevron-up');
+        sidebarToggleIcon.classList.add('fa-bars');
+        sidebarToggle.style.top = '3%';
+      } else {
+        menu.style.display = 'block';
+        sidebarToggleIcon.classList.remove('fa-bars');
+        sidebarToggleIcon.classList.add('fa-chevron-up'); 
+        sidebarToggle.style.top = '90%';
+      }
+    }
+
+    function loadContent(page) {
+      const iframe = document.getElementById('iframe');
+      iframe.src = page;
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) { 
+          document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { 
+          document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { 
+          document.documentElement.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { 
+          document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { 
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { 
+          document.msExitFullscreen();
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
