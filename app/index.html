@@ -304,7 +304,7 @@ iframe.fullscreen {
 .top-right-box.smaller {
             transform: scale(0.8) translateX(60px);
             right: 50px;
-    z-index: 4206969;
+    z-index: 9999;
 }
 
 #fullscreen-iframe-container {
@@ -314,7 +314,7 @@ iframe.fullscreen {
     width: 100vw;
     height: 100vh;
     background: black;
-    z-index: 69696969; 
+    z-index: 9999; 
 }
 
 #fullscreen-iframe {
@@ -327,7 +327,7 @@ iframe.fullscreen {
 </head>
 <body>
   <div id="fullscreen-iframe-container">
-    <iframe id="fullscreen-iframe" src="https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/load.html"></iframe>
+    <iframe id="fullscreen-iframe" src="/app/assets/load.html"></iframe>
 </div>
 
 <div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
@@ -347,7 +347,7 @@ iframe.fullscreen {
         </a>
         <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page4')">
             <i class="fas fa-shopping-cart"></i>
-            <span>Shop (working)</span>
+            <span>Shop</span>
         </a>
         <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page5')">
             <i class="fas fa-book"></i>
@@ -393,29 +393,28 @@ iframe.fullscreen {
     </div>
 
     <script>
-const pages = {
-    page2: '/app/assets/2page.html',
-    page3: '/app/assets/3page.html',
-    page4: '/app/assets/4page.html',
-    page5: '/app/assets/5page.html',
-    page6: '/app/assets/6page.html',
-    page7: '/app/assets/7page.html',
-};
-
-
+        const pages = {
+            page2: '/app/assets/2page.html',
+            page3: '/app/assets/3page.html',
+            page4: '/app/assets/4page.html',
+            page5: '/app/assets/5page.html',
+            page6: '/app/assets/6page.html',
+            page7: '/app/assets/7page.html',
+        };
+    
         function loadPage(pageName) {
             const iframe = document.querySelector('iframe[name="iframe"]');
             iframe.src = pages[pageName];
         }
-
+    
         function setActiveLink(link, page) {
             const links = document.querySelectorAll('.sidebar-link');
             const startContainer = document.getElementById('start-iframe-container');
             const dynamicContainer = document.getElementById('dynamic-iframe-container');
-
+    
             links.forEach(l => l.classList.remove('selected'));
             link.classList.add('selected');
-
+    
             if (page === 'page1') {
                 startContainer.style.display = 'block';
                 dynamicContainer.style.display = 'none';
@@ -425,131 +424,124 @@ const pages = {
                 loadPage(page);
             }
         }
-
-function toggleFullScreen() {
-    const iframe = document.querySelector('iframe');
-    const cornerBox = document.querySelector('.top-right-box');
-    const isFullScreen = iframe.classList.contains('fullscreen');
-
-    if (!isFullScreen) {
-        iframe.classList.add('fullscreen');
-        cornerBox.classList.add('smaller');
-    } else {
-        iframe.classList.remove('fullscreen');
-        cornerBox.classList.remove('smaller');
-    }
-}
-
-
-
-const folderMenu = document.getElementById('folder-menu');
-const folderContainer = document.getElementById('folder-container');
-const folderInput = document.getElementById('folder-input');
-let uploadedFolders = 0;
-
-
-function toggleFolderMenu() {
-    folderMenu.style.display = folderMenu.style.display === 'none' ? 'block' : 'none';
-}
-
-
-function addFolderIcon(name) {
-    const folderDiv = document.createElement('div');
-    folderDiv.textContent = name;
-    folderDiv.draggable = true;
-    folderDiv.style.cssText = `
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 80px;
-        height: 80px;
-        background-color: #555;
-        color: white;
-        border-radius: 5px;
-        cursor: grab;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    `;
-
-    folderDiv.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/plain', name);
-    });
-
-    folderDiv.addEventListener('click', () => {
-        folderInput.click();
-    });
-
-    folderDiv.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        removeFolder(folderDiv, name);
-    });
-
-    folderContainer.appendChild(folderDiv);
-}
-
-
-function saveFolders(folders) {
-    localStorage.setItem('savedFolders', JSON.stringify(folders));
-}
-
-function loadFolders() {
-    const savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-    savedFolders.forEach(folder => {
-        addFolderIcon(folder);
-    });
-    uploadedFolders = savedFolders.length;
-}
-
-function removeFolder(folderDiv, folderName) {
-    folderDiv.remove();
-    let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-    savedFolders = savedFolders.filter(folder => folder !== folderName);
-    saveFolders(savedFolders);
-    uploadedFolders--; 
-}
-
-
-folderInput.addEventListener('change', async (event) => {
-    const files = event.target.files;
-    if (files.length > 0) {
-        if (uploadedFolders >= 2) {
-            const password = prompt("You have uploaded 2 texture packs already. Please enter the key to upload more. Get a key in the Key tab.");
-            async function sha256(message) {
-                const msgBuffer = new TextEncoder().encode(message);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            }
-            
-            const hash = await sha256(password);
-            if (hash !== "47da55e5ea5d96ba8e3a33b0a697401d1d85fae97088a8234f0d4e5e14298817") {
-                alert("Incorrect key. You cannot upload more texture packs.");
-                return;
+    
+        function toggleFullScreen() {
+            const iframe = document.querySelector('iframe');
+            const cornerBox = document.querySelector('.top-right-box');
+            const isFullScreen = iframe.classList.contains('fullscreen');
+    
+            if (!isFullScreen) {
+                iframe.classList.add('fullscreen');
+                cornerBox.classList.add('smaller');
+            } else {
+                iframe.classList.remove('fullscreen');
+                cornerBox.classList.remove('smaller');
             }
         }
-
-        const folderName = files[0].webkitRelativePath.split('/')[0];
-        addFolderIcon(folderName);
-
-        let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-        savedFolders.push(folderName);
-        saveFolders(savedFolders);
-
-        uploadedFolders++; 
-    }
-});
-
-
-window.addEventListener('load', loadFolders);
-setTimeout(() => {
-    document.getElementById('fullscreen-iframe-container').style.display = 'none';
-}, 8000);
-
-window.onload = function() {
-    const startButton = document.querySelector('.sidebar-link'); 
-    setActiveLink(startButton, 'page1'); 
-};
-
-    </script>
+    
+        const folderMenu = document.getElementById('folder-menu');
+        const folderContainer = document.getElementById('folder-container');
+        const folderInput = document.getElementById('folder-input');
+        let uploadedFolders = 0;
+    
+        function toggleFolderMenu() {
+            folderMenu.style.display = folderMenu.style.display === 'none' ? 'block' : 'none';
+        }
+    
+        function addFolderIcon(name) {
+            const folderDiv = document.createElement('div');
+            folderDiv.textContent = name;
+            folderDiv.draggable = true;
+            folderDiv.style.cssText = `
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                width: 80px;
+                height: 80px;
+                background-color: #555;
+                color: white;
+                border-radius: 5px;
+                cursor: grab;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            `;
+    
+            folderDiv.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', name);
+            });
+    
+            folderDiv.addEventListener('click', () => {
+                folderInput.click();
+            });
+    
+            folderDiv.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                removeFolder(folderDiv, name);
+            });
+    
+            folderContainer.appendChild(folderDiv);
+        }
+    
+        function saveFolders(folders) {
+            localStorage.setItem('savedFolders', JSON.stringify(folders));
+        }
+    
+        function loadFolders() {
+            const savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
+            savedFolders.forEach(folder => {
+                addFolderIcon(folder);
+            });
+            uploadedFolders = savedFolders.length;
+        }
+    
+        function removeFolder(folderDiv, folderName) {
+            folderDiv.remove();
+            let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
+            savedFolders = savedFolders.filter(folder => folder !== folderName);
+            saveFolders(savedFolders);
+            uploadedFolders--; 
+        }
+    
+        folderInput.addEventListener('change', async (event) => {
+            const files = event.target.files;
+            if (files.length > 0) {
+                if (uploadedFolders >= 2) {
+                    const password = prompt("You have uploaded 2 texture packs already. Please enter the key to upload more. Get a key in the Key tab.");
+                    async function sha256(message) {
+                        const msgBuffer = new TextEncoder().encode(message);
+                        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                        const hashArray = Array.from(new Uint8Array(hashBuffer));
+                        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                    }
+                    
+                    const hash = await sha256(password);
+                    if (hash !== "47da55e5ea5d96ba8e3a33b0a697401d1d85fae97088a8234f0d4e5e14298817") {
+                        alert("Incorrect key. You cannot upload more texture packs.");
+                        return;
+                    }
+                }
+    
+                const folderName = files[0].webkitRelativePath.split('/')[0];
+                addFolderIcon(folderName);
+    
+                let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
+                savedFolders.push(folderName);
+                saveFolders(savedFolders);
+    
+                uploadedFolders++; 
+            }
+        });
+    
+        window.addEventListener('load', loadFolders);
+    
+        setTimeout(() => {
+            document.getElementById('fullscreen-iframe-container').style.display = 'none';
+        }, 5000);
+    
+        window.onload = function() {
+            const startButton = document.querySelector('.sidebar-link'); 
+            setActiveLink(startButton, 'page1'); 
+        };
+      </script>
 </body>
 </html>
