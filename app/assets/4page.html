@@ -197,7 +197,6 @@
             font-size: 1.5rem;
         }
 
-        /* Form Styles */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -251,9 +250,7 @@
             </button>
             <div class="search-filter-menu" id="searchFilterMenu">
                 <div class="filter-option" data-filter="name">Name</div>
-                <div class="filter-option" data-filter="lobbyType">Lobby Type</div>
-                <div class="filter-option" data-filter="lobbyNumber">Lobby Number/Name</div>
-                <div class="filter-option" data-filter="description">Description</div>
+                <div class="filter-option" data-filter="saleType">Sale Type</div>
             </div>
         </div>
     </header>
@@ -293,6 +290,23 @@
                     <input type="number" class="form-input" required>
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Sale Type</label>
+                    <select class="form-select" required onchange="handleSaleTypeChange(this.value)">
+                        <option value="Instant Sale">Instant Sale</option>
+                        <option value="Auction">Auction</option>
+                    </select>
+                </div>
+                <div class="form-group" id="auctionTimeGroup" style="display: none;">
+                    <label class="form-label">Auction Duration</label>
+                    <select class="form-select" required>
+                        <option value="30">30 mins</option>
+                        <option value="60">1 hr</option>
+                        <option value="720">12 hrs</option>
+                        <option value="1440">1 day</option>
+                        <option value="10080">7 days</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-label">Starting Price</label>
                     <input type="number" class="form-input" required>
                 </div>
@@ -327,7 +341,7 @@
 
         async function loadAuctions() {
             try {
-                const response = await fetch('https://raw.githack.com/Cyaben/bloxdforge-shop/main/auctions.json');
+                const response = await fetch('/api/auctions');
                 auctions = await response.json();
                 renderAuctions(auctions);
             } catch (error) {
@@ -374,6 +388,15 @@
             }
         }
 
+        function handleSaleTypeChange(value) {
+            const auctionTimeGroup = document.getElementById('auctionTimeGroup');
+            if (value === 'Auction') {
+                auctionTimeGroup.style.display = 'block';
+            } else {
+                auctionTimeGroup.style.display = 'none';
+            }
+        }
+
         function renderAuctions(filteredAuctions = auctions) {
             const grid = document.getElementById('auctionsGrid');
             grid.innerHTML = '';
@@ -390,6 +413,7 @@
                     <h3 class="auction-title">${auction.item}</h3>
                     <div class="auction-details">
                         <p>Lobby: ${auction.lobbyType} ${auction.lobbyType === 'Worlds' ? auction.lobbyName : '#' + auction.lobbyNumber}</p>
+                        <p>Sale Type: ${auction.saleType}</p>
                         <p class="price">Starting at: $${auction.startingPrice}</p>
                     </div>
                 `;
@@ -406,14 +430,8 @@
                     switch(currentSearchFilter) {
                         case 'name':
                             return auction.item.toLowerCase().includes(searchTerm);
-                        case 'lobbyType':
-                            return auction.lobbyType.toLowerCase().includes(searchTerm);
-                        case 'lobbyNumber':
-                            const searchField = auction.lobbyType === 'Worlds' ? 
-                                auction.lobbyName : auction.lobbyNumber.toString();
-                            return searchField.toLowerCase().includes(searchTerm);
-                        case 'description':
-                            return auction.description.toLowerCase().includes(searchTerm);
+                        case 'saleType':
+                            return auction.saleType.toLowerCase().includes(searchTerm);
                         default:
                             return false;
                     }
@@ -430,23 +448,44 @@
             document.getElementById('createModal').style.display = 'none';
         }
 
-        function createAuction(event) {
+        async function createAuction(event) {
             event.preventDefault();
             const form = event.target;
             const lobbyType = form[1].value;
+            const saleType = form[3].value;
+            const auctionDuration = saleType === 'Auction' ? form[4].value : null;
+
             const newAuction = {
-                id: auctions.length + 1,
                 item: form[0].value,
                 lobbyType: lobbyType,
                 lobbyNumber: lobbyType === 'Worlds' ? form[2].value : parseInt(form[2].value),
-                startingPrice: parseFloat(form[3].value),
-                buyoutPrice: parseFloat(form[4].value),
-                description: form[5].value
+                saleType: saleType,
+                auctionDuration: auctionDuration,
+                startingPrice: parseFloat(form[5].value),
+                buyoutPrice: parseFloat(form[6].value),
+                description: form[7].value
             };
-            auctions.unshift(newAuction);
-            renderAuctions();
-            closeCreateModal();
-            form.reset();
+
+            try {
+                const response = await fetch('/api/auctions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newAuction),
+                });
+
+                if (response.ok) {
+                    auctions.unshift(newAuction);
+                    renderAuctions();
+                    closeCreateModal();
+                    form.reset();
+                } else {
+                    console.error('Error creating auction:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error creating auction:', error);
+            }
         }
 
         function viewAuction(auction) {
@@ -456,6 +495,7 @@
                 <h2 class="auction-title">${auction.item}</h2>
                 <div class="auction-details">
                     <p><strong>Lobby:</strong> ${auction.lobbyType} ${auction.lobbyType === 'Worlds' ? auction.lobbyName : '#' + auction.lobbyNumber}</p>
+                    <p><strong>Sale Type:</strong> ${auction.saleType}</p>
                     <p><strong>Starting Price:</strong> $${auction.startingPrice}</p>
                     <p><strong>Buyout Price:</strong> $${auction.buyoutPrice}</p>
                     <p><strong>Description:</strong></p>
