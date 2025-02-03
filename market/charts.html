@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #FFA500;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h2 {
+            text-shadow: 0 0 15px #FF7F00;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+    width: 65%;
+    height: 600px; /* Added height to make the chart bigger */
+    margin: auto;
+    padding: 20px;
+    background: #1E1E1E;
+    border-radius: 10px;
+}
+
+canvas {
+    width: 100% !important; /* Ensures it takes the full container width */
+    height: 100% !important; /* Ensures it takes the full container height */
+}
+
+
+        table {
+            width: 65%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background: #242424;
+            color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #FFA500;
+            text-align: center;
+        }
+
+        th {
+            background-color: #FF7F00;
+            color: #121212;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 165, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Lobby Economy Chart</h2>
+
+    <div class="chart-container">
+        <canvas id="priceChart"></canvas>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Lobby</th>
+                <th>Diamonds per Block of Bread</th>
+            </tr>
+        </thead>
+        <tbody id="priceTable">
+        </tbody>
+    </table>
+
+    <script>
+        const lobbies = ["Survival 1", "Survival 2222", "Peacfull 1", "Factions 4", "One <block 1"];
+        const breadPrices = [48, 73, 56, 48, 63];
+
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: lobbies,
+                datasets: [{
+                    label: 'Diamonds per Block of Bread',
+                    data: breadPrices,
+                    backgroundColor: lobbies.map((_, i) => `rgba(255, 165, 0, ${0.6 + i * 0.1})`),
+                    borderColor: '#FF7F00',
+                    borderWidth: 2,
+                    hoverBackgroundColor: '#FFA500',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: "#FFA500" }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: "rgba(255, 165, 0, 0.2)" },
+                        ticks: { color: "#FFA500" }
+                    }
+                }
+            }
+        });
+
+        // Insert data into table
+        const tableBody = document.getElementById("priceTable");
+        lobbies.forEach((lobby, index) => {
+            const row = `<tr><td>${lobby}</td><td>${breadPrices[index]}</td></tr>`;
+            tableBody.innerHTML += row;
+        });
+    </script>
+
+</body>
+</html>

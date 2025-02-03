@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge SHOP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #181818;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #242424;
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid #444;
+            border-radius: 25px;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+            border-color: #FFA500;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+.btn {
+    background: linear-gradient(45deg, #FFA500, #FF7F00);
+    color: #ffffff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px #FF7F00;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: auto; 
+}
+
+        .btn:hover {
+            background: linear-gradient(45deg, #FF7F00, #FFA500);
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+        }
+
+        .ITEMS-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding-top: 2rem;
+        }
+
+        .ITEMS-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            padding-top: 1.5rem;
+        }
+        .SHOP-card {
+    background-color: #2a2a2a;
+    border-radius: 15px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column; 
+    height: 100%; 
+}
+
+.SHOP-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+}
+
+        .SHOP-title {
+            color: #FFA500;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px #FF7F00;
+        }
+
+        .SHOP-details {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        #shopPopup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .popup-content {
+            background: #242424;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            color: #FFA500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .popup-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .popup-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .close-btn {
+            background-color: #FF7F00;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background-color: #FFA500;
+        }
+
+        .close-btn:disabled {
+            background-color: #444;
+            cursor: not-allowed;
+            text-shadow: none;
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                width: 100%;
+                padding: 0 1rem;
+            }
+
+            .btn {
+                padding: 1rem;
+            }
+
+            .SHOP-title {
+                font-size: 1.25rem;
+            }
+
+            .price {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search items..." aria-label="Search items">
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="ITEMS-grid" id="auctionsGrid"></div>
+    </main>
+
+    <!-- Pop-up -->
+    <div id="shopPopup">
+        <div class="popup-content">
+            <h1>BForge Shop!</h1>
+            <p>Hey, welcome to the shop! Discover amazing deals by completing simple tasks, and don't miss out on our upcoming auctions for even more great savings!</p>
+            <button class="close-btn" id="closePopup" disabled>Close</button>
+        </div>
+    </div>
+
+    <script>
+        let ITEMS = [
+            { item: "Rice (999) - 20% OFF!", lobbyType: "Survival", lobbyNumber: 2222, startingPrice: "40DB/35MB", link: "https://direct-link.net/1268796/rice-999" }, 
+            { item: "Apple Block (100)", lobbyType: "Survival", lobbyNumber: 2222, startingPrice: "600 Diamond/500 Moonstone", link: "https://link-hub.net/1268796/apple-block-100" },
+            { item: "Plum Block (100)", lobbyType: "Survival", lobbyNumber: 2222, startingPrice: "600 Diamond/500 Moonstone", link: "https://link-hub.net/1268796/plum-block-100" },
+            { item: "Cherry Block (100)", lobbyType: "Survival", lobbyNumber: 2222, startingPrice: "600 Diamond/500 Moonstone", link: "https://link-center.net/1268796/cherry-block-100" },
+            { item: "Pear Block (100)", lobbyType: "Survival", lobbyNumber: 2222, startingPrice: "600 Diamond/500 Moonstone", link: "https://link-hub.net/1268796/plum-block-100" },
+        ];
+
+        function renderAuctions(items) {
+            const grid = document.getElementById('auctionsGrid');
+            grid.innerHTML = '';
+
+            items.forEach(SHOP => {
+                const card = document.createElement('div');
+                card.className = 'SHOP-card';
+                card.innerHTML = `
+                    <h3 class="SHOP-title">${SHOP.item}</h3>
+                    <div class="SHOP-details">
+                        <p>Lobby: ${SHOP.lobbyType} ${SHOP.lobbyNumber}</p>
+                        <p class="price">Price: ${SHOP.startingPrice}</p>
+                    </div>
+                    <button class="btn" onclick="window.open('${SHOP.link}', '_blank')">Get Now</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterItems(searchTerm) {
+            const filteredItems = ITEMS.filter(item =>
+                item.item.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            renderAuctions(filteredItems);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAuctions(ITEMS);
+
+            const popup = document.getElementById('shopPopup');
+            const closeButton = document.getElementById('closePopup');
+            popup.style.display = 'flex';
+
+            closeButton.disabled = true;
+
+            setTimeout(() => {
+                closeButton.disabled = false;
+            }, 3000);
+
+            closeButton.onclick = function() {
+                popup.style.display = 'none';
+            };
+
+            const searchBar = document.querySelector('.search-bar');
+            searchBar.addEventListener('input', (e) => {
+                filterItems(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>
