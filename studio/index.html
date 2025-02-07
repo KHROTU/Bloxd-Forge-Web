@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Forge</title>
+    <link rel="website icon" type="png" href="assets/logo.png">
+
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
+    
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="top-bar">
+    <img src="assets/logo.png" width="50" height="50">
+    <h2>World Forge</h2>
+</div>
+
+    <div id="main-container">
+        <div id="left-sidebar">
+            <div id="storage-area" onclick="document.getElementById('file-input').click();">
+                <i class="ri-file-3-line" style="font-size: 30px;"></i>
+                <p>Add Files</p>
+                <input type="file" id="file-input" style="display: none;" onchange="handleFileUpload(event)">
+            </div>
+
+            <div class="file-card" onclick="downloadFile('house.bloxdschem')">
+            </div>
+        </div>
+
+        <div id="iframe-container">
+            <iframe id="game-frame" src="https://bloxd.io" scrolling="no"></iframe>
+        </div>
+
+        <div id="right-sidebar">
+            <button id="world-edit-btn" class="Right-Buttons" onclick="toggleWEmenu()">World Edit<i class="ri-arrow-left-s-line" style="font-size: 20px;"></i></button>
+            <div id="World-edit-box">
+            <button class="command-button" onclick="copyToClipboard('//pos1')">Pos 1 <i class="ri-flag-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//pos2')">Pos 2 <i class="ri-flag-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//copy')">Copy <i class="ri-file-copy-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//paste')">Paste <i class="ri-clipboard-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//schematic load')">Load <i class="ri-download-cloud-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//schematic save')">Save <i class="ri-save-fill"></i></button>
+        </div>
+        <button class="Right-Buttons" id="first-child" onclick="createSign()">
+            Create Sign <i class="ri-signpost-fill" style="margin-left: 8px;"></i>
+        </button>        
+                <button class="Right-Buttons" onclick="placeholderAction()">Placeholder <i class="ri-add-box-line" style="margin-left: 8px;"></i></button>
+
+        </div>
+
+        <script src="script.js"></script>
+</body>
+</html>
