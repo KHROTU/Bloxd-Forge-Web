@@ -205,21 +205,6 @@
       backdrop-filter: blur(5px);
     }
 
-    #cps-display {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      color: #fff;
-      font-size: 14px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px 15px;
-      border-radius: 10px;
-      border: 1px solid #444;
-      display: none;
-      z-index: 100;
-      backdrop-filter: blur(5px);
-    }
-
     #keystroke-display {
       position: fixed;
       bottom: 100px;
@@ -551,46 +536,6 @@ button:active {
   transform: translateY(0);
 }
 
-.board {
-    background-color: #282828;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    width: 100%;
-    max-width: 400px;
-    word-wrap: break-word;
-    overflow: hidden;
-    white-space: pre-wrap;
-    margin-bottom: 1rem;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.board:hover {
-    transform: scale(1.02);
-}
-
-.board p {
-    margin-bottom: 1rem;
-    flex-grow: 1;
-    text-align: center;
-    word-wrap: break-word;
-    max-width: 100%;
-    line-height: 1.5;
-    font-size: 1rem;
-    white-space: pre-wrap;
-    width: 100%;
-    min-height: 60px;
-    outline: none;
-    overflow-y: auto;
-    max-height: 120px;
-    transition: max-height 0.3s ease;
-}
 
 .delete-btn {
     background-color: #e74c3c;
@@ -613,31 +558,6 @@ button:active {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.delete-btn:hover {
-    background-color: #c0392b;
-    transform: scale(1.1);
-}
-
-.add-board {
-    background-color: #ff8c00;
-    color: #fff;
-    padding: 1rem;
-    border-radius: 4px;
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.add-board:hover {
-    background-color: #e67e00;
-    transform: scale(1.05);
-}
 
 ::-webkit-scrollbar {
     width: 0.1px;
@@ -712,11 +632,6 @@ button:active {
         FPS/Ping
         <span class="description">Show performance metrics</span>
       </div>
-      <div class="setting-option" id="cps-keystrokes-toggle">
-        <i class="fas fa-keyboard"></i>
-        CPS/Keystrokes
-        <span class="description">Show CPS and keystrokes</span>
-      </div>
       <div class="setting-option" id="coordinate-saver-toggle">
         <i class="fas fa-map-marker-alt"></i>
         Coordinates
@@ -727,11 +642,6 @@ button:active {
         Resolution
         <span class="description">Adjust game resolution</span>
       </div>
-<div class="setting-option" id="board-clip">
-  <i class="fas fa-clipboard"></i>
-  Board Clip
-  <span class="description">Save and copy boards</span>
-</div>
 <div class="setting-option" id="filter-settings-toggle">
   <i class="fas fa-sliders-h"></i>
   Filters
@@ -795,9 +705,6 @@ button:active {
     <span id="fps-display">FPS: 0</span>
     <span id="ping-display">Ping: 0 ms</span>
   </div>
-  <div id="cps-display">
-    <span id="cps-counter">CPS: 0</span>
-  </div>
   <div id="keystroke-display">
     <div class="keystroke-container">
       <div id="keystroke-w" class="key">W</div>
@@ -805,21 +712,6 @@ button:active {
       <div id="keystroke-s" class="key">S</div>
       <div id="keystroke-d" class="key">D</div>
       <div id="keystroke-space" class="key">Space</div>
-    </div>
-  </div>
-
-  <!-- Board Clip Modal -->
-  <div id="board-clip-modal" style="display: none; position: fixed; top: 10%; left: 10%; width: 80%; height: 80%; background: rgba(0, 0, 0, 0.9); border: 1px solid #444; border-radius: 12px; z-index: 20;">
-    <div class="container mx-auto p-4">
-      <div class="header text-center mb-8">
-        <h1 class="text-4xl font-bold">Board Clip</h1>
-        <p class="text-lg mt-2">Double-click outside the pop-up to close the window.</p>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="board-container">
-      </div>
-      <button class="add-board" onclick="addBoard()">
-        <i class="fas fa-plus"></i>
-      </button>
     </div>
   </div>
 
@@ -904,8 +796,8 @@ button:active {
       iframe.src = url;
     }
 
-    document.getElementById('bloxd').addEventListener('click', () => openUrl('https://bloxd.io'));
-    document.getElementById('bloxd-staging').addEventListener('click', () => openUrl('https://staging.bloxd.io'));
+    document.getElementById('bloxd').addEventListener('click', () => openUrl('https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/more/bloxd.html'));
+    document.getElementById('bloxd-staging').addEventListener('click', () => openUrl('bro'));
     document.getElementById('bigbutton').addEventListener('click', () => openUrl('https://bloxd.io/?lobby=-ix&g=worlds'));
 
     dragButton.addEventListener('click', () => {
@@ -1042,165 +934,6 @@ button:active {
       if (showFpsPing) {
         updateFPS();
         updatePing();
-      }
-    });
-
-    const cpsKeystrokesToggle = document.getElementById('cps-keystrokes-toggle');
-    const cpsDisplay = document.getElementById('cps-display');
-    const keystrokeDisplay = document.getElementById('keystroke-display');
-    const cpsCounter = document.getElementById('cps-counter');
-
-    let showCPSKeystrokes = false;
-    let clickCount = 0;
-    let clickTimer = 0;
-
-    function updateCPS() {
-      if (showCPSKeystrokes) {
-        cpsCounter.textContent = `CPS: ${clickCount}`;
-        clickCount = 0;
-        setTimeout(updateCPS, 1000);
-      }
-    }
-
-    document.addEventListener('click', () => {
-      if (showCPSKeystrokes) {
-        clickCount++;
-      }
-    });
-
-    cpsKeystrokesToggle.addEventListener('click', () => {
-      showCPSKeystrokes = !showCPSKeystrokes;
-      cpsDisplay.style.display = showCPSKeystrokes ? 'block' : 'none';
-      keystrokeDisplay.style.display = showCPSKeystrokes ? 'flex' : 'none';
-      if (showCPSKeystrokes) {
-        updateCPS();
-      }
-    });
-
-    const keys = document.querySelectorAll('.keystroke-container .key');
-    let hue = 0;
-
-    setInterval(() => {
-      hue = (hue + 1) % 360;
-      keys.forEach(key => {
-        key.style.borderColor = `hsl(${hue}, 100%, 50%)`;
-      });
-    }, 20);
-
-    const keyMap = {
-      'KeyW': 'keystroke-w',
-      'KeyA': 'keystroke-a',
-      'KeyS': 'keystroke-s',
-      'KeyD': 'keystroke-d',
-      'Space': 'keystroke-space'
-    };
-
-    document.addEventListener('keydown', (e) => {
-      const keyId = keyMap[e.code];
-      if (keyId) {
-        document.getElementById(keyId).classList.add('active');
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      const keyId = keyMap[e.code];
-      if (keyId) {
-        document.getElementById(keyId).classList.remove('active');
-      }
-    });
-
-    const boardClipButton = document.getElementById('board-clip');
-    const boardClipModal = document.getElementById('board-clip-modal');
-    const boardContainer = document.getElementById('board-container');
-
-    function addBoard() {
-      const newBoard = document.createElement('div');
-      newBoard.className = 'board';
-      const boardId = 'board-' + new Date().getTime();
-      newBoard.dataset.boardId = boardId;
-
-      newBoard.innerHTML = `
-        <p contenteditable="true" oninput="limitText(this)" onkeydown="handleEnter(event, this)" placeholder="Type your text here..."></p>
-        <button class="delete-btn" onclick="deleteBoard('${boardId}')">
-          <i class="fas fa-trash"></i>
-        </button>
-      `;
-      boardContainer.appendChild(newBoard);
-
-      saveBoards();
-    }
-
-    function limitText(element) {
-      let text = element.textContent;
-
-      let lines = text.match(/.{1,16}/g) || [];
-
-      if (lines.length > 7) {
-        lines = lines.slice(0, 7);
-      }
-
-      element.textContent = lines.join('\n');
-      saveBoards();
-    }
-
-    function handleEnter(event, element) {
-      if (event.key === 'Enter') {
-        event.preventDefault();  
-        const cursorPos = window.getSelection().getRangeAt(0);
-        cursorPos.deleteContents();
-        cursorPos.insertNode(document.createElement('br'));
-        saveBoards(); 
-      }
-    }
-
-    function deleteBoard(boardId) {
-      if (window.confirm("Are you sure you want to delete this board?")) {
-        const board = document.querySelector(`[data-board-id='${boardId}']`);
-        if (board) {
-          board.remove();
-          saveBoards(); 
-        }
-      }
-    }
-
-    function saveBoards() {
-      const boards = [];
-      const boardElements = document.querySelectorAll('.board');
-      boardElements.forEach(board => {
-        const boardData = {
-          id: board.dataset.boardId,
-          content: board.querySelector('p').textContent.trim()
-        };
-        boards.push(boardData);
-      });
-      localStorage.setItem('boards', JSON.stringify(boards));
-    }
-
-    function loadBoards() {
-      const boards = JSON.parse(localStorage.getItem('boards')) || [];
-      const container = document.querySelector('#board-container');
-      boards.forEach(boardData => {
-        const board = document.createElement('div');
-        board.className = 'board';
-        board.dataset.boardId = boardData.id;
-        board.innerHTML = `
-          <p contenteditable="true" oninput="limitText(this)" onkeydown="handleEnter(event, this)" placeholder="Type your text here...">${boardData.content}</p>
-          <button class="delete-btn" onclick="deleteBoard('${boardData.id}')">
-            <i class="fas fa-trash"></i>
-          </button>
-        `;
-        container.appendChild(board);
-      });
-    }
-
-    boardClipButton.addEventListener('click', () => {
-      boardClipModal.style.display = 'block';
-      loadBoards();
-    });
-
-    document.addEventListener('dblclick', (event) => {
-      if (!boardClipModal.contains(event.target)) {
-        boardClipModal.style.display = 'none';
       }
     });
 
