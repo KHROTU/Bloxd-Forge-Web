@@ -1,24 +1,50 @@
-<iframe src="https://bloxd.io" class="size-full max-h-[calc(100%-5rem)] md:max-h-[calc(100%-2.5rem)] max-md:aspect-[16/9]" 
-        allow=" autoplay; payment; fullscreen; clipboard-read; clipboard-write" 
-        allowfullscreen="" 
-        sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts allow-same-origin allow-downloads allow-popups-to-escape-sandbox" 
-        title="Bloxd.io">
-</iframe>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Window Example</title>
+    <style>
+        body {
+            background-color: #181818;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-<style>
-iframe {
-  width: 100vw; 
-  height: 100vh; 
-  border: none;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
-</style>
+        button {
+            padding: 20px 40px;
+            font-size: 24px;
+            cursor: pointer;
+            background-color: orange;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: darkorange;
+        }
+    </style>
+    <script>
+        function openPopup() {
+            const popupWindow = window.open(
+                "https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/more/bloxd.html", // URL to open
+                "popupWindow", // Name of the popup window
+                "width=1400,height=800,scrollbars=yes,resizable=yes"
+            );
+
+            // Optional: Check if the popup was blocked
+            if (!popupWindow) {
+                alert("Popup blocked! Please allow popups for this site.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="openPopup()">Open Popup</button>
+</body>
+</html>
