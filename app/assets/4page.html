@@ -160,6 +160,24 @@
             font-weight: bold;
         }
 
+        .bid-btn {
+            background-color: #FFA500;
+            color: #ffffff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px #FF7F00;
+        }
+
+        .bid-btn:hover {
+            background-color: #FF7F00;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+        }
+
         .loading {
             text-align: center;
             padding: 2rem;
@@ -414,7 +432,7 @@
                         <p class="price">Starting Price: $${auction.starting_price}</p>
                         <p class="price">Buyout Price: $${auction.buyout_price}</p>
                         <p class="auction-details">Description: ${auction.description}</p>
-                        <button onclick="placeBid(${index})">Place Bid</button>
+                        <button class="bid-btn" onclick="placeBid(${index})">Place Bid</button>
                     `;
                     grid.appendChild(card);
                 });
@@ -483,12 +501,15 @@
                     console.log(result.message);
                     loadAuctions();
                 } else {
-                    console.error('Error placing bid:', response.statusText);
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.description || 'Failed to place bid'}`);
                 }
             } catch (error) {
                 console.error('Error placing bid:', error);
+                alert('An error occurred while placing the bid. Please try again.');
             }
         }
+
 
         function openCreateModal() {
             document.getElementById('createModal').style.display = 'block';
