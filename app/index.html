@@ -537,7 +537,7 @@ iframe.fullscreen {
     
         setTimeout(() => {
             document.getElementById('fullscreen-iframe-container').style.display = 'none';
-        }, 5000);
+        }, Math.floor(Math.random() * (4000 - 1000 + 1)) + 1000);
     
         window.onload = function() {
             const startButton = document.querySelector('.sidebar-link'); 
