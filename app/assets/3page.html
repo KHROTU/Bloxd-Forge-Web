@@ -21,21 +21,7 @@
             flex-direction: row-reverse;
         }
 
-        #sidebar {
-            width: 80px;
-            background: #333;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            padding: 20px 0;
-            border-radius: 15px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        #workspace {
+                #workspace {
             flex: 1;
             position: relative;
             background: #181818;
@@ -43,9 +29,27 @@
             display: none;
         }
 
-        #sidebar .icon-button {
+        #sidebar {
+            width: 80px;
+            background: linear-gradient(135deg, #222, #444);
+            border: 2px solid #444;
             color: white;
-            font-size: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+            border-radius: 0px 0px 15px 15px;
+            position: relative;
+            flex-shrink: 0;
+            margin-bottom: 260px;
+            margin-right: 20px;
+        }
+
+
+        #sidebar .icon-button {
+            color: #F8F9FA;
+            font-size: 40px;
             cursor: pointer;
             transition: color 0.3s;
             position: relative;
@@ -177,7 +181,7 @@
         <div class="icon-button" onclick="openWindow('MoveTheIconsDownABit', 'https://www.MoveTheIconsDownABit.com/', this)">
             <i class="fas fa-MoveTheIconsDownABit"></i>
         </div>
-        <div class="icon-button" onclick="openWindow('Piskel', 'https://www.piskelapp.com/', this)">
+        <div class="icon-button" onclick="openWindow('Tpack Creator', 'https://raw.githack.com/Cyaben/bloxdforge-texture-maker/refs/heads/main/Materialize%20.html', this)">
             <i class="fas fa-paint-brush"></i>
         </div>
         <div class="icon-button" onclick="openWindow('3D Modeling', 'https://web.blockbench.net', this)">
@@ -189,7 +193,7 @@
         <div class="icon-button" onclick="openWindow('File Manager/PackVault', 'https://raw.githack.com/Cyaben/bloxdforge-texture-maker/refs/heads/main/PackVault.html', this)">
             <i class="fas fa-file-archive"></i>
         </div>
-        <div class="icon-button" onclick="openWindow('Tpack Creator', 'https://raw.githack.com/Cyaben/bloxdforge-texture-maker/refs/heads/main/Materialize%20.html', this)">
+        <div class="icon-button" onclick="openWindow('Piskel', 'https://www.piskelapp.com/', this)">
             <i class="fas fa-paint-brush"></i>
         </div>
         <div class="icon-button" onclick="openWindow('Color Maker', 'https://colordesigner.io/color-palette-builder', this)">
@@ -210,16 +214,25 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        async function checkPassword() {
-            const input = document.getElementById("password-input").value;
-            const hash = await sha256(input);
-            if (hash === "6caf7c13171dbb0598cd9b52dbb77e0d75f049c78c7d08ccd20307e95c021991") {
-                document.getElementById("password-popup").style.display = "none";
-                document.getElementById("workspace").style.display = "block";
-            } else {
-                alert("Incorrect password. Please try again.");
-            }
-        }
+async function checkPassword() {
+    const input = document.getElementById("password-input").value;
+    const hash = await sha256(input);
+    if (hash === "6caf7c13171dbb0598cd9b52dbb77e0d75f049c78c7d08ccd20307e95c021991") {
+        localStorage.setItem("isLoggedIn", "true");  // Store login status in localStorage
+        document.getElementById("password-popup").style.display = "none";
+        document.getElementById("workspace").style.display = "block";
+    } else {
+        alert("Incorrect password. Please try again.");
+    }
+}
+
+window.onload = () => {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+        document.getElementById("password-popup").style.display = "none";
+        document.getElementById("workspace").style.display = "block";
+    }
+};
+
 
         let zIndexCounter = 1;
         function openWindow(title, url, iconElement) {
