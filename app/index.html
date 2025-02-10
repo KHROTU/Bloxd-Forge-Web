@@ -410,20 +410,24 @@ iframe.fullscreen {
 function toggleFullScreen() {
     const iframe = document.querySelector('iframe');
     const cornerBox = document.querySelector('.top-right-box');
+    const fullscreenContainer = document.getElementById('fullscreen-iframe-container');
     const isFullScreen = iframe.classList.contains('fullscreen');
 
     if (!isFullScreen) {
         iframe.classList.add('fullscreen');
         cornerBox.classList.add('smaller');
-        document.body.classList.add('locked'); 
-        document.getElementById('fullscreen-iframe-container').style.display = 'block'; 
+        document.body.classList.add('locked');
+        fullscreenContainer.style.display = 'block';
+        document.querySelector('iframe').src = '/app/assets/load.html'; 
     } else {
         iframe.classList.remove('fullscreen');
         cornerBox.classList.remove('smaller');
-        document.body.classList.remove('locked'); 
-        document.getElementById('fullscreen-iframe-container').style.display = 'none';  
+        document.body.classList.remove('locked');
+        fullscreenContainer.style.display = 'none';
+        document.querySelector('iframe').src = '/app/assets/1page.html'; 
     }
 }
+
 
     
         const folderMenu = document.getElementById('folder-menu');
