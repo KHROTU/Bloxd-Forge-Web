@@ -628,6 +628,10 @@ button:active {
       <img alt="staging" height="240" src="https://i.imgur.com/9d15Ize.png" width="240"/>
       Bloxd.io Staging
     </button>
+      <button id="bloxd-turbo">
+      <img alt="staging" height="240" src="https://i.imgur.com/wt7V59R.png" width="240"/>
+      Turbo (beta)
+    </button>
   </div>
   <div id="iframe-container">
     <iframe id="iframe"></iframe>
@@ -717,16 +721,6 @@ button:active {
     <span id="fps-display">FPS: 0</span>
     <span id="ping-display">Ping: 0 ms</span>
   </div>
-  <div id="keystroke-display">
-    <div class="keystroke-container">
-      <div id="keystroke-w" class="key">W</div>
-      <div id="keystroke-a" class="key">A</div>
-      <div id="keystroke-s" class="key">S</div>
-      <div id="keystroke-d" class="key">D</div>
-      <div id="keystroke-space" class="key">Space</div>
-    </div>
-  </div>
-
   <script>
     const menu = document.getElementById('menu');
     const iframeContainer = document.getElementById('iframe-container');
@@ -809,7 +803,8 @@ button:active {
     }
 
     document.getElementById('bloxd').addEventListener('click', () => openUrl('https://bloxd.io'));
-    document.getElementById('bloxd-staging').addEventListener('click', () => openUrl('bro'));
+    document.getElementById('bloxd-staging').addEventListener('click', () => openUrl('https://staging.bloxd.io'));
+        document.getElementById('bloxd-turbo').addEventListener('click', () => openUrl('app/assets/src/turbohome.html'));
     document.getElementById('bigbutton').addEventListener('click', () => openUrl('https://bloxd.io/?lobby=-ix&g=worlds'));
 
     dragButton.addEventListener('click', () => {
