@@ -7,17 +7,350 @@
     <meta name="description" content="Bloxd Forge is a Bloxd QOL (Quality-Of-Life) improvement mod that offers texture-packs, a FPS booster, a chat, and a discord for support.">
     <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
     <link rel="website icon" type="png" href="assets/logo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
-    
-     <link rel="stylesheet" href="style.css">
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: #181818;
+            color: white;
+        }
+
+        #top-bar {
+            height: 40px;
+            background: #282828;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 2px solid #ff6f00;
+            box-shadow: 0 2px 10px #ff6f00;
+        }
+
+        h2 {
+            margin-left: 5px;
+        }
+
+        #main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        #left-sidebar {
+            width: 130px;
+            background: #282828;
+            padding: 10px;
+            overflow-y: auto;
+            border-radius: 10px 10px 0 0;
+            margin-left: 10px;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+
+        #storage-area {
+            width: 100%;
+            min-height: 100px;
+            background: #383838;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        #storage-area:hover {
+            background: #ff8c00;
+            box-shadow: 0 0 15px #ff8c00;
+        }
+
+        .file-card, .text-card {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: #555;
+            color: white;
+            font-size: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-card span, .text-card span {
+            flex: 1;
+            word-break: break-word;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #iframe-container {
+            flex: 1;
+            position: relative;
+            width: 100dvw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        #right-sidebar {
+            width: 130px;
+            background: #282828;
+            padding: 10px;
+            overflow-y: auto;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin-left: 10px;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+
+        .Right-Buttons {
+            height: 42px;
+            width: 100%;
+            white-space: nowrap;
+            background: #383838;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            font-weight: bolder;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: none;
+            border: none;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .Right-Buttons:nth-child(n+3) {
+            margin-top: 10px;
+        }
+
+        .Right-Buttons:hover {
+            background: #ff8c00;
+            box-shadow: 0 0 15px #ff8c00;
+        }
+
+        #World-edit-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .command-button {
+            width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px;
+            background: #383838;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 999;
+            border-radius: 0px;
+            transition: background 0.3s ease, transform 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .command-button i {
+            font-size: 15px;
+        }
+
+        .command-button:hover {
+            padding: 15px;
+            z-index: 1000;
+            background: #ff8c00;
+            box-shadow: 0 0 15px #ff8c00;
+            transform: scale(1.05);
+            border-radius: 5px;
+        }
+
+        .command-button:nth-child(6) {
+            border-radius: 0 0 10px 10px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: transparent;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        #write-text-area {
+            width: 100%;
+            min-height: 100px;
+            background: #383838;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        #write-text-area:hover {
+            background: #ff8c00;
+            box-shadow: 0 0 15px #ff8c00;
+        }
+
+        /* Sign Generator Styles */
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: auto;
+            background-color: #282828;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        h3 {
+            color: #fff;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #484848;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #fff;
+            box-sizing: border-box;
+            background: #383838;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff9315;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #c07600;
+        }
+
+        #suggestions {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 5px;
+            border: 1px solid #484848;
+            background-color: #383838;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        #suggestions li {
+            padding: 8px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        #suggestions li:hover {
+            background-color: #ffd5bf;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 16px;
+            }
+
+            input, select, textarea {
+                font-size: 12px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <div id="top-bar">
-    <img src="assets/logo.png" width="50" height="50">
-    <h2>World Forge</h2>
-</div>
+    <div id="top-bar">
+        <img src="assets/logo.png" width="50" height="50">
+        <h2>World Forge</h2>
+    </div>
 
     <div id="main-container">
         <div id="left-sidebar">
@@ -28,54 +361,518 @@
             </div>
 
             <div class="file-card" onclick="downloadFile('house.bloxdschem')"></div>
-      
-                <div id="write-text-area" onclick="openTextEditor()">
-                    <i class="ri-edit-2-line" style="font-size: 30px;"></i>
-                    <p>Write Text</p>
-                </div>
-        
-                <div id="saved-texts"></div>
 
+            <div id="write-text-area" onclick="openTextEditor()">
+                <i class="ri-edit-2-line" style="font-size: 30px;"></i>
+                <p>Write Text</p>
+            </div>
+
+            <div id="saved-texts"></div>
         </div>
 
         <div id="iframe-container">
             <iframe id="game-frame" src="https://bloxd.io" scrolling="no"></iframe>
         </div>
 
-          <div id="text-popup" class="popup">
-      <div class="popup-content">
-          <input type="text" id="text-title" placeholder="Enter Title">
-          <textarea id="text-body" placeholder="Write your text here..."></textarea>
-          <button onclick="saveText()">Save</button>
-          <button onclick="closeTextPopup()">Close</button>
-      </div>
-  </div>
+        <div id="text-popup" class="popup">
+            <div class="popup-content">
+                <input type="text" id="text-title" placeholder="Enter Title">
+                <textarea id="text-body" placeholder="Write your text here..."></textarea>
+                <button onclick="saveText()">Save</button>
+                <button onclick="closeTextPopup()">Close</button>
+            </div>
+        </div>
 
-  <div id="view-popup" class="popup">
-      <div class="popup-content">
-          <h3 id="view-title"></h3>
-          <p id="view-body"></p>
-          <button onclick="closeViewPopup()">Close</button>
-      </div>
-  </div>
+        <div id="view-popup" class="popup">
+            <div class="popup-content">
+                <h3 id="view-title"></h3>
+                <p id="view-body"></p>
+                <button onclick="closeViewPopup()">Close</button>
+            </div>
+        </div>
 
         <div id="right-sidebar">
             <button id="world-edit-btn" class="Right-Buttons" onclick="toggleWEmenu()">World Edit<i class="ri-arrow-left-s-line" style="font-size: 20px;"></i></button>
             <div id="World-edit-box">
-            <button class="command-button" onclick="copyToClipboard('//pos1')">Pos 1 <i class="ri-flag-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//pos2')">Pos 2 <i class="ri-flag-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//copy')">Copy <i class="ri-file-copy-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//paste')">Paste <i class="ri-clipboard-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//schematic load')">Load <i class="ri-download-cloud-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//schematic save')">Save <i class="ri-save-fill"></i></button>
+                <button class="command-button" onclick="copyToClipboard('//pos1')">Pos 1 <i class="ri-flag-fill"></i></button>
+                <button class="command-button" onclick="copyToClipboard('//pos2')">Pos 2 <i class="ri-flag-fill"></i></button>
+                <button class="command-button" onclick="copyToClipboard('//copy')">Copy <i class="ri-file-copy-fill"></i></button>
+                <button class="command-button" onclick="copyToClipboard('//paste')">Paste <i class="ri-clipboard-fill"></i></button>
+                <button class="command-button" onclick="copyToClipboard('//schematic load')">Load <i class="ri-download-cloud-fill"></i></button>
+                <button class="command-button" onclick="copyToClipboard('//schematic save')">Save <i class="ri-save-fill"></i></button>
+            </div>
+            <button class="Right-Buttons" id="first-child" onclick="createSign()">
+                Create Sign <i class="ri-signpost-fill" style="margin-left: 8px;"></i>
+            </button>
+            <button class="Right-Buttons" onclick="placeholderAction()">Placeholder <i class="ri-add-box-line" style="margin-left: 8px;"></i></button>
         </div>
-        <button class="Right-Buttons" id="first-child" onclick="createSign()">
-            Create Sign <i class="ri-signpost-fill" style="margin-left: 8px;"></i>
-        </button>        
-                <button class="Right-Buttons" onclick="placeholderAction()">Placeholder <i class="ri-add-box-line" style="margin-left: 8px;"></i></button>
+    </div>
 
-        </div>
+    <script>
+        let writeTextArea = document.getElementById("write-text-area");
+        writeTextArea.onclick = openTextEditor;
 
-        <script src="script.js"></script>
+        function openTextEditor() {
+            let textEditor = document.createElement("div");
+            textEditor.id = "text-editor";
+            textEditor.style.position = "fixed";
+            textEditor.style.top = "50%";
+            textEditor.style.left = "50%";
+            textEditor.style.transform = "translate(-50%, -50%)";
+            textEditor.style.width = "500px";
+            textEditor.style.background = "#282828";
+            textEditor.style.padding = "10px";
+            textEditor.style.zIndex = "1000";
+            textEditor.style.border = "2px solid #444";
+            textEditor.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
+
+            let titleInput = document.createElement("input");
+            titleInput.type = "text";
+            titleInput.placeholder = "Enter title";
+            titleInput.style.width = "100%";
+            titleInput.style.marginBottom = "10px";
+            titleInput.style.background = "#383838";
+            titleInput.style.border = "1px solid #484848";
+            titleInput.style.padding = "8px";
+            titleInput.style.borderRadius = "4px";
+
+            let textInput = document.createElement("textarea");
+            textInput.placeholder = "Write your text here...";
+            textInput.style.width = "100%";
+            textInput.style.minHeight = "300px";
+            textInput.style.marginBottom = "10px";
+            textInput.style.background = "#383838";
+            textInput.style.border = "1px solid #484848";
+            textInput.style.padding = "8px";
+            textInput.style.borderRadius = "4px";
+            textInput.style.resize = "vertical";
+
+            let saveButton = document.createElement("button");
+            saveButton.innerText = "Save";
+            saveButton.style.width = "100%";
+            saveButton.style.background = "#383838";
+            saveButton.style.border = "none";
+            saveButton.style.padding = "10px 20px";
+            saveButton.style.cursor = "pointer";
+            saveButton.style.borderRadius = "8px";
+            saveButton.style.color = "white";
+            saveButton.style.fontSize = "14px";
+            saveButton.onclick = () => saveText(titleInput.value, textInput.value, textEditor);
+
+            let closeButton = document.createElement("button");
+            closeButton.innerText = "Close";
+            closeButton.style.width = "100%";
+            closeButton.style.marginTop = "10px";
+            closeButton.style.background = "#383838";
+            closeButton.style.border = "none";
+            closeButton.style.padding = "10px 20px";
+            closeButton.style.cursor = "pointer";
+            closeButton.style.borderRadius = "8px";
+            closeButton.style.color = "white";
+            closeButton.style.fontSize = "14px";
+            closeButton.onclick = () => textEditor.remove();
+
+            textEditor.appendChild(titleInput);
+            textEditor.appendChild(textInput);
+            textEditor.appendChild(saveButton);
+            textEditor.appendChild(closeButton);
+            document.body.appendChild(textEditor);
+        }
+
+        function saveText(title, text, editor) {
+            if (!title || !text) return;
+            let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
+            texts.push({ title, text });
+            localStorage.setItem("savedTexts", JSON.stringify(texts));
+            displaySavedTexts();
+            editor.remove();
+        }
+
+        function displaySavedTexts() {
+            let writeTextArea = document.getElementById("write-text-area");
+
+            const existingTextCards = writeTextArea.querySelectorAll(".file-card-wrapper");
+            existingTextCards.forEach(card => card.remove());
+
+            let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
+            texts.forEach((item, index) => {
+                const fileCardWrapper = document.createElement("div");
+                fileCardWrapper.classList.add("file-card-wrapper");
+                const fileCard = document.createElement("div");
+                fileCard.classList.add("file-card");
+
+                const displayTextTitle = item.title.length > 10 ? item.title.substring(0, 10) + "..." : item.title;
+                fileCard.textContent = displayTextTitle;
+                fileCard.onclick = (event) => {
+                    event.stopPropagation();
+                    openSavedText(item);
+                };
+
+                const removeBtn = document.createElement("button");
+                removeBtn.classList.add("remove-btn");
+
+                const removeIcon = document.createElement("i");
+                removeIcon.classList.add("ri-delete-bin-line");
+
+                removeBtn.textContent = "Remove ";
+                removeBtn.appendChild(removeIcon);
+                removeBtn.onclick = (event) => {
+                    event.stopPropagation();
+                    removeSavedText(index);
+                };
+
+                fileCardWrapper.appendChild(fileCard);
+                fileCardWrapper.appendChild(removeBtn);
+
+                writeTextArea.appendChild(fileCardWrapper);
+            });
+        }
+
+        function openSavedText(item) {
+            let textPopup = document.createElement("div");
+            textPopup.style.position = "fixed";
+            textPopup.style.top = "50%";
+            textPopup.style.left = "50%";
+            textPopup.style.transform = "translate(-50%, -50%)";
+            textPopup.style.width = "500px";
+            textPopup.style.height = "400px";
+            textPopup.style.background = "#282828";
+            textPopup.style.padding = "10px";
+            textPopup.style.zIndex = "1000";
+            textPopup.style.border = "2px solid #444";
+            textPopup.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
+            textPopup.style.display = "flex";
+            textPopup.style.flexDirection = "column";
+
+            let title = document.createElement("h3");
+            title.innerText = item.title;
+
+            let content = document.createElement("p");
+            content.innerText = item.text;
+            content.style.flexGrow = "1";
+
+            let closeBtn = document.createElement("button");
+            closeBtn.innerText = "Close";
+            closeBtn.style.width = "100%";
+            closeBtn.style.background = "#383838";
+            closeBtn.style.border = "none";
+            closeBtn.style.padding = "10px 20px";
+            closeBtn.style.cursor = "pointer";
+            closeBtn.style.borderRadius = "8px";
+            closeBtn.style.color = "white";
+            closeBtn.style.fontSize = "14px";
+            closeBtn.onclick = () => textPopup.remove();
+
+            textPopup.appendChild(title);
+            textPopup.appendChild(content);
+            textPopup.appendChild(closeBtn);
+            document.body.appendChild(textPopup);
+        }
+
+        function removeSavedText(index) {
+            let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
+            texts.splice(index, 1);
+            localStorage.setItem("savedTexts", JSON.stringify(texts));
+            displaySavedTexts();
+        }
+
+        displaySavedTexts();
+
+        // Handle file uploads
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileName = file.name;
+                const fileURL = URL.createObjectURL(file);
+                addFileCard(fileName, fileURL);
+                saveFileToLocalStorage(fileName, fileURL);
+            }
+        }
+
+        function addFileCard(fileName, fileURL) {
+            let filediv = document.querySelector("#storage-area");
+
+            const displayFileName = fileName.length > 13 ? fileName.substring(0, 13) + "..." : fileName;
+            const fileCard = document.createElement("div");
+            fileCard.classList.add("file-card");
+            fileCard.textContent = displayFileName;
+            fileCard.onclick = () => downloadFile(fileURL);
+
+            const removeBtn = document.createElement("button");
+            removeBtn.classList.add("remove-btn");
+
+            const removeIcon = document.createElement("i");
+            removeIcon.classList.add("ri-delete-bin-line");
+
+            removeBtn.textContent = "Remove ";
+            removeBtn.appendChild(removeIcon);
+            removeBtn.onclick = (event) => confirmRemove(event, fileName, fileCardWrapper);
+
+            const fileCardWrapper = document.createElement("div");
+            fileCardWrapper.classList.add("file-card-wrapper");
+            fileCardWrapper.appendChild(fileCard);
+            fileCardWrapper.appendChild(removeBtn);
+
+            filediv.appendChild(fileCardWrapper);
+        }
+
+        function confirmRemove(event, fileName, fileCardWrapper) {
+            event.stopPropagation();
+
+            const confirmation = confirm(`Are you sure you want to remove ${fileName}?`);
+            if (confirmation) {
+                removeFileFromLocalStorage(fileName);
+                fileCardWrapper.remove();
+            }
+        }
+
+        function saveFileToLocalStorage(fileName, fileURL) {
+            const files = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
+            files.push({ fileName, fileURL });
+            localStorage.setItem("uploadedFiles", JSON.stringify(files));
+        }
+
+        function removeFileFromLocalStorage(fileName) {
+            const files = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
+            const updatedFiles = files.filter(file => file.fileName !== fileName);
+            localStorage.setItem("uploadedFiles", JSON.stringify(updatedFiles));
+        }
+
+        function loadSavedFiles() {
+            const files = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
+            files.forEach(file => addFileCard(file.fileName, file.fileURL));
+        }
+
+        function downloadFile(file) {
+            const a = document.createElement("a");
+            a.href = file;
+            a.download = file;
+            a.click();
+        }
+
+        window.onload = loadSavedFiles;
+
+        function copyToClipboard(command) {
+            navigator.clipboard.writeText(command).then(() => {
+            }).catch((error) => {
+                console.error("Error copying text: ", error);
+            });
+        }
+
+        function createSign() {
+            let iframeContainer = document.createElement("div");
+            iframeContainer.id = "iframe-sign-container";
+            iframeContainer.style.position = "fixed";
+            iframeContainer.style.top = "50%";
+            iframeContainer.style.left = "50%";
+            iframeContainer.style.transform = "translate(-50%, -50%)";
+            iframeContainer.style.width = "40%";
+            iframeContainer.style.height = "60%";
+            iframeContainer.style.backgroundColor = "white";
+            iframeContainer.style.zIndex = "9999";
+            iframeContainer.style.border = "2px solid #444";
+            iframeContainer.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
+            iframeContainer.style.cursor = "move";
+            iframeContainer.style.resize = "both";
+            iframeContainer.style.overflow = "hidden";
+
+            let header = document.createElement("div");
+            header.style.backgroundColor = "#444";
+            header.style.color = "white";
+            header.style.padding = "10px";
+            header.style.cursor = "move";
+            header.textContent = "Sign Editor";
+            iframeContainer.appendChild(header);
+
+            let iframe = document.createElement("iframe");
+            iframe.src = "sign.html";
+            iframe.style.width = "100%";
+            iframe.style.height = "calc(100% - 40px)";
+            iframe.style.border = "none";
+            iframeContainer.appendChild(iframe);
+
+            let closeButton = document.createElement("button");
+            closeButton.textContent = "Close";
+            closeButton.style.position = "absolute";
+            closeButton.style.top = "10px";
+            closeButton.style.right = "10px";
+            closeButton.style.backgroundColor = "#444";
+            closeButton.style.color = "white";
+            closeButton.style.border = "none";
+            closeButton.style.cursor = "pointer";
+            closeButton.onclick = () => iframeContainer.remove();
+            iframeContainer.appendChild(closeButton);
+
+            document.body.appendChild(iframeContainer);
+
+            header.onmousedown = dragMouseDown;
+
+            let offsetX = 0;
+            let offsetY = 0;
+
+            function dragMouseDown(e) {
+                e.preventDefault();
+                offsetX = e.clientX - iframeContainer.offsetLeft;
+                offsetY = e.clientY - iframeContainer.offsetTop;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = dragMouseMove;
+            }
+
+            function dragMouseMove(e) {
+                e.preventDefault();
+                let posX = e.clientX - offsetX;
+                let posY = e.clientY - offsetY;
+                iframeContainer.style.left = posX + "px";
+                iframeContainer.style.top = posY + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+
+            let resizeHandle = document.createElement("div");
+            resizeHandle.style.position = "absolute";
+            resizeHandle.style.right = "0";
+            resizeHandle.style.bottom = "0";
+            resizeHandle.style.width = "20px";
+            resizeHandle.style.height = "20px";
+            resizeHandle.style.backgroundColor = "#444";
+            resizeHandle.style.cursor = "se-resize";
+            iframeContainer.appendChild(resizeHandle);
+
+            resizeHandle.onmousedown = initResize;
+
+            let startX, startY, startWidth, startHeight;
+
+            function initResize(e) {
+                e.preventDefault();
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = parseInt(document.defaultView.getComputedStyle(iframeContainer).width, 10);
+                startHeight = parseInt(document.defaultView.getComputedStyle(iframeContainer).height, 10);
+                document.onmouseup = stopResize;
+                document.onmousemove = doResize;
+            }
+
+            function doResize(e) {
+                e.preventDefault();
+                let newWidth = startWidth + (e.clientX - startX);
+                let newHeight = startHeight + (e.clientY - startY);
+                iframeContainer.style.width = newWidth + "px";
+                iframeContainer.style.height = newHeight + "px";
+            }
+
+            function stopResize() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        function toggleWEmenu() {
+            let WEicon = document.querySelector("#world-edit-btn i");
+            let WEMENU = document.getElementById("World-edit-box");
+            let WEbutton = document.getElementById("world-edit-btn");
+
+            if (WEicon.classList.contains("ri-arrow-left-s-line")) {
+                WEicon.classList.remove("ri-arrow-left-s-line");
+                WEicon.classList.add("ri-arrow-down-s-line");
+
+                WEbutton.style.borderRadius = "10px 10px 0 0";
+                WEMENU.style.display = "flex";
+            } else {
+                WEicon.classList.remove("ri-arrow-down-s-line");
+                WEicon.classList.add("ri-arrow-left-s-line");
+
+                WEbutton.style.borderRadius = "10px";
+                WEMENU.style.display = "none";
+            }
+        }
+
+        // Sign Generator Script
+        let items = [];
+
+        fetch("https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/studio/assets/items.txt")
+            .then(response => response.text())
+            .then(data => {
+            items = data.split("\n").map(item => item.trim()).filter(item => item.length > 0);
+            })
+            .catch(err => {
+            console.error("Error fetching items:", err);
+            alert("Failed to load item list.");
+            });
+
+        function toggleCostFields() {
+            const signType = document.getElementById("sign-type").value;
+            const costFields = document.getElementById("cost-fields");
+
+            if (signType === "buy") {
+                costFields.style.display = "block";
+            } else {
+                costFields.style.display = "none";
+            }
+        }
+
+        function generateSign() {
+            const signType = document.getElementById("sign-type").value;
+            const itemName = document.getElementById("item-name").value;
+            const itemAmount = document.getElementById("item-amount").value;
+
+            if (!items.includes(itemName)) {
+                alert("Item not found. Please check the name.");
+                return;
+            }
+
+            if (itemAmount <= 0 || isNaN(itemAmount)) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            let signText = "";
+
+            if (signType === "buy") {
+                const itemCost = document.getElementById("item-cost").value;
+                const itemCostType = document.getElementById("item-cost-type").value;
+
+                if (itemCost <= 0 || isNaN(itemCost)) {
+                    alert("Please enter a valid cost.");
+                    return;
+                }
+                if (!items.includes(itemCostType)) {
+                    alert("Cost item not found. Please check the name.");
+                    return;
+                }
+
+                signText = `Press to Buy\n${itemAmount} ${itemName}\ncosts\n${itemCost} ${itemCostType}`;
+            } else if (signType === "get") {
+                signText = `Press to Get\n${itemAmount} ${itemName}`;
+            }
+
+            document.getElementById("generated-sign").value = signText;
+        }
+
+        document.getElementById("item-name").addEventListener("input", function() {
+            const searchQuery = this.value.toLowerCase();
+            const suggestions = items.filter(item => item.toLowerCase().includes(searchQuery));
+            const suggestionsList = document.getElementById("suggestions");
+
+            if (searchQuery === "") {
+                suggestionsList.innerHTML = '';
+                return;
+            }
+
+            suggestionsList.innerHTML = '';
+
+            suggestions.forEach(item => {
+                const listItem = document.createElement("li");
+                listItem.textContent = item;
+                listItem.onclick = () => {
+                    document.getElementById("item-name").value = item;
+                    suggestionsList.innerHTML = '';
+                };
+                suggestionsList.appendChild(listItem);
+            });
+        });
+    </script>
 </body>
 </html>
