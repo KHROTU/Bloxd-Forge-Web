@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxdForge - One Stop Solution to everything Bloxd</title>
+    <title>BloxdForge - One Stop Solution to Everything Bloxd</title>
+    <meta name="description" content="Bloxd Forge is a Bloxd QOL (Quality-Of-Life) improvement mod that offers texture-packs, a FPS booster, a chat, and a discord for support.">
+    <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="https://i.imgur.com/xiYy0O6.png" type="image/png">
     
@@ -20,65 +21,64 @@
             overflow: hidden;
         } 
 
-.sidebar {
-    width: 100px;
-    background: linear-gradient(180deg, #242424, #181818);
-    color: #fff;
-    height: 98vh;
-    padding-top: 20px;
-    border-radius: 10px;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.8);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.3s ease;
-}
+        .sidebar {
+            width: 100px;
+            background: linear-gradient(180deg, #242424, #181818);
+            color: #fff;
+            height: 98vh;
+            padding-top: 20px;
+            border-radius: 10px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
 
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
 
-.sidebar.hidden {
-    transform: translateX(-100%);
-}
+        .sidebar a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            transition: 0.3s, transform 0.2s, box-shadow 0.3s;
+            background-color: transparent;
+            text-align: center;
+            width: 50%;
+        }
 
-.sidebar a {
-    text-decoration: none;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    transition: 0.3s, transform 0.2s, box-shadow 0.3s;
-    background-color: transparent;
-    text-align: center;
-    width: 50%;
-}
+        .sidebar a:hover, .sidebar a.selected {
+            background-color: #ff8c00 ;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #ff8c00 ;
+        }
 
-.sidebar a:hover, .sidebar a.selected {
-    background-color: #ff8c00 ;
-    transform: scale(1.1);
-    box-shadow: 0 0 15px #ff8c00 ;
-}
+        .sidebar a i {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
 
-.sidebar a i {
-    font-size: 28px;
-    margin-bottom: 5px;
-}
+        .sidebar a span {
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
 
-.sidebar a span {
-    font-size: 12px;
-    font-weight: bold;
-    color: #fff;
-    transition: color 0.3s ease;
-}
-
-.sidebar a:hover span {
-    color: white;
-}
+        .sidebar a:hover span {
+            color: white;
+        }
 
         .content {
             margin-left: 100px;
@@ -123,28 +123,26 @@
             border-radius: 0;
         }
 
-
-            iframe {
-                width: 100%;
-                margin: 10px 0;
-            }
-        
+        iframe {
+            width: 100%;
+            margin: 10px 0;
+        }
 
         .top-right-box {
-          position: fixed;
-          top: 0px;
-          right: 14px;
-          background-color: rgba(51, 51, 51, 0.7);
-          padding: 8px;
-          border-radius: 0 0 10px 10px;
-          display: flex;
-          align-items: flex-start;
-          justify-content: flex-start;
-          z-index: 20;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-          transition: height 0.3s ease, transform 0.3s ease;
-          overflow: hidden;
-           backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0px;
+            right: 14px;
+            background-color: rgba(51, 51, 51, 0.7);
+            padding: 8px;
+            border-radius: 0 0 10px 10px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            z-index: 20;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            transition: height 0.3s ease, transform 0.3s ease;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         .top-right-box.expanded {
@@ -162,17 +160,14 @@
             transform: scale(0.8) translateX(60px);
             right: 50px;
         }
-        
-        
+
         .top-right-box.smaller {
             transform: scale(0.8) translateX(60px);
             right: 50px;
             z-index: 9999;
             border-radius: 10px;
-            
         }
-      
-        
+
         .download-btn, .fullscreen-btn {
             background-color: #ff8c00 ;
             color: white;
@@ -196,19 +191,19 @@
             transform: scale(1.1);
         }
 
-    .folder-menu {
-        display: none;
-        position: fixed;
-        top: 0px;
-        right: 230px;
-        background-color: rgba(51, 51, 51, 0.7);
-        padding: 15px;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        z-index: 30;
-        backdrop-filter: blur(10px);
-    }
-    
+        .folder-menu {
+            display: none;
+            position: fixed;
+            top: 0px;
+            right: 230px;
+            background-color: rgba(51, 51, 51, 0.7);
+            padding: 15px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 30;
+            backdrop-filter: blur(10px);
+        }
+
         .folder-menu-btn {
             background-color: #ff8c00 ;
             color: white;
@@ -257,68 +252,64 @@
             background-color: #ff8c00;
             box-shadow: 0 0 20px #e67e00;
         }
-        
+
         .sidebar .sticky-bottom {
-    position: absolute;
-    bottom: 20px;
-    width: 70%;
-    left: 50%;
-    transform: translateX(-50%);
-}
+            position: absolute;
+            bottom: 20px;
+            width: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
+        .sidebar .sticky-bottom:hover {
+            transform: translateX(-50%);
+        }
 
-.sidebar .sticky-bottom:hover {
-    transform: translateX(-50%);
-}
+        body.locked {
+            overflow: hidden;
+        }
 
+        iframe.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999; 
+            border: none; 
+            margin: 0px 0;
+        }
 
-body.locked {
-    overflow: hidden;
-}
+        #fullscreen-iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            z-index: 9999; 
+        }
 
-
-iframe.fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999; 
-    border: none; 
-    margin: 0px 0;
-}
-
-#fullscreen-iframe-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: black;
-    z-index: 9999; 
-}
-
-#fullscreen-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    margin: 0px 0;
-}
-
+        #fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            margin: 0px 0;
+        }
     </style>
 </head>
 <body>
-  <div id="fullscreen-iframe-container">
-    <iframe id="fullscreen-iframe" src="/app/assets/load.html"></iframe>
-</div>
+    <div id="fullscreen-iframe-container">
+        <iframe id="fullscreen-iframe" src="/app/assets/load.html"></iframe>
+    </div>
 
-<div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+    <div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
 
     <div class="sidebar">
-<a href="javascript:void(0)" class="sidebar-link selected" onclick="setActiveLink(this, 'page1')">
-    <i class="fas fa-home"></i>
-    <span>Start</span>
-</a>
+        <a href="javascript:void(0)" class="sidebar-link selected" onclick="setActiveLink(this, 'page1')">
+            <i class="fas fa-home"></i>
+            <span>Start</span>
+        </a>
         <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page2')">
             <i class="fas fa-toolbox"></i>
             <span>Workshop</span>
@@ -340,10 +331,9 @@ iframe.fullscreen {
             <span>Credits</span>
         </a>
         <a href="javascript:void(0)" class="sidebar-link sticky-bottom" onclick="setActiveLink(this, 'page7')">
-    <i class="fas fa-unlock-keyhole"></i>
-    <span>Keys</span>
-</a>
-
+            <i class="fas fa-unlock-keyhole"></i>
+            <span>Keys</span>
+        </a>
     </div>
 
     <div class="content">
@@ -365,9 +355,9 @@ iframe.fullscreen {
             </button>
         </div>
 
-<div id="folder-menu" class="folder-menu">
+        <div id="folder-menu" class="folder-menu">
             <input type="file" id="folder-input" style="display: none;" webkitdirectory multiple />
-<button id="upload-folder-btn" onclick="document.getElementById('folder-input').click()" class="upload-button">
+            <button id="upload-folder-btn" onclick="document.getElementById('folder-input').click()" class="upload-button">
                 Upload Folder
             </button>
             <div id="folder-container" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
@@ -383,20 +373,20 @@ iframe.fullscreen {
             page6: '/app/assets/6page.html',
             page7: '/app/assets/7page.html',
         };
-    
+
         function loadPage(pageName) {
             const iframe = document.querySelector('iframe[name="iframe"]');
             iframe.src = pages[pageName];
         }
-    
+
         function setActiveLink(link, page) {
             const links = document.querySelectorAll('.sidebar-link');
             const startContainer = document.getElementById('start-iframe-container');
             const dynamicContainer = document.getElementById('dynamic-iframe-container');
-    
+
             links.forEach(l => l.classList.remove('selected'));
             link.classList.add('selected');
-    
+
             if (page === 'page1') {
                 startContainer.style.display = 'block';
                 dynamicContainer.style.display = 'none';
@@ -406,39 +396,35 @@ iframe.fullscreen {
                 loadPage(page);
             }
         }
-    
-function toggleFullScreen() {
-    const iframe = document.querySelector('iframe');
-    const cornerBox = document.querySelector('.top-right-box');
-    const fullscreenContainer = document.getElementById('fullscreen-iframe-container');
-    const isFullScreen = iframe.classList.contains('fullscreen');
 
-    if (!isFullScreen) {
-        iframe.classList.add('fullscreen');
-        cornerBox.classList.add('smaller');
-        document.body.classList.add('locked');
-        fullscreenContainer.style.display = 'block';
-        document.querySelector('iframe').src = '/app/assets/load.html'; 
-    } else {
-        iframe.classList.remove('fullscreen');
-        cornerBox.classList.remove('smaller');
-        document.body.classList.remove('locked');
-        fullscreenContainer.style.display = 'none';
-        document.querySelector('iframe').src = '/app/assets/1page.html'; 
-    }
-}
+        function toggleFullScreen() {
+            const iframe = document.querySelector('iframe[name="iframe"]');
+            const sidebar = document.querySelector('.sidebar');
+            const cornerBox = document.querySelector('.top-right-box');
+            const isFullScreen = iframe.classList.contains('fullscreen');
 
+            if (!isFullScreen) {
+                iframe.classList.add('fullscreen');
+                sidebar.classList.add('hidden');
+                cornerBox.classList.add('smaller');
+                document.body.classList.add('locked');
+            } else {
+                iframe.classList.remove('fullscreen');
+                sidebar.classList.remove('hidden');
+                cornerBox.classList.remove('smaller');
+                document.body.classList.remove('locked');
+            }
+        }
 
-    
         const folderMenu = document.getElementById('folder-menu');
         const folderContainer = document.getElementById('folder-container');
         const folderInput = document.getElementById('folder-input');
         let uploadedFolders = 0;
-    
+
         function toggleFolderMenu() {
             folderMenu.style.display = folderMenu.style.display === 'none' ? 'block' : 'none';
         }
-    
+
         function addFolderIcon(name) {
             const folderDiv = document.createElement('div');
             folderDiv.textContent = name;
@@ -456,27 +442,27 @@ function toggleFullScreen() {
                 cursor: grab;
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
             `;
-    
+
             folderDiv.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/plain', name);
             });
-    
+
             folderDiv.addEventListener('click', () => {
                 folderInput.click();
             });
-    
+
             folderDiv.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
                 removeFolder(folderDiv, name);
             });
-    
+
             folderContainer.appendChild(folderDiv);
         }
-    
+
         function saveFolders(folders) {
             localStorage.setItem('savedFolders', JSON.stringify(folders));
         }
-    
+
         function loadFolders() {
             const savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
             savedFolders.forEach(folder => {
@@ -484,15 +470,15 @@ function toggleFullScreen() {
             });
             uploadedFolders = savedFolders.length;
         }
-    
+
         function removeFolder(folderDiv, folderName) {
             folderDiv.remove();
             let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
             savedFolders = savedFolders.filter(folder => folder !== folderName);
             saveFolders(savedFolders);
-            uploadedFolders--; 
+            uploadedFolders--;
         }
-    
+
         folderInput.addEventListener('change', async (event) => {
             const files = event.target.files;
             if (files.length > 0) {
@@ -504,35 +490,35 @@ function toggleFullScreen() {
                         const hashArray = Array.from(new Uint8Array(hashBuffer));
                         return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
                     }
-                    
+
                     const hash = await sha256(password);
                     if (hash !== "47da55e5ea5d96ba8e3a33b0a697401d1d85fae97088a8234f0d4e5e14298817") {
                         alert("Incorrect key. You cannot upload more texture packs.");
                         return;
                     }
                 }
-    
+
                 const folderName = files[0].webkitRelativePath.split('/')[0];
                 addFolderIcon(folderName);
-    
+
                 let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
                 savedFolders.push(folderName);
                 saveFolders(savedFolders);
-    
-                uploadedFolders++; 
+
+                uploadedFolders++;
             }
         });
-    
+
         window.addEventListener('load', loadFolders);
-    
+
         setTimeout(() => {
             document.getElementById('fullscreen-iframe-container').style.display = 'none';
-        }, Math.floor(Math.random() * (4000 - 1000 + 1)) + 1000);
-    
+        }, Math.floor(Math.random() * (3000 - 500 + 1)) + 500);
+
         window.onload = function() {
-            const startButton = document.querySelector('.sidebar-link'); 
-            setActiveLink(startButton, 'page1'); 
+            const startButton = document.querySelector('.sidebar-link');
+            setActiveLink(startButton, 'page1');
         };
-      </script>
+    </script>
 </body>
 </html>
