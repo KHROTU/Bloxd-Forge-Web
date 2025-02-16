@@ -21,7 +21,7 @@
             flex-direction: row-reverse;
         }
 
-                #workspace {
+        #workspace {
             flex: 1;
             position: relative;
             background: #181818;
@@ -45,7 +45,6 @@
             margin-bottom: 260px;
             margin-right: 20px;
         }
-
 
         #sidebar .icon-button {
             color: #F8F9FA;
@@ -214,25 +213,49 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-async function checkPassword() {
-    const input = document.getElementById("password-input").value;
-    const hash = await sha256(input);
-    if (hash === "6caf7c13171dbb0598cd9b52dbb77e0d75f049c78c7d08ccd20307e95c021991") {
-        localStorage.setItem("isLoggedIn", "true");  // Store login status in localStorage
-        document.getElementById("password-popup").style.display = "none";
-        document.getElementById("workspace").style.display = "block";
-    } else {
-        alert("Incorrect password. Please try again.");
-    }
-}
+        async function checkPassword() {
+            const input = document.getElementById("password-input").value;
+            const hash = await sha256(input);
+            const validHash = "6caf7c13171dbb0598cd9b52dbb77e0d75f049c78c7d08ccd20307e95c021991";
+            const catHash = "77af778b51abd4a3c51c5ddd97204a9c3ae614ebccb75a606c3b6865aed6744e";
+            const cloudHash = "3c6f2a2e4e0820327ad4afd95dc2eb0f48d6065b27e689d97e394300aec769a9";
 
-window.onload = () => {
-    if (localStorage.getItem("isLoggedIn") === "true") {
-        document.getElementById("password-popup").style.display = "none";
-        document.getElementById("workspace").style.display = "block";
-    }
-};
+            if (hash === validHash) {
+                localStorage.setItem("isLoggedIn", "true");
+                document.getElementById("password-popup").style.display = "none";
+                document.getElementById("workspace").style.display = "block";
+            } else if (hash === catHash) {
+                localStorage.setItem("catEnabled", "true");
+                addEasterEggButton('cat', 'fas fa-cat', 'Cat', 'https://tenor.com/view/pop-pop-cat-pixel-art-pop-pop-pop-nvwm-gif-19426994');
+            } else if (hash === cloudHash) {
+                localStorage.setItem("cloudEnabled", "true");
+                addEasterEggButton('cloud', 'fas fa-cloud', 'Furry Cloud', 'https://cdn.discordapp.com/avatars/1036667139660206191/081832c3d5c6cf8a6f0136476c8c19dd?size=1024');
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        }
 
+        function addEasterEggButton(id, iconClass, title, url) {
+            const sidebar = document.getElementById('sidebar');
+            const button = document.createElement('div');
+            button.className = 'icon-button';
+            button.innerHTML = `<i class="${iconClass}"></i>`;
+            button.onclick = () => openWindow(title, url, button);
+            sidebar.appendChild(button);
+        }
+
+        window.onload = () => {
+            if (localStorage.getItem("isLoggedIn") === "true") {
+                document.getElementById("password-popup").style.display = "none";
+                document.getElementById("workspace").style.display = "block";
+            }
+            if (localStorage.getItem("catEnabled") === "true") {
+                addEasterEggButton('cat', 'fas fa-cat', 'Cat', 'https://s3.gifyu.com/images/bSszU.gif');
+            }
+            if (localStorage.getItem("cloudEnabled") === "true") {
+                addEasterEggButton('cloud', 'fas fa-cloud', 'Furry Cloud', 'https://cdn.discordapp.com/avatars/1036667139660206191/081832c3d5c6cf8a6f0136476c8c19dd?size=1024');
+            }
+        };
 
         let zIndexCounter = 1;
         function openWindow(title, url, iconElement) {

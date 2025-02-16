@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Styles for the sign editor popup */
         #sign-editor-popup {
             display: none;
             position: fixed;
@@ -40,6 +39,294 @@
             color: white;
             border: none;
             cursor: pointer;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: #181818;
+            color: white;
+        }
+        #top-bar {
+            height: 40px;
+            background: #282828;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 2px solid #ff6f00;
+            box-shadow: 0 2px 10px #ff6f00;
+        }
+        h2 {
+            margin-left: 5px;
+        }
+        #main-container {
+            display: flex;
+            flex: 1;
+        }
+        #left-sidebar {
+            width: 130px;
+            background: #282828;
+            padding: 10px;
+            overflow-y: auto;
+            border-radius: 10px 10px 0 0;
+            margin-left: 10px;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+        #storage-area {
+            width: 100%;
+            min-height: 100px;
+            background: #383838;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        #storage-area:hover {
+            background: #ff8c00;
+            box-shadow: 0 0 15px #ff8c00;
+        }
+        .file-card, .text-card {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: #555;
+            color: white;
+            font-size: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-card span, .text-card span {
+            flex: 1;
+            word-break: break-word;
+        }
+        .remove-btn {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #iframe-container {
+            flex: 1;
+            position: relative;
+            width: 100dvw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        #right-sidebar {
+            width: 130px;
+            background: #282828;
+            padding: 10px;
+            overflow-y: auto;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin-left: 10px;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+        .Right-Buttons {
+            height: 42px;
+            width: 100%;
+            white-space: nowrap;
+            background: #383838;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: none;
+            border: none;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .Right-Buttons:nth-child(n+3) {
+            margin-top: 10px;
+        }
+        .Right-Buttons:hover {
+            background: #ff8c00;
+            box-shadow: 0 0 15px #ff8c00;
+        }
+        #World-edit-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .command-button {
+            width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px;
+            background: #383838;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 999;
+            border-radius: 0px;
+            transition: background 0.3s ease, transform 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+        }
+        .command-button i {
+            font-size: 15px;
+        }
+        .command-button:hover {
+            padding: 15px;
+            z-index: 1000;
+            background: #ff8c00;
+            box-shadow: 0 0 15px #ff8c00;
+            transform: scale(1.05);
+            border-radius: 5px;
+        }
+        .command-button:nth-child(6) {
+            border-radius: 0 0 10px 10px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: transparent;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        #write-text-area {
+            width: 100%;
+            min-height: 100px;
+            background: #383838;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        #write-text-area:hover {
+            background: #ff8c00;
+            box-shadow: 0 0 15px #ff8c00;
+        }
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: auto;
+            background-color: #282828;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        h3 {
+            color: #fff;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+            font-size: 14px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #484848;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #fff;
+            box-sizing: border-box;
+            background: #383838;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ff9315;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #c07600;
+        }
+        #suggestions {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 5px;
+            border: 1px solid #484848;
+            background-color: #383838;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        #suggestions li {
+            padding: 8px;
+            cursor: pointer;
+            color: #fff;
+        }
+        #suggestions li:hover {
+            background-color: #ffd5bf;
+        }
+        .input-container {
+            position: relative;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 10px;
+            }
+            h2 {
+                font-size: 16px;
+            }
+            input, select, textarea {
+                font-size: 12px;
+            }
+            button {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
         }
     </style>
 </head>
@@ -105,7 +392,6 @@
         </div>
     </div>
 
-    <!-- Hidden sign editor popup -->
     <div id="sign-editor-popup">
         <div class="container">
             <div class="form-group">
@@ -143,7 +429,6 @@
     </div>
 
     <script>
-        // JavaScript code from script.js and sign.html
         let writeTextArea = document.getElementById("write-text-area");
         writeTextArea.onclick = openTextEditor;
 
@@ -417,10 +702,9 @@
             }
         }
 
-        // Sign editor functionality
         let items = [];
 
-        fetch("/items.txt")
+        fetch("/studio/assets/items.txt")
             .then(response => response.text())
             .then(data => {
                 items = data.split("\n").map(item => item.trim()).filter(item => item.length > 0);
