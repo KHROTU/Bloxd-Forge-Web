@@ -514,19 +514,20 @@
             const currentTime = new Date().getTime();
             const twelveHoursInMillis = 12 * 60 * 60 * 1000;
 
-            if (!lastRefreshDate || (currentTime - lastRefreshDate > twelveHoursInMillis)) {
-                localStorage.clear();
-                sessionStorage.clear();
-                caches.keys().then(names => {
-                    for (let name of names) caches.delete(name);
-                });
-            }
-
+            if (!lastRefreshDate) {
             localStorage.setItem('lastRefreshDate', currentTime);
+            } else if (currentTime - lastRefreshDate > twelveHoursInMillis) {
+            localStorage.clear();
+            sessionStorage.clear();
+            caches.keys().then(names => {
+                for (let name of names) caches.delete(name);
+            });
+            localStorage.setItem('lastRefreshDate', currentTime);
+            }
         }
 
         function showLoadingScreen() {
-            const loadingTime = Math.random() * (3000 - 500) + 500;
+            const loadingTime = Math.random() * (2000 - 500) + 500;
             setTimeout(() => {
                 document.getElementById('fullscreen-iframe-container').style.display = 'none';
             }, loadingTime);
