@@ -1,178 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BloxdForge - One Stop Solution to Bloxd Gaming</title>
-  <meta name="description" content="Bloxd Forge is a Bloxd QOL (Quality-Of-Life) improvement mod that offers texture-packs, a FPS booster, a chat, and a discord for support.">
-  <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #333;
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge - Mobile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #181818;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-    .sidebar-toggle {
-      position: fixed;
-      top: 3%;
-      left: 2.5%;
-      background-color: #181818;
-      border: none;
-      color: white;
-      font-size: 2vw;
-      cursor: pointer;
-      z-index: 20;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: top 0.3s;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    }
+        .iframe-container {
+            flex-grow: 1;
+            width: 100%;
+            display: flex;
+            position: relative;
+        }
 
-.menu {
-  background-color: transparent;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: none;
-  align-items: center;
-  padding: 2%;
-  z-index: 10;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 10%;
-  box-sizing: border-box;
-  border-radius: 15px;
-}
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #181818;
+        }
 
-.menu .button {
-  background-color: #181818;
-  border: none;
-  color: white;
-  padding: 2%;
-  width: 6vw;
-  height: 6vw;
-  font-size: 3vw;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  border-radius: 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: calc(100% - 100px); 
+            background: linear-gradient(180deg, #242424, #181818);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.8);
+            border-radius: 0 5px 0 0;
+        }
 
-.menu .button:first-child {
-  border-top-left-radius: 15px; 
-  border-top-right-radius: 15px; 
-}
+        .bottom-nav a {
+            text-decoration: none;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            flex-grow: 1;
+            padding: 10px;
+        }
 
+        .bottom-nav a i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
 
-.menu .button:last-child {
-  border-bottom-left-radius: 15px; 
-  border-bottom-right-radius: 15px; 
-}
+        .bottom-nav a.active {
+            color: #ff8c00;
+        }
 
+        .fullscreen-btn {
+            position: absolute;
+            bottom: 0px; 
+            right: 10px;
+            width: 80px; 
+            height: 82px; 
+            background: linear-gradient(180deg, #242424, #181818);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.8);
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            color: white;
+            font-size: 40px;
+            transition: background 0.3s, width 0.4s, height 0.4s; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000; 
+        }
 
-    .main-content {
-      padding-top: 0;
-    }
+        .fullscreen-btn:hover {
+            background: linear-gradient(180deg, #343434, #282828);
+        }
 
-    iframe {
-      width: 100%;
-      height: 99.99vh;
-      border: none;
-    }
-  </style>
+       
+        .fullscreen-btn.small {
+            width: 50px; 
+            height: 52px;
+            font-size: 28px; 
+        }
+    </style>
 </head>
 <body>
+    <div class="iframe-container">
+        <iframe id="main-iframe" src="https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/mobile/start.html"></iframe>
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">
+            <i class="fas fa-expand"></i>
+        </button>
+    </div>
 
+    <div class="bottom-nav">
+        <a href="#" onclick="loadPage('https://bloxd.io', this)" class="active">
+            <i class="fas fa-home"></i> Start
+        </a>
+        <a href="#" onclick="loadPage('/app/assets/2page.html', this)">
+            <i class="fas fa-toolbox"></i> Workshop
+        </a>
+        <a href="#" onclick="loadPage('/app/assets/3page.html', this)">
+            <i class="fas fa-tools"></i> Creator
+        </a>
+        <a href="#" onclick="loadPage('/app/assets/4page.html', this)">
+            <i class="fas fa-shopping-cart"></i> Shop
+        </a>
+        <a href="#" onclick="loadPage('/app/assets/5page.html', this)">
+            <i class="fas fa-book"></i> Wiki
+        </a>
+    </div>
 
-  <button class="sidebar-toggle" onclick="toggleMenu()">
-    <i class="fas fa-bars"></i> 
-  </button>
-
-  <div class="menu" id="menu">
-    <button class="button" onclick="loadContent('/app/assets/1page.html')">
-      <i class="fas fa-play"></i>
-    </button>
-    <button class="button" onclick="loadContent('/app/assets/2page.html')">
-      <i class="fas fa-toolbox"></i>
-    </button>
-    <button class="button" onclick="loadContent('/app/assets/5page.html')">
-      <i class="fas fa-book"></i>
-    </button>
-            <button class="button" onclick="loadContent('https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/market/shop.html')">
-      <i class="fas fa-shop"></i>
-    </button>
-    <button class="button" onclick="loadContent('/app/assets/6page.html')">
-      <i class="fas fa-info-circle"></i>
-    </button>
-    
-    <button class="button" onclick="toggleFullscreen()">
-      <i class="fas fa-expand"></i>
-    </button>
-  </div>
-
-  <div class="main-content">
-    <iframe id="iframe" src="/mobile/start.html"></iframe>
-  </div>
-
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('menu');
-      const sidebarToggle = document.querySelector('.sidebar-toggle');
-      const sidebarToggleIcon = sidebarToggle.querySelector('i');
-
-      if (menu.style.display === 'block') {
-        menu.style.display = 'none';
-        sidebarToggleIcon.classList.remove('fa-chevron-up');
-        sidebarToggleIcon.classList.add('fa-bars');
-        sidebarToggle.style.top = '3%';
-      } else {
-        menu.style.display = 'block';
-        sidebarToggleIcon.classList.remove('fa-bars');
-        sidebarToggleIcon.classList.add('fa-chevron-up'); 
-        sidebarToggle.style.top = '90%';
-      }
-    }
-
-    function loadContent(page) {
-      const iframe = document.getElementById('iframe');
-      iframe.src = page;
-    }
-
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        if (document.documentElement.requestFullscreen) {
-          document.documentElement.requestFullscreen();
-        } else if (document.documentElement.mozRequestFullScreen) { 
-          document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullscreen) { 
-          document.documentElement.webkitRequestFullscreen();
-        } else if (document.documentElement.msRequestFullscreen) { 
-          document.documentElement.msRequestFullscreen();
+    <script>
+        function loadPage(page, element) {
+            document.getElementById('main-iframe').src = page;
+            document.querySelectorAll('.bottom-nav a').forEach(a => a.classList.remove('active'));
+            element.classList.add('active');
         }
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { 
-          document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { 
-          document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { 
-          document.msExitFullscreen();
-        }
-      }
-    }
-  </script>
 
+        function toggleFullscreen() {
+            const iframeContainer = document.querySelector('.iframe-container');
+            const fullscreenBtn = document.querySelector('.fullscreen-btn');
+
+            if (!document.fullscreenElement) {
+                if (iframeContainer.requestFullscreen) {
+                    iframeContainer.requestFullscreen();
+                } else if (iframeContainer.mozRequestFullScreen) {
+                    iframeContainer.mozRequestFullScreen();
+                } else if (iframeContainer.webkitRequestFullscreen) {
+                    iframeContainer.webkitRequestFullscreen();
+                } else if (iframeContainer.msRequestFullscreen) {
+                    iframeContainer.msRequestFullscreen();
+                }
+                fullscreenBtn.classList.add('small');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                fullscreenBtn.classList.remove('small'); 
+            }
+        }
+    </script>
 </body>
 </html>
