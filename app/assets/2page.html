@@ -23,7 +23,7 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
-    padding: 20px;
+    padding-top: 70px; /* Adjust to match search bar height */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,6 +41,9 @@ body {
     padding: 8px;
     box-shadow: 0 4px 6px var(--shadow-color);
     transition: box-shadow 0.3s ease;
+    position: fixed;
+    top: 10px;
+    z-index: 20;
 }
 
 .search-bar:hover {
@@ -92,7 +95,23 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     position: relative;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 1s ease-out forwards;
+    
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 .card:hover {
     transform: translateY(-10px);
@@ -104,12 +123,13 @@ body {
     height: 240px;
     object-fit: cover;
     background-color: #444;
-    transition: transform 0.3s ease;
+    transition: transform 0.6s ease;
     display: block;
+    
 }
 
 .card:hover img {
-    transform: scale(1.05);
+    transform: scale(1.09) rotate(-5deg);
 }
 
 .card-title {
