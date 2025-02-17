@@ -512,24 +512,23 @@
         function checkLastRefresh() {
             const lastRefreshDate = localStorage.getItem('lastRefreshDate');
             const currentTime = new Date().getTime();
-            const twelveHoursInMillis = 12 * 60 * 60 * 1000;
 
             if (!lastRefreshDate) {
-            localStorage.setItem('lastRefreshDate', currentTime);
-            } else if (currentTime - lastRefreshDate > twelveHoursInMillis) {
-            localStorage.clear();
-            sessionStorage.clear();
-            caches.keys().then(names => {
-                for (let name of names) caches.delete(name);
-            });
-            localStorage.setItem('lastRefreshDate', currentTime);
+                localStorage.setItem('lastRefreshDate', currentTime.toString());
+            } else if (currentTime - parseInt(lastRefreshDate) > 43200000) {
+                localStorage.clear();
+                sessionStorage.clear();
+                caches.keys().then(names => {
+                    for (let name of names) caches.delete(name);
+                });
+                localStorage.setItem('lastRefreshDate', currentTime.toString());
             }
         }
 
         function showLoadingScreen() {
-            const loadingTime = Math.random() * (2000 - 500) + 500;
+            const loadingTime = Math.random() * (1000 - 500) + 500;
             setTimeout(() => {
-                document.getElementById('fullscreen-iframe-container').style.display = 'none';
+            document.getElementById('fullscreen-iframe-container').style.display = 'none';
             }, loadingTime);
         }
 
