@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,9 +26,9 @@
       padding: 40px;
       max-width: 1500px;
       margin: 50px auto;
-}
+    }
 
-#start button {
+    #start button {
       position: relative;
       width: 100%;
       height: 100%;
@@ -49,15 +48,15 @@
       align-items: center;
       justify-content: center;
       gap: 20px;
-}
+    }
 
     #start button::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(45deg, 
-        transparent 0%, 
-        rgba(255,165,0,0.1) 50%, 
+      background: linear-gradient(45deg,
+        transparent 0%,
+        rgba(255,165,0,0.1) 50%,
         transparent 100%);
       opacity: 0;
       transition: opacity 0.3s ease;
@@ -66,42 +65,40 @@
     #start button:hover::before {
       opacity: 1;
     }
-    
-#start button img {
+
+    #start button img {
       width: 80%;
       max-width: 180px;
       filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
       transition: transform 0.3s ease;
       border-radius: 10px;
-}
+    }
 
-#start button:hover {
+    #start button:hover {
       transform: translateY(-10px) scale(1.02);
       box-shadow: 0 40px 60px -20px rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-}
+    }
 
-#start button:hover img {
- transform: scale(1.1) rotate(-5deg);
- 
-}
+    #start button:hover img {
+      transform: scale(1.1) rotate(-5deg);
+    }
 
-#start button::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+    #start button::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-#start button:hover::before {
-  opacity: 1;
-}
-
+    #start button:hover::before {
+      opacity: 1;
+    }
 
     #start button span {
       font-size: 2rem;
@@ -111,53 +108,59 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
-
     #bigbutton {
-  grid-column: 1 / -1;
-  height: 300px;
-  background: linear-gradient(135deg, rgba(255, 136, 0, 0.15), rgba(255, 115, 0, 0.1)) !important;
-  border: 2px solid rgba(255,165,0,0.2) !important;
-  position: relative;
-  overflow: hidden;
-  border-radius: 15px;
-  text-align: center;
-  
-}
+      grid-column: 1 / -1;
+      height: 300px;
+      background: linear-gradient(135deg, rgba(255, 136, 0, 0.15), rgba(255, 115, 0, 0.1)) !important;
+      border: 2px solid rgba(255,165,0,0.2) !important;
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      text-align: center;
+    }
 
-#bigbutton::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    45deg,
-    transparent 0%,
-    transparent 5%,
-    rgba(255,165,0,0.05) 5%,
-    rgba(255,165,0,0.05) 10%
-  );
-  opacity: 0.5;
-}
+    #bigbutton::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent 0%,
+        transparent 5%,
+        rgba(255,165,0,0.05) 5%,
+        rgba(255,165,0,0.05) 10%
+      );
+      opacity: 0.5;
+    }
 
- #bigbutton span {
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(45deg, #FFA500, #FFD700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    display: block;
-    margin-top: 6%;
-  }
-    
-     #bigbutton span2 {
-    font-size: 5rem;
-    font-weight: 700;
-    background: linear-gradient(45deg, #FFA500, #FFD700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    display: block;
-  }
+    #bigbutton span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #FFA500, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      display: block;
+      margin-top: 6%;
+    }
+
+    #bigbutton span2 {
+      font-size: 5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #FFA500, #FFD700);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      display: block;
+      transition: transform 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    #bigbutton span2:hover {
+      transform: scale(1.1);
+      text-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+    }
 
     iframe {
       width: 100%;
@@ -190,43 +193,42 @@
       z-index: 10;
     }
 
-#menu-grid {
-  display: grid;
-  grid-template-columns: repeat(3, auto); 
-  gap: 25px;
-  justify-content: center; 
-  max-width: 800px;
-  max-height: 800px;
-  margin: 40px auto;
-  padding: 30px;
-  animation: fadeIn 0.3s ease-out;
-}
+    #menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 25px;
+      justify-content: center;
+      max-width: 800px;
+      max-height: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      animation: fadeIn 0.3s ease-out;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-.menu-option {
-  margin: 0;
-  padding: 15px 25px; 
-  color: #fff;
-  font-size: 18px;
-  cursor: pointer;
-  border: 2px solid #444;
-  border-radius: 15px;
-  text-align: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: none;
-  box-shadow: none;
-  width: auto; 
-  min-width: fit-content; 
-  white-space: nowrap; 
-}
-
+    .menu-option {
+      margin: 0;
+      padding: 15px 25px;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      border: 2px solid #444;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: none;
+      box-shadow: none;
+      width: auto;
+      min-width: fit-content;
+      white-space: nowrap;
+    }
 
     .menu-option i {
       font-size: 36px;
@@ -281,13 +283,12 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-size: 26px;
       box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3),
-                -5px -5px 15px rgba(255, 255, 255, 0.02);
+        -5px -5px 15px rgba(255, 255, 255, 0.02);
     }
 
     #drag-button:hover {
       transform: scale(1.1);
       box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4), -8px -8px 20px rgba(255, 255, 255, 0.03);
-      
       border-color: #FFA500;
     }
 
@@ -312,7 +313,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-     background-color: rgba(20, 20, 20, 0.80);
+      background-color: rgba(20, 20, 20, 0.80);
       border-radius: 10px;
       padding: 30px;
       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -322,7 +323,6 @@
       width: 100%;
       text-align: center;
       backdrop-filter: blur(10px);
-      
     }
 
     #coordinate-saver h1 {
@@ -420,192 +420,185 @@
       display: none;
       pointer-events: none;
     }
-    
+
     #iframe-modal {
-  position: fixed;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
-  background: rgba(0, 0, 0, 0.9);
-  border: 1px solid #444;
-  border-radius: 12px;
-  display: none;
-  z-index: 20;
-}
+      position: fixed;
+      top: 10%;
+      left: 10%;
+      width: 80%;
+      height: 80%;
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid #444;
+      border-radius: 12px;
+      display: none;
+      z-index: 20;
+    }
 
-#iframe-modal iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 12px;
-}
+    #iframe-modal iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+    }
 
-#filter-menu {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(20, 20, 20, 0.80);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
-  z-index: 15;
-  text-align: center;
-  color: #ffffff;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
+    #filter-menu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(20, 20, 20, 0.80);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+      z-index: 15;
+      text-align: center;
+      color: #ffffff;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
 
+    #filter-menu h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #ffa500;
+    }
 
-#filter-menu h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #ffa500;
-}
+    #filter-menu label,
+    #filter-menu select {
+      margin: 10px 0;
+      font-size: 16px;
+      color: #e6e6e6;
+    }
 
-#filter-menu label,
-#filter-menu select {
-  margin: 10px 0;
-  font-size: 16px;
-  color: #e6e6e6;
-}
+    #filter-select {
+      width: 200px;
+      padding: 12px;
+      margin-right: 10px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background-color: #2b2b2b;
+      font-size: 15px;
+      color: #ffa500;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
 
-#filter-select {
-  width: 200px;
-  padding: 12px;
-  margin-right: 10px;
-  border: 1px solid #444;
-  border-radius: 6px;
-  background-color: #2b2b2b;
-  font-size: 15px;
-  color: #ffa500;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
+    #filter-select:hover {
+      background-color: #333;
+      border-color: #ffa500;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    }
 
-#filter-select:hover {
-  background-color: #333;
-  border-color: #ffa500;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-}
+    #filter-select:focus {
+      outline: none;
+      border-color: #ff7f00;
+      box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5);
+    }
 
-#filter-select:focus {
-  outline: none;
-  border-color: #ff7f00;
-  box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5);
-}
+    #apply-filter-button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      background-color: #ffa500;
+      color: #1a1a1a;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s ease-in-out;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
 
-#apply-filter-button {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  background-color: #ffa500;
-  color: #1a1a1a;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
+    #apply-filter-button:hover {
+      background-color: #ff7f00;
+      transform: scale(1.03);
+    }
 
-#apply-filter-button:hover {
-  background-color: #ff7f00;
-  transform: scale(1.03);
-}
+    #apply-filter-button:active {
+      transform: scale(1);
+      background-color: #e66b00;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
 
-#apply-filter-button:active {
-  transform: scale(1);
-  background-color: #e66b00;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-}
+    .filter-controls {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
 
-.filter-controls {
-  margin: 20px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
+    @media (max-width: 768px) {
+      .filter-controls {
+        flex-direction: column;
+        gap: 15px;
+      }
 
-@media (max-width: 768px) {
-  .filter-controls {
-    flex-direction: column;
-    gap: 15px;
-  }
+      #filter-select {
+        width: 100%;
+      }
 
-  #filter-select {
-    width: 100%;
-  }
+      #apply-filter {
+        width: 100%;
+        background-color: #ffa500;
+      }
+    }
 
-  #apply-filter {
-    width: 100%; 
-    background-color: #ffa500;
-  }
-}
+    :root {
+      --button-bg: #4caf50;
+      --button-hover-bg: #45a049;
+      --button-text-color: #ffffff;
+      --button-border-radius: 5px;
+      --button-padding: 10px 20px;
+      --button-font-size: 16px;
+      --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-:root {
-  --button-bg: #4caf50;
-  --button-hover-bg: #45a049;
-  --button-text-color: #ffffff;
-  --button-border-radius: 5px;
-  --button-padding: 10px 20px;
-  --button-font-size: 16px;
-  --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    :root {
+      --button-bg: #ff9800;
+      --button-hover-bg: #e68a00;
+      --button-text-color: #ffffff;
+      --button-border-radius: 5px;
+      --button-padding: 10px 20px;
+      --button-font-size: 16px;
+      --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-:root {
-  --button-bg: #ff9800;
-  --button-hover-bg: #e68a00; 
-  --button-text-color: #ffffff;
-  --button-border-radius: 5px;
-  --button-padding: 10px 20px;
-  --button-font-size: 16px;
-  --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    button {
+      background-color: var(--button-bg);
+      color: var(--button-text-color);
+      border: none;
+      border-radius: var(--button-border-radius);
+      padding: var(--button-padding);
+      font-size: var(--button-font-size);
+      cursor: pointer;
+      box-shadow: var(--button-shadow);
+      transition: background-color 0.3s, transform 0.2s;
+    }
 
-button {
-  background-color: var(--button-bg);
-  color: var(--button-text-color);
-  border: none;
-  border-radius: var(--button-border-radius);
-  padding: var(--button-padding);
-  font-size: var(--button-font-size);
-  cursor: pointer;
-  box-shadow: var(--button-shadow);
-  transition: background-color 0.3s, transform 0.2s;
-}
+    button:hover {
+      background-color: var(--button-hover-bg);
+      transform: translateY(-2px);
+    }
 
-button:hover {
-  background-color: var(--button-hover-bg);
-  transform: translateY(-2px);
-}
+    button:active {
+      transform: translateY(0);
+    }
 
-button:active {
-  transform: translateY(0);
-}
-
-
-
-::-webkit-scrollbar {
-    width: 0.1px;
-    background-color: transparent;
-}
-
-
-  
+    ::-webkit-scrollbar {
+      width: 0.1px;
+      background-color: transparent;
+    }
   </style>
 </head>
 <body>
   <div id="start">
-    
     <div id="iframe-modal">
-  <iframe id="modal-iframe" src=""></iframe>
+      <iframe id="modal-iframe" src=""></iframe>
     </div>
     <bigbutton id="bigbutton">
-        <span>Featured Experience: </span>
-        <span2>-IX world</span2>
-      </bigbutton>
+      <span>Featured Experience: </span>
+      <span2 id="featured-world-name">Loading...</span2>
+    </bigbutton>
     <button id="bloxd">
       <img alt="Bloxd Logo" height="240" src="https://i.imgur.com/3vDqx4q.png" width="240"/>
       Bloxd.io
@@ -614,7 +607,7 @@ button:active {
       <img alt="Bloxd Staging Logo" height="240" src="https://i.imgur.com/9d15Ize.png" width="240"/>
       Bloxd.io Staging
     </button>
-      <button id="world-forge">
+    <button id="world-forge">
       <img alt="World Forge Logo" height="240" src="https://i.imgur.com/vxZ5bNn.png" width="240"/>
       World Forge
     </button>
@@ -644,33 +637,30 @@ button:active {
         Resolution
         <span class="description">Adjust game resolution</span>
       </div>
-<div class="menu-option" id="filter-menu-toggle">
-  <i class="fas fa-sliders-h"></i>
-  Filters
-  <span class="description">Apply filters (BETA)</span>
-</div>
-<div class="menu-option" id="close-iframe">
-  <i class="fas fa-power-off"></i>
-  Close session
-  <span class="description">Close the active session</span>
-</div>
-
-
-<div id="filter-menu" style="display: none;">
-  <h1>Filter menu</h1>
-  <label for="filter-select">Select Filter:</label>
-  <select id="filter-select">
-    <option value="none">None</option>
-    <option value="grayscale">Grayscale</option>
-    <option value="sepia">Sepia</option>
-    <option value="saturate">Saturate</option>
-    <option value="contrast">High Contrast</option>
-  </select>
-  <br />
-  <button id="apply-filter">Apply</button>
-  <button id="close-filter-menu">Close</button>
-</div>
-
+      <div class="menu-option" id="filter-menu-toggle">
+        <i class="fas fa-sliders-h"></i>
+        Filters
+        <span class="description">Apply filters (BETA)</span>
+      </div>
+      <div class="menu-option" id="close-iframe">
+        <i class="fas fa-power-off"></i>
+        Close session
+        <span class="description">Close the active session</span>
+      </div>
+      <div id="filter-menu" style="display: none;">
+        <h1>Filter menu</h1>
+        <label for="filter-select">Select Filter:</label>
+        <select id="filter-select">
+          <option value="none">None</option>
+          <option value="grayscale">Grayscale</option>
+          <option value="sepia">Sepia</option>
+          <option value="saturate">Saturate</option>
+          <option value="contrast">High Contrast</option>
+        </select>
+        <br />
+        <button id="apply-filter">Apply</button>
+        <button id="close-filter-menu">Close</button>
+      </div>
       <div class="menu-option" id="close-menu">
         <i class="fas fa-times"></i>
         Close
@@ -720,7 +710,17 @@ button:active {
     const coordinatesList = document.getElementById('coordinates-list');
     const darkOverlay = document.getElementById('dark-overlay');
     const dragButton = document.getElementById('drag-button');
+    const featuredWorldName = document.getElementById('featured-world-name');
     let offsetX, offsetY;
+
+    async function loadWorlds() {
+      const response = await fetch('/app/assets/src/worlds.json');
+      const worlds = await response.json();
+      const randomWorld = worlds[Math.floor(Math.random() * worlds.length)];
+      featuredWorldName.textContent = decodeURIComponent(randomWorld.name);
+      featuredWorldName.dataset.name = randomWorld.name;
+      featuredWorldName.dataset.type = randomWorld.type;
+    }
 
     function loadCoordinates() {
       const savedCoordinates = JSON.parse(localStorage.getItem('coordinates')) || [];
@@ -791,7 +791,11 @@ button:active {
     document.getElementById('bloxd').addEventListener('click', () => openUrl('https://bloxd.io'));
     document.getElementById('bloxd-staging').addEventListener('click', () => openUrl('https://staging.bloxd.io'));
     document.getElementById('world-forge').addEventListener('click', () => window.open('https://bloxdforge.com/studio', '_blank'));
-    document.getElementById('bigbutton').addEventListener('click', () => openUrl('https://bloxd.io/?lobby=-ix&g=worlds'));
+    document.getElementById('bigbutton').addEventListener('click', () => {
+      const name = featuredWorldName.dataset.name;
+      const type = featuredWorldName.dataset.type;
+      openUrl(`https://bloxd.io/?lobby=${name}&g=${type}`);
+    });
 
     dragButton.addEventListener('click', () => {
       openmenu();
@@ -812,10 +816,10 @@ button:active {
       isDragging = true;
       const left = e.clientX - offsetX;
       const top = e.clientY - offsetY;
-      
+
       const maxX = window.innerWidth - dragButton.offsetWidth;
       const maxY = window.innerHeight - dragButton.offsetHeight;
-      
+
       dragButton.style.left = `${Math.min(Math.max(0, left), maxX)}px`;
       dragButton.style.top = `${Math.min(Math.max(0, top), maxY)}px`;
     }
@@ -947,7 +951,7 @@ button:active {
     applyFilterButton.addEventListener('click', () => {
       const selectedFilter = filterSelect.value;
       const iframe = document.getElementById('iframe');
-      
+
       switch (selectedFilter) {
         case 'grayscale':
           iframe.style.filter = 'grayscale(100%)';
@@ -965,7 +969,7 @@ button:active {
           iframe.style.filter = 'none';
           break;
       }
-      
+
       filtermenu.style.display = 'none';
     });
 
@@ -975,6 +979,7 @@ button:active {
     });
 
     loadCoordinates();
+    loadWorlds();
   </script>
 </body>
 </html>
