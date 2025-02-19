@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge - Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #181818;
+            color: #ddd;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-image: url('https://i.imgur.com/B4IELLP.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #ffffff;
+            padding: 15px 20px;
+            text-align: center  ;
+        }
+        .container {
+            padding: 20px;
+        }
+        .guide-section {
+            background-color: #222222;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .guide-title {
+            font-size: 1.7em;
+            color: #FF7F00;
+        }
+        .guide-content {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #ddd;
+        }
+        .subheading {
+            font-size: 1.3em;
+            color: #fa932c;
+        }
+        .note {
+            background-color: #0e0e0e;
+            padding: 10px;
+            border-left: 5px solid #FF7F00;
+            margin: 15px 0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.0069px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Performance Optimization Guide</h1>
+    <p>Learn how to optimize your browser for the best Bloxd.io experience.</p>
+</header>
+
+<div class="container">
+    <div class="guide-section">
+        <h2 class="guide-title">Recommended Browsers</h2>
+        <p class="guide-content">Choose the right browser for optimal performance in Bloxd.io.</p>
+        
+        <div class="subheading">1. Chrome (Recommended)</div>
+        <p class="guide-content">
+        <br>- Best overall performance for WebGL games
+        <br>- Excellent memory management
+        <br>- Strong hardware acceleration support</p>
+
+        <div class="subheading">2. Firefox</div>
+        <p class="guide-content">
+        <br>- Good alternative to Chrome
+        <br>- Lower memory usage
+        <br>- Regular performance updates</p>
+
+        <div class="note">
+            <strong>Note:</strong> Avoid using Microsoft Edge or Safari as they may have compatibility issues with some game features. Avoid using Internet Explorer and Opera browsers altogether.
+        </div>
+    </div>
+
+    <div class="guide-section">
+        <h2 class="guide-title">Browser Launch Arguments</h2>
+        <p class="guide-content">Optimize your browser's performance with these launch arguments.</p>
+
+        <div class="subheading">Chrome Launch Arguments</div>
+        <p class="guide-content">Add these to your Chrome shortcut target:
+        <br>--disable-gpu-vsync
+        <br>--disable-frame-rate-limit
+        <br>--disable-background-timer-throttling
+        <br>--disable-background-networking
+        <br>--disable-features=UseOzonePlatform
+        <br>--disable-software-rasterizer</p>
+
+        <div class="subheading">Firefox Launch Arguments</div>
+        <p class="guide-content">Add these to your Firefox shortcut target:
+        <br>-no-remote
+        <br>-profile "path_to_profile"
+        <br>-allow-downgrade</p>
+
+        <div class="note">
+            <strong>How to add:</strong> Right-click browser shortcut > Properties > Add arguments to end of Target field
+        </div>
+    </div>
+
+    <div class="guide-section">
+        <h2 class="guide-title">External Software Optimization</h2>
+        <p class="guide-content">Useful tools to enhance your gaming experience.</p>
+
+        <div class="subheading">1. Browser Extensions</div>
+        <p class="guide-content">
+        <br>- uBlock Origin: Block ads and reduce memory usage
+        <br>- Tab Suspender: Manage inactive tabs
+        <br>- WebGL Override: Force hardware acceleration</p>
+
+        <div class="subheading">2. System Tools</div>
+        <p class="guide-content">
+        <br>- Process Lasso: CPU optimization
+        <br>- Mem Reduct: Memory management
+        <br>- Timer Resolution: Reduce system latency</p>
+
+        <div class="subheading">3. GPU Settings</div>
+        <p class="guide-content">
+        <br>- Enable "High Performance" in GPU settings
+        <br>- Update graphics drivers regularly
+        <br>- Force GPU acceleration in browser settings</p>
+        
+        <div class="note">
+            <strong>Important:</strong> Always download software from official sources to avoid security risks.
+        </div>
+    </div>
+
+    <div class="guide-section">
+        <h2 class="guide-title">Additional Tips</h2>
+        <p class="guide-content">
+        <br>- Clear browser cache regularly
+        <br>- Disable unnecessary extensions
+        <br>- Keep system updated
+        <br>- Close background applications
+        <br>- Use a wired internet connection
+        <br>- Monitor CPU and RAM usage</p>
+        
+        <div class="note">
+            <strong>Remember:</strong> Some optimizations might require admin privileges on your system.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
