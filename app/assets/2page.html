@@ -325,10 +325,24 @@ a:hover {
        
         async function fetchZipFiles() {
             try {
-                const response = await fetch(`https://api.github.com/repos/KHROTU/Bloxd-Forge-Web/contents/app/assets/src/tpacks?ref=main`);
-                if (!response.ok) throw new Error("Failed to fetch files");
-                const files = await response.json();
-                allZipFiles = files.filter(file => file.type === "file" && file.name.endsWith(".zip"));
+                const baseUrl = window.location.origin;
+                const dirPath = '/app/assets/src/tpacks/';
+                
+                const response = await fetch(baseUrl + dirPath);
+                if (!response.ok) throw new Error("Failed to fetch directory");
+                
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                
+                allZipFiles = Array.from(doc.querySelectorAll('a'))
+                    .filter(a => a.href.endsWith('.zip'))
+                    .map(a => ({
+                        name: decodeURIComponent(a.href.split('/').pop().replace('.zip', '')).replace(/[_-]/g, ' '),
+                        download_url: a.href,
+                        type: 'file'
+                    }));
+                    
                 loadNextBatch();
             } catch (error) {
                 console.error("Error fetching files:", error);
