@@ -247,7 +247,6 @@
             width: 0.0069px;
         }
         
-        
 .featured-cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(300px, 1fr));
@@ -256,8 +255,6 @@
     max-width: 1500px;
     margin: 0 auto;
 }
-
-
 
         .featured-card {
             background: var(--card-color);
@@ -331,7 +328,6 @@
             box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
         }
 
-        /* Iframe Modal */
         .iframe-modal {
             display: none;
             position: fixed;
@@ -404,10 +400,8 @@
         </div>
         
     </header>
-<!-- Visible featured cards -->
 <div class="featured-cards">
   <div class="featured-card">
-    <!-- Card content... -->
     <div class="featured-image">
       <img src="https://i.imgur.com/1I1Revh.png" alt="Featured 1">
     </div>
@@ -421,7 +415,6 @@
   </div>
 
   <div class="featured-card">
-    <!-- Card content... -->
     <div class="featured-image">
       <img src="https://i.imgur.com/B4IELLP.png" alt="Featured 2">
     </div>
@@ -435,24 +428,21 @@
   </div>
 </div>
 
-<!-- Hidden additional cards -->
 <div class="featured-cards more-featured-cards" id="moreFeaturedCards">
   <div class="featured-card">
-    <!-- Card content... -->
     <div class="featured-image">
       <img src="https://i.imgur.com/B4IELLP.png" alt="Featured 3">
     </div>
     <div class="featured-content">
       <h3 class="featured-title">Expert Insights</h3>
       <p class="featured-description">Get insights from top creators on how to maximize your builds.</p>
-      <button class="featured-button" onclick="openIframe('https://example.com/expert')">
+      <button class="featured-button" onclick="openIframe('/app/assets/src/guides/expert.html')">
         Open Guide
       </button>
     </div>
   </div>
 
   <div class="featured-card">
-    <!-- Card content... -->
     <div class="featured-image">
       <img src="https://i.imgur.com/ZNYtE8y.jpeg" alt="Featured 4">
     </div>
@@ -466,7 +456,6 @@
   </div>
 </div>
 
-<!-- Text button to show/hide additional cards -->
 <button id="toggleMoreBtn" onclick="toggleMoreCards()" style="margin: 1.5rem auto; display: block; background: none; border: none; color: #FFA500; font-size: 1rem; cursor: pointer;">
   Show More Guides
 </button>
@@ -601,7 +590,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Close modal on outside click
         window.onclick = function(event) {
             const modal = document.getElementById('iframeModal');
             if (event.target == modal) {
@@ -613,10 +601,10 @@
   const moreCards = document.getElementById('moreFeaturedCards');
   const btn = document.getElementById('toggleMoreBtn');
   if (moreCards.style.display === 'none' || moreCards.style.display === '') {
-    moreCards.style.display = 'grid'; // Show the extra cards
+    moreCards.style.display = 'grid';
     btn.textContent = 'Show Less Guides';
   } else {
-    moreCards.style.display = 'none'; // Hide them again
+    moreCards.style.display = 'none';
     btn.textContent = 'Show More';
   }
 }
