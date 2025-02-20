@@ -453,7 +453,95 @@ a:hover {
             popupText.textContent = descText;
 
             downloadButton.onclick = () => {
-                window.location.href = downloadUrl;
+                // Create an error notification element if it doesn't exist
+                let errorNotification = document.getElementById('download-error-notification');
+                if (!errorNotification) {
+                    errorNotification = document.createElement('div');
+                    errorNotification.id = 'download-error-notification';
+                    errorNotification.style.cssText = `
+                        position: fixed;
+                        bottom: 20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background-color: #ff4d4d;
+                        color: white;
+                        padding: 15px;
+                        border-radius: 10px;
+                        z-index: 100;
+                        max-width: 300px;
+                        text-align: center;
+                        display: none;
+                        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    `;
+                    document.body.appendChild(errorNotification);
+                }
+
+                // Function to show error notification
+                function showErrorNotification(message) {
+                    errorNotification.textContent = message;
+                    errorNotification.style.display = 'block';
+                    setTimeout(() => {
+                        errorNotification.style.display = 'none';
+                    }, 5000);
+                }
+
+                // Disable download button during download attempt
+                downloadButton.disabled = true;
+                downloadButton.style.opacity = '0.5';
+                downloadButton.textContent = 'Downloading...';
+
+                // Create a timeout to handle slow or stuck downloads
+                const downloadTimeout = setTimeout(() => {
+                    showErrorNotification('Download timed out. Please check your internet connection.');
+                    downloadButton.disabled = false;
+                    downloadButton.style.opacity = '1';
+                    downloadButton.textContent = 'Download Texture Pack';
+                }, 30000); // 30 seconds timeout
+
+                try {
+                    const link = document.createElement('a');
+                    link.href = downloadUrl;
+                    link.download = ''; 
+                    
+                    // Validate download URL
+                    if (!downloadUrl || !downloadUrl.startsWith('http')) {
+                        throw new Error('Invalid download URL');
+                    }
+
+                    // Check network connectivity
+                    if (!navigator.onLine) {
+                        throw new Error('No internet connection');
+                    }
+
+                    // Attempt to fetch URL to validate it
+                    fetch(downloadUrl, { method: 'HEAD' })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            
+                            // Clear timeout if successful
+                            clearTimeout(downloadTimeout);
+
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        })
+                        .catch(error => {
+                            showErrorNotification(`Download failed: ${error.message}`);
+                        })
+                        .finally(() => {
+                            // Reset button state
+                            downloadButton.disabled = false;
+                            downloadButton.style.opacity = '1';
+                            downloadButton.textContent = 'Download Texture Pack';
+                        });
+                } catch (error) {
+                    showErrorNotification(`Preparation failed: ${error.message}`);
+                    downloadButton.disabled = false;
+                    downloadButton.style.opacity = '1';
+                    downloadButton.textContent = 'Download Texture Pack';
+                }
             };
 
             popup.style.display = "flex";
