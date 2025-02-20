@@ -22,7 +22,7 @@
 
         .chart-container {
     width: 65%;
-    height: 600px; /* Added height to make the chart bigger */
+    height: 600px;
     margin: auto;
     padding: 20px;
     background: #1E1E1E;
@@ -30,8 +30,8 @@
 }
 
 canvas {
-    width: 100% !important; /* Ensures it takes the full container width */
-    height: 100% !important; /* Ensures it takes the full container height */
+    width: 100% !important;
+    height: 100% !important;
 }
 
 
@@ -82,7 +82,7 @@ canvas {
     </table>
 
     <script>
-        const lobbies = ["Survival 1", "Survival 2222", "Peacfull 1", "Factions 4", "One <block 1"];
+        const lobbies = ["Survival 1", "Survival 2222", "Peacfull 1", "Factions 4", "One Block 1"];
         const breadPrices = [48, 73, 56, 48, 63];
 
         const ctx = document.getElementById('priceChart').getContext('2d');
@@ -120,7 +120,6 @@ canvas {
             }
         });
 
-        // Insert data into table
         const tableBody = document.getElementById("priceTable");
         lobbies.forEach((lobby, index) => {
             const row = `<tr><td>${lobby}</td><td>${breadPrices[index]}</td></tr>`;
