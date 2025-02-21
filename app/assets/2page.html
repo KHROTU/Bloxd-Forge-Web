@@ -453,7 +453,6 @@ a:hover {
             popupText.textContent = descText;
 
             downloadButton.onclick = () => {
-                // Create an error notification element if it doesn't exist
                 let errorNotification = document.getElementById('download-error-notification');
                 if (!errorNotification) {
                     errorNotification = document.createElement('div');
@@ -476,7 +475,6 @@ a:hover {
                     document.body.appendChild(errorNotification);
                 }
 
-                // Function to show error notification
                 function showErrorNotification(message) {
                     errorNotification.textContent = message;
                     errorNotification.style.display = 'block';
@@ -485,42 +483,36 @@ a:hover {
                     }, 5000);
                 }
 
-                // Disable download button during download attempt
                 downloadButton.disabled = true;
                 downloadButton.style.opacity = '0.5';
                 downloadButton.textContent = 'Downloading...';
 
-                // Create a timeout to handle slow or stuck downloads
                 const downloadTimeout = setTimeout(() => {
                     showErrorNotification('Download timed out. Please check your internet connection.');
                     downloadButton.disabled = false;
                     downloadButton.style.opacity = '1';
                     downloadButton.textContent = 'Download Texture Pack';
-                }, 30000); // 30 seconds timeout
+                }, 30000);
 
                 try {
                     const link = document.createElement('a');
                     link.href = downloadUrl;
                     link.download = ''; 
                     
-                    // Validate download URL
                     if (!downloadUrl || !downloadUrl.startsWith('http')) {
                         throw new Error('Invalid download URL');
                     }
 
-                    // Check network connectivity
                     if (!navigator.onLine) {
                         throw new Error('No internet connection');
                     }
 
-                    // Attempt to fetch URL to validate it
                     fetch(downloadUrl, { method: 'HEAD' })
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error(`HTTP error! status: ${response.status}`);
                             }
                             
-                            // Clear timeout if successful
                             clearTimeout(downloadTimeout);
 
                             document.body.appendChild(link);
@@ -531,7 +523,6 @@ a:hover {
                             showErrorNotification(`Download failed: ${error.message}`);
                         })
                         .finally(() => {
-                            // Reset button state
                             downloadButton.disabled = false;
                             downloadButton.style.opacity = '1';
                             downloadButton.textContent = 'Download Texture Pack';
