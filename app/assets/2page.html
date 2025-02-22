@@ -625,7 +625,7 @@ a:hover {
                 textures[file.split('/').pop()] = textureLoader.load(textureUrl);
             }
 
-            // Load default textures if missing
+            // fallback for missing textures
             const defaultTextures = {
                 "stone.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/stone.png",
                 "dirt.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/dirt.png",
@@ -642,7 +642,6 @@ a:hover {
                 }
             }
 
-            // Create floating island
             const stoneTexture = textures["stone.png"];
             const dirtTexture = textures["dirt.png"];
             const grassTexture = textures["grass_top.png"];
@@ -651,16 +650,28 @@ a:hover {
             const oxeyeDaisyTexture = textures["oxeye_daisy.png"];
             const cornflowerTexture = textures["cornflower.png"];
 
+            // island
             const stoneGeometry = new THREE.BoxGeometry(1, 1, 1);
             const stoneMaterial = new THREE.MeshBasicMaterial({ map: stoneTexture });
             const stoneLayer = new THREE.Group();
 
-            for (let x = -2; x <= 2; x++) {
-                for (let z = -2; z <= 2; z++) {
-                    for (let y = 0; y < 3; y++) {
-                        const stoneCube = new THREE.Mesh(stoneGeometry, stoneMaterial);
-                        stoneCube.position.set(x, y, z);
-                        stoneLayer.add(stoneCube);
+            const islandShape = [
+                [1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 0, 0, 0],
+                [1, 1, 1, 0, 0, 0],
+                [1, 1, 1, 0, 0, 0]
+            ];
+
+            for (let x = 0; x < 6; x++) {
+                for (let z = 0; z < 6; z++) {
+                    if (islandShape[z][x]) {
+                        for (let y = 0; y < 3; y++) {
+                            const stoneCube = new THREE.Mesh(stoneGeometry, stoneMaterial);
+                            stoneCube.position.set(x - 3, y, z - 3);
+                            stoneLayer.add(stoneCube);
+                        }
                     }
                 }
             }
@@ -668,53 +679,110 @@ a:hover {
             const dirtLayer = new THREE.Group();
             const dirtMaterial = new THREE.MeshBasicMaterial({ map: dirtTexture });
 
-            for (let x = -2; x <= 2; x++) {
-                for (let z = -2; z <= 2; z++) {
-                    const dirtCube = new THREE.Mesh(stoneGeometry, dirtMaterial);
-                    dirtCube.position.set(x, 3, z);
-                    dirtLayer.add(dirtCube);
+            for (let x = 0; x < 6; x++) {
+                for (let z = 0; z < 6; z++) {
+                    if (islandShape[z][x]) {
+                        const dirtCube = new THREE.Mesh(stoneGeometry, dirtMaterial);
+                        dirtCube.position.set(x - 3, 3, z - 3);
+                        dirtLayer.add(dirtCube);
+                    }
                 }
             }
 
             const grassLayer = new THREE.Group();
             const grassMaterial = new THREE.MeshBasicMaterial({ map: grassTexture });
 
-            for (let x = -2; x <= 2; x++) {
-                for (let z = -2; z <= 2; z++) {
-                    const grassCube = new THREE.Mesh(stoneGeometry, grassMaterial);
-                    grassCube.position.set(x, 4, z);
-                    grassLayer.add(grassCube);
+            for (let x = 0; x < 6; x++) {
+                for (let z = 0; z < 6; z++) {
+                    if (islandShape[z][x]) {
+                        const grassCube = new THREE.Mesh(stoneGeometry, grassMaterial);
+                        grassCube.position.set(x - 3, 4, z - 3);
+                        grassLayer.add(grassCube);
+                    }
                 }
             }
 
-            // Create tree
-            const treeTrunk = new THREE.Mesh(stoneGeometry, new THREE.MeshBasicMaterial({ map: logTexture }));
-            treeTrunk.position.set(0, 5, 0);
-            treeTrunk.scale.set(0.5, 2, 0.5);
+            // tree
+            const treeTrunk = new THREE.Group();
+            const logMaterial = new THREE.MeshBasicMaterial({ map: logTexture });
+            for (let y = 0; y < 3; y++) {
+                const trunkBlock = new THREE.Mesh(stoneGeometry, logMaterial);
+                trunkBlock.position.set(-2, y + 5, -2);
+                treeTrunk.add(trunkBlock);
+            }
 
-            const treeLeaves = new THREE.Mesh(stoneGeometry, new THREE.MeshBasicMaterial({ map: leavesTexture }));
-            treeLeaves.position.set(0, 7, 0);
-            treeLeaves.scale.set(2, 2, 2);
+            const treeLeaves = new THREE.Group();
+            const leavesMaterial = new THREE.MeshBasicMaterial({ map: leavesTexture });
+            
+            for (let x = 0; x < 5; x++) {
+                for (let z = 0; z < 5; z++) {
+                    const leafBlock = new THREE.Mesh(stoneGeometry, leavesMaterial);
+                    leafBlock.position.set(x - 4, 7, z - 4);
+                    treeLeaves.add(leafBlock);
+                }
+            }
 
-            // Create flowers
+            const layer2Pattern = [
+                [0, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1]
+            ];
+            for (let x = 0; x < 5; x++) {
+                for (let z = 0; z < 5; z++) {
+                    if (layer2Pattern[z][x]) {
+                        const leafBlock = new THREE.Mesh(stoneGeometry, leavesMaterial);
+                        leafBlock.position.set(x - 4, 8, z - 4);
+                        treeLeaves.add(leafBlock);
+                    }
+                }
+            }
+
+            for (let x = 1; x < 4; x++) {
+                for (let z = 1; z < 4; z++) {
+                    const leafBlock = new THREE.Mesh(stoneGeometry, leavesMaterial);
+                    leafBlock.position.set(x - 4, 9, z - 4);
+                    treeLeaves.add(leafBlock);
+                }
+            }
+
+            const layer4Pattern = [
+                [0, 0, 1, 0, 0],
+                [0, 1, 1, 1, 0],
+                [0, 0, 1, 0, 0]
+            ];
+            for (let x = 0; x < 3; x++) {
+                for (let z = 0; z < 5; z++) {
+                    if (layer4Pattern[x][z]) {
+                        const leafBlock = new THREE.Mesh(stoneGeometry, leavesMaterial);
+                        leafBlock.position.set(z - 4, 10, x - 3);
+                        treeLeaves.add(leafBlock);
+                    }
+                }
+            }
+
+            // flowers
             const flowerGeometry = new THREE.PlaneGeometry(1, 1);
             const oxeyeDaisyMaterial = new THREE.MeshBasicMaterial({
                 map: oxeyeDaisyTexture,
                 transparent: true,
                 alphaTest: 0.5,
+                side: THREE.DoubleSide
             });
             const cornflowerMaterial = new THREE.MeshBasicMaterial({
                 map: cornflowerTexture,
                 transparent: true,
                 alphaTest: 0.5,
+                side: THREE.DoubleSide
             });
 
             const oxeyeDaisy1 = new THREE.Mesh(flowerGeometry, oxeyeDaisyMaterial);
-            oxeyeDaisy1.position.set(1, 5, 1);
+            oxeyeDaisy1.position.set(-3, 5, 1);
             oxeyeDaisy1.rotation.y = Math.PI / 4;
 
             const oxeyeDaisy2 = new THREE.Mesh(flowerGeometry, oxeyeDaisyMaterial);
-            oxeyeDaisy2.position.set(1, 5, 1);
+            oxeyeDaisy2.position.set(-3, 5, 1);
             oxeyeDaisy2.rotation.y = -Math.PI / 4;
 
             const cornflower1 = new THREE.Mesh(flowerGeometry, cornflowerMaterial);
