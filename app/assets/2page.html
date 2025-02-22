@@ -231,15 +231,17 @@ a:hover {
             background: var(--accent-gradient);
             color: var(--card-bg-color);
             border: none;
-            padding: 12px 24px;
-            font-size: 1.1em;
+            padding: 10px 18px;
+            font-size: 0.9em;
             border-radius: 10px;
             cursor: pointer;
-            transition: padding 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0 10px; /* Adjusted margin */
         }
 
         .popup-buttons button:hover {
-            padding: 12px 36px;
+            transform: scale(1.05); /* Levitation effect */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
         }
 
         .loading-spinner {
@@ -323,12 +325,74 @@ a:hover {
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .add-box {
+            position: fixed;
+            top: 12px;
+            right: 13px; 
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .add-box button {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .popup-menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            display: none;
+            z-index: 30;
+        }
+
+        .popup-menu button {
+            background: var(--accent-gradient);
+            color: var(--card-bg-color);
+            border: none;
+            padding: 10px 18px;
+            font-size: 0.9em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0 10px; /* Adjusted margin */
+        }
+
+        .popup-menu button:hover {
+            transform: scale(1.05); /* Levitation effect */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+        }
     </style>
 </head>
 <body>
     <div class="search-bar">
         <i class="fas fa-search icon" aria-hidden="true"></i>
         <input id="search-input" type="text" placeholder="Search..." aria-label="Search" oninput="debounceFilterCards()">
+    </div>
+    <div class="add-box">
+        <button id="add-button"><i class="fas fa-plus"></i></button>
+    </div>
+    <div id="popup-menu" class="popup-menu" style="display:none;">
+        <p>If you want your texture pack to be added on BloxdForge, you need to Join our Creator server.</p>
+        <button id="join-creator-server-button" onclick="window.open('https://discord.gg/nNvX9BNXBN', '_blank');">Join Creators Server</button>
     </div>
     <div class="cards-container" id="cards-container">
         <div class="loading-spinner" id="loading-spinner"></div>
@@ -341,7 +405,7 @@ a:hover {
             </div>
             <div class="popup-buttons">
                 <button id="download-btn">Download Texture Pack</button>
-                <button id="preview-btn">Preview Texture Pack</button>
+                <button id="preview-btn" style="padding: 10px 18px; font-size: 0.9em;">Preview Pack</button>
             </div>
         </div>
     </div>
@@ -924,6 +988,17 @@ a:hover {
                 controls = null;
             }
         }
+
+        document.getElementById("add-button").addEventListener("click", () => {
+            const popupMenu = document.getElementById("popup-menu");
+            popupMenu.style.display = "block";
+        });
+
+        document.getElementById("popup-menu").addEventListener("click", (event) => {
+            if (event.target === document.getElementById("popup-menu")) {
+                document.getElementById("popup-menu").style.display = "none";
+            }
+        });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
