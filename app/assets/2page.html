@@ -596,35 +596,35 @@ a:hover {
         async function openPreview(zipUrl) {
             const previewWindow = document.getElementById("preview-window");
             previewWindow.style.display = "flex";
-
+        
             const canvas = document.getElementById("preview-canvas");
             canvas.width = canvas.clientWidth;
             canvas.height = canvas.clientHeight;
-
+        
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, canvas.width / canvas.height, 0.1, 1000);
             camera.position.set(10, 10, 10);
             camera.lookAt(0, 0, 0);
-
+        
             renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
             renderer.setSize(canvas.width, canvas.height);
-
+        
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.25;
             controls.enableZoom = true;
-
+        
             const textureLoader = new THREE.TextureLoader();
             const zip = await JSZip.loadAsync(await fetch(zipUrl).then(response => response.blob()));
             const textures = {};
-
+        
             const textureFiles = Object.keys(zip.files).filter(file => file.includes("textures/"));
             for (const file of textureFiles) {
                 const textureBlob = await zip.files[file].async("blob");
                 const textureUrl = URL.createObjectURL(textureBlob);
                 textures[file.split('/').pop()] = textureLoader.load(textureUrl);
             }
-
+        
             // fallback for missing textures
             const defaultTextures = {
                 "stone.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/stone.png",
@@ -634,14 +634,17 @@ a:hover {
                 "leaves_maple.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/leaves_maple.png",
                 "oxeye_daisy.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/oxeye_daisy.png",
                 "cornflower.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/cornflower.png",
+                "chest_front.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/chest_front.png",
+                "chest_side.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/chest_side.png",
+                "chest_top.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/chest_top.png",
             };
-
+        
             for (const [fileName, defaultUrl] of Object.entries(defaultTextures)) {
                 if (!textures[fileName]) {
                     textures[fileName] = textureLoader.load(defaultUrl);
                 }
             }
-
+        
             const stoneTexture = textures["stone.png"];
             const dirtTexture = textures["dirt.png"];
             const grassTexture = textures["grass_top.png"];
@@ -649,12 +652,15 @@ a:hover {
             const leavesTexture = textures["leaves_maple.png"];
             const oxeyeDaisyTexture = textures["oxeye_daisy.png"];
             const cornflowerTexture = textures["cornflower.png"];
-
+            const chestFrontTexture = textures["chest_front.png"];
+            const chestSideTexture = textures["chest_side.png"];
+            const chestTopTexture = textures["chest_top.png"];
+        
             // island
             const stoneGeometry = new THREE.BoxGeometry(1, 1, 1);
             const stoneMaterial = new THREE.MeshBasicMaterial({ map: stoneTexture });
             const stoneLayer = new THREE.Group();
-
+        
             const islandShape = [
                 [1, 1, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1, 1],
@@ -663,7 +669,7 @@ a:hover {
                 [1, 1, 1, 0, 0, 0],
                 [1, 1, 1, 0, 0, 0]
             ];
-
+        
             for (let x = 0; x < 6; x++) {
                 for (let z = 0; z < 6; z++) {
                     if (islandShape[z][x]) {
@@ -675,10 +681,10 @@ a:hover {
                     }
                 }
             }
-
+        
             const dirtLayer = new THREE.Group();
             const dirtMaterial = new THREE.MeshBasicMaterial({ map: dirtTexture });
-
+        
             for (let x = 0; x < 6; x++) {
                 for (let z = 0; z < 6; z++) {
                     if (islandShape[z][x]) {
@@ -688,10 +694,10 @@ a:hover {
                     }
                 }
             }
-
+        
             const grassLayer = new THREE.Group();
             const grassMaterial = new THREE.MeshBasicMaterial({ map: grassTexture });
-
+        
             for (let x = 0; x < 6; x++) {
                 for (let z = 0; z < 6; z++) {
                     if (islandShape[z][x]) {
@@ -701,7 +707,7 @@ a:hover {
                     }
                 }
             }
-
+        
             // tree
             const treeTrunk = new THREE.Group();
             const logMaterial = new THREE.MeshBasicMaterial({ map: logTexture });
@@ -710,7 +716,7 @@ a:hover {
                 trunkBlock.position.set(-2, y + 5, -2);
                 treeTrunk.add(trunkBlock);
             }
-
+        
             const treeLeaves = new THREE.Group();
             const leavesMaterial = new THREE.MeshBasicMaterial({ map: leavesTexture });
             
@@ -721,7 +727,7 @@ a:hover {
                     treeLeaves.add(leafBlock);
                 }
             }
-
+        
             const layer2Pattern = [
                 [0, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1],
@@ -738,7 +744,7 @@ a:hover {
                     }
                 }
             }
-
+        
             for (let x = 1; x < 4; x++) {
                 for (let z = 1; z < 4; z++) {
                     const leafBlock = new THREE.Mesh(stoneGeometry, leavesMaterial);
@@ -746,7 +752,7 @@ a:hover {
                     treeLeaves.add(leafBlock);
                 }
             }
-
+        
             const layer4Pattern = [
                 [0, 0, 1, 0, 0],
                 [0, 1, 1, 1, 0],
@@ -761,7 +767,7 @@ a:hover {
                     }
                 }
             }
-
+        
             // flowers
             const flowerGeometry = new THREE.PlaneGeometry(1, 1);
             const oxeyeDaisyMaterial = new THREE.MeshBasicMaterial({
@@ -776,23 +782,37 @@ a:hover {
                 alphaTest: 0.5,
                 side: THREE.DoubleSide
             });
-
+        
             const oxeyeDaisy1 = new THREE.Mesh(flowerGeometry, oxeyeDaisyMaterial);
             oxeyeDaisy1.position.set(-3, 5, 1);
             oxeyeDaisy1.rotation.y = Math.PI / 4;
-
+        
             const oxeyeDaisy2 = new THREE.Mesh(flowerGeometry, oxeyeDaisyMaterial);
             oxeyeDaisy2.position.set(-3, 5, 1);
             oxeyeDaisy2.rotation.y = -Math.PI / 4;
-
+        
             const cornflower1 = new THREE.Mesh(flowerGeometry, cornflowerMaterial);
             cornflower1.position.set(-1, 5, -1);
             cornflower1.rotation.y = Math.PI / 4;
-
+        
             const cornflower2 = new THREE.Mesh(flowerGeometry, cornflowerMaterial);
             cornflower2.position.set(-1, 5, -1);
             cornflower2.rotation.y = -Math.PI / 4;
-
+        
+            // chest
+            const chestGeometry = new THREE.BoxGeometry(1, 1, 1);
+            const chestMaterials = [
+                new THREE.MeshBasicMaterial({ map: chestSideTexture }),
+                new THREE.MeshBasicMaterial({ map: chestSideTexture }),
+                new THREE.MeshBasicMaterial({ map: chestTopTexture }),
+                new THREE.MeshBasicMaterial({ map: chestTopTexture }),
+                new THREE.MeshBasicMaterial({ map: chestSideTexture }),
+                new THREE.MeshBasicMaterial({ map: chestFrontTexture })
+            ];
+            const chest = new THREE.Mesh(chestGeometry, chestMaterials);
+            chest.position.set(2, 5, -2);
+            chest.rotation.y = Math.PI / 2;
+        
             scene.add(stoneLayer);
             scene.add(dirtLayer);
             scene.add(grassLayer);
@@ -802,20 +822,61 @@ a:hover {
             scene.add(oxeyeDaisy2);
             scene.add(cornflower1);
             scene.add(cornflower2);
+            scene.add(chest);
+        
+            // skybox
+            const loadSkyboxTextures = async (zip) => {
+                const textureLoader = new THREE.TextureLoader();
+                const faces = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
+                const skyboxTextures = [];
 
+                try {
+                    for (const face of faces) {
+                        const file = zip.files[`skyBoxes/${face}`];
+                        if (file) {
+                            const textureBlob = await file.async("blob");
+                            const textureUrl = URL.createObjectURL(textureBlob);
+                            skyboxTextures.push(textureLoader.load(textureUrl));
+                        }
+                    }
+
+                    if (skyboxTextures.length === 6) {
+                        const skyboxGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
+                        const skyboxMaterials = skyboxTextures.map(texture => 
+                            new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide })
+                        );
+                        const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterials);
+                        scene.add(skybox);
+                    } else {
+                        throw new Error("Incomplete skybox textures");
+                    }
+                } catch (error) {
+                    console.error('Error loading skybox:', error);
+                    const skyboxGeometry = new THREE.SphereGeometry(500, 32, 32);
+                    const skyboxMaterial = new THREE.MeshBasicMaterial({
+                        color: 0x87CEEB,
+                        side: THREE.BackSide
+                    });
+                    const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+                    scene.add(skybox);
+                }
+            };
+
+            await loadSkyboxTextures(zip);
+        
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
             scene.add(ambientLight);
-
+        
             const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
             directionalLight.position.set(10, 10, 10);
             scene.add(directionalLight);
-
+        
             function animate() {
                 requestAnimationFrame(animate);
                 controls.update();
                 renderer.render(scene, camera);
             }
-
+        
             animate();
         }
 
