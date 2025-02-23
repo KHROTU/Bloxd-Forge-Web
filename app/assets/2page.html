@@ -396,29 +396,6 @@ a:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
-        .controls-container {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 1000;
-        }
-
-        .controls-container select, .controls-container button {
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: var(--accent-color);
-            color: white;
-            cursor: pointer;
-        }
-
-        .controls-container button {
-            background: var(--accent-gradient);
-        }
     </style>
 </head>
 <body>
@@ -452,13 +429,6 @@ a:hover {
         <div class="preview-content">
             <canvas id="preview-canvas"></canvas>
             <button class="close-preview" onclick="closePreview()">Close</button>
-            <div class="controls-container">
-                <select id="structure-switcher">
-                    <option value="skyblock">Skyblock</option>
-                    <!-- Add more structures here as needed -->
-                </select>
-                <button id="toggle-shaders">Toggle Shaders</button>
-            </div>
         </div>
     </div>
     <script>
