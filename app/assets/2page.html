@@ -356,29 +356,45 @@ a:hover {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--card-bg-color);
+            background-color: var(--glass-bg);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px var(--shadow-color);
             display: none;
+            z-index: 31;  /* Increased z-index */
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+        }
+
+        .popup-menu-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
             z-index: 30;
+            display: none;
         }
 
-        .popup-menu button {
+        #join-creator-server-button {
             background: var(--accent-gradient);
-            color: var(--card-bg-color);
+            color: white;
             border: none;
-            padding: 10px 18px;
-            font-size: 0.9em;
-            border-radius: 10px;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            width: 100%;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 0 10px; /* Adjusted margin */
         }
 
-        .popup-menu button:hover {
-            transform: scale(1.05); /* Levitation effect */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+        #join-creator-server-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -438,6 +454,38 @@ a:hover {
                 loadNextBatch();
             } catch (error) {
                 console.error("Error fetching files:", error);
+                document.getElementById("loading-spinner").style.display = "none";
+            }
+        }
+
+        async function loadNextBatch() {
+            const start = currentBatch * batchSize;
+            const end = start + batchSize;
+            const batch = allZipFiles.slice(start, end);
+
+            if (batch.length === 0) {
+                document.getElementById("loading-spinner").style.display = "none";
+                return;
+            }
+
+            batch.forEach(file => {
+                const zipName = file.name.replace(/\.zip$/i, "");
+                displayCard(zipName, file.download_url, "https://dummyimage.com/220x220/ababab/000000&text=Loading...");
+            });
+
+            batch.forEach(async file => {
+                const zipUrl = file.download_url;
+                const zipName = file.name.replace(/\.zip$/i, "");
+                const bannerUrl = await extractBanner(zipUrl);
+                
+                const card = document.querySelector(`.card[data-name="${zipName.toLowerCase()}"] img`);
+                if (card) card.src = bannerUrl;
+            });
+
+            currentBatch++;
+            if (currentBatch * batchSize < allZipFiles.length) {
+                setTimeout(loadNextBatch, 500);
+            } else {
                 document.getElementById("loading-spinner").style.display = "none";
             }
         }
@@ -695,7 +743,10 @@ a:hover {
             for (const file of textureFiles) {
                 const textureBlob = await zip.files[file].async("blob");
                 const textureUrl = URL.createObjectURL(textureBlob);
-                textures[file.split('/').pop()] = textureLoader.load(textureUrl);
+                const texture = textureLoader.load(textureUrl);
+                texture.magFilter = THREE.NearestFilter;
+                texture.minFilter = THREE.NearestFilter;
+                textures[file.split('/').pop()] = texture;
             }
         
             // fallback for missing textures
@@ -991,13 +1042,17 @@ a:hover {
 
         document.getElementById("add-button").addEventListener("click", () => {
             const popupMenu = document.getElementById("popup-menu");
+            const backdrop = document.createElement('div');
+            backdrop.className = 'popup-menu-backdrop';
+            document.body.appendChild(backdrop);
+            
+            backdrop.style.display = "block";
             popupMenu.style.display = "block";
-        });
 
-        document.getElementById("popup-menu").addEventListener("click", (event) => {
-            if (event.target === document.getElementById("popup-menu")) {
-                document.getElementById("popup-menu").style.display = "none";
-            }
+            backdrop.addEventListener("click", () => {
+                popupMenu.style.display = "none";
+                backdrop.remove();
+            });
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
