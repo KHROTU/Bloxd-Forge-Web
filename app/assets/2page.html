@@ -404,13 +404,14 @@ a:hover {
             left: 50%;
             transform: translate(-50%, -50%);
             width: 80%;
-            max-width: 800px;
+            max-width: 900px;
             height: 80%;
             background-color: #181818;
             border: 2px solid #444444;
             z-index: 1000;
             padding: 20px;
             overflow-y: auto;
+            border-radius: 15px;
         }
 
         .reviews-window .popup-content {
@@ -1151,8 +1152,8 @@ a:hover {
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
     <script>
         var disqus_config = function () {
-            this.page.url = 'https://bloxdforge.com';  
-            this.page.identifier = 'bloxdforge'; 
+            this.page.url = 'https://bloxdforge.com';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = 'bloxdforge'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
         };
         (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
