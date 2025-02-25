@@ -515,14 +515,20 @@
             const currentTime = new Date().getTime();
 
             if (!lastRefreshDate) {
-                localStorage.setItem('lastRefreshDate', currentTime.toString());
+            localStorage.setItem('lastRefreshDate', currentTime.toString());
             } else if (currentTime - parseInt(lastRefreshDate) > 43200000) {
-                localStorage.clear();
-                sessionStorage.clear();
-                caches.keys().then(names => {
-                    for (let name of names) caches.delete(name);
-                });
-                localStorage.setItem('lastRefreshDate', currentTime.toString());
+            const cloudEnabled = localStorage.getItem('cloudEnabled');
+            const catEnabled = localStorage.getItem('catEnabled');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            localStorage.clear();
+            sessionStorage.clear();
+            if (cloudEnabled) localStorage.setItem('cloudEnabled', cloudEnabled);
+            if (catEnabled) localStorage.setItem('catEnabled', catEnabled);
+            if (isLoggedIn) localStorage.setItem('isLoggedIn', isLoggedIn);
+            caches.keys().then(names => {
+                for (let name of names) caches.delete(name);
+            });
+            localStorage.setItem('lastRefreshDate', currentTime.toString());
             }
         }
 
