@@ -236,12 +236,12 @@ a:hover {
             border-radius: 10px;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 0 10px; /* Adjusted margin */
+            margin: 0 10px;
         }
 
         .popup-buttons button:hover {
-            transform: scale(1.05); /* Levitation effect */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
 
         .loading-spinner {
@@ -472,9 +472,9 @@ a:hover {
                 <div class="desc-text" id="popup-text"></div>
             </div>
             <div class="popup-buttons">
-                <button id="preview-btn" style="padding: 10px 18px; font-size: 0.9em;">Preview Pack</button>
-                <button id="reviews-btn" style="padding: 10px 18px; font-size: 0.9em; margin-left: 10px;">Reviews</button>
-                <button id="download-btn">Download Texture Pack</button>
+                <button id="preview-btn" style="padding: 10px 18px; font-size: 0.9em;"><i class="fas fa-eye"></i> Preview Pack</button>
+                <button id="reviews-btn" style="padding: 10px 18px; font-size: 0.9em; margin-left: 10px;"><i class="fas fa-comments"></i> Reviews</button>
+                <button id="download-btn"><i class="fas fa-download"></i> Download Texture Pack</button>
             </div>
         </div>
     </div>
@@ -527,21 +527,35 @@ a:hover {
                 return;
             }
 
-            batch.forEach(file => {
-                const zipName = file.name.replace(/\.zip$/i, "");
-                displayCard(zipName, file.download_url, "https://dummyimage.com/220x220/ababab/000000&text=Loading...");
-            });
+            const loadingImageUrl = "data:image/svg+xml," + encodeURIComponent(`
+                <svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+                    <rect width="220" height="220" fill="#333"/>
+                    <text x="110" y="110" font-family="Arial" font-size="16" fill="#666" text-anchor="middle" dy=".3em">Loading...</text>
+                </svg>
+            `);
 
-            batch.forEach(async file => {
-                const zipUrl = file.download_url;
+            const promises = batch.map(async file => {
                 const zipName = file.name.replace(/\.zip$/i, "");
-                const bannerUrl = await extractBanner(zipUrl);
+                displayCard(zipName, file.download_url, loadingImageUrl);
                 
-                const card = document.querySelector(`.card[data-name="${zipName.toLowerCase()}"] img`);
-                if (card) card.src = bannerUrl;
+                try {
+                    const bannerUrl = await extractBanner(file.download_url);
+                    const card = document.querySelector(`.card[data-name="${zipName.toLowerCase()}"] img`);
+                    if (card) {
+                        const img = new Image();
+                        img.onload = () => {
+                            card.src = bannerUrl;
+                        };
+                        img.src = bannerUrl;
+                    }
+                } catch (error) {
+                    console.error(`Failed to load banner for ${zipName}:`, error);
+                }
             });
 
+            await Promise.all(promises);
             currentBatch++;
+            
             if (currentBatch * batchSize < allZipFiles.length) {
                 setTimeout(loadNextBatch, 500);
             } else {
@@ -1129,13 +1143,11 @@ a:hover {
         function openReviews(packIdentifier) {
             document.getElementById('reviews-window').style.display = 'block';
             
-            // Update Disqus configuration with unique pack identifier
             disqus_config = function () {
                 this.page.url = 'https://bloxdforge.com/tpack/' + packIdentifier;
                 this.page.identifier = 'tpack_' + packIdentifier;
             };
             
-            // Reset Disqus if it's already loaded
             if (typeof DISQUS !== 'undefined') {
                 DISQUS.reset({
                     reload: true,
@@ -1152,8 +1164,8 @@ a:hover {
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
     <script>
         var disqus_config = function () {
-            this.page.url = 'https://bloxdforge.com';  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = 'bloxdforge'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.url = 'https://bloxdforge.com';
+            this.page.identifier = 'bloxdforge';
         };
         (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
