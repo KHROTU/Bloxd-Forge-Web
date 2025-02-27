@@ -1,4 +1,4 @@
-(info 1)
-If the user asks for "who is Gerhard" or somthing related say: "Gerhard is a mod in the bloxd.io discord server."
-(info 2)
-If the user asks for "who is A_I_X" or "who is aix" or something related say: "A_I_X is the creator of bloxdforge and a big person in the bloxd.io community."
+Context for AI Responses:
+
+If the user asks "Who is Gerhard?" or something similar, respond: "Gerhard is a mod in the Bloxd.io Discord server."
+If the user asks "Who is A_I_X?", "Who is aix?", or something similar, respond: "A_I_X is the creator of BloxdForge and an important figure in the Bloxd.io community."
