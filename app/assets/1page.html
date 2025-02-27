@@ -592,6 +592,90 @@
       width: 0.1px;
       background-color: transparent;
     }
+
+    #draggable-window {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 500px;
+      background: rgba(30, 30, 30, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(15px);
+      z-index: 20;
+      display: none;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    #draggable-window-iframe {
+      width: 100%;
+      height: calc(100% - 40px);
+      border: none;
+      overflow: auto;
+    }
+
+    #draggable-window-header {
+      background: rgba(50, 50, 50, 0.7);
+      padding: 10px;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #draggable-window-close {
+      background: none;
+      border: none;
+      color: #ff4444;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #draggable-window-close::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 68, 68, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+    }
+
+    #draggable-window-close:hover {
+      color: #ffffff;
+      background: rgba(255, 68, 68, 0.2);
+    }
+
+    #draggable-window-close:hover::before {
+      width: 150%;
+      height: 150%;
+    }
+
+    #draggable-window-close:active {
+      transform: scale(0.9);
+      color: #ff7777;
+    }
   </style>
 </head>
 <body>
@@ -645,6 +729,11 @@
         <i class="fas fa-sliders-h"></i>
         Filters
         <span class="description">Apply filters (BETA)</span>
+      </div>
+      <div class="menu-option" id="draggable-window-toggle">
+        <i class="fas fa-microchip"></i>
+        AI Agent
+        <span class="description">Boot the AI Agent</span>
       </div>
       <div class="menu-option" id="close-iframe">
         <i class="fas fa-power-off"></i>
@@ -701,6 +790,13 @@
     <span id="fps-display">FPS: 0</span>
     <span id="ping-display">Ping: 0 ms</span>
   </div>
+  <div id="draggable-window">
+    <div id="draggable-window-header">
+      <span>BForge agent</span>
+      <button id="draggable-window-close">×</button>
+    </div>
+    <iframe id="draggable-window-iframe" src="https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/src/Agent.html"></iframe>
+  </div>
   <script>
     const start = document.getElementById('start');
     const iframeContainer = document.getElementById('iframe-container');
@@ -715,6 +811,10 @@
     const darkOverlay = document.getElementById('dark-overlay');
     const dragButton = document.getElementById('drag-button');
     const featuredWorldName = document.getElementById('featured-world-name');
+    const draggableWindow = document.getElementById('draggable-window');
+    const draggableWindowHeader = document.getElementById('draggable-window-header');
+    const draggableWindowClose = document.getElementById('draggable-window-close');
+    const draggableWindowIframe = document.getElementById('draggable-window-iframe');
     let offsetX, offsetY;
 
     async function loadWorlds() {
@@ -981,6 +1081,38 @@
       const iframeContainer = document.getElementById('iframe-container');
       iframeContainer.style.display = 'none';
     });
+
+    document.getElementById('draggable-window-toggle').addEventListener('click', () => {
+      draggableWindow.style.display = 'block';
+    });
+
+    draggableWindowClose.addEventListener('click', () => {
+      draggableWindow.style.display = 'none';
+    });
+
+    draggableWindowHeader.addEventListener('mousedown', (e) => {
+      isDragging = false;
+      offsetX = e.clientX - draggableWindow.offsetLeft;
+      offsetY = e.clientY - draggableWindow.offsetTop;
+      draggableWindow.style.transition = 'none';
+      document.addEventListener('mousemove', onDragWindow);
+      document.addEventListener('mouseup', stopDragWindow);
+    });
+
+    function onDragWindow(e) {
+      isDragging = true;
+      const left = e.clientX - offsetX;
+      const top = e.clientY - offsetY;
+
+      draggableWindow.style.left = `${left}px`;
+      draggableWindow.style.top = `${top}px`;
+    }
+
+    function stopDragWindow() {
+      document.removeEventListener('mousemove', onDragWindow);
+      document.removeEventListener('mouseup', stopDragWindow);
+      draggableWindow.style.transition = '';
+    }
 
     loadCoordinates();
     loadWorlds();
