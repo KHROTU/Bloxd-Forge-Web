@@ -239,6 +239,31 @@
             box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
         }
 
+        .error-message {
+            color: #ff4444;
+            position: absolute;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.8rem 1.2rem;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+            border: 1px solid #ff4444;
+            display: none;
+            z-index: 1100;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        .error-message.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -336,6 +361,7 @@
                     <label class="form-label">Description</label>
                     <textarea class="form-input" id="description" rows="4" required></textarea>
                 </div>
+                <div class="error-message"></div>
                 <button type="submit" class="create-auction-btn">Create Auction</button>
             </form>
         </div>
@@ -450,6 +476,15 @@
             const buyoutPrice = document.getElementById('buyoutPrice').value;
             const description = document.getElementById('description').value;
 
+            const nameHasProfanity = await checkProfanity(itemName);
+            const descHasProfanity = await checkProfanity(description);
+
+            if (nameHasProfanity || descHasProfanity) {
+                document.getElementById('createAuctionForm').querySelector('.error-message').style.display = 'block';
+                document.getElementById('createAuctionForm').querySelector('.error-message').textContent = 'Content contains inappropriate language';
+                return;
+            }
+
             const data = {
                 item_name: itemName,
                 lobby_type: lobbyType,
@@ -480,6 +515,21 @@
                 }
             } catch (error) {
                 console.error('Error creating auction:', error);
+            }
+        }
+
+        async function checkProfanity(text) {
+            try {
+                const response = await fetch('https://vector.profanity.dev', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const score = await response.text();
+                return parseFloat(score) > 0.9;
+            } catch (error) {
+                console.error('Error checking profanity:', error);
+                return false;
             }
         }
 
