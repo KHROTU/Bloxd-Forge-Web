@@ -1,422 +1,184 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Forged Builds</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://kit.fontawesome.com/e3da39203e.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keys</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <style>
-      
-        :root {
-            --primary: #FFA500;
-            --secondary: #5865F2;
-            --background: #121212;
-            --surface: #1E1E1E;
-            --surface-hover: #2A2A2A;
-            --text-primary: #FFFFFF;
-            --text-secondary: #A0A0A0;
-        }
-
         body {
-            background-color: var(--background);
-            color: var(--text-primary);
-            font-family: "Onest", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #181818;
+            color: #e5e7eb;
             margin: 0;
-            line-height: 1.6;
+            font-family: Arial, sans-serif;
         }
-
-      
-        #topBar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: var(--surface);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        .card {
+            background: linear-gradient(145deg, #333, #2a2a2a);
+            border-radius: 0.75rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .topbar-left, .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        #searchContainer {
-            flex-grow: 1;
-            max-width: 600px;
-        }
-
-        #search {
-            width: 170%;
-            background: var(--background);
-            border: 2px solid var(--surface-hover);
-            color: var(--text-primary);
-            padding: 0.75rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        #search:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2);
-            outline: none;
-        }
-
-       
-        #schematicContainer {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 2rem;
-        }
-
-        .schematicBox {
-            background: var(--surface);
-            border-radius: 12px;
             overflow: hidden;
+            width: 24rem;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        .schematicBox:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-
-        .image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 2px solid var(--surface-hover);
+        .card-header {
+            background-color: #ff8c00;
+            text-align: center;
+            padding: 1.5rem 0;
         }
-
-        .schematicBox h2 {
-            padding: 1rem;
+        .card-header i {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        .card-header h2 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
             margin: 0;
+        }
+        .card-title {
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .card-title h3 {
+            color: #ff8c00;
             font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
         }
-
-        .schematicBox p {
-            padding: 0 1rem;
-            color: var(--text-secondary);
+        .card-price {
+            background-color: #ff8c00;
+            text-align: center;
+            padding: 1rem 0;
         }
-
-        .tag-list {
+        .card-price p {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .card-content {
+            padding: 1.5rem;
+        }
+        .card-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .card-content li {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            padding: 0 1rem 1rem;
-        }
-
-        .tag {
-            background: rgba(255, 165, 0, 0.1);
-            color: var(--primary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .button {
-            display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            text-decoration: none;
+            justify-content: space-between;
+            color: #e5e7eb;
+            margin-bottom: 1.25rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease;
+        }
+        .card-content li:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .card-content li i {
+            color: #ff8c00;
+            margin-right: 0.5rem;
+        }
+        .card-content button {
+            background-color: #ff8c00;
+            color: white;
+            padding: 0.5rem 1.25rem;
             border: none;
+            border-radius: 0.375rem;
             cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
-
-        .downloadButton {
-            background: var(--primary);
-            color: #000;
-            margin: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .downloadButton:hover {
-            background: #FF8C00;
-        }
-
-      
-        .button-secondary {
-            background: var(--surface);
-            color: var(--text-primary);
-        }
-
-        .button-secondary:hover {
-            background: var(--surface-hover);
-        }
-
-       
-        .button-secondary i, 
-        .button-secondary span {
-            color: var(--text-primary);
-        }
-
-  
-        .logo-container {
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .logo-container::after {
-            content: 'Click to reload';
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--surface);
-            color: var(--text-primary);
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            z-index: 10;
-        }
-
-        .logo-container:hover::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .logo-image {
-            height: 50px;  
-            width: auto;
-            object-fit: contain;
-            margin-right: 1rem;
-            transition: transform 0.2s ease;
-        }
-
-        .logo-container:hover .logo-image {
+        .card-content button:hover {
+            background-color: #e76a00;
             transform: scale(1.05);
         }
-
-    
-
-     
-        #filtersDiv {
-            padding: 1rem 2rem;
-            background: var(--surface);
-        }
-
-        #tagFilter {
-            background: var(--background);
-            color: var(--text-primary);
-            border: 2px solid var(--surface-hover);
-            padding: 0.5rem;
-            border-radius: 8px;
-        }
-
-      
-        #paginationContainer {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            padding: 2rem;
-        }
-
-        .pageButton {
-            background: var(--surface);
-            color: var(--text-primary);
-        }
-
-        .pageButton:hover {
-            background: var(--surface-hover);
-        }
-
-        @media (max-width: 768px) {
-            #topBar {
-                flex-direction: column;
-                padding: 1rem;
-                gap: 1rem;
-            }
-
-            #schematicContainer {
-                grid-template-columns: 1fr;
-                padding: 1rem;
-            }
+        .card-content button:disabled {
+            background-color: #444;
+            color: #666;
+            cursor: not-allowed;
+            transform: none;
         }
         
+        .card-header i {
+            font-size: 3.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        .card-header:hover i {
+            transform: rotate(15deg);
+        }
+
     </style>
 </head>
-<body onload="onLoadScript()">
-
-    <div id="topBar">
-        <div class="topbar-left">
-            <a href="index.html" class="logo-container button-secondary" onclick="onLoadScript(); return false;">
-                <img src="https://imghost.net/ib/x1T2lkISWisxup1_1740986180.png" alt="Forged Builds Logo" class="logo-image">
-            </a>
-            
-            <div id="searchContainer">
-                <input type="text" id="search" placeholder="Search schematics..." autocomplete="off" onkeyup="searchSchematics()">
-            </div>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-key"></i>
         </div>
-
-        <div class="topbar-right">
+        <div class="card-title">
+            <h3>KEYS</h3>
         </div>
-    </div>
-
- 
-    <div id="filtersDiv">
-        <select name='currentTag' id='tagFilter' onchange="filterByTag()">
-            <option class='tagFilterItem' value='none'>None</option>
-            <option class='tagFilterItem' value='farm'>Farm</option>
-            <option class='tagFilterItem' value='building'>Building</option>
-            <option class='tagFilterItem' value='furniture'>Furniture</option>
-            <option class='tagFilterItem' value='build hack'>Build Hack</option>
-            <option class='tagFilterItem' value='terrain'>Terrain</option>
-            <option class='tagFilterItem' value='vehicle'>Vehicle</option>
-            <option class='tagFilterItem' value='pixel art'>Pixel Art</option>
-        </select>
-    </div>
-
-  
-    <div id="schematicContainer"></div>
-
- 
-    <div id="paginationContainer">
-        <button id="prev" class="button pageButton">
-            <i class="fa-solid fa-chevron-left"></i>
-            Previous
-        </button>
-        <button id="next" class="button pageButton">
-            Next
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
-
-    </div>
-        <p>Forged Builds is a modified version of BloxdBuilds, originally created by BluePanda and BuilderBananaJr.</p>
-    <script>
-        let schematics = []; 
-        let currentPage = 0; 
-        const pageSize = 30; 
-
-        function onLoadScript(){
-            const sheetId = '1Ue6SyMuth3Kc3RJ4ias8bhQA9fv9f-FD_c4Jgu4yFFI';
-            const apiKey = 'AIzaSyBB0Wo6hgKsFUsJ3gbgidNVB3GMYq0ECFg';
-
-            fetch(`https://bloxdbuildsapifr.wolf10iscool.workers.dev/`)
-                .then(response => response.json())
-                .then(data => {
-                    schematics = data.values.slice(1); 
-                    schematics.sort((a, b) => new Date(b[2]) - new Date(a[2])); 
-
-                    loadPage(currentPage);
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
-
-        function loadPage(page) {
-            const start = page * pageSize;
-            const end = start + pageSize;
-            const pageData = schematics.slice(start, end);
-
-            const container = document.querySelector('#schematicContainer');
-            container.innerHTML = ''; 
-
-            pageData.forEach(row => {
-                const [submissionId, respondentId, dateUploaded, schematic, image, name, username, tags] = row;
-
-                const card = document.createElement('div');
-                card.classList.add('schematicBox');
-                card.innerHTML = `
-                    <img class="image" src="${image}" loading="lazy">
-                    <h2>${name}</h2>
-                    <p>Uploaded by ${username}</p>
-                    <div class="tag-list">
-                        ${tags.split(',').map(tag => `<span class="tag">${tag}</span>`).join('')}
+        <div class="card-content">
+            <ul>
+                <li>
+                    <div>
+                        <i class="fas fa-paint-brush"></i>
+                        Texture pack maker
                     </div>
-                    <a href='${schematic}' download='${name}.zip'>
-                        <button class='button downloadButton' onclick='incrementDownloadCount("${submissionId}")'>
-                            <i class='fa-solid fa-cloud-arrow-down'></i> Download
-                        </button>
-                    </a>
-                `;
-                container.appendChild(card);
-            });
-
-            document.getElementById('prev').style.display = page > 0 ? 'flex' : 'none';
-            document.getElementById('next').style.display = end < schematics.length ? 'flex' : 'none';
-        }
-
-        document.getElementById('prev').addEventListener('click', () => {
-            if (currentPage > 0) {
-                currentPage--;
-                loadPage(currentPage);
-            }
-        });
-
-        document.getElementById('next').addEventListener('click', () => {
-            currentPage++;
-            loadPage(currentPage);
-        });
-
-        function incrementDownloadCount(schematicId) {
-            let countElement = document.getElementById(`downloadCount_${schematicId}`);
-            if (!countElement) {
-                countElement = document.createElement('div');
-                countElement.id = `downloadCount_${schematicId}`;
-                countElement.className = 'download-count';
-                document.querySelector(`[data-schematic-id='${schematicId}']`).parentNode.insertBefore(countElement, document.querySelector(`[data-schematic-id='${schematicId}']`));
-            }
-            
-            let currentCount = parseInt(countElement.textContent) || 0;
-            currentCount++;
-            countElement.textContent = `${currentCount} downloads`;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const downloadButtons = document.querySelectorAll('.downloadButton');
-            downloadButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const schematicId = button.dataset.schematicId;
-                    incrementDownloadCount(schematicId);
-                });
-            });
-        });
-
-        function searchSchematics() {
-            const searchTerm = document.getElementById('search').value.toLowerCase();
-            const schematicBoxes = document.querySelectorAll('.schematicBox');
-            
-            schematicBoxes.forEach(box => {
-                const title = box.querySelector('h2').textContent.toLowerCase();
-                const description = box.querySelector('p').textContent.toLowerCase();
-                
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    box.style.display = 'block';
-                } else {
-                    box.style.display = 'none';
-                }
-            });
-        }
-
-        function filterByTag() {
-            const tagFilter = document.getElementById("tagFilter").value.toLowerCase();
-            const cards = document.querySelectorAll('.schematicBox');
-
-            cards.forEach(card => {
-                const cardTags = card.querySelector('.tag-list .tag').textContent.toLowerCase().split(',');
-                
-                if (tagFilter === 'none' || cardTags.some(tag => tag.trim().includes(tagFilter))) {
-                    card.style.display = ''; 
-                } else {
-                    card.style.display = 'none'; 
-                }
-            });
-        }
-    </script>
+                    <button onclick="window.open('https://link-hub.net/1268796/key-for-bloxdforge-tpack', '_blank')">Get</button>
+                </li>
+                <li>
+                    <div>
+                        <i class="fas fa-box"></i>
+                        Pin more packs
+                    </div>
+                    <button onclick="window.open('https://direct-link.net/1268796/bloxdforge-tpack-key', '_blank')">Get</button>
+                </li>
+                <li>
+                    <div>
+                        <i class="fas fa-times"></i>
+                        Soon...
+                    </div>
+                    <button>---</button>
+                </li>
+                <li>
+                    <div>
+                        <i class="fas fa-times"></i>
+                        Soon...
+                    </div>
+                    <button>---</button>
+                </li>
+                <li>
+                    <div>
+                        <i class="fas fa-times"></i>
+                        Soon...
+                    </div>
+                    <button>---</button>
+                </li>
+                <li>
+                    <div>
+                        <i class="fas fa-times"></i>
+                        Soon...
+                    </div>
+                    <button>---</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
 </html>

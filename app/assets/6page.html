@@ -1,147 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>BloxdForge Credits</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge Wiki</title>
     <style>
+        :root {
+            --card-color: #2a2a2a;
+        }
+
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #181818;
-            color: #f1f1f1;
-            line-height: 1.6;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
+            color: #ffffff;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         header {
-            background-color: #252525;
-            color: #fff;
-            padding: 1.5rem 0;
-            text-align: center;
-            border-bottom: 2px solid #ff8c00;
+            background-color: #242424;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         header h1 {
+            font-size: 28px;
+            color: #FFA500;
             margin: 0;
-            font-size: 2rem;
-            color: #ff8c00;
+            transition: color 0.3s, text-shadow 0.3s;
+            text-shadow: 0 0 10px #FF7F00, 0 0 20px #FFA500;
         }
 
-        .container {
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            gap: 1rem;
             flex-grow: 1;
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
         }
 
-        .section {
-            margin-bottom: 2rem;
+        .search-bar {
+            flex-grow: 1;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid #444;
+            border-radius: 25px;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .section h2 {
-            color: #ff8c00;
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+            border-color: #FFA500;
+        }
+
+        .search-filter-btn {
+            background-color: #FFA500;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-filter-btn:hover {
+            background-color: #FF7F00;
+        }
+
+        .search-filter-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        .search-filter-menu.active {
+            display: block;
+        }
+
+        .filter-option {
+            padding: 0.5rem 1rem;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option:hover {
+            background-color: #FFA500;
+        }
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+
+        .card {
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            cursor: pointer;
+            position: relative;
+            height: 260px;
+        }
+        
+          .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255, 165, 0, 0.2);
+        }
+
+        .card-content {
+            background-color: #2a2a2a;
+            border-radius: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            inset: 1px;
+            padding: 10px;
+            position: absolute;
+            z-index: 2;
+        }
+
+        .card-content h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #FFA500;
+            transition: color 0.3s, text-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-content h2 .tag {
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        .card-content p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        .details-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .details-view.active {
+            display: flex;
+        }
+
+        .details-content {
+            background-color: #222222;
+            color: #ffffff;
+            max-width: 900px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .details-content h1 {
+            font-size: 32px;
+            color: #FFA500;
+            text-shadow: 0 0 10px #FF7F00, 0 0 20px #FFA500;
+            margin-bottom: 20px;
+        }
+
+        .details-content h3 {
+            font-size: 24px;
+            color: #FFA500;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .details-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
+            color: #b0b0b0;
+        }
+
+        .back-button {
+            background-color: #FFA500;
+            color: #000;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #FF7F00;
+            box-shadow: 0 0 10px #FF7F00;
+        }
+
+        .line-break {
+            white-space: pre-wrap;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.0069px;
+        }
+        
+.featured-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+        .featured-card {
+            background: var(--card-color);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            max-height: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255, 165, 0, 0.2);
+        }
+
+        .featured-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 04s ease;
+        }
+
+        .featured-card:hover .featured-image img {
+            transform: scale(1.05);
+        }
+
+        .featured-content {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .featured-title {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #444;
-            padding-bottom: 0.5rem;
+            margin: 0 0 1rem;
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
         }
 
-        .section p {
-            margin: 0.5rem 0;
-            font-size: 1rem;
+        .featured-description {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
         }
 
-        .section a {
-            color: #ff8c00;
-            text-decoration: none;
+        .featured-button {
+            background: #FFA500;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .section a:hover {
-            text-decoration: underline;
+        .featured-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
         }
 
-        .social-buttons {
-            text-align: center;
-            margin: 2rem 0;
+        .iframe-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
         }
 
-        .social-buttons a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 0.5rem;
-            font-size: 1rem;
+        iframe {
+          height: 100%;
+          width: 100%;
+          border: none;
+        }
+        .iframe-modal.active {
+            display: flex;
+        }
+        
+                .modal-content {
+            width: 90%;
+            height: 80%;
+            background: var(--card-color);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
         }
 
-        .social-buttons a:hover {
-            color: #ff8c00;
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            transition: background 0.7s ease;
+            cursor: pointer;        
         }
+        
+        .modal-close:hover{
+          background: rgb(2, 2, 2);
+        }
+        .more-featured-cards {
+  display: none;
+}
 
-        .footer {
-            text-align: center;
-            padding: 1rem 0;
-            background-color: #252525;
-            color: #fff;
-            border-top: 2px solid #ff9b00;
-            border-radius: 14px ;
-        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Credits</h1>
-    </header>
-    <div class="container">
-        <div class="section">
-            <h2>Developers</h2>
-            <p><strong>A_I_X</strong> - Founder of ProduX & Creator of BloxdForge.</p>
-            <p><strong>KHROTU</strong> - Head developer, did a bit of everything.</p>
-            <p><strong>GEORGECR</strong> - Developer, Helped with the World Forge.</p>
-        </div>
-
-        <div class="section">
-            <h2>Services Used</h2>
-            <p><strong>GitHub</strong> - Version control and web hosting via GitHub Pages</p>
-            <p><strong>Namecheap</strong> - Domain registration and management</p>
-            <p><strong>Frontend Libraries</strong> - 
-            <a href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">Font Awesome</a>,
-            <a href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">Google Fonts</a>,
-            <a href="https://cdn.tailwindcss.com">Tailwind CSS</a>
-            </p>
-            <p><strong>JavaScript Libraries</strong> - 
-            <a href="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js">JSZip</a>,
-            <a href="https://cdn.jsdelivr.net/npm/chart.js">Chart.js</a>,
-            <a href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">Remix Icon</a>,
-            <a href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">Three.js</a>,
-            <a href="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js">Three.js OrbitControls</a>
-            </p>
-            <p><strong>Hosting & Community</strong> - PythonAnywhere hosting, Discord community support, <a href="https://disqus.com">Disqus</a> comments</p>
-        </div>
-
-        <div class="section">
-            <h2>Others</h2>
-            <p><strong>_.sushidog._</strong> - Helped advertise BloxdForge and still helps to this day.</p>
-            <p><strong>nexobot</strong> - Discord mod, ton of giveaways and more.</p>
-            <p><strong>Endure_</strong> - Massive boost from his texture pack.</p>
+        <h1>BloxdForge Wiki</h1>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search wikis...">
+            <button class="search-filter-btn" onclick="toggleSearchFilter()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+            </button>
+            <div class="search-filter-menu" id="searchFilterMenu">
+                <div class="filter-option" data-filter="title">Title</div>
+                <div class="filter-option" data-filter="tag">Tag</div>
+                <div class="filter-option" data-filter="description">Description</div>
+            </div>
         </div>
         
-    <div class="social-buttons">
-        <a href="https://discord.gg/nVgUe4qrhr" target="_blank"><i class="fab fa-discord"></i> Discord</a>
-        <a href="https://www.youtube.com/@BloxdForge" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+    </header>
+<div class="featured-cards">
+  <div class="featured-card">
+    <div class="featured-image">
+      <img src="https://i.imgur.com/1I1Revh.png" alt="Featured 1">
+    </div>
+    <div class="featured-content">
+      <h3 class="featured-title">Starter Guide</h3>
+      <p class="featured-description">Learn the basics of BloxdForge with our simple beginner's guide.</p>
+      <button class="featured-button" onclick="openIframe('/app/assets/src/guides/starter.html')">
+        Open Guide
+      </button>
+    </div>
+  </div>
+
+  <div class="featured-card">
+    <div class="featured-image">
+      <img src="https://i.imgur.com/B4IELLP.png" alt="Featured 2">
+    </div>
+    <div class="featured-content">
+      <h3 class="featured-title">World Forge Guide</h3>
+      <p class="featured-description">Dive deeper into BloxdForge and master advanced building techniques.</p>
+      <button class="featured-button" onclick="openIframe('/app/assets/src/guides/worldforge.html')">
+        Open Guide
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="featured-cards more-featured-cards" id="moreFeaturedCards">
+  <div class="featured-card">
+    <div class="featured-image">
+      <img src="https://i.imgur.com/B4IELLP.png" alt="Featured 3">
+    </div>
+    <div class="featured-content">
+      <h3 class="featured-title">Bloxd Coding Guide</h3>
+      <p class="featured-description">Master the Bloxd coding framework with our drag-and-drop block coding system.</p>
+      <button class="featured-button" onclick="openIframe('/app/assets/src/guides/coding.html')">
+        Open Guide
+      </button>
+    </div>
+  </div>
+
+  <div class="featured-card">
+    <div class="featured-image">
+      <img src="https://i.imgur.com/ZNYtE8y.jpeg" alt="Featured 4">
+    </div>
+    <div class="featured-content">
+      <h3 class="featured-title">Optimization Tips</h3>
+      <p class="featured-description">Essential techniques to make your games run smoothly and efficiently.</p>
+      <button class="featured-button" onclick="openIframe('/app/assets/src/guides/optimization.html')">
+        Open Guide
+      </button>
+    </div>
+  </div>
+</div>
+
+<button id="toggleMoreBtn" onclick="toggleMoreCards()" style="margin: 1.5rem auto; display: block; background: none; border: none; color: #FFA500; font-size: 1rem; cursor: pointer;">
+  Show More Guides
+</button>
+
+        
+            <div class="iframe-modal" id="iframeModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeIframe()">Close</button>
+            <iframe class="modal-iframe" id="modalIframe"></iframe>
+        </div>
     </div>
 
-    <div class="footer">
-        <p>Copyright &copy; 2024 ProduX, Ltd. All Rights Reserved.</p>
+    <div class="container" id="card-container"></div>
+    <div id="details-view" class="details-view">
+        <div class="details-content">
+            <button class="back-button" onclick="goBack()">Back</button>
+            <div id="details-content"></div>
+        </div>
     </div>
+
+    <script>
+        const container = document.getElementById("card-container");
+        const searchInput = document.querySelector(".search-bar");
+        const detailsView = document.getElementById("details-view");
+        const detailsContent = document.getElementById("details-content");
+
+        let allData = [];
+        let currentSearchFilter = 'title';
+
+        async function fetchWikiData() {
+            const url = "/app/assets/src/wiki.json";
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+        }
+
+        async function loadFiles() {
+            const wikiData = await fetchWikiData();
+            allData = wikiData;
+            renderCards(allData);
+        }
+
+        function renderCards(data) {
+            container.innerHTML = '';
+            data.forEach(item => createCard(item));
+        }
+
+        function createCard(data) {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+                <div class="card-content">
+                    <h2>${data.title} <span class="tag">${data.tag}</span></h2>
+                    <p>${data.description}</p>
+                </div>
+            `;
+            card.onclick = () => showDetails(data);
+            container.appendChild(card);
+        }
+
+        function showDetails(data) {
+            detailsView.classList.add('active');
+            detailsContent.innerHTML = `
+                <h1>${data.title}</h1>
+                <h3>Description</h3>
+                <p>${data.description}</p>
+                <h3>Content</h3>
+                <p class="line-break">${data.content}</p>
+            `;
+        }
+
+        function goBack() {
+            detailsView.classList.remove('active');
+        }
+
+        function toggleSearchFilter() {
+            const menu = document.getElementById('searchFilterMenu');
+            menu.classList.toggle('active');
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('searchFilterMenu');
+            const filterBtn = document.querySelector('.search-filter-btn');
+            
+            if (!menu.contains(e.target) && !filterBtn.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', () => {
+                currentSearchFilter = option.dataset.filter;
+                document.querySelector('.search-bar').placeholder = `Search in ${option.textContent.toLowerCase()}...`;
+                toggleSearchFilter();
+                document.querySelector('.search-bar').focus();
+            });
+        });
+
+        searchInput.addEventListener("input", () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredData = allData.filter(data => {
+                if (data.title.toLowerCase() === "whoa there, adventurer! (or should I say, 'eternal scroller'?)") {
+                    return searchTerm === "";
+                }
+                switch (currentSearchFilter) {
+                    case 'title':
+                        return data.title.toLowerCase().includes(searchTerm);
+                    case 'tag':
+                        return data.tag.toLowerCase().includes(searchTerm);
+                    case 'description':
+                        return data.description.toLowerCase().includes(searchTerm);
+                    default:
+                        return false;
+                }
+            });
+            renderCards(filteredData);
+        });
+
+        function openIframe(url) {
+            const modal = document.getElementById('iframeModal');
+            const iframe = document.getElementById('modalIframe');
+            iframe.src = url;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeIframe() {
+            const modal = document.getElementById('iframeModal');
+            const iframe = document.getElementById('modalIframe');
+            iframe.src = '';
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('iframeModal');
+            if (event.target == modal) {
+                closeIframe();
+            }
+        }
+        
+        function toggleMoreCards() {
+  const moreCards = document.getElementById('moreFeaturedCards');
+  const btn = document.getElementById('toggleMoreBtn');
+  if (moreCards.style.display === 'none' || moreCards.style.display === '') {
+    moreCards.style.display = 'grid';
+    btn.textContent = 'Show Less Guides';
+  } else {
+    moreCards.style.display = 'none';
+    btn.textContent = 'Show More';
+  }
+}
+
+        loadFiles();
+    </script>
 </body>
 </html>
