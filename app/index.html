@@ -444,7 +444,12 @@
         let uploadedFolders = 0;
 
         function toggleFolderMenu() {
-            folderMenu.style.display = folderMenu.style.display === 'none' ? 'block' : 'none';
+            const computedStyle = window.getComputedStyle(folderMenu);
+            if (computedStyle.display === 'none') {
+                folderMenu.style.display = 'block';
+            } else {
+                folderMenu.style.display = 'none';
+            }
         }
 
         function addFolderIcon(name) {
