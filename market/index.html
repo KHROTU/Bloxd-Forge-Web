@@ -1,560 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxdForge - One Stop Solution to Bloxd Gaming</title>
-    <meta name="description" content="Bloxd Forge is a Bloxd QOL (Quality-Of-Life) improvement mod that offers texture-packs, a FPS booster, a chat, and a discord for support.">
-    <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" href="https://i.imgur.com/xiYy0O6.png" type="image/png">
-    
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>BForge Market</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <style>
+        :root {
+            --primary: #FFA726;
+            --primary-hover: #FF9800;
+            --background: #121212;
+            --surface: #1E1E1E;
+            --surface-hover: #2d2d2d;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+        }
+
         body {
-            font-family: 'Rubik', sans-serif;
-            font-size: 16px;
+            background-color: var(--background);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            background-color: #181818;
-            height: 100vh;
-            overflow: hidden;
-        } 
+        }
 
-        .sidebar {
-            width: 100px;
-            background: linear-gradient(180deg, #242424, #181818);
-            color: #fff;
-            height: 98vh;
-            padding-top: 20px;
-            border-radius: 10px;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
+        /* Top bar */
+        .top-bar {
+            background-color: var(--surface);
+            padding: 1rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            transition: transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .sidebar.hidden {
-            transform: translateX(-100%);
+        .top-bar h1 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--primary);
         }
 
-        .sidebar a {
-            text-decoration: none;
-            color: white;
+        .search-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            transition: 0.3s, transform 0.2s, box-shadow 0.3s;
-            background-color: transparent;
-            text-align: center;
-            width: 50%;
-        }
-
-        .sidebar a:hover, .sidebar a.selected {
-            background-color: #ff8c00 ;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px #ff8c00 ;
-        }
-
-        .sidebar a i {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-
-        .sidebar a span {
-            font-size: 12px;
-            font-weight: bold;
-            color: #fff;
-            transition: color 0.3s ease;
-        }
-
-        .sidebar a:hover span {
-            color: white;
-        }
-
-        .content {
-            margin-left: 100px;
-            padding: 20px;
-            color: white;
-            flex-grow: 1;
-            transition: all 0.3s ease;
-        }
-
-        .content.fullscreen {
-            margin-left: 0;
-        }
-
-        h1 {
-            color: #FFA500;
-            text-shadow: 0 0 8px #FFA500;
-        }
-
-        .iframe-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100%;
+            gap: 0;
             width: 100%;
-            margin-right: 10px;
-            transition: all 0.3s ease;
-            border-radius: 10px;
+            max-width: 600px;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            background-color: #181818;
-            margin-left: 10px;
+        .search-input {
+            padding: 0.75rem 1.5rem;
             border: none;
-            box-sizing: border-box;
-        }
-
-        .iframe-container.fullscreen iframe {
-            width: 100%;
-            height: 100vh;
-            border-radius: 0;
-        }
-
-        iframe {
-            width: 100%;
-            margin: 10px 0;
-        }
-
-        .top-right-box {
-            position: fixed;
-            top: 0px;
-            right: 14px;
-            background-color: rgba(51, 51, 51, 0.7);
-            padding: 8px;
-            border-radius: 0 0 10px 10px;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            z-index: 20;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-            transition: height 0.3s ease, transform 0.3s ease;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .top-right-box.expanded {
-            height: 190px;
-        }
-
-        .top-right-box img {
-            width: 46%;
-            height: 42px;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-
-        .top-right-box.fullscreen {
-            transform: scale(0.8) translateX(60px);
-            right: 50px;
-        }
-
-        .top-right-box.smaller {
-            transform: scale(0.8) translateX(60px);
-            right: 50px;
-            z-index: 9999;
-            border-radius: 10px;
-        }
-
-        .download-btn, .fullscreen-btn {
-            background-color: #ff8c00 ;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 20px;
-            width: 40px;
+            background: #2b2b2b;
+            color: var(--text-primary);
+            font-size: 1rem;
+            border-radius: 30px 0 0 30px;
+            width: 350px;
+            transition: all 0.3s ease;
             height: 40px;
-            transition: all 0.3s, box-shadow 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
-        .download-btn:hover, .fullscreen-btn:hover {
-            background-color: #e67e00;
-            box-shadow: 0 0 20px #e67e00;
-            transform: scale(1.1);
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary);
         }
 
-        .folder-menu {
+        .search-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: var(--primary);
+            color: var(--text-primary);
+            font-weight: 600;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: var(--primary-hover);
+        }
+        
+        .search-button i { /*icon for button*/
+             color: #181818;
+             font-size: 26px;
+        }
+
+        /* Section styles */
+        .section {
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1400px;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            padding-left: 0.5rem;
+        }
+
+        .items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .item {
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            background: var(--surface-hover);
+        }
+
+        .item img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-bottom: 2px solid rgba(255, 167, 38, 0.1);
+        }
+
+        .item p {
+            padding: 1rem;
+            margin: 0;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* HOT! section */
+        .hot-section {
+            background: linear-gradient(135deg, #FFA72622 0%, #FF980022 100%);
+            margin: 3rem 0;
+            padding: 2rem;
+            border-top: 2px solid var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .hot-section h3 {
+            text-align: center;
+            font-size: 1.75rem;
+            margin: 0 0 2rem 0;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Popup styles */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
             display: none;
-            position: fixed;
-            top: 0px;
-            right: 230px;
-            background-color: rgba(51, 51, 51, 0.7);
-            padding: 15px;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            z-index: 30;
-            backdrop-filter: blur(10px);
-        }
-
-        .folder-menu-btn {
-            background-color: #ff8c00 ;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
-            transition: all 0.3s, box-shadow 0.3s;
-            display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            margin-left: 5px;
+            z-index: 1000;
         }
 
-        .folder-menu-btn:hover {
-            background-color: #e67e00;
-            box-shadow: 0 0 20px #e67e00;
-            transform: scale(1.1);
-        }
-
-        #folder-container div:hover {
-            background-color: #ff8c00;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            transform: scale(1.02);
-        }
-
-        #upload-folder-btn {
-            background-color: #ff8c00 ;
-            color: white;
+        .popup iframe {
+            width: 90%;
+            height: 90%;
             border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
         }
 
-        #upload-folder-btn:hover {
-            background-color: #ff8c00;
-            box-shadow: 0 0 20px #e67e00;
-        }
+        @media (max-width: 768px) {
+            .top-bar {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
 
-        .sidebar .sticky-bottom {
-            position: absolute;
-            bottom: 20px;
-            width: 70%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
+            .top-bar h1 {
+                text-align: center;
+            }
 
-        .sidebar .sticky-bottom:hover {
-            transform: translateX(-50%);
-        }
+            .search-container {
+                width: 100%;
+            }
 
-        body.locked {
-            overflow: hidden;
-        }
+            .section {
+                padding: 1rem;
+            }
 
-        iframe.fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 9999; 
-            border: none; 
-            margin: 0px 0;
+            .items {
+                grid-template-columns: 1fr;
+            }
         }
+        
+    /* Sidebar Button */
+    .sidebar {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        background-color: #1E1E1E;
+        width: 240px;
+        height: 40px;
+        padding: 10px;
+        border-radius: 0 8px 8px 0;
 
-        #fullscreen-iframe-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: black;
-            z-index: 9999; 
-        }
+        transition: height 1.5s ease;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        z-index: 101;
+    }
 
-        #fullscreen-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            margin: 0px 0;
-        }
+    /* Expand on Hover */
+    .sidebar:hover {
+
+        height: 100%;
+        padding: 10px;
+    }
+
+.sidebar h3 {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    text-align: center; /* Centers the text */
+}
+
+
+    .category {
+        display: block;
+        padding: 5px;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
+    }
+
+    .category:hover {
+        background-color: var(--surface-hover);
+        border-radius: 5px;
+       transform: translateX(6px);
+    }
     </style>
 </head>
 <body>
-    <div id="fullscreen-iframe-container">
-        <iframe id="fullscreen-iframe" src="/app/assets/load.html"></iframe>
+
+<!-- Top bar -->
+<div class="top-bar">
+<h1>
+    <img src="https://i.imgur.com/bJpz5P7.png" alt="BForge Market" style="height: 70px; margin: 0px 2px;">
+</h1>
+
+    <div class="search-container">
+        <input type="text" id="search-bar" class="search-input" placeholder="Search for items..."/>
+        <button class="search-button" onclick="searchItems()"><i class="fas fa-search"></i></button>
     </div>
+</div>
 
-    <div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+<!-- Sidebar -->
+<div class="sidebar" id="category-sidebar">
+    <h3>Categories</h3>
+    <div id="category-list"></div>
+</div>
 
-    <div class="sidebar">
-        <a href="javascript:void(0)" class="sidebar-link selected" onclick="setActiveLink(this, 'page1')">
-            <i class="fas fa-home"></i>
-            <span>Start</span>
-        </a>
-        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page2')">
-            <i class="fas fa-toolbox"></i>
-            <span>Workshop</span>
-        </a>
-        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page3')">
-            <i class="fas fa-tools"></i>
-            <span>Creator</span>
-        </a>
-        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page4')">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Shop</span>
-        </a>
-        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page8')">
-            <i class="fas fa-truck"></i>
-            <span>Builds</span>
-        </a>
-        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page5')">
-            <i class="fas fa-book"></i>
-            <span>Wiki</span>
-        </a>
-        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page6')">
-            <i class="fas fa-info-circle"></i>
-            <span>Credits</span>
-        </a>
-        <a href="javascript:void(0)" class="sidebar-link sticky-bottom" onclick="setActiveLink(this, 'page7')">
-            <i class="fas fa-unlock-keyhole"></i>
-            <span>Keys</span>
-        </a>
-    </div>
+<div class="content">
+  
+<!-- HOT! section -->
+<section class="hot-section">
+    <h3>HOT!</h3>
+    <div class="items" id="hot-items"></div>
+</section>
 
-    <div class="content">
-        <div class="iframe-container" id="start-iframe-container">
-            <iframe name="start-iframe" src="/app/assets/1page.html"></iframe>
-        </div>
+<!-- all offers -->
+<section class="section">
+    <h2>All Offers</h2>
+    <div class="items" id="shop-items"></div>
+</section>
 
-        <div class="iframe-container" id="dynamic-iframe-container">
-            <iframe name="iframe" src="https://ThisUsedToExistButILostTheFileSoWhoopsies"></iframe>
-        </div>
+<!-- iframe popup -->
+<div id="popup" class="popup">
+    <iframe id="popup-iframe"></iframe>
+</div>
 
-        <div class="top-right-box">
-            <img src="https://i.imgur.com/ph4qDah.png" alt="Bloxd Forge Logo" />
-            <button class="fullscreen-btn" onclick="toggleFullScreen()">
-                <i class="fas fa-expand"></i>
-            </button>
-            <button class="folder-menu-btn" onclick="toggleFolderMenu()">
-                <i class="fas fa-folder"></i>
-            </button>
-        </div>
+<script>
+const itemsData = [
+    { name: 'Pear Blocks For survival 2222', category: 'Fruit' },
+    { name: 'Plum Blocks for Survival 2222', category: 'Fruit' },
+    { name: 'Cherry Blocks for Survival 2222', category: 'Fruit' },
+    { name: 'Rice For survival 2222', category: 'Crops' },
+    { name: 'Apple Blocks for Survival 2222', category: 'Fruit' },
+    //  no .html and add a new line for each one
+];
 
-        <div id="folder-menu" class="folder-menu">
-            <input type="file" id="folder-input" style="display: none;" webkitdirectory multiple />
-            <button id="upload-folder-btn" onclick="document.getElementById('folder-input').click()" class="upload-button">
-                Upload Folder
-            </button>
-            <div id="folder-container" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-        </div>
-    </div>
+const hotItems = ['Pear Blocks For survival 2222', 'Cherry Blocks for Survival 2222']; // Hot item filenames //  no .html and add a new line for each one
+const allItems = [...itemsData];
 
-    <script>
-        const pages = {
-            page1: '/app/assets/1page.html',
-            page2: '/app/assets/2page.html',
-            page3: '/app/assets/3page.html',
-            page4: '/app/assets/4page.html',
-            page5: '/app/assets/5page.html',
-            page6: '/app/assets/6page.html',
-            page7: '/app/assets/7page.html',
-            page8: '/app/assets/8page.html',
-        };
+async function fetchItems() {
+    const itemContainer = document.getElementById('shop-items');
+    const hotContainer = document.getElementById('hot-items');
 
-        function loadPage(pageName) {
-            const iframe = document.querySelector('iframe[name="iframe"]');
-            iframe.src = pages[pageName];
-        }
+  
+    for (const itemName of hotItems) {
+        try {
+            let response = await fetch(`items/${itemName}.html`);
+            if (!response.ok) throw new Error("File not found");
 
-        function setActiveLink(link, page) {
-            const links = document.querySelectorAll('.sidebar-link');
-            const startContainer = document.getElementById('start-iframe-container');
-            const dynamicContainer = document.getElementById('dynamic-iframe-container');
+            let itemHTML = await response.text();
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(itemHTML, 'text/html');
+            let coverImage = doc.querySelector('img');
 
-            links.forEach(l => l.classList.remove('selected'));
-            link.classList.add('selected');
-
-            if (page === 'page1') {
-                startContainer.style.display = 'block';
-                dynamicContainer.style.display = 'none';
-            } else {
-                startContainer.style.display = 'none';
-                dynamicContainer.style.display = 'block';
-                loadPage(page);
-            }
-        }
-
-        function toggleFullScreen() {
-            const iframe = document.querySelector('iframe[name="iframe"]');
-            const sidebar = document.querySelector('.sidebar');
-            const cornerBox = document.querySelector('.top-right-box');
-            const isFullScreen = iframe.classList.contains('fullscreen');
-
-            if (!isFullScreen) {
-                iframe.classList.add('fullscreen');
-                sidebar.classList.add('hidden');
-                cornerBox.classList.add('smaller');
-                document.body.classList.add('locked');
-            } else {
-                iframe.classList.remove('fullscreen');
-                sidebar.classList.remove('hidden');
-                cornerBox.classList.remove('smaller');
-                document.body.classList.remove('locked');
-            }
-        }
-
-        const folderMenu = document.getElementById('folder-menu');
-        const folderContainer = document.getElementById('folder-container');
-        const folderInput = document.getElementById('folder-input');
-        let uploadedFolders = 0;
-
-        function toggleFolderMenu() {
-            folderMenu.style.display = folderMenu.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function addFolderIcon(name) {
-            const folderDiv = document.createElement('div');
-            folderDiv.textContent = name;
-            folderDiv.draggable = true;
-            folderDiv.style.cssText = `
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                width: 80px;
-                height: 80px;
-                background-color: #555;
-                color: white;
-                border-radius: 5px;
-                cursor: grab;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            let hotItemHTMLString = `
+                <div class="item" onclick="openPopup('${itemName}')">
+                    <img src="${coverImage.src}" alt="${itemName}"/>
+                    <p>${itemName}</p> <!-- Display the filename -->
+                </div>
             `;
-
-            folderDiv.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', name);
-            });
-
-            folderDiv.addEventListener('click', () => {
-                folderInput.click();
-            });
-
-            folderDiv.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-                removeFolder(folderDiv, name);
-            });
-
-            folderContainer.appendChild(folderDiv);
+            hotContainer.innerHTML += hotItemHTMLString;
+        } catch (error) {
+            console.error(`Error loading ${itemName}.html: ${error.message}`);
         }
+    }
 
-        function saveFolders(folders) {
-            localStorage.setItem('savedFolders', JSON.stringify(folders));
+    // Fetch all items for the shop
+    for (const item of allItems) {
+        try {
+            let response = await fetch(`items/${item.name}.html`);
+            if (!response.ok) throw new Error("File not found");
+
+            let itemHTML = await response.text();
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(itemHTML, 'text/html');
+            let coverImage = doc.querySelector('img');
+
+            let itemHTMLString = `
+                <div class="item" data-category="${item.category}" onclick="openPopup('${item.name}')">
+                    <img src="${coverImage.src}" alt="${item.name}"/>
+                    <p>${item.name}</p>
+                </div>
+            `;
+            itemContainer.innerHTML += itemHTMLString;
+        } catch (error) {
+            console.error(`Error loading ${item.name}.html: ${error.message}`);
         }
+    }
+}
 
-        function loadFolders() {
-            const savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-            savedFolders.forEach(folder => {
-                addFolderIcon(folder);
-            });
-            uploadedFolders = savedFolders.length;
+function searchItems() {
+    const searchQuery = document.getElementById('search-bar').value.toLowerCase();
+    const items = document.querySelectorAll('.item');
+    
+    items.forEach(item => {
+        const itemName = item.querySelector('p').textContent.toLowerCase();
+        if (itemName.includes(searchQuery)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
         }
+    });
+}
 
-        function removeFolder(folderDiv, folderName) {
-            folderDiv.remove();
-            let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-            savedFolders = savedFolders.filter(folder => folder !== folderName);
-            saveFolders(savedFolders);
-            uploadedFolders--;
-        }
+function openPopup(itemName) {
+    const popup = document.getElementById('popup');
+    const iframe = document.getElementById('popup-iframe');
+    
+    iframe.src = `items/${itemName}.html`;
 
-        folderInput.addEventListener('change', async (event) => {
-            const files = event.target.files;
-            if (files.length > 0) {
-                if (uploadedFolders >= 2) {
-                    const password = prompt("You have uploaded 2 texture packs already. Please enter the key to upload more. Get a key in the Key tab.");
-                    async function sha256(message) {
-                        const msgBuffer = new TextEncoder().encode(message);
-                        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-                        const hashArray = Array.from(new Uint8Array(hashBuffer));
-                        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-                    }
+    popup.style.display = "flex";
+}
 
-                    const hash = await sha256(password);
-                    if (hash !== "47da55e5ea5d96ba8e3a33b0a697401d1d85fae97088a8234f0d4e5e14298817") {
-                        alert("Incorrect key. You cannot upload more texture packs.");
-                        return;
-                    }
-                }
+    function generateCategories() {
+        const categories = [...new Set(itemsData.map(item => item.category))]; 
+        const categoryList = document.getElementById('category-list');
 
-                const folderName = files[0].webkitRelativePath.split('/')[0];
-                addFolderIcon(folderName);
-
-                let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
-                savedFolders.push(folderName);
-                saveFolders(savedFolders);
-
-                uploadedFolders++;
-            }
+        categories.forEach(category => {
+            const categoryElement = document.createElement('div');
+            categoryElement.textContent = category;
+            categoryElement.classList.add('category');
+            categoryElement.onclick = () => filterByCategory(category);
+            categoryList.appendChild(categoryElement);
         });
+    }
 
-        function checkLastRefresh() {
-            const lastRefreshDate = localStorage.getItem('lastRefreshDate');
-            const currentTime = new Date().getTime();
-
-            if (!lastRefreshDate) {
-            localStorage.setItem('lastRefreshDate', currentTime.toString());
-            } else if (currentTime - parseInt(lastRefreshDate) > 43200000) {
-            const cloudEnabled = localStorage.getItem('cloudEnabled');
-            const catEnabled = localStorage.getItem('catEnabled');
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            localStorage.clear();
-            sessionStorage.clear();
-            if (cloudEnabled) localStorage.setItem('cloudEnabled', cloudEnabled);
-            if (catEnabled) localStorage.setItem('catEnabled', catEnabled);
-            if (isLoggedIn) localStorage.setItem('isLoggedIn', isLoggedIn);
-            caches.keys().then(names => {
-                for (let name of names) caches.delete(name);
-            });
-            localStorage.setItem('lastRefreshDate', currentTime.toString());
-            }
-        }
-
-        function showLoadingScreen() {
-            const loadingTime = Math.random() * (700 - 300) + 300;
-            setTimeout(() => {
-            document.getElementById('fullscreen-iframe-container').style.display = 'none';
-            }, loadingTime);
-        }
-
-        window.addEventListener('load', () => {
-            checkLastRefresh();
-            showLoadingScreen();
-            loadFolders();
+    function filterByCategory(category) {
+        document.querySelectorAll('#shop-items .item').forEach(item => {
+            item.style.display = item.dataset.category === category ? 'block' : 'none';
         });
+        
+          
+    const sectionTitle = document.querySelector('.section h2');
+    sectionTitle.textContent = category; 
 
-        window.onload = function() {
-            const startButton = document.querySelector('.sidebar-link');
-            setActiveLink(startButton, 'page1');
-        };
-    </script>
+    
+    document.querySelectorAll('#shop-items .item').forEach(item => {
+        item.style.display = item.dataset.category === category ? 'block' : 'none';
+    });
+    }
+
+    generateCategories();
+    
+fetchItems();
+</script>
+
 </body>
 </html>
