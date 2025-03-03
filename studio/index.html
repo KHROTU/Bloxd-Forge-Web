@@ -3,42 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxdForge - World Forge | One Stop Solution to Bloxd Gaming</title>
-    <meta name="description" content="Bloxd Forge is a Bloxd QOL (Quality-Of-Life) improvement mod that offers texture-packs, a FPS booster, a chat, and a discord for support.">
-    <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
+    <title>World Forge</title>
     <link rel="website icon" type="png" href="assets/logo.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
-    <style>
-        #sign-editor-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40%;
-            height: 60%;
-            background-color: white;
-            z-index: 9999;
-            border: 2px solid #444;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            cursor: move;
-            resize: both;
-            overflow: hidden;
-        }
-        #sign-editor-popup iframe {
-            width: 100%;
-            height: calc(100% - 40px);
-            border: none;
-        }
-        #sign-editor-popup button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #444;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+     <style>
         *   {
     margin: 0;
     padding: 0;
@@ -176,7 +147,7 @@ iframe {
 .Right-Buttons{
     height: 42px;
     width: 100%;
-    white-space: nowrap;
+    white-space: nowrap; /* Prevents text from breaking into two lines */
     background: #383838;
     padding: 10px;
     color: white;
@@ -272,108 +243,14 @@ iframe {
     background: #ff8c00;
     box-shadow: 0 0 15px #ff8c00;
 }
-
-        .container {
-            width: 100%;
-            max-width: 100%;
-            margin: auto;
-            background-color: #282828;
-            padding: 15px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
-        h3 {
-            color: #fff;
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #fff;
-            font-size: 14px;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #484848;
-            border-radius: 4px;
-            font-size: 14px;
-            color: #fff;
-            box-sizing: border-box;
-            background: #383838;
-        }
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #ff9315;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            width: 100%;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #c07600;
-        }
-        #suggestions {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 5px;
-            border: 1px solid #484848;
-            background-color: #383838;
-            max-height: 150px;
-            overflow-y: auto;
-            position: absolute;
-            width: 100%;
-            z-index: 1;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        #suggestions li {
-            padding: 8px;
-            cursor: pointer;
-            color: #fff;
-        }
-        #suggestions li:hover {
-            background-color: #ffd5bf;
-        }
-        .input-container {
-            position: relative;
-        }
-        @media (max-width: 500px) {
-            .container {
-                padding: 10px;
-            }
-            h2 {
-                font-size: 16px;
-            }
-            input, select, textarea {
-                font-size: 12px;
-            }
-            button {
-                font-size: 12px;
-                padding: 8px 15px;
-            }
-        }
-    </style>
+     </style>
 </head>
 <body>
-    <div id="top-bar">
-        <img src="assets/logo.png" width="50" height="50">
-        <h2>World Forge</h2>
-    </div>
+
+  <div id="top-bar">
+    <img src="assets/logo.png" width="50" height="50">
+    <h2>World Forge</h2>
+</div>
 
     <div id="main-container">
         <div id="left-sidebar">
@@ -384,260 +261,395 @@ iframe {
             </div>
 
             <div class="file-card" onclick="downloadFile('house.bloxdschem')"></div>
+      
+                <div id="write-text-area" onclick="openTextEditor()">
+                    <i class="ri-edit-2-line" style="font-size: 30px;"></i>
+                    <p>Write Text</p>
+                </div>
+        
+                <div id="saved-texts"></div>
 
-            <div id="write-text-area" onclick="openTextEditor()">
-                <i class="ri-edit-2-line" style="font-size: 30px;"></i>
-                <p>Write Text</p>
-            </div>
-
-            <div id="saved-texts"></div>
         </div>
 
         <div id="iframe-container">
             <iframe id="game-frame" src="https://bloxd.io" scrolling="no"></iframe>
         </div>
 
-        <div id="text-popup" class="popup">
-            <div class="popup-content">
-                <input type="text" id="text-title" placeholder="Enter Title">
-                <textarea id="text-body" placeholder="Write your text here..."></textarea>
-                <button onclick="saveText()">Save</button>
-                <button onclick="closeTextPopup()">Close</button>
-            </div>
-        </div>
+          <div id="text-popup" class="popup">
+      <div class="popup-content">
+          <input type="text" id="text-title" placeholder="Enter Title">
+          <textarea id="text-body" placeholder="Write your text here..."></textarea>
+          <button onclick="saveText()">Save</button>
+          <button onclick="closeTextPopup()">Close</button>
+      </div>
+  </div>
 
-        <div id="view-popup" class="popup">
-            <div class="popup-content">
-                <h3 id="view-title"></h3>
-                <p id="view-body"></p>
-                <button onclick="closeViewPopup()">Close</button>
-            </div>
-        </div>
+  <div id="view-popup" class="popup">
+      <div class="popup-content">
+          <h3 id="view-title"></h3>
+          <p id="view-body"></p>
+          <button onclick="closeViewPopup()">Close</button>
+      </div>
+  </div>
 
         <div id="right-sidebar">
             <button id="world-edit-btn" class="Right-Buttons" onclick="toggleWEmenu()">World Edit<i class="ri-arrow-left-s-line" style="font-size: 20px;"></i></button>
             <div id="World-edit-box">
-                <button class="command-button" onclick="copyToClipboard('//pos1')">Pos 1 <i class="ri-flag-fill"></i></button>
-                <button class="command-button" onclick="copyToClipboard('//pos2')">Pos 2 <i class="ri-flag-fill"></i></button>
-                <button class="command-button" onclick="copyToClipboard('//copy')">Copy <i class="ri-file-copy-fill"></i></button>
-                <button class="command-button" onclick="copyToClipboard('//paste')">Paste <i class="ri-clipboard-fill"></i></button>
-                <button class="command-button" onclick="copyToClipboard('//schematic load')">Load <i class="ri-download-cloud-fill"></i></button>
-                <button class="command-button" onclick="copyToClipboard('//schematic save')">Save <i class="ri-save-fill"></i></button>
-            </div>
-            <button class="Right-Buttons" id="first-child" onclick="createSign()">
-                Create Sign <i class="ri-signpost-fill" style="margin-left: 8px;"></i>
-            </button>
-            <button class="Right-Buttons" onclick="placeholderAction()">Placeholder <i class="ri-add-box-line" style="margin-left: 8px;"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//pos1')">Pos 1 <i class="ri-flag-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//pos2')">Pos 2 <i class="ri-flag-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//copy')">Copy <i class="ri-file-copy-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//paste')">Paste <i class="ri-clipboard-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//schematic load')">Load <i class="ri-download-cloud-fill"></i></button>
+            <button class="command-button" onclick="copyToClipboard('//schematic save')">Save <i class="ri-save-fill"></i></button>
         </div>
-    </div>
+        <button class="Right-Buttons" id="first-child" onclick="createSign()">
+            Create Sign <i class="ri-signpost-fill" style="margin-left: 8px;"></i>
+        </button>        
+                <button class="Right-Buttons" onclick="createPlaceholderSign()">
+                    Find builds <i class="fa fa-shopping-cart" style="margin-left: 8px;"></i>
+                </button>
 
-    <div id="sign-editor-popup">
-        <div class="container">
-            <div class="form-group">
-                <label for="sign-type">Select Sign Type:</label>
-                <select id="sign-type" onchange="toggleCostFields()">
-                    <option value="" disabled selected>Please choose</option>
-                    <option value="buy">Press to Buy</option>
-                    <option value="get">Press to Get</option>
-                </select>
-            </div>
-            <div class="form-group input-container">
-                <label for="item-name">Search for Item:</label>
-                <input type="text" id="item-name" placeholder="Type item name...">
-                <ul id="suggestions"></ul>
-            </div>
-            <div class="form-group">
-                <label for="item-amount">Enter Amount:</label>
-                <input type="number" id="item-amount" placeholder="Amount" min="1">
-            </div>
-            <div id="cost-fields" style="display: none;">
-                <div class="form-group">
-                    <label for="item-cost">Enter Cost Amount:</label>
-                    <input type="number" id="item-cost" placeholder="Cost Amount" min="1">
-                </div>
-                <div class="form-group">
-                    <label for="item-cost-type">Enter Cost Item:</label>
-                    <input type="text" id="item-cost-type" placeholder="Cost Item Name">
-                </div>
-            </div>
-            <button onclick="generateSign()">Generate Sign</button>
-            <h3>Generated Sign:</h3>
-            <textarea id="generated-sign" readonly></textarea>
         </div>
-        <button onclick="document.getElementById('sign-editor-popup').style.display = 'none'">Close</button>
-    </div>
 
-    <script>
-        let writeTextArea = document.getElementById("write-text-area");
-        writeTextArea.onclick = openTextEditor;
+        <script src="script.js"></script>
+</body>
+</html>
+<script>
+    let writeTextArea = document.getElementById("write-text-area");
+writeTextArea.onclick = openTextEditor;
 
-        function openTextEditor() {
-            let textEditor = document.createElement("div");
-            textEditor.id = "text-editor";
-            textEditor.style.position = "fixed";
-            textEditor.style.top = "50%";
-            textEditor.style.left = "50%";
-            textEditor.style.transform = "translate(-50%, -50%)";
-            textEditor.style.width = "500px";
-            textEditor.style.background = "#282828";
-            textEditor.style.padding = "10px";
-            textEditor.style.zIndex = "1000";
-            textEditor.style.border = "2px solid #444";
-            textEditor.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
+function openTextEditor() {
+    let textEditor = document.createElement("div");
+    textEditor.id = "text-editor";
+    textEditor.style.position = "fixed";
+    textEditor.style.top = "50%";
+    textEditor.style.left = "50%";
+    textEditor.style.transform = "translate(-50%, -50%)";
+    textEditor.style.width = "500px";
+    textEditor.style.background = "#282828";
+    textEditor.style.padding = "10px";
+    textEditor.style.zIndex = "1000";
+    textEditor.style.border = "2px solid #ff6f00";
+    textEditor.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
+    textEditor.style.color = "white";
+    textEditor.style.borderRadius = "10px";
 
-            let titleInput = document.createElement("input");
-            titleInput.type = "text";
-            titleInput.placeholder = "Enter title";
-            titleInput.style.width = "100%";
-            titleInput.style.marginBottom = "10px";
-            titleInput.style.background = "#383838";
-            titleInput.style.border = "1px solid #484848";
-            titleInput.style.padding = "8px";
-            titleInput.style.borderRadius = "4px";
+    let header = document.createElement("div");
+    header.style.backgroundColor = "#383838";
+    header.style.color = "white";
+    header.style.padding = "10px";
+    header.style.display = "flex";
+    header.style.justifyContent = "space-between";
+    header.style.alignItems = "center";
+    header.style.borderBottom = "2px solid #ff6f00";
+    header.style.borderRadius = "10px 10px 0 0";
 
-            let textInput = document.createElement("textarea");
-            textInput.placeholder = "Write your text here...";
-            textInput.style.width = "100%";
-            textInput.style.minHeight = "300px";
-            textInput.style.marginBottom = "10px";
-            textInput.style.background = "#383838";
-            textInput.style.border = "1px solid #484848";
-            textInput.style.padding = "8px";
-            textInput.style.borderRadius = "4px";
-            textInput.style.resize = "vertical";
+    let headerTitle = document.createElement("span");
+    headerTitle.textContent = "Text Editor";
+    headerTitle.style.fontWeight = "bold";
+    header.appendChild(headerTitle);
 
-            let saveButton = document.createElement("button");
-            saveButton.innerText = "Save";
-            saveButton.style.width = "100%";
-            saveButton.style.background = "#383838";
-            saveButton.style.border = "none";
-            saveButton.style.padding = "10px 20px";
-            saveButton.style.cursor = "pointer";
-            saveButton.style.borderRadius = "8px";
-            saveButton.style.color = "white";
-            saveButton.style.fontSize = "14px";
-            saveButton.onclick = () => saveText(titleInput.value, textInput.value, textEditor);
+    let closeButton = document.createElement("button");
+    closeButton.innerHTML = "×";
+    closeButton.style.background = "none";
+    closeButton.style.border = "none";
+    closeButton.style.color = "white";
+    closeButton.style.fontSize = "20px";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.transition = "color 0.3s ease";
+    closeButton.onmouseover = function() { this.style.color = "#ff6f00"; };
+    closeButton.onmouseout = function() { this.style.color = "white"; };
+    closeButton.onclick = () => textEditor.remove();
+    header.appendChild(closeButton);
 
-            let closeButton = document.createElement("button");
-            closeButton.innerText = "Close";
-            closeButton.style.width = "100%";
-            closeButton.style.marginTop = "10px";
-            closeButton.style.background = "#383838";
-            closeButton.style.border = "none";
-            closeButton.style.padding = "10px 20px";
-            closeButton.style.cursor = "pointer";
-            closeButton.style.borderRadius = "8px";
-            closeButton.style.color = "white";
-            closeButton.style.fontSize = "14px";
-            closeButton.onclick = () => textEditor.remove();
+    textEditor.appendChild(header);
 
-            textEditor.appendChild(titleInput);
-            textEditor.appendChild(textInput);
-            textEditor.appendChild(saveButton);
-            textEditor.appendChild(closeButton);
-            document.body.appendChild(textEditor);
-        }
+    let contentContainer = document.createElement("div");
+    contentContainer.style.padding = "10px";
 
-        function saveText(title, text, editor) {
-            if (!title || !text) return;
-            let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
-            texts.push({ title, text });
-            localStorage.setItem("savedTexts", JSON.stringify(texts));
-            displaySavedTexts();
-            editor.remove();
-        }
+    let titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.placeholder = "Enter title";
+    titleInput.style.width = "100%";
+    titleInput.style.marginBottom = "10px";
+    titleInput.style.background = "#383838";
+    titleInput.style.border = "1px solid #ff6f00";
+    titleInput.style.padding = "8px";
+    titleInput.style.borderRadius = "4px";
+    titleInput.style.color = "white";
+    
+    let textInput = document.createElement("textarea");
+    textInput.placeholder = "Write your text here...";
+    textInput.style.width = "100%";
+    textInput.style.minHeight ="300px";
+    textInput.style.marginBottom = "10px";
+    textInput.style.background = "#383838";
+    textInput.style.border = "1px solid #ff6f00";
+    textInput.style.padding = "8px";
+    textInput.style.borderRadius = "4px";
+    textInput.style.resize = "vertical";
+    textInput.style.color = "white";
 
-        function displaySavedTexts() {
-            let writeTextArea = document.getElementById("write-text-area");
+    let saveButton = document.createElement("button");
+    saveButton.innerText = "Save";
+    saveButton.style.width = "100%";
+    saveButton.style.background = "#383838";
+    saveButton.style.border = "2px solid #ff6f00";
+    saveButton.style.padding = "10px 20px";
+    saveButton.style.cursor = "pointer";
+    saveButton.style.borderRadius = "8px";
+    saveButton.style.color = "white";
+    saveButton.style.fontSize = "14px";
+    saveButton.style.transition = "background 0.3s ease, color 0.3s ease";
+    saveButton.onmouseover = function() { 
+        this.style.background = "#ff6f00"; 
+        this.style.color = "black";
+    };
+    saveButton.onmouseout = function() { 
+        this.style.background = "#383838"; 
+        this.style.color = "white";
+    };
+    saveButton.onclick = () => saveText(titleInput.value, textInput.value, textEditor);
 
-            const existingTextCards = writeTextArea.querySelectorAll(".file-card-wrapper");
-            existingTextCards.forEach(card => card.remove());
+    contentContainer.appendChild(titleInput);
+    contentContainer.appendChild(textInput);
+    contentContainer.appendChild(saveButton);
 
-            let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
-            texts.forEach((item, index) => {
-                const fileCardWrapper = document.createElement("div");
-                fileCardWrapper.classList.add("file-card-wrapper");
-                const fileCard = document.createElement("div");
-                fileCard.classList.add("file-card");
+    textEditor.appendChild(contentContainer);
+    document.body.appendChild(textEditor);
+}
 
-                const displayTextTitle = item.title.length > 10 ? item.title.substring(0, 10) + "..." : item.title;
-                fileCard.textContent = displayTextTitle;
-                fileCard.onclick = (event) => {
-                    event.stopPropagation();
-                    openSavedText(item);
-                };
+function openSavedText(item) {
+    let textPopup = document.createElement("div");
+    textPopup.style.position = "fixed";
+    textPopup.style.top = "50%";
+    textPopup.style.left = "50%";
+    textPopup.style.transform = "translate(-50%, -50%)";
+    textPopup.style.width = "500px";
+    textPopup.style.height = "400px";
+    textPopup.style.background = "#282828";
+    textPopup.style.padding = "10px";
+    textPopup.style.zIndex = "1000";
+    textPopup.style.border = "2px solid #ff6f00";
+    textPopup.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
+    textPopup.style.display = "flex";
+    textPopup.style.flexDirection = "column";
+    textPopup.style.borderRadius = "10px";
+    textPopup.style.color = "white";
 
-                const removeBtn = document.createElement("button");
-                removeBtn.classList.add("remove-btn");
+    let header = document.createElement("div");
+    header.style.backgroundColor = "#383838";
+    header.style.color = "white";
+    header.style.padding = "10px";
+    header.style.display = "flex";
+    header.style.justifyContent = "space-between";
+    header.style.alignItems = "center";
+    header.style.borderBottom = "2px solid #ff6f00";
+    header.style.borderRadius = "10px 10px 0 0";
 
-                const removeIcon = document.createElement("i");
-                removeIcon.classList.add("ri-delete-bin-line");
+    let headerTitle = document.createElement("span");
+    headerTitle.innerText = item.title;
+    headerTitle.style.fontWeight = "bold";
+    header.appendChild(headerTitle);
 
-                removeBtn.textContent = "Remove ";
-                removeBtn.appendChild(removeIcon);
-                removeBtn.onclick = (event) => {
-                    event.stopPropagation();
-                    removeSavedText(index);
-                };
+    let closeButton = document.createElement("button");
+    closeButton.innerHTML = "×";
+    closeButton.style.background = "none";
+    closeButton.style.border = "none";
+    closeButton.style.color = "white";
+    closeButton.style.fontSize = "20px";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.transition = "color 0.3s ease";
+    closeButton.onmouseover = function() { this.style.color = "#ff6f00"; };
+    closeButton.onmouseout = function() { this.style.color = "white"; };
+    closeButton.onclick = () => textPopup.remove();
+    header.appendChild(closeButton);
 
-                fileCardWrapper.appendChild(fileCard);
-                fileCardWrapper.appendChild(removeBtn);
+    textPopup.appendChild(header);
+    
+    let contentContainer = document.createElement("div");
+    contentContainer.style.padding = "10px";
+    contentContainer.style.flexGrow = "1";
+    contentContainer.style.overflowY = "auto";
 
-                writeTextArea.appendChild(fileCardWrapper);
-            });
-        }
+    let content = document.createElement("p");
+    content.innerText = item.text;
+    content.style.marginBottom = "10px";
+    
+    let closeBtn = document.createElement("button");
+    closeBtn.innerText = "Close";
+    closeBtn.style.width = "100%";
+    closeBtn.style.background = "#383838";
+    closeBtn.style.border = "2px solid #ff6f00";
+    closeBtn.style.padding = "10px 20px";
+    closeBtn.style.cursor = "pointer";
+    closeBtn.style.borderRadius = "8px";
+    closeBtn.style.color = "white";
+    closeBtn.style.fontSize = "14px";
+    closeBtn.style.transition = "background 0.3s ease, color 0.3s ease";
+    closeBtn.onmouseover = function() { 
+        this.style.background = "#ff6f00"; 
+        this.style.color = "black";
+    };
+    closeBtn.onmouseout = function() { 
+        this.style.background = "#383838"; 
+        this.style.color = "white";
+    };
+    closeBtn.onclick = () => textPopup.remove();
+    
+    contentContainer.appendChild(content);
+    contentContainer.appendChild(closeBtn);
 
-        function openSavedText(item) {
-            let textPopup = document.createElement("div");
-            textPopup.style.position = "fixed";
-            textPopup.style.top = "50%";
-            textPopup.style.left = "50%";
-            textPopup.style.transform = "translate(-50%, -50%)";
-            textPopup.style.width = "500px";
-            textPopup.style.height = "400px";
-            textPopup.style.background = "#282828";
-            textPopup.style.padding = "10px";
-            textPopup.style.zIndex = "1000";
-            textPopup.style.border = "2px solid #444";
-            textPopup.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
-            textPopup.style.display = "flex";
-            textPopup.style.flexDirection = "column";
+    textPopup.appendChild(contentContainer);
+    document.body.appendChild(textPopup);
+}
 
-            let title = document.createElement("h3");
-            title.innerText = item.title;
+function saveText(title, text, editor) {
+    if (!title || !text) return;
+    let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
+    texts.push({ title, text });
+    localStorage.setItem("savedTexts", JSON.stringify(texts));
+    displaySavedTexts();
+    editor.remove();
+}
 
-            let content = document.createElement("p");
-            content.innerText = item.text;
-            content.style.flexGrow = "1";
+function displaySavedTexts() {
+    let writeTextArea = document.getElementById("write-text-area");
 
-            let closeBtn = document.createElement("button");
-            closeBtn.innerText = "Close";
-            closeBtn.style.width = "100%";
-            closeBtn.style.background = "#383838";
-            closeBtn.style.border = "none";
-            closeBtn.style.padding = "10px 20px";
-            closeBtn.style.cursor = "pointer";
-            closeBtn.style.borderRadius = "8px";
-            closeBtn.style.color = "white";
-            closeBtn.style.fontSize = "14px";
-            closeBtn.onclick = () => textPopup.remove();
+    const existingTextCards = writeTextArea.querySelectorAll(".file-card-wrapper");
+    existingTextCards.forEach(card => card.remove());
 
-            textPopup.appendChild(title);
-            textPopup.appendChild(content);
-            textPopup.appendChild(closeBtn);
-            document.body.appendChild(textPopup);
-        }
+    let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
+    texts.forEach((item, index) => {
+        const fileCardWrapper = document.createElement("div");
+        fileCardWrapper.classList.add("file-card-wrapper");
+        const fileCard = document.createElement("div");
+        fileCard.classList.add("file-card");
 
-        function removeSavedText(index) {
-            let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
-            texts.splice(index, 1);
-            localStorage.setItem("savedTexts", JSON.stringify(texts));
-            displaySavedTexts();
-        }
+        const displayTextTitle = item.title.length > 10 ? item.title.substring(0, 10) + "..." : item.title;
+        fileCard.textContent = displayTextTitle;
+        fileCard.onclick = (event) => {
+            event.stopPropagation();
+            openSavedText(item); 
+        };
 
-        displaySavedTexts();
+        const removeBtn = document.createElement("button");
+        removeBtn.classList.add("remove-btn");
 
-        function handleFileUpload(event) {
+        const removeIcon = document.createElement("i");
+        removeIcon.classList.add("ri-delete-bin-line");
+        
+        removeBtn.textContent = "Remove ";
+        removeBtn.appendChild(removeIcon); 
+        removeBtn.onclick = (event) => {
+
+            event.stopPropagation();
+            removeSavedText(index);
+        };
+
+        fileCardWrapper.appendChild(fileCard);
+        fileCardWrapper.appendChild(removeBtn);
+
+        writeTextArea.appendChild(fileCardWrapper);
+    });
+}
+
+function openSavedText(item) {
+    let textPopup = document.createElement("div");
+    textPopup.style.position = "fixed";
+    textPopup.style.top = "50%";
+    textPopup.style.left = "50%";
+    textPopup.style.transform = "translate(-50%, -50%)";
+    textPopup.style.width = "500px";
+    textPopup.style.height = "400px";
+    textPopup.style.background = "#282828";
+    textPopup.style.padding = "10px";
+    textPopup.style.zIndex = "1000";
+    textPopup.style.border = "2px solid #ff6f00";
+    textPopup.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
+    textPopup.style.display = "flex";
+    textPopup.style.flexDirection = "column";
+    textPopup.style.borderRadius = "10px";
+    textPopup.style.color = "white";
+
+    let header = document.createElement("div");
+    header.style.backgroundColor = "#383838";
+    header.style.color = "white";
+    header.style.padding = "10px";
+    header.style.display = "flex";
+    header.style.justifyContent = "space-between";
+    header.style.alignItems = "center";
+    header.style.borderBottom = "2px solid #ff6f00";
+    header.style.borderRadius = "10px 10px 0 0";
+
+    let headerTitle = document.createElement("span");
+    headerTitle.innerText = item.title;
+    headerTitle.style.fontWeight = "bold";
+    header.appendChild(headerTitle);
+
+    let closeButton = document.createElement("button");
+    closeButton.innerHTML = "×";
+    closeButton.style.background = "none";
+    closeButton.style.border = "none";
+    closeButton.style.color = "white";
+    closeButton.style.fontSize = "20px";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.transition = "color 0.3s ease";
+    closeButton.onmouseover = function() { this.style.color = "#ff6f00"; };
+    closeButton.onmouseout = function() { this.style.color = "white"; };
+    closeButton.onclick = () => textPopup.remove();
+    header.appendChild(closeButton);
+
+    textPopup.appendChild(header);
+    
+    let contentContainer = document.createElement("div");
+    contentContainer.style.padding = "10px";
+    contentContainer.style.flexGrow = "1";
+    contentContainer.style.overflowY = "auto";
+
+    let content = document.createElement("p");
+    content.innerText = item.text;
+    content.style.marginBottom = "10px";
+    
+    let closeBtn = document.createElement("button");
+    closeBtn.innerText = "Close";
+    closeBtn.style.width = "100%";
+    closeBtn.style.background = "#383838";
+    closeBtn.style.border = "2px solid #ff6f00";
+    closeBtn.style.padding = "10px 20px";
+    closeBtn.style.cursor = "pointer";
+    closeBtn.style.borderRadius = "8px";
+    closeBtn.style.color = "white";
+    closeBtn.style.fontSize = "14px";
+    closeBtn.style.transition = "background 0.3s ease, color 0.3s ease";
+    closeBtn.onmouseover = function() { 
+        this.style.background = "#ff6f00"; 
+        this.style.color = "black";
+    };
+    closeBtn.onmouseout = function() { 
+        this.style.background = "#383838"; 
+        this.style.color = "white";
+    };
+    closeBtn.onclick = () => textPopup.remove();
+    
+    contentContainer.appendChild(content);
+    contentContainer.appendChild(closeBtn);
+
+    textPopup.appendChild(contentContainer);
+    document.body.appendChild(textPopup);
+}
+
+function removeSavedText(index) {
+    let texts = JSON.parse(localStorage.getItem("savedTexts")) || [];
+    texts.splice(index, 1);
+    localStorage.setItem("savedTexts", JSON.stringify(texts));
+    displaySavedTexts(); 
+}
+
+displaySavedTexts();
+
+      // Handle file uploads
+           function handleFileUpload(event) {
             const file = event.target.files[0];
             if (file) {
                 const fileName = file.name;
@@ -646,10 +658,9 @@ iframe {
                 saveFileToLocalStorage(fileName, fileURL);
             }
         }
-
         function addFileCard(fileName, fileURL) {
             let filediv = document.querySelector("#storage-area");
-
+            
             const displayFileName = fileName.length > 13 ? fileName.substring(0, 13) + "..." : fileName;
             const fileCard = document.createElement("div");
             fileCard.classList.add("file-card");
@@ -661,11 +672,11 @@ iframe {
 
             const removeIcon = document.createElement("i");
             removeIcon.classList.add("ri-delete-bin-line");
-
+        
             removeBtn.textContent = "Remove ";
             removeBtn.appendChild(removeIcon);
             removeBtn.onclick = (event) => confirmRemove(event, fileName, fileCardWrapper);
-
+        
             const fileCardWrapper = document.createElement("div");
             fileCardWrapper.classList.add("file-card-wrapper");
             fileCardWrapper.appendChild(fileCard);
@@ -673,17 +684,17 @@ iframe {
 
             filediv.appendChild(fileCardWrapper);
         }
-
+        
         function confirmRemove(event, fileName, fileCardWrapper) {
             event.stopPropagation();
-
+        
             const confirmation = confirm(`Are you sure you want to remove ${fileName}?`);
             if (confirmation) {
                 removeFileFromLocalStorage(fileName);
                 fileCardWrapper.remove();
             }
         }
-
+        
         function saveFileToLocalStorage(fileName, fileURL) {
             const files = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
             files.push({ fileName, fileURL });
@@ -717,113 +728,345 @@ iframe {
             });
         }
 
-        function createSign() {
-            document.getElementById("sign-editor-popup").style.display = "block";
+        let resizeHandle, iframeContainer, startX, startY, startWidth, startHeight;
+
+        function createResizeHandle() {
+            resizeHandle = document.createElement('div');
+            resizeHandle.className = 'resize-handle';
+            iframeContainer.appendChild(resizeHandle);
+            resizeHandle.addEventListener('mousedown', initResize);
         }
+
+        function initResize(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Ensure we have the correct container
+            iframeContainer = document.getElementById('iframe-sign-container');
+            
+            // Get initial dimensions
+            const computedStyle = window.getComputedStyle(iframeContainer);
+            startWidth = parseInt(computedStyle.width, 10);
+            startHeight = parseInt(computedStyle.height, 10);
+            
+            // Store initial mouse position
+            startX = e.clientX;
+            startY = e.clientY;
+
+            // Add event listeners
+            document.addEventListener('mousemove', performResize);
+            document.addEventListener('mouseup', stopResize);
+
+            // Add visual indicators
+            iframeContainer.classList.add('resizing');
+        }
+
+        function performResize(e) {
+            if (!iframeContainer) return;
+
+            // Calculate new dimensions
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+
+            // Compute new width and height with constraints
+            const newWidth = Math.max(300, Math.min(startWidth + deltaX, window.innerWidth * 0.9));
+            const newHeight = Math.max(200, Math.min(startHeight + deltaY, window.innerHeight * 0.9));
+
+            // Update dimensions using requestAnimationFrame for performance
+            requestAnimationFrame(() => {
+                iframeContainer.style.width = `${newWidth}px`;
+                iframeContainer.style.height = `${newHeight}px`;
+            });
+        }
+
+        function stopResize() {
+            // Remove event listeners
+            document.removeEventListener('mousemove', performResize);
+            document.removeEventListener('mouseup', stopResize);
+
+            // Remove visual indicators
+            if (iframeContainer) {
+                iframeContainer.classList.remove('resizing');
+            }
+
+            // Reset tracking variables
+            startX = null;
+            startY = null;
+            startWidth = null;
+            startHeight = null;
+        }
+
+        // Initialize resize functionality when createSign is called
+        function initResizeFeature() {
+            iframeContainer = document.getElementById('iframe-sign-container');
+            if (iframeContainer && !iframeContainer.querySelector('.resize-handle')) {
+                createResizeHandle();
+            }
+        }
+
+        function createSign() {
+            let iframeContainer = document.createElement("div");
+            iframeContainer.id = "iframe-sign-container";
+            iframeContainer.style.position = "fixed";
+            iframeContainer.style.top = "50%";
+            iframeContainer.style.left = "50%";
+            iframeContainer.style.transform = "translate(-50%, -50%)";
+            iframeContainer.style.width = "40%";
+            iframeContainer.style.height = "60%";
+            iframeContainer.style.backgroundColor = "#282828";
+            iframeContainer.style.zIndex = "9999";
+            iframeContainer.style.border = "2px solid #ff6f00";
+            iframeContainer.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
+            iframeContainer.style.cursor = "move";
+            iframeContainer.style.resize = "both";
+            iframeContainer.style.overflow = "hidden";
+            iframeContainer.style.borderRadius = "10px";
+            iframeContainer.style.color = "white";
+
+            let header = document.createElement("div");
+            header.style.backgroundColor = "#383838";
+            header.style.color = "white";
+            header.style.padding = "10px";
+            header.style.cursor = "move";
+            header.style.display = "flex";
+            header.style.justifyContent = "space-between";
+            header.style.alignItems = "center";
+            header.style.borderBottom = "2px solid #ff6f00";
+            header.style.borderRadius = "10px 10px 0 0";
+
+            let headerTitle = document.createElement("span");
+            headerTitle.textContent = "Sign Editor";
+            headerTitle.style.fontWeight = "bold";
+            header.appendChild(headerTitle);
+
+            let closeButton = document.createElement("button");
+            closeButton.innerHTML = "×";
+            closeButton.style.background = "none";
+            closeButton.style.border = "none";
+            closeButton.style.color = "white";
+            closeButton.style.fontSize = "20px";
+            closeButton.style.cursor = "pointer";
+            closeButton.style.transition = "color 0.3s ease";
+            closeButton.onmouseover = function() { this.style.color = "#ff6f00"; };
+            closeButton.onmouseout = function() { this.style.color = "white"; };
+            closeButton.onclick = () => iframeContainer.remove();
+            header.appendChild(closeButton);
+
+            iframeContainer.appendChild(header);
+
+            let iframe = document.createElement("iframe");
+            iframe.src = "sign.html";  
+            iframe.style.width = "100%";
+            iframe.style.height = "calc(100% - 40px)";  
+            iframe.style.border = "none";
+            iframeContainer.appendChild(iframe);
+
+            document.body.appendChild(iframeContainer);
+
+            header.onmousedown = dragMouseDown;
+
+            let offsetX = 0;
+            let offsetY = 0;
+
+            function dragMouseDown(e) {
+                e.preventDefault();
+                offsetX = e.clientX - iframeContainer.offsetLeft;
+                offsetY = e.clientY - iframeContainer.offsetTop;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = dragMouseMove;
+            }
+
+            function dragMouseMove(e) {
+                e.preventDefault();
+                let posX = e.clientX - offsetX;
+                let posY = e.clientY - offsetY;
+                iframeContainer.style.left = posX + "px";
+                iframeContainer.style.top = posY + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+
+            initResizeFeature();
+        }
+
+        function createPlaceholderSign() {
+            let placeholderContainer = document.createElement("div");
+            placeholderContainer.id = "iframe-placeholder-container";
+            placeholderContainer.style.position = "fixed";
+            placeholderContainer.style.top = "50%";
+            placeholderContainer.style.left = "50%";
+            placeholderContainer.style.transform = "translate(-50%, -50%)";
+            placeholderContainer.style.width = "70%";
+            placeholderContainer.style.height = "60%";
+            placeholderContainer.style.backgroundColor = "#282828";
+            placeholderContainer.style.zIndex = "9999";
+            placeholderContainer.style.border = "2px solid #ff6f00";
+            placeholderContainer.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
+            placeholderContainer.style.cursor = "move";
+            placeholderContainer.style.resize = "both";
+            placeholderContainer.style.overflow = "hidden";
+            placeholderContainer.style.color = "white";
+
+            let header = document.createElement("div");
+            header.style.backgroundColor = "#383838";
+            header.style.color = "white";
+            header.style.padding = "10px";
+            header.style.cursor = "move";
+            header.style.display = "flex";
+            header.style.justifyContent = "space-between";
+            header.style.alignItems = "center";
+            header.style.borderBottom = "2px solid #ff6f00";
+
+            let headerTitle = document.createElement("span");
+            headerTitle.textContent = "Forged builds";
+            headerTitle.style.fontWeight = "bold";
+            header.appendChild(headerTitle);
+
+            let closeButton = document.createElement("button");
+            closeButton.innerHTML = "×";
+            closeButton.style.background = "none";
+            closeButton.style.border = "none";
+            closeButton.style.color = "white";
+            closeButton.style.fontSize = "20px";
+            closeButton.style.cursor = "pointer";
+            closeButton.style.transition = "color 0.3s ease";
+            closeButton.onmouseover = function() { this.style.color = "#ff6f00"; };
+            closeButton.onmouseout = function() { this.style.color = "white"; };
+            closeButton.onclick = function() {
+                document.body.removeChild(placeholderContainer);
+            };
+            header.appendChild(closeButton);
+
+            placeholderContainer.appendChild(header);
+
+            let iframe = document.createElement("iframe");
+            iframe.src = "https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/8page.html";
+            iframe.style.width = "100%";
+            iframe.style.height = "calc(100% - 40px)";
+            iframe.style.border = "none";
+            iframe.style.overflow = "auto";
+
+            placeholderContainer.appendChild(iframe);
+
+            let resizeHandle = document.createElement("div");
+            resizeHandle.style.position = "absolute";
+            resizeHandle.style.right = "0";
+            resizeHandle.style.bottom = "0";
+            resizeHandle.style.width = "20px";
+            resizeHandle.style.height = "20px";
+            resizeHandle.style.backgroundColor = "#ff6f00";
+            resizeHandle.style.cursor = "se-resize";
+            resizeHandle.style.opacity = "0.7";
+            resizeHandle.style.transition = "opacity 0.3s ease";
+            resizeHandle.onmouseover = function() { this.style.opacity = "1"; };
+            resizeHandle.onmouseout = function() { this.style.opacity = "0.7"; };
+            placeholderContainer.appendChild(resizeHandle);
+
+            // Dragging functionality
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+
+            header.addEventListener("mousedown", dragStart);
+            document.addEventListener("mouseup", dragEnd);
+            document.addEventListener("mousemove", drag);
+
+            function dragStart(e) {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+
+                if (e.target === header) {
+                    isDragging = true;
+                }
+            }
+
+            function dragEnd(e) {
+                initialX = currentX;
+                initialY = currentY;
+
+                isDragging = false;
+            }
+
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+
+                    xOffset = currentX;
+                    yOffset = currentY;
+
+                    setTranslate(currentX, currentY, placeholderContainer);
+                }
+            }
+
+            function setTranslate(xPos, yPos, el) {
+                el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+            }
+
+            // Resize functionality
+            let isResizing = false;
+            let originalWidth, originalHeight, originalX, originalY;
+
+            resizeHandle.addEventListener("mousedown", initResize);
+            document.addEventListener("mousemove", resize);
+            document.addEventListener("mouseup", stopResize);
+
+            function initResize(e) {
+                e.stopPropagation();
+                isResizing = true;
+                originalWidth = placeholderContainer.offsetWidth;
+                originalHeight = placeholderContainer.offsetHeight;
+                originalX = e.clientX;
+                originalY = e.clientY;
+            }
+
+            function resize(e) {
+                if (!isResizing) return;
+
+                let width = originalWidth + (e.clientX - originalX);
+                let height = originalHeight + (e.clientY - originalY);
+
+                width = Math.max(300, Math.min(width, window.innerWidth * 0.9));
+                height = Math.max(200, Math.min(height, window.innerHeight * 0.9));
+
+                placeholderContainer.style.width = `${width}px`;
+                placeholderContainer.style.height = `${height}px`;
+            }
+
+            function stopResize() {
+                isResizing = false;
+            }
+
+            document.body.appendChild(placeholderContainer);
+        }
+
+        window.createPlaceholderSign = createPlaceholderSign;
 
         function toggleWEmenu() {
             let WEicon = document.querySelector("#world-edit-btn i");
             let WEMENU = document.getElementById("World-edit-box");
             let WEbutton = document.getElementById("world-edit-btn");
-
+          
             if (WEicon.classList.contains("ri-arrow-left-s-line")) {
                 WEicon.classList.remove("ri-arrow-left-s-line");
                 WEicon.classList.add("ri-arrow-down-s-line");
 
-                WEbutton.style.borderRadius = "10px 10px 0 0";
+                WEbutton.style.borderRadius ="10px 10px 0 0";
                 WEMENU.style.display = "flex";
             } else {
                 WEicon.classList.remove("ri-arrow-down-s-line");
                 WEicon.classList.add("ri-arrow-left-s-line");
 
-                WEbutton.style.borderRadius = "10px";
+                WEbutton.style.borderRadius ="10px";
                 WEMENU.style.display = "none";
             }
         }
-
-        let items = [];
-
-        fetch("/studio/assets/items.txt")
-            .then(response => response.text())
-            .then(data => {
-                items = data.split("\n").map(item => item.trim()).filter(item => item.length > 0);
-            })
-            .catch(err => {
-                console.error("Error fetching items:", err);
-                alert("Failed to load item list.");
-            });
-
-        function toggleCostFields() {
-            const signType = document.getElementById("sign-type").value;
-            const costFields = document.getElementById("cost-fields");
-
-            if (signType === "buy") {
-                costFields.style.display = "block";
-            } else {
-                costFields.style.display = "none";
-            }
-        }
-
-        function generateSign() {
-            const signType = document.getElementById("sign-type").value;
-            const itemName = document.getElementById("item-name").value;
-            const itemAmount = document.getElementById("item-amount").value;
-
-            if (!items.includes(itemName)) {
-                alert("Item not found. Please check the name.");
-                return;
-            }
-
-            if (itemAmount <= 0 || isNaN(itemAmount)) {
-                alert("Please enter a valid amount.");
-                return;
-            }
-
-            let signText = "";
-
-            if (signType === "buy") {
-                const itemCost = document.getElementById("item-cost").value;
-                const itemCostType = document.getElementById("item-cost-type").value;
-
-                if (itemCost <= 0 || isNaN(itemCost)) {
-                    alert("Please enter a valid cost.");
-                    return;
-                }
-                if (!items.includes(itemCostType)) {
-                    alert("Cost item not found. Please check the name.");
-                    return;
-                }
-
-                signText = `Press to Buy\n${itemAmount} ${itemName}\ncosts\n${itemCost} ${itemCostType}`;
-            } else if (signType === "get") {
-                signText = `Press to Get\n${itemAmount} ${itemName}`;
-            }
-
-            document.getElementById("generated-sign").value = signText;
-        }
-
-        document.getElementById("item-name").addEventListener("input", function () {
-            const searchQuery = this.value.toLowerCase();
-            const suggestions = items.filter(item => item.toLowerCase().includes(searchQuery));
-            const suggestionsList = document.getElementById("suggestions");
-
-            if (searchQuery === "") {
-                suggestionsList.innerHTML = '';
-                return;
-            }
-
-            suggestionsList.innerHTML = '';
-
-            suggestions.forEach(item => {
-                const listItem = document.createElement("li");
-                listItem.textContent = item;
-                listItem.onclick = () => {
-                    document.getElementById("item-name").value = item;
-                    suggestionsList.innerHTML = '';
-                };
-                suggestionsList.appendChild(listItem);
-            });
-        });
-    </script>
-</body>
-</html>
+</script>
