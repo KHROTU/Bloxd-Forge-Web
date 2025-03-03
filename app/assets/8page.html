@@ -118,7 +118,6 @@
             font-weight: 600;
         }
 
-        /* Improved Buttons */
         .button {
             display: inline-flex;
             align-items: center;
@@ -238,7 +237,6 @@
             background: var(--surface-hover);
         }
 
-        /* Mobile Improvements */
         @media (max-width: 768px) {
             #topBar {
                 flex-direction: column;
@@ -250,14 +248,15 @@
                 grid-template-columns: 1fr;
                 padding: 1rem;
             }
+        }
         
         p {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: -1; /* Moves it behind other elements */
-    color: white; /* Adjust text color for visibility */
+    z-index: -1;
+    color: white;
 }
 
     </style>
@@ -375,7 +374,6 @@
         });
 
         function incrementDownloadCount(schematicId) {
-            // Create or update download count element
             let countElement = document.getElementById(`downloadCount_${schematicId}`);
             if (!countElement) {
                 countElement = document.createElement('div');
@@ -384,7 +382,6 @@
                 document.querySelector(`[data-schematic-id='${schematicId}']`).parentNode.insertBefore(countElement, document.querySelector(`[data-schematic-id='${schematicId}']`));
             }
             
-            // Update count
             let currentCount = parseInt(countElement.textContent) || 0;
             currentCount++;
             countElement.textContent = `${currentCount} downloads`;
@@ -421,10 +418,8 @@
             const cards = document.querySelectorAll('.schematicBox');
 
             cards.forEach(card => {
-                // Get the tags for this specific card
                 const cardTags = card.querySelector('.tag-list .tag').textContent.toLowerCase().split(',');
                 
-                // If no tag is selected or tag matches, show the card
                 if (tagFilter === 'none' || cardTags.some(tag => tag.trim().includes(tagFilter))) {
                     card.style.display = ''; 
                 } else {
