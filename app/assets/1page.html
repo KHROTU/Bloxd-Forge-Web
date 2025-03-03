@@ -676,6 +676,18 @@
       transform: scale(0.9);
       color: #ff7777;
     }
+
+    #pingBox {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 16px;
+      color: white;
+      z-index: 20;
+    }
   </style>
 </head>
 <body>
@@ -1015,15 +1027,22 @@
     }
 
     function updatePing() {
-      const startTime = Date.now();
-      fetch(window.location.href, { method: 'HEAD' })
-        .then(() => {
-          const ping = Date.now() - startTime;
-          pingDisplay.textContent = `Ping: ${ping} ms`;
-        })
-        .catch(() => {
-          pingDisplay.textContent = 'Ping: Error';
-        });
+      const img = new Image();
+      const start = performance.now();
+
+      img.onload = () => {
+        const end = performance.now();
+        const ping = Math.round(end - start);
+        pingDisplay.textContent = `Ping: ${ping} ms`;
+      };
+
+      img.onerror = () => {
+        pingDisplay.textContent = 'Ping: Error';
+      };
+
+      // Append a random query to prevent caching
+      img.src = "https://bloxd.io/favicon.ico?" + Math.random();
+
       if (showFpsPing) {
         setTimeout(updatePing, 1000);
       }
