@@ -346,10 +346,11 @@
                     <div class="tag-list">
                         ${tags.split(',').map(tag => `<span class="tag">${tag}</span>`).join('')}
                     </div>
-                    <button class="button downloadButton" onclick="incrementDownloadCount('${submissionId}')">
-                        <i class="fa-solid fa-download"></i>
-                        Download
-                    </button>
+                    <a href='${schematic}' download='${name}.zip'>
+                        <button class='button downloadButton' onclick='incrementDownloadCount("${submissionId}")'>
+                            <i class='fa-solid fa-cloud-arrow-down'></i> Download
+                        </button>
+                    </a>
                 `;
                 container.appendChild(card);
             });
@@ -371,11 +372,30 @@
         });
 
         function incrementDownloadCount(schematicId) {
-            const downloadCountElement = document.getElementById(`downloadCount_${schematicId}`);
-            let currentCount = parseInt(downloadCountElement.textContent.split(' ')[0]);
+            // Create or update download count element
+            let countElement = document.getElementById(`downloadCount_${schematicId}`);
+            if (!countElement) {
+                countElement = document.createElement('div');
+                countElement.id = `downloadCount_${schematicId}`;
+                countElement.className = 'download-count';
+                document.querySelector(`[data-schematic-id='${schematicId}']`).parentNode.insertBefore(countElement, document.querySelector(`[data-schematic-id='${schematicId}']`));
+            }
+            
+            // Update count
+            let currentCount = parseInt(countElement.textContent) || 0;
             currentCount++;
-            downloadCountElement.textContent = `${currentCount} downloads`;
+            countElement.textContent = `${currentCount} downloads`;
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const downloadButtons = document.querySelectorAll('.downloadButton');
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const schematicId = button.dataset.schematicId;
+                    incrementDownloadCount(schematicId);
+                });
+            });
+        });
 
         function searchSchematics() {
             const searchTerm = document.getElementById('search').value.toLowerCase();
