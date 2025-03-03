@@ -118,10 +118,14 @@
             box-sizing: border-box;
         }
 
-        .iframe-container.fullscreen iframe {
-            width: 100%;
+        .iframe-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
             height: 100vh;
-            border-radius: 0;
+            z-index: 9999;
+            background: black;
         }
 
         iframe {
@@ -405,18 +409,29 @@
         }
 
         function toggleFullScreen() {
-            const iframe = document.querySelector('iframe[name="iframe"]');
+            const startIframe = document.querySelector('iframe[name="start-iframe"]');
+            const dynamicIframe = document.querySelector('iframe[name="iframe"]');
+            const startContainer = document.getElementById('start-iframe-container');
+            const dynamicContainer = document.getElementById('dynamic-iframe-container');
             const sidebar = document.querySelector('.sidebar');
             const cornerBox = document.querySelector('.top-right-box');
-            const isFullScreen = iframe.classList.contains('fullscreen');
+            
+            const isStartFullScreen = startContainer.classList.contains('fullscreen');
+            const isDynamicFullScreen = dynamicContainer.classList.contains('fullscreen');
 
-            if (!isFullScreen) {
-                iframe.classList.add('fullscreen');
+            if (!isStartFullScreen || !isDynamicFullScreen) {
+                startContainer.classList.add('fullscreen');
+                dynamicContainer.classList.add('fullscreen');
+                startIframe.classList.add('fullscreen');
+                dynamicIframe.classList.add('fullscreen');
                 sidebar.classList.add('hidden');
                 cornerBox.classList.add('smaller');
                 document.body.classList.add('locked');
             } else {
-                iframe.classList.remove('fullscreen');
+                startContainer.classList.remove('fullscreen');
+                dynamicContainer.classList.remove('fullscreen');
+                startIframe.classList.remove('fullscreen');
+                dynamicIframe.classList.remove('fullscreen');
                 sidebar.classList.remove('hidden');
                 cornerBox.classList.remove('smaller');
                 document.body.classList.remove('locked');
