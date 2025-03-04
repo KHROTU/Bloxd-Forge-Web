@@ -548,16 +548,6 @@
     }
 
     :root {
-      --button-bg: #4caf50;
-      --button-hover-bg: #45a049;
-      --button-text-color: #ffffff;
-      --button-border-radius: 5px;
-      --button-padding: 10px 20px;
-      --button-font-size: 16px;
-      --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    :root {
       --button-bg: #ff9800;
       --button-hover-bg: #e68a00;
       --button-text-color: #ffffff;
@@ -688,6 +678,123 @@
       color: white;
       z-index: 20;
     }
+
+    /* Menu Customization Modal Styles */
+    #menu-customize-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(24, 24, 24, 0.9);
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #444;
+    }
+
+    .menu-customize-content {
+      background-color: #242424;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 350px;
+      max-height: 70vh;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      border: 1px solid #444;
+    }
+
+    .menu-customize-content h2 {
+      color: #FFA500;
+      text-shadow: 0 0 8px #FFA500;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .menu-customize-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #333;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      height: 50px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .menu-customize-item label {
+      flex-grow: 1;
+      margin-right: 10px;
+      color: white;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: calc(100% - 40px);
+      width: 0;
+    }
+
+    .menu-customize-item input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background-color: #444;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .menu-customize-item input[type="checkbox"]:checked {
+      background-color: #ff8c00;
+    }
+
+    .menu-customize-item input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 12px;
+    }
+
+    .menu-customize-modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .menu-customize-modal-buttons button {
+      background-color: #ff8c00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .menu-customize-modal-buttons button:hover {
+      background-color: #e67e00;
+      transform: scale(1.05);
+    }
+
+    .menu-customize-modal-buttons button:last-child {
+      background-color: #444;
+    }
+
+    .menu-customize-modal-buttons button:last-child:hover {
+      background-color: #555;
+    }
   </style>
 </head>
 <body>
@@ -766,6 +873,11 @@
         <button id="apply-filter">Apply</button>
         <button id="close-filter-menu">Close</button>
       </div>
+      <div class="menu-option" id="menu-customize-toggle">
+        <i class="fas fa-cog"></i>
+        Customize Menu
+        <span class="description">Customize options</span>
+      </div>
       <div class="menu-option" id="close-menu">
         <i class="fas fa-times"></i>
         Close
@@ -808,6 +920,16 @@
       <button id="draggable-window-close">×</button>
     </div>
     <iframe id="draggable-window-iframe" src="https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/src/Agent.html"></iframe>
+  </div>
+  <div id="menu-customize-modal">
+    <div class="menu-customize-content">
+      <h2>Customize Menu</h2>
+      <div id="menu-customize-list"></div>
+      <div class="menu-customize-modal-buttons">
+        <button onclick="saveMenuCustomization()">Save Changes</button>
+        <button onclick="closeMenuCustomizationModal()">Cancel</button>
+      </div>
+    </div>
   </div>
   <script>
     const start = document.getElementById('start');
@@ -1133,8 +1255,118 @@
       draggableWindow.style.transition = '';
     }
 
+    const menuCustomizeToggle = document.getElementById('menu-customize-toggle');
+
+    function createMenuCustomizationModal() {
+      const modal = document.getElementById('menu-customize-modal');
+      modal.innerHTML = `
+        <div class="menu-customize-content">
+          <h2>Customize Menu</h2>
+          <div id="menu-customize-list"></div>
+          <div class="menu-customize-modal-buttons">
+            <button onclick="saveMenuCustomization()">Save Changes</button>
+            <button onclick="closeMenuCustomizationModal()">Cancel</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function populateMenuCustomizationModal() {
+      const menuList = document.getElementById('menu-customize-list');
+      const sidebarLinks = document.querySelectorAll('.menu-option');
+      menuList.innerHTML = '';
+
+      sidebarLinks.forEach((link, index) => {
+        const menuItem = document.createElement('div');
+        menuItem.className = 'menu-customize-item';
+        menuItem.style.display = 'flex';
+        menuItem.style.alignItems = 'center';
+        menuItem.style.minWidth = '50px'; // Ensure consistent height
+        
+        const label = document.createElement('label');
+        label.textContent = link.querySelector('span').textContent;
+        label.style.flexGrow = '1';
+        label.style.marginRight = '10px';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = !link.classList.contains('hidden-menu-item');
+        checkbox.dataset.index = index;
+        checkbox.style.flexShrink = '0'; // Prevent checkbox from shrinking
+        
+        menuItem.appendChild(label);
+        menuItem.appendChild(checkbox);
+        menuList.appendChild(menuItem);
+      });
+    }
+
+    function saveMenuCustomization() {
+      const checkboxes = document.querySelectorAll('#menu-customize-list input[type="checkbox"]');
+      const sidebarLinks = document.querySelectorAll('.menu-option');
+      const customizeButton = document.getElementById('menu-customize-toggle');
+
+      checkboxes.forEach((checkbox, index) => {
+        const link = sidebarLinks[index];
+        // Prevent hiding the customize button
+        if (link === customizeButton) {
+          checkbox.checked = true;
+          return;
+        }
+
+        if (checkbox.checked) {
+          link.classList.remove('hidden-menu-item');
+        } else {
+          link.classList.add('hidden-menu-item');
+        }
+      });
+
+      // Save preferences to localStorage
+      const hiddenMenuItems = Array.from(sidebarLinks)
+        .filter(link => link !== customizeButton && link.classList.contains('hidden-menu-item'))
+        .map(link => link.querySelector('span').textContent);
+      
+      localStorage.setItem('hiddenMenuItems', JSON.stringify(hiddenMenuItems));
+      
+      closeMenuCustomizationModal();
+    }
+
+    function closeMenuCustomizationModal() {
+      const modal = document.getElementById('menu-customize-modal');
+      modal.style.display = 'none';
+    }
+
+    function openMenuCustomizationModal() {
+      const modal = document.getElementById('menu-customize-modal');
+      populateMenuCustomizationModal();
+      modal.style.display = 'flex';
+    }
+
+    menuCustomizeToggle.addEventListener('click', openMenuCustomizationModal);
+
+    // Load saved menu customization on page load
+    function loadMenuCustomization() {
+      const sidebarLinks = document.querySelectorAll('.menu-option');
+      const hiddenMenuItems = JSON.parse(localStorage.getItem('hiddenMenuItems') || '[]');
+
+      sidebarLinks.forEach(link => {
+        const menuText = link.querySelector('span').textContent;
+        if (hiddenMenuItems.includes(menuText)) {
+          link.classList.add('hidden-menu-item');
+        }
+      });
+
+      const style = document.createElement('style');
+      style.textContent = `
+        .menu-option.hidden-menu-item {
+          display: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
     loadCoordinates();
     loadWorlds();
+    loadMenuCustomization();
   </script>
 </body>
 </html>
