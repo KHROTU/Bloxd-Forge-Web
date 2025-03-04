@@ -1,1137 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>BloxdForge Launcher</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-    body {
-      margin: 0;
-      font-family: 'Roboto', Arial, sans-serif;
-      background: #181818;
-      color: #ddd;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    #start {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: minmax(200px, auto);
-      gap: 30px;
-      padding: 40px;
-      max-width: 1500px;
-      margin: 50px auto;
-    }
-
-    #start button {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      padding: 30px;
-      background: linear-gradient(145deg, rgba(40,40,40,0.8), rgba(25,25,25,0.8));
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      overflow: hidden;
-      transform-style: preserve-3d;
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    #start button::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(45deg,
-        transparent 0%,
-        rgba(255,165,0,0.1) 50%,
-        transparent 100%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    #start button:hover::before {
-      opacity: 1;
-    }
-
-    #start button img {
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
-      transition: transform 0.3s ease;
-      border-radius: 10px;
-    }
-
-    #start button:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 40px 60px -20px rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-    }
-
-    #start button:hover img {
-      transform: scale(1.1) rotate(-5deg);
-    }
-
-    #start button::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    #start button:hover::before {
-      opacity: 1;
-    }
-
-    #start button span {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, #FFA500, #FFD700);
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    #bigbutton {
-      grid-column: 1 / -1;
-      height: 300px;
-      background: linear-gradient(135deg, rgba(255, 136, 0, 0.15), rgba(255, 115, 0, 0.1)) !important;
-      border: 2px solid rgba(255,165,0,0.2) !important;
-      position: relative;
-      overflow: hidden;
-      border-radius: 15px;
-      text-align: center;
-    }
-
-    #bigbutton::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent 0%,
-        transparent 5%,
-        rgba(255,165,0,0.05) 5%,
-        rgba(255,165,0,0.05) 10%
-      );
-      opacity: 0.5;
-    }
-
-    #bigbutton span {
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, #FFA500, #FFD700);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      display: block;
-      margin-top: 6%;
-    }
-
-    #bigbutton span2 {
-      font-size: 5rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, #FFA500, #FFD700);
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      display: block;
-      transition: transform 0.3s ease, text-shadow 0.3s ease, font-size 0.3s ease;
-    }
-
-    #bigbutton span2:hover {
-      transform: scale(1.1);
-      text-shadow: 
-        0 0 10px rgba(255, 165, 0, 0.5),
-        0 0 20px rgba(255, 165, 0, 0.3),
-        0 0 30px rgba(255, 165, 0, 0.2);
-      font-size: 5.5rem;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      will-change: transform;
-      border: none;
-      z-index: 5;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    #iframe-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: none;
-      z-index: 5;
-    }
-
-    #menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(10px);
-      display: none;
-      z-index: 10;
-    }
-
-    #menu-grid {
-      display: grid;
-      grid-template-columns: repeat(3, auto);
-      gap: 25px;
-      justify-content: center;
-      max-width: 800px;
-      max-height: 800px;
-      margin: 40px auto;
-      padding: 30px;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .menu-option {
-      margin: 0;
-      padding: 15px 25px;
-      color: #fff;
-      font-size: 18px;
-      cursor: pointer;
-      border: 2px solid #444;
-      border-radius: 15px;
-      text-align: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: none;
-      box-shadow: none;
-      width: auto;
-      min-width: fit-content;
-      white-space: nowrap;
-    }
-
-    .menu-option i {
-      font-size: 36px;
-      margin-bottom: 15px;
-      margin-top: 15px;
-      color: #FFA500;
-      transition: all 0.3s ease;
-    }
-
-    .menu-option .description {
-      font-size: 14px;
-      color: #aaa;
-      margin-top: 12px;
-      transition: all 0.3s ease;
-    }
-
-    .menu-option:hover {
-      transform: translateY(-5px);
-      box-shadow: none;
-      border-color: #FFA500;
-    }
-
-    .menu-option:hover i {
-      color: #FF7F00;
-      transform: scale(1.1);
-    }
-
-    .menu-option:hover .description {
-      color: #ccc;
-    }
-
-    .menu-option:active {
-      transform: scale(0.98);
-      box-shadow: none;
-    }
-
-    #drag-button {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      width: 55px;
-      height: 55px;
-      background: transparent;
-      color: #FFA500;
-      border: 2px solid #444;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: grab;
-      z-index: 20;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-size: 26px;
-      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3),
-        -5px -5px 15px rgba(255, 255, 255, 0.02);
-    }
-
-    #drag-button:hover {
-      transform: scale(1.1);
-      box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4), -8px -8px 20px rgba(255, 255, 255, 0.03);
-      border-color: #FFA500;
-    }
-
-    #fps-ping-display {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      color: #fff;
-      font-size: 14px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px 15px;
-      border-radius: 10px;
-      border: 1px solid #444;
-      display: none;
-      z-index: 100;
-      backdrop-filter: blur(5px);
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    #coordinate-saver {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(20, 20, 20, 0.80);
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-      display: none;
-      z-index: 15;
-      max-width: 500px;
-      width: 100%;
-      text-align: center;
-      backdrop-filter: blur(10px);
-    }
-
-    #coordinate-saver h1 {
-      margin-bottom: 20px;
-      color: #ddd;
-      font-size: 24px;
-    }
-
-    #coordinate-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    #coordinate-form input {
-      width: 80%;
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 2px solid #444;
-      background-color: #222;
-      color: #ddd;
-    }
-
-    #coordinate-form button {
-      background-color: #FFA500;
-      color: white;
-      cursor: pointer;
-      font-size: 18px;
-      transition: background-color 0.3s ease;
-      border-radius: 8px;
-      padding: 10px 20px;
-    }
-
-    #coordinate-form button:hover {
-      background-color: #e85c00;
-    }
-
-    #saved-coordinates ul {
-      list-style-type: none;
-      padding: 0;
-      margin-top: 20px;
-      text-align: left;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    #saved-coordinates li {
-      margin: 5px 0;
-      font-size: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #saved-coordinates button {
-      background-color: #e85c00;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 5px 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #saved-coordinates button:hover {
-      background-color: #e76a00;
-    }
-
-    #close-coordinate-saver {
-      background-color: #333;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background-color 0.3s ease;
-    }
-
-    #close-coordinate-saver:hover {
-      background-color: #444;
-    }
-
-    .dark-mode-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(360deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5) 50%);
-      z-index: 5;
-      display: none;
-      pointer-events: none;
-    }
-
-    #iframe-modal {
-      position: fixed;
-      top: 10%;
-      left: 10%;
-      width: 80%;
-      height: 80%;
-      background: rgba(0, 0, 0, 0.9);
-      border: 1px solid #444;
-      border-radius: 12px;
-      display: none;
-      z-index: 20;
-    }
-
-    #iframe-modal iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 12px;
-    }
-
-    #filter-menu {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(20, 20, 20, 0.80);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
-      z-index: 15;
-      text-align: center;
-      color: #ffffff;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    #filter-menu h1 {
-      margin-bottom: 20px;
-      font-size: 24px;
-      color: #ffa500;
-    }
-
-    #filter-menu label,
-    #filter-menu select {
-      margin: 10px 0;
-      font-size: 16px;
-      color: #e6e6e6;
-    }
-
-    #filter-select {
-      width: 200px;
-      padding: 12px;
-      margin-right: 10px;
-      border: 1px solid #444;
-      border-radius: 6px;
-      background-color: #2b2b2b;
-      font-size: 15px;
-      color: #ffa500;
-      transition: all 0.3s ease-in-out;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    #filter-select:hover {
-      background-color: #333;
-      border-color: #ffa500;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-    }
-
-    #filter-select:focus {
-      outline: none;
-      border-color: #ff7f00;
-      box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5);
-    }
-
-    #apply-filter-button {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      background-color: #ffa500;
-      color: #1a1a1a;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s ease-in-out;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    #apply-filter-button:hover {
-      background-color: #ff7f00;
-      transform: scale(1.03);
-    }
-
-    #apply-filter-button:active {
-      transform: scale(1);
-      background-color: #e66b00;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    }
-
-    .filter-controls {
-      margin: 20px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    @media (max-width: 768px) {
-      .filter-controls {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      #filter-select {
-        width: 100%;
-      }
-
-      #apply-filter {
-        width: 100%;
-        background-color: #ffa500;
-      }
-    }
-
-    :root {
-      --button-bg: #4caf50;
-      --button-hover-bg: #45a049;
-      --button-text-color: #ffffff;
-      --button-border-radius: 5px;
-      --button-padding: 10px 20px;
-      --button-font-size: 16px;
-      --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    :root {
-      --button-bg: #ff9800;
-      --button-hover-bg: #e68a00;
-      --button-text-color: #ffffff;
-      --button-border-radius: 5px;
-      --button-padding: 10px 20px;
-      --button-font-size: 16px;
-      --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    button {
-      background-color: var(--button-bg);
-      color: var(--button-text-color);
-      border: none;
-      border-radius: var(--button-border-radius);
-      padding: var(--button-padding);
-      font-size: var(--button-font-size);
-      cursor: pointer;
-      box-shadow: var(--button-shadow);
-      transition: background-color 0.3s, transform 0.2s;
-    }
-
-    button:hover {
-      background-color: var(--button-hover-bg);
-      transform: translateY(-2px);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
-    ::-webkit-scrollbar {
-      width: 0.1px;
-      background-color: transparent;
-    }
-
-    #draggable-window {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 400px;
-      height: 500px;
-      background: rgba(30, 30, 30, 0.9);
-      border-radius: 15px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(15px);
-      z-index: 20;
-      display: none;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: transform 0.2s ease;
-    }
-
-    #draggable-window-iframe {
-      width: 100%;
-      height: calc(100% - 40px);
-      border: none;
-      overflow: auto;
-    }
-
-    #draggable-window-header {
-      background: rgba(50, 50, 50, 0.7);
-      padding: 10px;
-      cursor: move;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    #draggable-window-close {
-      background: none;
-      border: none;
-      color: #ff4444;
-      font-size: 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #draggable-window-close::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255, 68, 68, 0.2);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: all 0.3s ease;
-    }
-
-    #draggable-window-close:hover {
-      color: #ffffff;
-      background: rgba(255, 68, 68, 0.2);
-    }
-
-    #draggable-window-close:hover::before {
-      width: 150%;
-      height: 150%;
-    }
-
-    #draggable-window-close:active {
-      transform: scale(0.9);
-      color: #ff7777;
-    }
-
-    #pingBox {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 16px;
-      color: white;
-      z-index: 20;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge - One Stop Solution to everything Bloxd</title>
+    <meta name="description" content="BloxdForge is your ultimate companion app for bloxd.io, designed to improve your gameplay.">
+    <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="https://i.imgur.com/xiYy0O6.png" type="image/png">
+    
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #181818;
+            height: 100vh;
+            overflow: hidden;
+        } 
+
+        .sidebar {
+            width: 100px;
+            background: linear-gradient(180deg, #242424, #181818);
+            color: #fff;
+            height: 98vh;
+            padding-top: 20px;
+            border-radius: 10px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            transition: 0.3s, transform 0.2s, box-shadow 0.3s;
+            background-color: transparent;
+            text-align: center;
+            width: 50%;
+        }
+
+        .sidebar a:hover, .sidebar a.selected {
+            background-color: #ff8c00 ;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #ff8c00 ;
+        }
+
+        .sidebar a i {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar a span {
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar a:hover span {
+            color: white;
+        }
+
+        .content {
+            margin-left: 100px;
+            padding: 20px;
+            color: white;
+            flex-grow: 1;
+            transition: all 0.3s ease;
+        }
+
+        .content.fullscreen {
+            margin-left: 0;
+        }
+
+        h1 {
+            color: #FFA500;
+            text-shadow: 0 0 8px #FFA500;
+        }
+
+        .iframe-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            background-color: #181818;
+            margin-left: 10px;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        .iframe-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            background: black;
+        }
+
+        iframe {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .top-right-box {
+            position: fixed;
+            top: 0px;
+            right: 14px;
+            background-color: rgba(51, 51, 51, 0.7);
+            padding: 8px;
+            border-radius: 0 0 10px 10px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            z-index: 20;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            transition: height 0.3s ease, transform 0.3s ease;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .top-right-box.expanded {
+            height: 190px;
+        }
+
+        .top-right-box img {
+            width: 46%;
+            height: 42px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .top-right-box.fullscreen {
+            transform: scale(0.8) translateX(60px);
+            right: 50px;
+        }
+
+        .top-right-box.smaller {
+            transform: scale(0.8) translateX(60px);
+            right: 50px;
+            z-index: 9999;
+            border-radius: 10px;
+        }
+
+        .download-btn, .fullscreen-btn {
+            background-color: #ff8c00 ;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .download-btn:hover, .fullscreen-btn:hover {
+            background-color: #e67e00;
+            box-shadow: 0 0 20px #e67e00;
+            transform: scale(1.1);
+        }
+
+        .folder-menu {
+            display: none;
+            position: fixed;
+            top: 0px;
+            right: 230px;
+            background-color: rgba(51, 51, 51, 0.7);
+            padding: 15px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 30;
+            backdrop-filter: blur(10px);
+        }
+
+        .folder-menu-btn {
+            background-color: #ff8c00 ;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin-left: 5px;
+        }
+
+        .folder-menu-btn:hover {
+            background-color: #e67e00;
+            box-shadow: 0 0 20px #e67e00;
+            transform: scale(1.1);
+        }
+
+        #folder-container div:hover {
+            background-color: #ff8c00;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transform: scale(1.02);
+        }
+
+        #upload-folder-btn {
+            background-color: #ff8c00 ;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        #upload-folder-btn:hover {
+            background-color: #ff8c00;
+            box-shadow: 0 0 20px #e67e00;
+        }
+
+        .sidebar .sticky-bottom {
+            position: absolute;
+            bottom: 20px;
+            width: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sidebar .sticky-bottom:hover {
+            transform: translateX(-50%);
+        }
+
+        body.locked {
+            overflow: hidden;
+        }
+
+        iframe.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999; 
+            border: none; 
+            margin: 0px 0;
+        }
+
+        #fullscreen-iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            z-index: 9999; 
+        }
+
+        #fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            margin: 0px 0;
+        }
+    </style>
 </head>
 <body>
-  <div id="start">
-    <div id="iframe-modal">
-      <iframe id="modal-iframe" src=""></iframe>
+    <div id="fullscreen-iframe-container">
+        <iframe id="fullscreen-iframe" src="/app/assets/load.html"></iframe>
     </div>
-    <bigbutton id="bigbutton">
-      <span>Featured Experience: </span>
-      <span2 id="featured-world-name">Loading...</span2>
-    </bigbutton>
-    <button id="bloxd">
-      <img alt="Bloxd Logo" height="240" src="https://i.imgur.com/3vDqx4q.png" width="240"/>
-      Bloxd.io
-    </button>
-    <button id="bloxd-staging">
-      <img alt="Bloxd Staging Logo" height="240" src="https://i.imgur.com/9d15Ize.png" width="240"/>
-      Bloxd.io Staging
-    </button>
-    <button id="world-forge">
-      <img alt="World Forge Logo" height="240" src="https://i.imgur.com/vxZ5bNn.png" width="240"/>
-      World Forge
-    </button>
-  </div>
-  <div id="iframe-container">
-    <iframe id="iframe"></iframe>
-  </div>
-  <div id="menu">
-    <div id="menu-grid">
-      <div class="menu-option" id="dark-mode-toggle">
-        <i class="fas fa-moon"></i>
-        Dark Mode
-        <span class="description">Toggle dark mode</span>
-      </div>
-      <div class="menu-option" id="fps-ping-toggle">
-        <i class="fas fa-tachometer-alt"></i>
-        FPS/Ping
-        <span class="description">Show performance metrics</span>
-      </div>
-      <div class="menu-option" id="coordinate-saver-toggle">
-        <i class="fas fa-map-marker-alt"></i>
-        Coordinates
-        <span class="description">Save and manage locations</span>
-      </div>
-      <div class="menu-option" id="resolution-toggle">
-        <i class="fas fa-compress-arrows-alt"></i>
-        Resolution
-        <span class="description">Adjust game resolution</span>
-      </div>
-      <div class="menu-option" id="filter-menu-toggle">
-        <i class="fas fa-sliders-h"></i>
-        Filters
-        <span class="description">Apply filters (BETA)</span>
-      </div>
-      <div class="menu-option" id="draggable-window-toggle">
-        <i class="fas fa-microchip"></i>
-        AI Agent
-        <span class="description">Boot the AI Agent</span>
-      </div>
-      <div class="menu-option" id="close-iframe">
-        <i class="fas fa-power-off"></i>
-        Close session
-        <span class="description">Close the active session</span>
-      </div>
-      <div id="filter-menu" style="display: none;">
-        <h1>Filter menu</h1>
-        <label for="filter-select">Select Filter:</label>
-        <select id="filter-select">
-          <option value="none">None</option>
-          <option value="grayscale">Grayscale</option>
-          <option value="sepia">Sepia</option>
-          <option value="saturate">Saturate</option>
-          <option value="contrast">High Contrast</option>
-        </select>
-        <br />
-        <button id="apply-filter">Apply</button>
-        <button id="close-filter-menu">Close</button>
-      </div>
-      <div class="menu-option" id="close-menu">
-        <i class="fas fa-times"></i>
-        Close
-        <span class="description">Return to game</span>
-      </div>
+
+    <div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+
+    <div class="sidebar">
+        <a href="javascript:void(0)" class="sidebar-link selected" onclick="setActiveLink(this, 'page1')">
+            <i class="fas fa-home"></i>
+            <span>Start</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page2')">
+            <i class="fas fa-toolbox"></i>
+            <span>Workshop</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page3')">
+            <i class="fas fa-tools"></i>
+            <span>Creator</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page4')">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Shop</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page5')">
+            <i class="fas fa-truck"></i>
+            <span>Builds</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page6')">
+            <i class="fas fa-book"></i>
+            <span>Wiki</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page7')">
+            <i class="fas fa-info-circle"></i>
+            <span>Credits</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link sticky-bottom" onclick="setActiveLink(this, 'page8')">
+            <i class="fas fa-unlock-keyhole"></i>
+            <span>Keys</span>
+        </a>
     </div>
-  </div>
-  <div class="dark-mode-overlay" id="dark-overlay"></div>
-  <div id="coordinate-saver">
-    <h1>Coordinate Saver</h1>
-    <div id="coordinate-form">
-      <label for="x">X Coordinate:</label>
-      <input id="x" required="" type="number"/>
-      <br/>
-      <label for="y">Y Coordinate:</label>
-      <input id="y" required="" type="number"/>
-      <br/>
-      <label for="z">Z Coordinate:</label>
-      <input id="z" required="" type="number"/>
-      <br/>
-      <label for="name">Name:</label>
-      <input id="name" required="" type="text"/>
-      <br/>
-      <button id="save-button">Save Coordinates</button>
+
+    <div class="content">
+        <div class="iframe-container" id="start-iframe-container">
+            <iframe name="start-iframe" src="/app/assets/1page.html"></iframe>
+        </div>
+
+        <div class="iframe-container" id="dynamic-iframe-container">
+            <iframe name="iframe" src="https://ThisUsedToExistButILostTheFileSoWhoopsies"></iframe>
+        </div>
+
+        <div class="top-right-box">
+            <img src="https://i.imgur.com/ph4qDah.png" alt="Bloxd Forge Logo" />
+            <button class="fullscreen-btn" onclick="toggleFullScreen()">
+                <i class="fas fa-expand"></i>
+            </button>
+            <button class="folder-menu-btn" onclick="toggleFolderMenu()">
+                <i class="fas fa-folder"></i>
+            </button>
+        </div>
+
+        <div id="folder-menu" class="folder-menu">
+            <input type="file" id="folder-input" style="display: none;" webkitdirectory multiple />
+            <button id="upload-folder-btn" onclick="document.getElementById('folder-input').click()" class="upload-button">
+                Upload Folder
+            </button>
+            <div id="folder-container" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+        </div>
     </div>
-    <div id="saved-coordinates">
-      <h2>Saved Coordinates</h2>
-      <ul id="coordinates-list"></ul>
-    </div>
-    <button id="close-coordinate-saver">Close</button>
-  </div>
-  <button id="drag-button">☰</button>
-  <div id="fps-ping-display">
-    <span id="fps-display">FPS: 0</span>
-    <span id="ping-display">Ping: 0 ms</span>
-  </div>
-  <div id="draggable-window">
-    <div id="draggable-window-header">
-      <span>BForge agent</span>
-      <button id="draggable-window-close">×</button>
-    </div>
-    <iframe id="draggable-window-iframe" src="https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/src/Agent.html"></iframe>
-  </div>
-  <script>
-    const start = document.getElementById('start');
-    const iframeContainer = document.getElementById('iframe-container');
-    const iframe = document.getElementById('iframe');
-    const menustart = document.getElementById('menu');
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    const closemenuButton = document.getElementById('close-menu');
-    const coordinateSaverToggle = document.getElementById('coordinate-saver-toggle');
-    const coordinateSaver = document.getElementById('coordinate-saver');
-    const saveButton = document.getElementById('save-button');
-    const coordinatesList = document.getElementById('coordinates-list');
-    const darkOverlay = document.getElementById('dark-overlay');
-    const dragButton = document.getElementById('drag-button');
-    const featuredWorldName = document.getElementById('featured-world-name');
-    const draggableWindow = document.getElementById('draggable-window');
-    const draggableWindowHeader = document.getElementById('draggable-window-header');
-    const draggableWindowClose = document.getElementById('draggable-window-close');
-    const draggableWindowIframe = document.getElementById('draggable-window-iframe');
-    let offsetX, offsetY;
 
-    async function loadWorlds() {
-      const response = await fetch('/app/assets/src/worlds.json');
-      const worlds = await response.json();
-      const randomWorld = worlds[Math.floor(Math.random() * worlds.length)];
-      featuredWorldName.textContent = decodeURIComponent(randomWorld.name);
-      featuredWorldName.dataset.name = randomWorld.name;
-      featuredWorldName.dataset.type = randomWorld.type;
-    }
+    <script>
+        const pages = {
+            page1: '/app/assets/1page.html',
+            page2: '/app/assets/2page.html',
+            page3: '/app/assets/3page.html',
+            page4: '/app/assets/4page.html',
+            page5: '/app/assets/5page.html',
+            page6: '/app/assets/6page.html',
+            page7: '/app/assets/7page.html',
+            page8: '/app/assets/8page.html',
+        };
 
-    function loadCoordinates() {
-      const savedCoordinates = JSON.parse(localStorage.getItem('coordinates')) || [];
-      savedCoordinates.forEach(coord => {
-        const li = document.createElement('li');
-        li.textContent = `${coord.name}: (${coord.x}, ${coord.y}, ${coord.z})`;
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', () => {
-          deleteCoordinate(coord);
-          li.remove();
-        });
-        li.appendChild(deleteButton);
-        coordinatesList.appendChild(li);
-      });
-    }
-
-    function saveCoordinate(x, y, z, name) {
-      const coordinates = JSON.parse(localStorage.getItem('coordinates')) || [];
-      coordinates.push({ x, y, z, name });
-      localStorage.setItem('coordinates', JSON.stringify(coordinates));
-    }
-
-    function deleteCoordinate(coord) {
-      const coordinates = JSON.parse(localStorage.getItem('coordinates')) || [];
-      const filteredCoordinates = coordinates.filter(c => c !== coord);
-      localStorage.setItem('coordinates', JSON.stringify(filteredCoordinates));
-    }
-
-    function openmenu() {
-      menustart.style.display = 'flex';
-    }
-
-    closemenuButton.addEventListener('click', () => {
-      menustart.style.display = 'none';
-    });
-
-    darkModeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      darkOverlay.style.display = document.body.classList.contains('dark-mode') ? 'block' : 'none';
-    });
-
-    coordinateSaverToggle.addEventListener('click', () => {
-      coordinateSaver.style.display = 'block';
-    });
-
-    document.getElementById('close-coordinate-saver').addEventListener('click', () => {
-      coordinateSaver.style.display = 'none';
-    });
-
-    saveButton.addEventListener('click', () => {
-      const x = document.getElementById('x').value;
-      const y = document.getElementById('y').value;
-      const z = document.getElementById('z').value;
-      const name = document.getElementById('name').value;
-
-      if (x && y && z && name) {
-        saveCoordinate(x, y, z, name);
-        loadCoordinates();
-      }
-    });
-
-    function openUrl(url) {
-      iframeContainer.style.display = 'block';
-      iframe.src = url;
-    }
-
-    document.getElementById('bloxd').addEventListener('click', () => openUrl('https://bloxd.io'));
-    document.getElementById('bloxd-staging').addEventListener('click', () => openUrl('https://staging.bloxd.io'));
-    document.getElementById('world-forge').addEventListener('click', () => window.open('https://bloxdforge.com/studio', '_blank'));
-    document.getElementById('bigbutton').addEventListener('click', () => {
-      const name = featuredWorldName.dataset.name;
-      const type = featuredWorldName.dataset.type;
-      openUrl(`https://bloxd.io/?lobby=${name}&g=${type}`);
-    });
-
-    dragButton.addEventListener('click', () => {
-      openmenu();
-    });
-
-    let isDragging = false;
-
-    dragButton.addEventListener('mousedown', (e) => {
-      isDragging = false;
-      offsetX = e.clientX - dragButton.offsetLeft;
-      offsetY = e.clientY - dragButton.offsetTop;
-      dragButton.style.transition = 'none';
-      document.addEventListener('mousemove', onDrag);
-      document.addEventListener('mouseup', stopDrag);
-    });
-
-    function onDrag(e) {
-      isDragging = true;
-      const left = e.clientX - offsetX;
-      const top = e.clientY - offsetY;
-
-      const maxX = window.innerWidth - dragButton.offsetWidth;
-      const maxY = window.innerHeight - dragButton.offsetHeight;
-
-      dragButton.style.left = `${Math.min(Math.max(0, left), maxX)}px`;
-      dragButton.style.top = `${Math.min(Math.max(0, top), maxY)}px`;
-    }
-
-    function stopDrag() {
-      document.removeEventListener('mousemove', onDrag);
-      document.removeEventListener('mouseup', stopDrag);
-      dragButton.style.transition = '';
-    }
-
-    dragButton.addEventListener('click', (e) => {
-      if (isDragging) {
-        e.preventDefault();
-        e.stopPropagation();
-        isDragging = false;
-        return;
-      }
-      openmenu();
-    });
-
-    let scaleFactor = 1;
-
-    function applyResolutionScale(scale) {
-      const iframe = document.getElementById('iframe');
-      const iframeContainer = document.getElementById('iframe-container');
-      iframe.style.transform = `scale(${scale})`;
-      iframe.style.transformOrigin = 'top left';
-      iframeContainer.style.width = `${100 / scale}%`;
-      iframeContainer.style.height = `${100 / scale}%`;
-    }
-
-    function askForResolution() {
-      const resolution = prompt("Enter the resolution scale (e.g., 1 for normal, 0.75 for lower resolution):");
-      const scale = parseFloat(resolution);
-
-      if (!isNaN(scale) && scale > 0) {
-        applyResolutionScale(scale);
-        if (scale < 1) {
-          disableSmoothScrollingAndAnimations();
-        } else {
-          enableSmoothScrollingAndAnimations();
+        function loadPage(pageName) {
+            const iframe = document.querySelector('iframe[name="iframe"]');
+            iframe.src = pages[pageName];
         }
-      } else {
-        alert("Invalid resolution scale entered. Please enter a positive number.");
-      }
-    }
 
-    function disableSmoothScrollingAndAnimations() {
-      const iframe = document.getElementById('iframe');
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-      iframeDocument.body.style.animation = 'none';
-      iframeDocument.body.style.transition = 'none';
-      iframeDocument.body.style.scrollBehavior = 'auto';
-    }
+        function setActiveLink(link, page) {
+            const links = document.querySelectorAll('.sidebar-link');
+            const startContainer = document.getElementById('start-iframe-container');
+            const dynamicContainer = document.getElementById('dynamic-iframe-container');
 
-    function enableSmoothScrollingAndAnimations() {
-      const iframe = document.getElementById('iframe');
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-      iframeDocument.body.style.animation = '';
-      iframeDocument.body.style.transition = '';
-      iframeDocument.body.style.scrollBehavior = 'smooth';
-    }
+            links.forEach(l => l.classList.remove('selected'));
+            link.classList.add('selected');
 
-    document.getElementById('resolution-toggle').addEventListener('click', () => {
-      askForResolution();
-    });
+            if (page === 'page1') {
+                startContainer.style.display = 'block';
+                dynamicContainer.style.display = 'none';
+            } else {
+                startContainer.style.display = 'none';
+                dynamicContainer.style.display = 'block';
+                loadPage(page);
+            }
+        }
 
-    const fpsPingToggle = document.getElementById('fps-ping-toggle');
-    const fpsPingDisplay = document.getElementById('fps-ping-display');
-    const fpsDisplay = document.getElementById('fps-display');
-    const pingDisplay = document.getElementById('ping-display');
+        function toggleFullScreen() {
+            const startIframe = document.querySelector('iframe[name="start-iframe"]');
+            const dynamicIframe = document.querySelector('iframe[name="iframe"]');
+            const startContainer = document.getElementById('start-iframe-container');
+            const dynamicContainer = document.getElementById('dynamic-iframe-container');
+            const sidebar = document.querySelector('.sidebar');
+            const cornerBox = document.querySelector('.top-right-box');
+            
+            const isStartFullScreen = startContainer.classList.contains('fullscreen');
+            const isDynamicFullScreen = dynamicContainer.classList.contains('fullscreen');
 
-    let showFpsPing = false;
-    let lastFrameTime = performance.now();
-    let frameCount = 0;
+            if (!isStartFullScreen || !isDynamicFullScreen) {
+                startContainer.classList.add('fullscreen');
+                dynamicContainer.classList.add('fullscreen');
+                startIframe.classList.add('fullscreen');
+                dynamicIframe.classList.add('fullscreen');
+                sidebar.classList.add('hidden');
+                cornerBox.classList.add('smaller');
+                document.body.classList.add('locked');
+            } else {
+                startContainer.classList.remove('fullscreen');
+                dynamicContainer.classList.remove('fullscreen');
+                startIframe.classList.remove('fullscreen');
+                dynamicIframe.classList.remove('fullscreen');
+                sidebar.classList.remove('hidden');
+                cornerBox.classList.remove('smaller');
+                document.body.classList.remove('locked');
+            }
+        }
 
-    function updateFPS() {
-      const now = performance.now();
-      frameCount++;
-      if (now - lastFrameTime >= 1000) {
-        const fps = frameCount;
-        fpsDisplay.textContent = `FPS: ${fps}`;
-        frameCount = 0;
-        lastFrameTime = now;
-      }
-      if (showFpsPing) {
-        requestAnimationFrame(updateFPS);
-      }
-    }
+        const folderMenu = document.getElementById('folder-menu');
+        const folderContainer = document.getElementById('folder-container');
+        const folderInput = document.getElementById('folder-input');
+        let uploadedFolders = 0;
 
-    function updatePing() {
-      const img = new Image();
-      const start = performance.now();
+        function toggleFolderMenu() {
+            const computedStyle = window.getComputedStyle(folderMenu);
+            if (computedStyle.display === 'none') {
+                folderMenu.style.display = 'block';
+            } else {
+                folderMenu.style.display = 'none';
+            }
+        }
 
-      img.onload = () => {
-        const end = performance.now();
-        const ping = Math.round(end - start);
-        pingDisplay.textContent = `Ping: ${ping} ms`;
-      };
+        function addFolderIcon(name) {
+            const folderDiv = document.createElement('div');
+            folderDiv.textContent = name;
+            folderDiv.draggable = true;
+            folderDiv.style.cssText = `
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                width: 80px;
+                height: 80px;
+                background-color: #555;
+                color: white;
+                border-radius: 5px;
+                cursor: grab;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            `;
 
-      img.onerror = () => {
-        pingDisplay.textContent = 'Ping: Error';
-      };
+            folderDiv.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', name);
+            });
 
-      // Append a random query to prevent caching
-      img.src = "https://bloxd.io/favicon.ico?" + Math.random();
+            folderDiv.addEventListener('click', () => {
+                folderInput.click();
+            });
 
-      if (showFpsPing) {
-        setTimeout(updatePing, 1000);
-      }
-    }
+            folderDiv.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                removeFolder(folderDiv, name);
+            });
 
-    fpsPingToggle.addEventListener('click', () => {
-      showFpsPing = !showFpsPing;
-      fpsPingDisplay.style.display = showFpsPing ? 'block' : 'none';
-      if (showFpsPing) {
-        updateFPS();
-        updatePing();
-      }
-    });
+            folderContainer.appendChild(folderDiv);
+        }
 
-    const filtermenuToggle = document.getElementById('filter-menu-toggle');
-    const filtermenu = document.getElementById('filter-menu');
-    const filterSelect = document.getElementById('filter-select');
-    const applyFilterButton = document.getElementById('apply-filter');
-    const closeFiltermenuButton = document.getElementById('close-filter-menu');
+        function saveFolders(folders) {
+            localStorage.setItem('savedFolders', JSON.stringify(folders));
+        }
 
-    filtermenuToggle.addEventListener('click', () => {
-      filtermenu.style.display = 'block';
-    });
+        function loadFolders() {
+            const savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
+            savedFolders.forEach(folder => {
+                addFolderIcon(folder);
+            });
+            uploadedFolders = savedFolders.length;
+        }
 
-    closeFiltermenuButton.addEventListener('click', () => {
-      filtermenu.style.display = 'none';
-    });
+        function removeFolder(folderDiv, folderName) {
+            folderDiv.remove();
+            let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
+            savedFolders = savedFolders.filter(folder => folder !== folderName);
+            saveFolders(savedFolders);
+            uploadedFolders--;
+        }
 
-    applyFilterButton.addEventListener('click', () => {
-      const selectedFilter = filterSelect.value;
-      const iframe = document.getElementById('iframe');
+        folderInput.addEventListener('change', async (event) => {
+            const files = event.target.files;
+            if (files.length > 0) {
+                if (uploadedFolders >= 2) {
+                    const password = prompt("You have uploaded 2 texture packs already. Please enter the key to upload more. Get a key in the Key tab.");
+                    async function sha256(message) {
+                        const msgBuffer = new TextEncoder().encode(message);
+                        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                        const hashArray = Array.from(new Uint8Array(hashBuffer));
+                        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                    }
 
-      switch (selectedFilter) {
-        case 'grayscale':
-          iframe.style.filter = 'grayscale(100%)';
-          break;
-        case 'sepia':
-          iframe.style.filter = 'sepia(100%)';
-          break;
-        case 'saturate':
-          iframe.style.filter = 'saturate(130%)';
-          break;
-        case 'contrast':
-          iframe.style.filter = 'contrast(130%)';
-          break;
-        default:
-          iframe.style.filter = 'none';
-          break;
-      }
+                    const hash = await sha256(password);
+                    if (hash !== "47da55e5ea5d96ba8e3a33b0a697401d1d85fae97088a8234f0d4e5e14298817") {
+                        alert("Incorrect key. You cannot upload more texture packs.");
+                        return;
+                    }
+                }
 
-      filtermenu.style.display = 'none';
-    });
+                const folderName = files[0].webkitRelativePath.split('/')[0];
+                addFolderIcon(folderName);
 
-    document.getElementById('close-iframe').addEventListener('click', function () {
-      const iframeContainer = document.getElementById('iframe-container');
-      iframeContainer.style.display = 'none';
-    });
+                let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || [];
+                savedFolders.push(folderName);
+                saveFolders(savedFolders);
 
-    document.getElementById('draggable-window-toggle').addEventListener('click', () => {
-      draggableWindow.style.display = 'block';
-    });
+                uploadedFolders++;
+            }
+        });
 
-    draggableWindowClose.addEventListener('click', () => {
-      draggableWindow.style.display = 'none';
-    });
+        function checkLastRefresh() {
+            const lastRefreshDate = localStorage.getItem('lastRefreshDate');
+            const currentTime = new Date().getTime();
 
-    draggableWindowHeader.addEventListener('mousedown', (e) => {
-      isDragging = false;
-      offsetX = e.clientX - draggableWindow.offsetLeft;
-      offsetY = e.clientY - draggableWindow.offsetTop;
-      draggableWindow.style.transition = 'none';
-      document.addEventListener('mousemove', onDragWindow);
-      document.addEventListener('mouseup', stopDragWindow);
-    });
+            if (!lastRefreshDate) {
+            localStorage.setItem('lastRefreshDate', currentTime.toString());
+            } else if (currentTime - parseInt(lastRefreshDate) > 43200000) {
+            const cloudEnabled = localStorage.getItem('cloudEnabled');
+            const catEnabled = localStorage.getItem('catEnabled');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            localStorage.clear();
+            sessionStorage.clear();
+            if (cloudEnabled) localStorage.setItem('cloudEnabled', cloudEnabled);
+            if (catEnabled) localStorage.setItem('catEnabled', catEnabled);
+            if (isLoggedIn) localStorage.setItem('isLoggedIn', isLoggedIn);
+            caches.keys().then(names => {
+                for (let name of names) caches.delete(name);
+            });
+            localStorage.setItem('lastRefreshDate', currentTime.toString());
+            }
+        }
 
-    function onDragWindow(e) {
-      isDragging = true;
-      const left = e.clientX - offsetX;
-      const top = e.clientY - offsetY;
+        function showLoadingScreen() {
+            const loadingTime = Math.random() * (700 - 300) + 300;
+            setTimeout(() => {
+            document.getElementById('fullscreen-iframe-container').style.display = 'none';
+            }, loadingTime);
+        }
 
-      draggableWindow.style.left = `${left}px`;
-      draggableWindow.style.top = `${top}px`;
-    }
+        window.addEventListener('load', () => {
+            checkLastRefresh();
+            showLoadingScreen();
+            loadFolders();
+        });
 
-    function stopDragWindow() {
-      document.removeEventListener('mousemove', onDragWindow);
-      document.removeEventListener('mouseup', stopDragWindow);
-      draggableWindow.style.transition = '';
-    }
-
-    loadCoordinates();
-    loadWorlds();
-  </script>
+        window.onload = function() {
+            const startButton = document.querySelector('.sidebar-link');
+            setActiveLink(startButton, 'page1');
+        };
+    </script>
 </body>
 </html>
