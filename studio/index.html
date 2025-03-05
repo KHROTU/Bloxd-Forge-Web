@@ -243,6 +243,46 @@ iframe {
     background: #ff8c00;
     box-shadow: 0 0 15px #ff8c00;
 }
+
+#Extra-tools-box {
+    display: none;
+    flex-direction: column;
+    background: #383838;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+    margin-top: -2px;
+    border-top: none;
+}
+
+.extra-tool-button {
+    width: 100%;
+    margin: 5px 0;
+    background: #383838;
+    border: 2px solid #ff6f00;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.extra-tool-button i {
+    margin-left: 8px;
+    font-size: 16px;
+}
+
+.extra-tool-button:hover {
+    background: #ff6f00;
+    color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(255, 111, 0, 0.3);
+}
+
      </style>
 </head>
 <body>
@@ -302,6 +342,12 @@ iframe {
             <button class="command-button" onclick="copyToClipboard('//schematic load')">Load <i class="ri-download-cloud-fill"></i></button>
             <button class="command-button" onclick="copyToClipboard('//schematic save')">Save <i class="ri-save-fill"></i></button>
         </div>
+        <button id="extra-tools-btn" class="Right-Buttons" onclick="toggleExtraTools()">Extra Tools<i class="ri-arrow-left-s-line" style="font-size: 20px;"></i></button>
+        <div id="Extra-tools-box">
+          <button class="extra-tool-button" onclick="showCircleWallToolPopup()">Circle Wall Tool</button>
+          <button class="extra-tool-button" onclick="showTreeToolPopup()">Auto Tree Tool</button>
+          <button class="extra-tool-button" onclick="showSphereToolPopup()">Sphere Tool</button>
+      </div>
         <button class="Right-Buttons" id="first-child" onclick="createSign()">
             Create Sign <i class="ri-signpost-fill" style="margin-left: 8px;"></i>
         </button>        
@@ -943,7 +989,7 @@ displaySavedTexts();
             placeholderContainer.appendChild(header);
 
             let iframe = document.createElement("iframe");
-            iframe.src = "https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/8page.html";
+            iframe.src = "https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/5page.html";
             iframe.style.width = "100%";
             iframe.style.height = "calc(100% - 40px)";
             iframe.style.border = "none";
@@ -1069,4 +1115,236 @@ displaySavedTexts();
                 WEMENU.style.display = "none";
             }
         }
+
+        function toggleExtraTools() {
+        let extraToolsIcon = document.querySelector("#extra-tools-btn i");
+        let extraToolsMenu = document.getElementById("Extra-tools-box");
+        let extraToolsButton = document.getElementById("extra-tools-btn");
+      
+        if (extraToolsIcon.classList.contains("ri-arrow-left-s-line")) {
+            extraToolsIcon.classList.remove("ri-arrow-left-s-line");
+            extraToolsIcon.classList.add("ri-arrow-down-s-line");
+            extraToolsButton.style.borderRadius = "10px 10px 0 0";
+            extraToolsMenu.style.display = "flex";
+        } else {
+            extraToolsIcon.classList.remove("ri-arrow-down-s-line");
+            extraToolsIcon.classList.add("ri-arrow-left-s-line");
+            extraToolsButton.style.borderRadius = "10px";
+            extraToolsMenu.style.display = "none";
+        }
+    }
+    
+    function showCircleWallToolPopup() {
+    showToolPopup("Circle Tool", `
+const block1 = api.getHeldItem(myId).name;
+const block2 = api.getItemSlot(myId, 0).name;
+const decideBlock = ()=>(Math.random()>0.5 ? block1:block2);
+const radius = api.getHeldItem(myId).amount
+const hight = api.getInventoryItemAmount(myId, "Updraft")
+const x = thisPos[0], y = thisPos[1], z = thisPos[2]
+
+for(let countX = 0, countZ = 0; x-radius+countX < x; countZ ++){
+api.setBlockRect([x-radius+countX, y, z+countZ], [x-radius+countX, y+hight, z+countZ], decideBlock())
+while((-radius+countX) ** 2 + countZ ** 2 > radius ** 2){countX ++;
+api.setBlockRect([x-radius+countX, y, z+countZ], [x-radius+countX, y+hight, z+countZ], decideBlock())}}
+
+for(let countX = 0, countZ = 0; x+radius-countX > x; countZ ++){
+api.setBlockRect([x+radius-countX, y, z-countZ], [x+radius-countX, y+hight, z-countZ], decideBlock())
+while((radius-countX) ** 2 + countZ ** 2 > radius ** 2){countX ++;
+api.setBlockRect([x+radius-countX, y, z-countZ], [x+radius-countX, y+hight, z-countZ], decideBlock())}}
+
+for(let countX = 0 ,countZ = 0; z+radius-countZ > z; countX ++){
+api.setBlockRect([x+countX, y, z+radius-countZ], [x+countX, y+hight, z+radius-countZ], decideBlock())
+while(countX ** 2 + (radius-countZ) ** 2 > radius ** 2){countZ ++;
+api.setBlockRect([x+countX, y, z+radius-countZ], [x+countX, y+hight, z+radius-countZ], decideBlock())}}
+
+for(let countX = 0 ,countZ = 0; z-radius+countZ < z; countX ++){
+api.setBlockRect([x-countX, y, z-radius+countZ], [x-countX, y+hight, z-radius+countZ], decideBlock())
+while(countX ** 2 + (-radius+countZ) ** 2 > radius ** 2){countZ ++;
+api.setBlockRect([x-countX, y, z-radius+countZ], [x-countX, y+hight, z-radius+countZ], decideBlock())}}
+    `);
+}
+
+function showTreeToolPopup() {
+    showToolPopup("Tree Tool", `
+const trunkBlock = "Pine Log";
+const leavesBlock = "Pine Leaves";
+
+let height = 20 + Math.floor(Math.random() * 6);
+let radius = 4;
+
+const [x, y, z] = thisPos;
+
+for (let dy = 0; dy < height; dy++) {
+    api.setBlock([x, y + dy, z], trunkBlock);
+}
+
+for (let dy = 3; dy < height - 2; dy += 3) {  
+    let layerRadius = Math.ceil(radius * (1 - dy / height)) + 1; 
+
+    for (let dx = -layerRadius; dx <= layerRadius; dx++) {
+        for (let dz = -layerRadius; dz <= layerRadius; dz++) {
+            let distSq = dx * dx + dz * dz;
+            let maxDistSq = layerRadius * layerRadius;
+
+            if (distSq <= maxDistSq && !(dx === 0 && dz === 0) && Math.random() > 0.3) { 
+                api.setBlock([x + dx, y + dy, z + dz], leavesBlock);
+            }
+        }
+    }
+}
+
+for (let dy = -1; dy < 3; dy++) { 
+    let topRadius = Math.max(1, Math.ceil((radius / 2) * (1 - (dy + 1) / 4))); 
+
+    for (let dx = -topRadius; dx <= topRadius; dx++) {
+        for (let dz = -topRadius; dz <= topRadius; dz++) {
+            let distSq = dx * dx + dz * dz;
+            let maxDistSq = topRadius * topRadius;
+
+            if (distSq <= maxDistSq && Math.random() > (0.4 + (dy + 1) * 0.1)) { 
+                api.setBlock([x + dx, y + height + dy, z + dz], leavesBlock);
+            }
+        }
+    }
+}
+
+if (Math.random() > 0.5) { 
+    api.setBlock([x, y + height + 3, z], leavesBlock);
+}
+    `);
+}
+
+function showSphereToolPopup() {
+    showToolPopup("Triangle Tool", `
+const maxRadius = api.getHeldItem(myId).amount, [x, y, z] = thisPos
+let block = api.getHeldItem(myId).name
+
+if(block == "Protector") block = "Water"
+if(block == "Tribe Protector") block = "Lava"
+
+function circle(countY, radius){
+for(let countX = 0, countZ = 0; x-radius+countX < x; countZ ++){
+api.setBlock(x-radius+countX, y+countY, z+countZ, block)
+while((-radius+countX) ** 2 + countZ ** 2 > radius ** 2){countX ++;
+api.setBlock(x-radius+countX, y+countY, z+countZ, block)}}
+
+for(let countX = 0, countZ = 0; x+radius-countX > x; countZ ++){
+api.setBlock(x+radius-countX, y+countY, z-countZ, block)
+while((radius-countX) ** 2 + countZ ** 2 > radius ** 2){countX ++;
+api.setBlock(x+radius-countX, y+countY, z-countZ, block)}}
+
+for(let countX = 0 ,countZ = 0; z+radius-countZ > z; countX ++){
+api.setBlock(x+countX, y+countY, z+radius-countZ, block)
+while(countX ** 2 + (radius-countZ) ** 2 > radius ** 2){countZ ++;
+api.setBlock(x+countX, y+countY, z+radius-countZ, block)}}
+
+for(let countX = 0 ,countZ = 0; z-radius+countZ < z; countX ++){
+api.setBlock(x-countX, y+countY, z-radius+countZ, block)
+while(countX ** 2 + (-radius+countZ) ** 2 > radius ** 2){countZ ++;
+api.setBlock(x-countX, y+countY, z-radius+countZ, block)}}}
+
+for(let countY = 0, radius = maxRadius; radius > 0; countY ++){
+circle(countY, radius)
+while((-radius) ** 2 + countY ** 2 > maxRadius ** 2){radius --;
+circle(countY, radius)}}
+
+for(let countY = 0, radius = maxRadius; radius > 0; countY --){
+circle(countY, radius)
+while((-radius) ** 2 + countY ** 2 > maxRadius ** 2){radius --;
+circle(countY, radius)}}
+    `);
+}
+
+function showToolPopup(toolName, content) {
+    let popup = document.createElement("div");
+    popup.style.position = "fixed";
+    popup.style.top = "50%";
+    popup.style.left = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.width = "500px";
+    popup.style.maxHeight = "80vh";
+    popup.style.background = "#282828";
+    popup.style.padding = "20px";
+    popup.style.borderRadius = "10px";
+    popup.style.border = "2px solid #ff6f00";
+    popup.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
+    popup.style.zIndex = "1000";
+    popup.style.display = "flex";
+    popup.style.flexDirection = "column";
+
+    // Header
+    let header = document.createElement("div");
+    header.style.display = "flex";
+    header.style.justifyContent = "space-between";
+    header.style.alignItems = "center";
+    header.style.marginBottom = "15px";
+
+    let title = document.createElement("h3");
+    title.textContent = toolName + " Code";
+    title.style.color = "white";
+    header.appendChild(title);
+
+    let closeBtn = document.createElement("button");
+    closeBtn.innerHTML = "×";
+    closeBtn.style.background = "none";
+    closeBtn.style.border = "none";
+    closeBtn.style.color = "white";
+    closeBtn.style.fontSize = "24px";
+    closeBtn.style.cursor = "pointer";
+    closeBtn.onclick = () => popup.remove();
+    header.appendChild(closeBtn);
+
+    // Text Content
+    let textarea = document.createElement("textarea");
+    textarea.style.width = "100%";
+    textarea.style.height = "300px";
+    textarea.style.background = "#383838";
+    textarea.style.border = "1px solid #ff6f00";
+    textarea.style.padding = "10px";
+    textarea.style.borderRadius = "5px";
+    textarea.style.color = "white";
+    textarea.style.marginBottom = "15px";
+    textarea.style.resize = "none";
+    textarea.value = content;
+
+    // Buttons Container
+    let buttonsContainer = document.createElement("div");
+    buttonsContainer.style.display = "flex";
+    buttonsContainer.style.gap = "10px";
+
+    // Copy Button
+    let copyBtn = document.createElement("button");
+    copyBtn.textContent = "Copy Text";
+    copyBtn.style.flex = "1";
+    copyBtn.style.padding = "10px";
+    copyBtn.style.background = "#383838";
+    copyBtn.style.border = "2px solid #ff6f00";
+    copyBtn.style.color = "white";
+    copyBtn.style.borderRadius = "5px";
+    copyBtn.style.cursor = "pointer";
+    copyBtn.onclick = () => {
+        textarea.select();
+        document.execCommand("copy");
+    };
+    buttonsContainer.appendChild(copyBtn);
+
+ 
+    let closeButton = document.createElement("button");
+    closeButton.textContent = "Close";
+    closeButton.style.flex = "1";
+    closeButton.style.padding = "10px";
+    closeButton.style.background = "#383838";
+    closeButton.style.border = "2px solid #ff6f00";
+    closeButton.style.color = "white";
+    closeButton.style.borderRadius = "5px";
+    closeButton.style.cursor = "pointer";
+    closeButton.onclick = () => popup.remove();
+    buttonsContainer.appendChild(closeButton);
+
+    popup.appendChild(header);
+    popup.appendChild(textarea);
+    popup.appendChild(buttonsContainer);
+    document.body.appendChild(popup);
+}
 </script>
