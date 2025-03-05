@@ -5,7 +5,6 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>BloxdForge Launcher</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
     body {
@@ -686,7 +685,6 @@
       z-index: 20;
     }
 
-    /* Menu Customization Modal Styles */
     #menu-customize-modal {
       display: none;
       position: fixed;
@@ -925,7 +923,7 @@
       <span>BForge agent</span>
       <button id="draggable-window-close">×</button>
     </div>
-    <iframe id="draggable-window-iframe" src="https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/src/Agent.html"></iframe>
+    <iframe id="draggable-window-iframe" src="/app/assets/src/Agent.html"></iframe>
   </div>
   <div id="menu-customize-modal">
     <div class="menu-customize-content">
@@ -1168,7 +1166,6 @@
         pingDisplay.textContent = 'Ping: Error';
       };
 
-      // Append a random query to prevent caching
       img.src = "https://bloxd.io/favicon.ico?" + Math.random();
 
       if (showFpsPing) {
@@ -1287,80 +1284,47 @@
         menuItem.className = 'menu-customize-item';
         menuItem.style.display = 'flex';
         menuItem.style.alignItems = 'center';
-        menuItem.style.minWidth = '50px'; // Ensure consistent height
-        
+        menuItem.style.minWidth = '50px';
+
         const label = document.createElement('label');
-        label.textContent = link.querySelector('span').textContent;
+        const description = link.querySelector('.description');
+        label.textContent = description ? description.textContent : link.textContent.trim();
         label.style.flexGrow = '1';
         label.style.marginRight = '10px';
-        
+
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.checked = !link.classList.contains('hidden-menu-item');
         checkbox.dataset.index = index;
-        checkbox.style.flexShrink = '0'; // Prevent checkbox from shrinking
-        
+        checkbox.style.flexShrink = '0';
+
         menuItem.appendChild(label);
         menuItem.appendChild(checkbox);
         menuList.appendChild(menuItem);
       });
     }
 
-    function saveMenuCustomization() {
-      const checkboxes = document.querySelectorAll('#menu-customize-list input[type="checkbox"]');
-      const sidebarLinks = document.querySelectorAll('.menu-option');
-      const customizeButton = document.getElementById('menu-customize-toggle');
-
-      checkboxes.forEach((checkbox, index) => {
-        const link = sidebarLinks[index];
-        // Prevent hiding the customize button
-        if (link === customizeButton) {
-          checkbox.checked = true;
-          return;
-        }
-
-        if (checkbox.checked) {
-          link.classList.remove('hidden-menu-item');
-        } else {
-          link.classList.add('hidden-menu-item');
-        }
-      });
-
-      // Save preferences to localStorage
-      const hiddenMenuItems = Array.from(sidebarLinks)
-        .filter(link => link !== customizeButton && link.classList.contains('hidden-menu-item'))
-        .map(link => link.querySelector('span').textContent);
-      
-      localStorage.setItem('hiddenMenuItems', JSON.stringify(hiddenMenuItems));
-      
-      closeMenuCustomizationModal();
+    function openMenuCustomizationModal() {
+      const modal = document.getElementById('menu-customize-modal');
+      modal.style.display = 'flex';
+      populateMenuCustomizationModal();
     }
-
-    function closeMenuCustomizationModal() {
-  const modal = document.getElementById('menu-customize-modal');
-  modal.style.display = 'none';
-}
-
-function openMenuCustomizationModal() {
-  const modal = document.getElementById('menu-customize-modal');
-  populateMenuCustomizationModal();
-  modal.style.display = 'flex';
-}
-
-    menuCustomizeToggle.addEventListener('click', openMenuCustomizationModal);
-
-    // Load saved menu customization on page load
+    
     function loadMenuCustomization() {
       const sidebarLinks = document.querySelectorAll('.menu-option');
       const hiddenMenuItems = JSON.parse(localStorage.getItem('hiddenMenuItems') || '[]');
 
       sidebarLinks.forEach(link => {
-        const menuText = link.querySelector('span').textContent;
+        const menuText = link.querySelector('span')?.textContent || 
+                        link.querySelector('.description')?.textContent || 
+                        link.textContent.trim();
+
         if (hiddenMenuItems.includes(menuText)) {
           link.classList.add('hidden-menu-item');
+          link.style.display = 'none';
         }
       });
-
+    
       const style = document.createElement('style');
       style.textContent = `
         .menu-option.hidden-menu-item {
@@ -1369,6 +1333,51 @@ function openMenuCustomizationModal() {
       `;
       document.head.appendChild(style);
     }
+
+    function saveMenuCustomization() {
+      const checkboxes = document.querySelectorAll('#menu-customize-list input[type="checkbox"]');
+      const sidebarLinks = document.querySelectorAll('.menu-option');
+      const customizeButton = document.getElementById('menu-customize-toggle');
+
+      const hiddenMenuItems = [];
+
+      checkboxes.forEach((checkbox, index) => {
+        const link = sidebarLinks[index];
+        if (link === customizeButton) {
+          checkbox.checked = true;
+          return;
+        }
+      
+        const menuText = link.querySelector('span')?.textContent || 
+                        link.querySelector('.description')?.textContent || 
+                        link.textContent.trim();
+      
+        if (!checkbox.checked) {
+          link.classList.add('hidden-menu-item');
+          link.style.display = 'none';
+          hiddenMenuItems.push(menuText);
+        } else {
+          link.classList.remove('hidden-menu-item');
+          link.style.display = '';
+        }
+      });
+
+      localStorage.setItem('hiddenMenuItems', JSON.stringify(hiddenMenuItems));
+      closeMenuCustomizationModal();
+    }
+
+    function closeMenuCustomizationModal() {
+      const modal = document.getElementById('menu-customize-modal');
+      modal.style.display = 'none';
+    }
+
+    function openMenuCustomizationModal() {
+      const modal = document.getElementById('menu-customize-modal');
+      populateMenuCustomizationModal();
+      modal.style.display = 'flex';
+    }
+
+    menuCustomizeToggle.addEventListener('click', openMenuCustomizationModal);
 
     loadCoordinates();
     loadWorlds();
