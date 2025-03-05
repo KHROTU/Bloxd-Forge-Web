@@ -570,11 +570,9 @@
         function showLoadingScreen() {
             const loadingContainer = document.getElementById('fullscreen-iframe-container');
             
-            // Fade out after 3 seconds
             setTimeout(() => {
                 loadingContainer.classList.add('fade-out');
                 
-                // Completely remove the loading screen after fade-out
                 setTimeout(() => {
                     loadingContainer.style.display = 'none';
                 }, 500);
