@@ -113,6 +113,30 @@
             }
         }
 
+        .suggestions {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 5px;
+            border: 1px solid #484848;
+            background-color: #383838;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .suggestions li {
+            padding: 8px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .suggestions li:hover {
+            background-color: #ffd5bf;
+        }
     </style>
 </head>
 <body>
@@ -128,22 +152,22 @@
         <div class="form-group input-container">
             <label for="item-name">Search for Item:</label>
             <input type="text" id="item-name" placeholder="Type item name...">
-            <ul id="suggestions"></ul> <!-- Suggestions will appear here -->
+            <ul id="item-suggestions" class="suggestions"></ul>
         </div>
         <div class="form-group">
             <label for="item-amount">Enter Amount:</label>
             <input type="number" id="item-amount" placeholder="Amount" min="1">
         </div>
 
-        <!-- Cost Fields (only shown for "Press to Buy") -->
         <div id="cost-fields" style="display: none;">
             <div class="form-group">
                 <label for="item-cost">Enter Cost Amount:</label>
                 <input type="number" id="item-cost" placeholder="Cost Amount" min="1">
             </div>
-            <div class="form-group">
+            <div class="form-group input-container">
                 <label for="item-cost-type">Enter Cost Item:</label>
                 <input type="text" id="item-cost-type" placeholder="Cost Item Name">
+                <ul id="cost-suggestions" class="suggestions"></ul>
             </div>
         </div>
 
@@ -155,7 +179,7 @@
     <script>
         let items = [];  
 
-        fetch("/items.txt")
+        fetch("items.txt")
             .then(response => response.text())
             .then(data => {
 
@@ -215,28 +239,33 @@
             document.getElementById("generated-sign").value = signText;
         }
 
-        document.getElementById("item-name").addEventListener("input", function() {
-            const searchQuery = this.value.toLowerCase();
-            const suggestions = items.filter(item => item.toLowerCase().includes(searchQuery));
-            const suggestionsList = document.getElementById("suggestions");
+        function setupItemSearch(inputId, suggestionsId) {
+            document.getElementById(inputId).addEventListener("input", function() {
+                const searchQuery = this.value.toLowerCase();
+                const suggestions = items.filter(item => item.toLowerCase().includes(searchQuery));
+                const suggestionsList = document.getElementById(suggestionsId);
 
-            if (searchQuery === "") {
+                if (searchQuery === "") {
+                    suggestionsList.innerHTML = '';
+                    return;
+                }
+
                 suggestionsList.innerHTML = '';
-                return;
-            }
 
-            suggestionsList.innerHTML = '';
-
-            suggestions.forEach(item => {
-                const listItem = document.createElement("li");
-                listItem.textContent = item;
-                listItem.onclick = () => {
-                    document.getElementById("item-name").value = item;
-                    suggestionsList.innerHTML = ''; 
-                };
-                suggestionsList.appendChild(listItem);
+                suggestions.forEach(item => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = item;
+                    listItem.onclick = () => {
+                        document.getElementById(inputId).value = item;
+                        suggestionsList.innerHTML = '';
+                    };
+                    suggestionsList.appendChild(listItem);
+                });
             });
-        });
+        }
+
+        setupItemSearch("item-name", "item-suggestions");
+        setupItemSearch("item-cost-type", "cost-suggestions");
     </script>
 </body>
 </html>
