@@ -131,6 +131,8 @@ iframe {
     border: none;
     border-radius: 10px;
     margin-top: 15px;
+    user-select: none;
+    pointer-events: none;
 }
 
 #right-sidebar {
@@ -147,7 +149,7 @@ iframe {
 .Right-Buttons{
     height: 42px;
     width: 100%;
-    white-space: nowrap; /* Prevents text from breaking into two lines */
+    white-space: nowrap;
     background: #383838;
     padding: 10px;
     color: white;
@@ -283,6 +285,82 @@ iframe {
     box-shadow: 0 2px 5px rgba(255, 111, 0, 0.3);
 }
 
+.popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    max-height: 80vh;
+    background: #282828;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ff6f00;
+    box-shadow: 0 4px 8px rgba(255, 111, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.popup-title {
+    color: white;
+}
+
+.popup-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.popup-textarea {
+    width: 100%;
+    height: 300px;
+    background: #383838;
+    border: 1px solid #ff6f00;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 15px;
+    resize: none;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+}
+
+.popup-button {
+    flex: 1;
+    padding: 10px;
+    background: #383838;
+    border: 2px solid #ff6f00;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tool-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background: #282828;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ff6f00;
+    box-shadow: 0 4px 8px rgba(255, 111, 0, 0.3);
+    z-index: 1000;
+}
      </style>
 </head>
 <body>
@@ -335,12 +413,12 @@ iframe {
         <div id="right-sidebar">
             <button id="world-edit-btn" class="Right-Buttons" onclick="toggleWEmenu()">World Edit<i class="ri-arrow-left-s-line" style="font-size: 20px;"></i></button>
             <div id="World-edit-box">
-            <button class="command-button" onclick="copyToClipboard('//pos1')">Pos 1 <i class="ri-flag-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//pos2')">Pos 2 <i class="ri-flag-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//copy')">Copy <i class="ri-file-copy-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//paste')">Paste <i class="ri-clipboard-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//schematic load')">Load <i class="ri-download-cloud-fill"></i></button>
-            <button class="command-button" onclick="copyToClipboard('//schematic save')">Save <i class="ri-save-fill"></i></button>
+            <button class="command-button" onclick="copyCommand('//pos1', this)">Pos 1 <i class="ri-flag-fill"></i></button>
+            <button class="command-button" onclick="copyCommand('//pos2', this)">Pos 2 <i class="ri-flag-fill"></i></button>
+            <button class="command-button" onclick="copyCommand('//copy', this)">Copy <i class="ri-file-copy-fill"></i></button>
+            <button class="command-button" onclick="copyCommand('//paste', this)">Paste <i class="ri-clipboard-fill"></i></button>
+            <button class="command-button" onclick="copyCommand('//schematic load', this)">Load <i class="ri-download-cloud-fill"></i></button>
+            <button class="command-button" onclick="copyCommand('//schematic save', this)">Save <i class="ri-save-fill"></i></button>
         </div>
         <button id="extra-tools-btn" class="Right-Buttons" onclick="toggleExtraTools()">Extra Tools<i class="ri-arrow-left-s-line" style="font-size: 20px;"></i></button>
         <div id="Extra-tools-box">
@@ -356,8 +434,6 @@ iframe {
                 </button>
 
         </div>
-
-        <script src="script.js"></script>
 </body>
 </html>
 <script>
@@ -693,8 +769,6 @@ function removeSavedText(index) {
 }
 
 displaySavedTexts();
-
-      // Handle file uploads
            function handleFileUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -705,30 +779,35 @@ displaySavedTexts();
             }
         }
         function addFileCard(fileName, fileURL) {
-            let filediv = document.querySelector("#storage-area");
+            let storageArea = document.querySelector("#storage-area");
             
-            const displayFileName = fileName.length > 13 ? fileName.substring(0, 13) + "..." : fileName;
+            const cardContainer = document.createElement("div");
+            cardContainer.classList.add("file-card-wrapper");
+            
             const fileCard = document.createElement("div");
             fileCard.classList.add("file-card");
+            
+            const displayFileName = fileName.length > 13 ? fileName.substring(0, 13) + "..." : fileName;
             fileCard.textContent = displayFileName;
-            fileCard.onclick = () => downloadFile(fileURL);
+            fileCard.onclick = (e) => {
+                e.stopPropagation();
+                downloadFile(fileURL);
+            };
 
             const removeBtn = document.createElement("button");
             removeBtn.classList.add("remove-btn");
-
             const removeIcon = document.createElement("i");
             removeIcon.classList.add("ri-delete-bin-line");
-        
             removeBtn.textContent = "Remove ";
             removeBtn.appendChild(removeIcon);
-            removeBtn.onclick = (event) => confirmRemove(event, fileName, fileCardWrapper);
-        
-            const fileCardWrapper = document.createElement("div");
-            fileCardWrapper.classList.add("file-card-wrapper");
-            fileCardWrapper.appendChild(fileCard);
-            fileCardWrapper.appendChild(removeBtn);
+            removeBtn.onclick = (e) => {
+                e.stopPropagation();
+                confirmRemove(e, fileName, cardContainer);
+            };
 
-            filediv.appendChild(fileCardWrapper);
+            cardContainer.appendChild(fileCard);
+            cardContainer.appendChild(removeBtn);
+            storageArea.appendChild(cardContainer);
         }
         
         function confirmRemove(event, fileName, fileCardWrapper) {
@@ -767,9 +846,18 @@ displaySavedTexts();
 
         window.onload = loadSavedFiles;
 
-        function copyToClipboard(command) {
+        function copyCommand(command, button) {
+            const originalText = button.innerHTML;
             navigator.clipboard.writeText(command).then(() => {
+                button.innerHTML = 'Copied!';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                }, 1000);
             }).catch((error) => {
+                button.innerHTML = 'Failed to copy';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                }, 1000);
                 console.error("Error copying text: ", error);
             });
         }
@@ -786,39 +874,23 @@ displaySavedTexts();
         function initResize(e) {
             e.preventDefault();
             e.stopPropagation();
-
-            // Ensure we have the correct container
             iframeContainer = document.getElementById('iframe-sign-container');
-            
-            // Get initial dimensions
             const computedStyle = window.getComputedStyle(iframeContainer);
             startWidth = parseInt(computedStyle.width, 10);
             startHeight = parseInt(computedStyle.height, 10);
-            
-            // Store initial mouse position
             startX = e.clientX;
             startY = e.clientY;
-
-            // Add event listeners
             document.addEventListener('mousemove', performResize);
             document.addEventListener('mouseup', stopResize);
-
-            // Add visual indicators
             iframeContainer.classList.add('resizing');
         }
 
         function performResize(e) {
             if (!iframeContainer) return;
-
-            // Calculate new dimensions
             const deltaX = e.clientX - startX;
             const deltaY = e.clientY - startY;
-
-            // Compute new width and height with constraints
             const newWidth = Math.max(300, Math.min(startWidth + deltaX, window.innerWidth * 0.9));
             const newHeight = Math.max(200, Math.min(startHeight + deltaY, window.innerHeight * 0.9));
-
-            // Update dimensions using requestAnimationFrame for performance
             requestAnimationFrame(() => {
                 iframeContainer.style.width = `${newWidth}px`;
                 iframeContainer.style.height = `${newHeight}px`;
@@ -826,23 +898,19 @@ displaySavedTexts();
         }
 
         function stopResize() {
-            // Remove event listeners
             document.removeEventListener('mousemove', performResize);
             document.removeEventListener('mouseup', stopResize);
 
-            // Remove visual indicators
             if (iframeContainer) {
                 iframeContainer.classList.remove('resizing');
             }
 
-            // Reset tracking variables
             startX = null;
             startY = null;
             startWidth = null;
             startHeight = null;
         }
 
-        // Initialize resize functionality when createSign is called
         function initResizeFeature() {
             iframeContainer = document.getElementById('iframe-sign-container');
             if (iframeContainer && !iframeContainer.querySelector('.resize-handle')) {
@@ -851,167 +919,49 @@ displaySavedTexts();
         }
 
         function createSign() {
-            let iframeContainer = document.createElement("div");
-            iframeContainer.id = "iframe-sign-container";
-            iframeContainer.style.position = "fixed";
-            iframeContainer.style.top = "50%";
-            iframeContainer.style.left = "50%";
-            iframeContainer.style.transform = "translate(-50%, -50%)";
-            iframeContainer.style.width = "40%";
-            iframeContainer.style.height = "60%";
-            iframeContainer.style.backgroundColor = "#282828";
-            iframeContainer.style.zIndex = "9999";
-            iframeContainer.style.border = "2px solid #ff6f00";
-            iframeContainer.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
-            iframeContainer.style.cursor = "move";
-            iframeContainer.style.resize = "both";
-            iframeContainer.style.overflow = "hidden";
-            iframeContainer.style.borderRadius = "10px";
-            iframeContainer.style.color = "white";
+            const popupContent = `
+                <div class="popup-header">
+                    <h3 class="popup-title">Sign Editor</h3>
+                    <button class="popup-close">×</button>
+                </div>
+                <iframe src="assets/sign.html" style="width: 100%; height: calc(100% - 60px); border: none;"></iframe>
+            `;
 
-            let header = document.createElement("div");
-            header.style.backgroundColor = "#383838";
-            header.style.color = "white";
-            header.style.padding = "10px";
-            header.style.cursor = "move";
-            header.style.display = "flex";
-            header.style.justifyContent = "space-between";
-            header.style.alignItems = "center";
-            header.style.borderBottom = "2px solid #ff6f00";
-            header.style.borderRadius = "10px 10px 0 0";
+            const popup = document.createElement("div");
+            popup.className = "popup-container";
+            popup.style.width = "600px";
+            popup.style.height = "80vh";
+            popup.innerHTML = popupContent;
 
-            let headerTitle = document.createElement("span");
-            headerTitle.textContent = "Sign Editor";
-            headerTitle.style.fontWeight = "bold";
-            header.appendChild(headerTitle);
+            popup.querySelector(".popup-close").onclick = () => popup.remove();
+            document.body.appendChild(popup);
 
-            let closeButton = document.createElement("button");
-            closeButton.innerHTML = "×";
-            closeButton.style.background = "none";
-            closeButton.style.border = "none";
-            closeButton.style.color = "white";
-            closeButton.style.fontSize = "20px";
-            closeButton.style.cursor = "pointer";
-            closeButton.style.transition = "color 0.3s ease";
-            closeButton.onmouseover = function() { this.style.color = "#ff6f00"; };
-            closeButton.onmouseout = function() { this.style.color = "white"; };
-            closeButton.onclick = () => iframeContainer.remove();
-            header.appendChild(closeButton);
-
-            iframeContainer.appendChild(header);
-
-            let iframe = document.createElement("iframe");
-            iframe.src = "sign.html";  
-            iframe.style.width = "100%";
-            iframe.style.height = "calc(100% - 40px)";  
-            iframe.style.border = "none";
-            iframeContainer.appendChild(iframe);
-
-            document.body.appendChild(iframeContainer);
-
-            header.onmousedown = dragMouseDown;
-
-            let offsetX = 0;
-            let offsetY = 0;
-
-            function dragMouseDown(e) {
-                e.preventDefault();
-                offsetX = e.clientX - iframeContainer.offsetLeft;
-                offsetY = e.clientY - iframeContainer.offsetTop;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = dragMouseMove;
-            }
-
-            function dragMouseMove(e) {
-                e.preventDefault();
-                let posX = e.clientX - offsetX;
-                let posY = e.clientY - offsetY;
-                iframeContainer.style.left = posX + "px";
-                iframeContainer.style.top = posY + "px";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-
-            initResizeFeature();
+            makePopupDraggable(popup);
         }
 
         function createPlaceholderSign() {
-            let placeholderContainer = document.createElement("div");
-            placeholderContainer.id = "iframe-placeholder-container";
-            placeholderContainer.style.position = "fixed";
-            placeholderContainer.style.top = "50%";
-            placeholderContainer.style.left = "50%";
-            placeholderContainer.style.transform = "translate(-50%, -50%)";
-            placeholderContainer.style.width = "70%";
-            placeholderContainer.style.height = "60%";
-            placeholderContainer.style.backgroundColor = "#282828";
-            placeholderContainer.style.zIndex = "9999";
-            placeholderContainer.style.border = "2px solid #ff6f00";
-            placeholderContainer.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
-            placeholderContainer.style.cursor = "move";
-            placeholderContainer.style.resize = "both";
-            placeholderContainer.style.overflow = "hidden";
-            placeholderContainer.style.color = "white";
+            const popupContent = `
+                <div class="popup-header">
+                    <h3 class="popup-title">Forged Builds</h3>
+                    <button class="popup-close">×</button>
+                </div>
+                <iframe src="/app/assets/5page.html" style="width: 100%; height: calc(100% - 60px); border: none;"></iframe>
+            `;
 
-            let header = document.createElement("div");
-            header.style.backgroundColor = "#383838";
-            header.style.color = "white";
-            header.style.padding = "10px";
-            header.style.cursor = "move";
-            header.style.display = "flex";
-            header.style.justifyContent = "space-between";
-            header.style.alignItems = "center";
-            header.style.borderBottom = "2px solid #ff6f00";
+            const popup = document.createElement("div");
+            popup.className = "popup-container";
+            popup.style.width = "70%";
+            popup.style.height = "80vh";
+            popup.innerHTML = popupContent;
 
-            let headerTitle = document.createElement("span");
-            headerTitle.textContent = "Forged builds";
-            headerTitle.style.fontWeight = "bold";
-            header.appendChild(headerTitle);
+            popup.querySelector(".popup-close").onclick = () => popup.remove();
+            document.body.appendChild(popup);
 
-            let closeButton = document.createElement("button");
-            closeButton.innerHTML = "×";
-            closeButton.style.background = "none";
-            closeButton.style.border = "none";
-            closeButton.style.color = "white";
-            closeButton.style.fontSize = "20px";
-            closeButton.style.cursor = "pointer";
-            closeButton.style.transition = "color 0.3s ease";
-            closeButton.onmouseover = function() { this.style.color = "#ff6f00"; };
-            closeButton.onmouseout = function() { this.style.color = "white"; };
-            closeButton.onclick = function() {
-                document.body.removeChild(placeholderContainer);
-            };
-            header.appendChild(closeButton);
+            makePopupDraggable(popup);
+        }
 
-            placeholderContainer.appendChild(header);
-
-            let iframe = document.createElement("iframe");
-            iframe.src = "https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/app/assets/5page.html";
-            iframe.style.width = "100%";
-            iframe.style.height = "calc(100% - 40px)";
-            iframe.style.border = "none";
-            iframe.style.overflow = "auto";
-
-            placeholderContainer.appendChild(iframe);
-
-            let resizeHandle = document.createElement("div");
-            resizeHandle.style.position = "absolute";
-            resizeHandle.style.right = "0";
-            resizeHandle.style.bottom = "0";
-            resizeHandle.style.width = "20px";
-            resizeHandle.style.height = "20px";
-            resizeHandle.style.backgroundColor = "#ff6f00";
-            resizeHandle.style.cursor = "se-resize";
-            resizeHandle.style.opacity = "0.7";
-            resizeHandle.style.transition = "opacity 0.3s ease";
-            resizeHandle.onmouseover = function() { this.style.opacity = "1"; };
-            resizeHandle.onmouseout = function() { this.style.opacity = "0.7"; };
-            placeholderContainer.appendChild(resizeHandle);
-
-            // Dragging functionality
+        function makePopupDraggable(popup) {
+            const header = popup.querySelector(".popup-header");
             let isDragging = false;
             let currentX;
             let currentY;
@@ -1020,23 +970,21 @@ displaySavedTexts();
             let xOffset = 0;
             let yOffset = 0;
 
-            header.addEventListener("mousedown", dragStart);
-            document.addEventListener("mouseup", dragEnd);
-            document.addEventListener("mousemove", drag);
+            header.onmousedown = dragStart;
+            document.onmouseup = dragEnd;
+            document.onmousemove = drag;
 
             function dragStart(e) {
                 initialX = e.clientX - xOffset;
                 initialY = e.clientY - yOffset;
-
-                if (e.target === header) {
+                if (e.target === header || e.target.parentElement === header) {
                     isDragging = true;
                 }
             }
 
-            function dragEnd(e) {
+            function dragEnd() {
                 initialX = currentX;
                 initialY = currentY;
-
                 isDragging = false;
             }
 
@@ -1045,53 +993,11 @@ displaySavedTexts();
                     e.preventDefault();
                     currentX = e.clientX - initialX;
                     currentY = e.clientY - initialY;
-
                     xOffset = currentX;
                     yOffset = currentY;
-
-                    setTranslate(currentX, currentY, placeholderContainer);
+                    popup.style.transform = `translate(${currentX}px, ${currentY}px)`;
                 }
             }
-
-            function setTranslate(xPos, yPos, el) {
-                el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-            }
-
-            // Resize functionality
-            let isResizing = false;
-            let originalWidth, originalHeight, originalX, originalY;
-
-            resizeHandle.addEventListener("mousedown", initResize);
-            document.addEventListener("mousemove", resize);
-            document.addEventListener("mouseup", stopResize);
-
-            function initResize(e) {
-                e.stopPropagation();
-                isResizing = true;
-                originalWidth = placeholderContainer.offsetWidth;
-                originalHeight = placeholderContainer.offsetHeight;
-                originalX = e.clientX;
-                originalY = e.clientY;
-            }
-
-            function resize(e) {
-                if (!isResizing) return;
-
-                let width = originalWidth + (e.clientX - originalX);
-                let height = originalHeight + (e.clientY - originalY);
-
-                width = Math.max(300, Math.min(width, window.innerWidth * 0.9));
-                height = Math.max(200, Math.min(height, window.innerHeight * 0.9));
-
-                placeholderContainer.style.width = `${width}px`;
-                placeholderContainer.style.height = `${height}px`;
-            }
-
-            function stopResize() {
-                isResizing = false;
-            }
-
-            document.body.appendChild(placeholderContainer);
         }
 
         window.createPlaceholderSign = createPlaceholderSign;
@@ -1258,87 +1164,41 @@ circle(countY, radius)}}
 
 function showToolPopup(toolName, content) {
     let popup = document.createElement("div");
-    popup.style.position = "fixed";
-    popup.style.top = "50%";
-    popup.style.left = "50%";
-    popup.style.transform = "translate(-50%, -50%)";
-    popup.style.width = "500px";
-    popup.style.maxHeight = "80vh";
-    popup.style.background = "#282828";
-    popup.style.padding = "20px";
-    popup.style.borderRadius = "10px";
-    popup.style.border = "2px solid #ff6f00";
-    popup.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
-    popup.style.zIndex = "1000";
-    popup.style.display = "flex";
-    popup.style.flexDirection = "column";
+    popup.className = "popup-container";
 
-    // Header
     let header = document.createElement("div");
-    header.style.display = "flex";
-    header.style.justifyContent = "space-between";
-    header.style.alignItems = "center";
-    header.style.marginBottom = "15px";
+    header.className = "popup-header";
 
     let title = document.createElement("h3");
+    title.className = "popup-title";
     title.textContent = toolName + " Code";
-    title.style.color = "white";
     header.appendChild(title);
 
     let closeBtn = document.createElement("button");
+    closeBtn.className = "popup-close";
     closeBtn.innerHTML = "×";
-    closeBtn.style.background = "none";
-    closeBtn.style.border = "none";
-    closeBtn.style.color = "white";
-    closeBtn.style.fontSize = "24px";
-    closeBtn.style.cursor = "pointer";
     closeBtn.onclick = () => popup.remove();
     header.appendChild(closeBtn);
 
-    // Text Content
     let textarea = document.createElement("textarea");
-    textarea.style.width = "100%";
-    textarea.style.height = "300px";
-    textarea.style.background = "#383838";
-    textarea.style.border = "1px solid #ff6f00";
-    textarea.style.padding = "10px";
-    textarea.style.borderRadius = "5px";
-    textarea.style.color = "white";
-    textarea.style.marginBottom = "15px";
-    textarea.style.resize = "none";
+    textarea.className = "popup-textarea";
     textarea.value = content;
 
-    // Buttons Container
     let buttonsContainer = document.createElement("div");
-    buttonsContainer.style.display = "flex";
-    buttonsContainer.style.gap = "10px";
+    buttonsContainer.className = "buttons-container";
 
-    // Copy Button
     let copyBtn = document.createElement("button");
+    copyBtn.className = "popup-button";
     copyBtn.textContent = "Copy Text";
-    copyBtn.style.flex = "1";
-    copyBtn.style.padding = "10px";
-    copyBtn.style.background = "#383838";
-    copyBtn.style.border = "2px solid #ff6f00";
-    copyBtn.style.color = "white";
-    copyBtn.style.borderRadius = "5px";
-    copyBtn.style.cursor = "pointer";
     copyBtn.onclick = () => {
         textarea.select();
         document.execCommand("copy");
     };
     buttonsContainer.appendChild(copyBtn);
 
- 
     let closeButton = document.createElement("button");
+    closeButton.className = "popup-button";
     closeButton.textContent = "Close";
-    closeButton.style.flex = "1";
-    closeButton.style.padding = "10px";
-    closeButton.style.background = "#383838";
-    closeButton.style.border = "2px solid #ff6f00";
-    closeButton.style.color = "white";
-    closeButton.style.borderRadius = "5px";
-    closeButton.style.cursor = "pointer";
     closeButton.onclick = () => popup.remove();
     buttonsContainer.appendChild(closeButton);
 
