@@ -310,23 +310,6 @@
             border: none;
             margin: 0px 0;
         }
-
-        .iframe-containers {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .iframe-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: none;
-        }
-
-        .iframe-container.active {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -372,10 +355,12 @@
     </div>
 
     <div class="content">
-        <div class="iframe-containers">
-            <div class="iframe-container" data-page="page1">
-                <iframe name="page1-iframe" src="/app/assets/1page.html"></iframe>
-            </div>
+        <div class="iframe-container" id="start-iframe-container">
+            <iframe name="start-iframe" src="/app/assets/1page.html"></iframe>
+        </div>
+
+        <div class="iframe-container" id="dynamic-iframe-container">
+            <iframe name="iframe" src="https://ThisUsedToExistButILostTheFileSoWhoopsies"></iframe>
         </div>
 
         <div class="top-right-box">
@@ -416,76 +401,46 @@
 
         function setActiveLink(link, page) {
             const links = document.querySelectorAll('.sidebar-link');
-            const containers = document.querySelector('.iframe-containers');
-            
+            const startContainer = document.getElementById('start-iframe-container');
+            const dynamicContainer = document.getElementById('dynamic-iframe-container');
+
             links.forEach(l => l.classList.remove('selected'));
             link.classList.add('selected');
 
-            document.querySelectorAll('.iframe-container').forEach(container => {
-                container.classList.remove('active');
-            });
-
-            let container = document.querySelector(`.iframe-container[data-page="${page}"]`);
-            
-            if (!container) {
-                container = document.createElement('div');
-                container.className = 'iframe-container';
-                container.setAttribute('data-page', page);
-                
-                const iframe = document.createElement('iframe');
-                iframe.name = `${page}-iframe`;
-                iframe.src = pages[page];
-                
-                if (page === 'page3') {
-                    iframe.addEventListener('load', () => {
-                        iframe.contentWindow.postMessage({ 
-                            type: 'checkLogin'
-                        }, '*');
-                    });
-                }
-                
-                container.appendChild(iframe);
-                containers.appendChild(container);
-            } else if (page === 'page3') {
-                const iframe = container.querySelector('iframe');
-                iframe.contentWindow.postMessage({ 
-                    type: 'checkLogin'
-                }, '*');
+            if (page === 'page1') {
+                startContainer.style.display = 'block';
+                dynamicContainer.style.display = 'none';
+            } else {
+                startContainer.style.display = 'none';
+                dynamicContainer.style.display = 'block';
+                loadPage(page);
             }
-
-            container.classList.add('active');
         }
 
-        window.addEventListener('message', (event) => {
-            if (event.data.type === 'checkLogin') {
-                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-                const catEnabled = localStorage.getItem('catEnabled') === 'true';
-                const cloudEnabled = localStorage.getItem('cloudEnabled') === 'true';
-                event.source.postMessage({ 
-                    type: 'loginStatus',
-                    isLoggedIn,
-                    catEnabled,
-                    cloudEnabled
-                }, '*');
-            } else if (event.data.type === 'setLoginStatus') {
-                localStorage.setItem(event.data.key, event.data.value);
-            }
-        });
-
         function toggleFullScreen() {
-            const containers = document.querySelector('.iframe-containers');
+            const startIframe = document.querySelector('iframe[name="start-iframe"]');
+            const dynamicIframe = document.querySelector('iframe[name="iframe"]');
+            const startContainer = document.getElementById('start-iframe-container');
+            const dynamicContainer = document.getElementById('dynamic-iframe-container');
             const sidebar = document.querySelector('.sidebar');
             const cornerBox = document.querySelector('.top-right-box');
             
-            const isFullScreen = containers.classList.contains('fullscreen');
+            const isStartFullScreen = startContainer.classList.contains('fullscreen');
+            const isDynamicFullScreen = dynamicContainer.classList.contains('fullscreen');
 
-            if (!isFullScreen) {
-                containers.classList.add('fullscreen');
+            if (!isStartFullScreen || !isDynamicFullScreen) {
+                startContainer.classList.add('fullscreen');
+                dynamicContainer.classList.add('fullscreen');
+                startIframe.classList.add('fullscreen');
+                dynamicIframe.classList.add('fullscreen');
                 sidebar.classList.add('hidden');
                 cornerBox.classList.add('smaller');
                 document.body.classList.add('locked');
             } else {
-                containers.classList.remove('fullscreen');
+                startContainer.classList.remove('fullscreen');
+                dynamicContainer.classList.remove('fullscreen');
+                startIframe.classList.remove('fullscreen');
+                dynamicIframe.classList.remove('fullscreen');
                 sidebar.classList.remove('hidden');
                 cornerBox.classList.remove('smaller');
                 document.body.classList.remove('locked');
