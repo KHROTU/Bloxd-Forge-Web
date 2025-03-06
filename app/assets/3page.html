@@ -206,6 +206,42 @@
     <div id="workspace"></div>
 
     <script>
+        let initialized = false;
+        const popup = document.getElementById("password-popup");
+        const workspace = document.getElementById("workspace");
+
+        popup.style.display = "none";
+        workspace.style.display = "none";
+
+        function initializePage() {
+            if (!initialized) {
+                initialized = true;
+                window.parent.postMessage({ type: 'checkLogin' }, '*');
+            }
+        }
+
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'loginStatus') {
+                if (event.data.isLoggedIn) {
+                    popup.style.display = "none";
+                    workspace.style.display = "block";
+                } else {
+                    popup.style.display = "flex";
+                    workspace.style.display = "none";
+                }
+                
+                if (event.data.catEnabled) {
+                    addEasterEggButton('cat', 'fas fa-cat', 'Cat', 'https://s3.gifyu.com/images/bSKgq.gif');
+                }
+                if (event.data.cloudEnabled) {
+                    addEasterEggButton('cloud', 'fas fa-cloud', 'Furry Cloud', 'https://cdn.discordapp.com/avatars/1036667139660206191/081832c3d5c6cf8a6f0136476c8c19dd?size=1024');
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', initializePage);
+        window.addEventListener('load', initializePage);
+
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -221,14 +257,14 @@
             const cloudHash = "3c6f2a2e4e0820327ad4afd95dc2eb0f48d6065b27e689d97e394300aec769a9";
 
             if (hash === validHash) {
-                localStorage.setItem("isLoggedIn", "true");
+                window.parent.postMessage({ type: 'setLoginStatus', key: 'isLoggedIn', value: 'true' }, '*');
                 document.getElementById("password-popup").style.display = "none";
                 document.getElementById("workspace").style.display = "block";
             } else if (hash === catHash) {
-                localStorage.setItem("catEnabled", "true");
+                window.parent.postMessage({ type: 'setLoginStatus', key: 'catEnabled', value: 'true' }, '*');
                 addEasterEggButton('cat', 'fas fa-cat', 'Cat', 'https://s3.gifyu.com/images/bSKgq.gif');
             } else if (hash === cloudHash) {
-                localStorage.setItem("cloudEnabled", "true");
+                window.parent.postMessage({ type: 'setLoginStatus', key: 'cloudEnabled', value: 'true' }, '*');
                 addEasterEggButton('cloud', 'fas fa-cloud', 'Furry Cloud', 'https://cdn.discordapp.com/avatars/1036667139660206191/081832c3d5c6cf8a6f0136476c8c19dd?size=1024');
             } else {
                 alert("Incorrect password. Please try again.");
@@ -244,18 +280,29 @@
             sidebar.appendChild(button);
         }
 
-        window.onload = () => {
-            if (localStorage.getItem("isLoggedIn") === "true") {
-                document.getElementById("password-popup").style.display = "none";
-                document.getElementById("workspace").style.display = "block";
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'loginStatus') {
+                const popup = document.getElementById("password-popup");
+                const workspace = document.getElementById("workspace");
+                
+                if (event.data.isLoggedIn) {
+                    popup.style.display = "none";
+                    workspace.style.display = "block";
+                } else {
+                    popup.style.display = "flex";
+                    workspace.style.display = "none";
+                }
+                
+                if (event.data.catEnabled) {
+                    addEasterEggButton('cat', 'fas fa-cat', 'Cat', 'https://s3.gifyu.com/images/bSKgq.gif');
+                }
+                if (event.data.cloudEnabled) {
+                    addEasterEggButton('cloud', 'fas fa-cloud', 'Furry Cloud', 'https://cdn.discordapp.com/avatars/1036667139660206191/081832c3d5c6cf8a6f0136476c8c19dd?size=1024');
+                }
             }
-            if (localStorage.getItem("catEnabled") === "true") {
-                addEasterEggButton('cat', 'fas fa-cat', 'Cat', 'https://s3.gifyu.com/images/bSszU.gif');
-            }
-            if (localStorage.getItem("cloudEnabled") === "true") {
-                addEasterEggButton('cloud', 'fas fa-cloud', 'Furry Cloud', 'https://cdn.discordapp.com/avatars/1036667139660206191/081832c3d5c6cf8a6f0136476c8c19dd?size=1024');
-            }
-        };
+        });
+
+        window.parent.postMessage({ type: 'checkLogin' }, '*');
 
         let zIndexCounter = 1;
         function openWindow(title, url, iconElement) {
