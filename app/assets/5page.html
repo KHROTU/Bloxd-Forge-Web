@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>BloxdForge Builds</title>
+    <title>Forged Builds</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://kit.fontawesome.com/e3da39203e.js" crossorigin="anonymous"></script>
     <style>
@@ -237,6 +237,16 @@
             background: var(--surface-hover);
         }
 
+        .upload-button {
+            background: var(--primary);
+            color: #000;
+            margin-left: 11rem;
+            height: 48px;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
         @media (max-width: 768px) {
             #topBar {
                 flex-direction: column;
@@ -267,6 +277,9 @@
             <div id="searchContainer">
                 <input type="text" id="search" placeholder="Search schematics..." autocomplete="off" onkeyup="searchSchematics()">
             </div>
+            <a href='app/assets/src/upload.htm' class='button upload-button'>
+                <i class='fa-solid fa-upload'></i> Upload
+            </a>
         </div>
 
         <div class="topbar-right">
@@ -307,6 +320,12 @@
         let schematics = []; 
         let currentPage = 0; 
         const pageSize = 30; 
+        const profanityList = ['Fuck', 'Sex', 'Nigger', 'Nigga', 'Zhoopile', 'Nig', 'Nigg', 'gay', 'nigger', 'nigga', 'zhoopile', 'nigg', 'nigg',];
+
+        function sanitizeText(text) {
+            return profanityList.reduce((acc, word) => 
+                acc.replace(new RegExp(word, 'gi'), '***'), text);
+        }
 
         function onLoadScript(){
             const sheetId = '1Ue6SyMuth3Kc3RJ4ias8bhQA9fv9f-FD_c4Jgu4yFFI';
@@ -328,28 +347,42 @@
             const end = start + pageSize;
             const pageData = schematics.slice(start, end);
 
+            const sanitizedPageData = pageData.map(row => {
+                const [submissionId, respondentId, dateUploaded, schematic, image, name, username, tags] = row;
+                return [
+                    submissionId, 
+                    respondentId, 
+                    dateUploaded, 
+                    schematic, 
+                    image, 
+                    sanitizeText(name), 
+                    sanitizeText(username), 
+                    sanitizeText(tags)
+                ];
+            });
+
             const container = document.querySelector('#schematicContainer');
             container.innerHTML = ''; 
 
-            pageData.forEach(row => {
+            sanitizedPageData.forEach(row => {
                 const [submissionId, respondentId, dateUploaded, schematic, image, name, username, tags] = row;
 
-                const card = document.createElement('div');
-                card.classList.add('schematicBox');
-                card.innerHTML = `
-                    <img class="image" src="${image}" loading="lazy">
-                    <h2>${name}</h2>
-                    <p>Uploaded by ${username}</p>
-                    <div class="tag-list">
-                        ${tags.split(',').map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                    <a href='${schematic}' download='${name}.zip'>
-                        <button class='button downloadButton' onclick='incrementDownloadCount("${submissionId}")'>
-                            <i class='fa-solid fa-cloud-arrow-down'></i> Download
-                        </button>
-                    </a>
-                `;
-                container.appendChild(card);
+                    const card = document.createElement('div');
+                    card.classList.add('schematicBox');
+                    card.innerHTML = `
+                        <img class="image" src="${image}" loading="lazy">
+                        <h2>${name}</h2>
+                        <p>Uploaded by ${username}</p>
+                        <div class="tag-list">
+                            ${tags.split(',').map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <a href='${schematic}' download='${name}.zip'>
+                            <button class='button downloadButton' onclick='incrementDownloadCount("${submissionId}")'>
+                                <i class='fa-solid fa-cloud-arrow-down'></i> Download
+                            </button>
+                        </a>
+                    `;
+                    container.appendChild(card);
             });
 
             document.getElementById('prev').style.display = page > 0 ? 'flex' : 'none';
