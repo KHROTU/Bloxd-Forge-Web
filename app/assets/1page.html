@@ -4,7 +4,8 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>BloxdForge Launcher</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -802,6 +803,198 @@
     .menu-customize-modal-buttons button:last-child:hover {
       background-color: #555;
     }
+    #new-mod-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(24, 24, 24, 0.9);
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #444;
+    }
+
+     .Ai-Iframe , 
+    .new-mod-content {
+      background-color: #242424;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 350px;
+      max-height: 70vh;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      border: 1px solid #444;
+    }
+    .Ai-Iframe {
+      min-height: 315px;
+      max-height: 661.5px;
+      resize: vertical;
+    }
+    #AI-BOT-FRAME{
+width: 100%;
+height: 100%;
+    }
+
+    .new-mod-content h2 {
+      color: #FFA500;
+      text-shadow: 0 0 8px #FFA500;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .new-mod-content textarea {
+      background-color: #333 ;
+      border: 2px solid #e67e00;
+      border-radius: 10px;
+      outline: transparent;
+            width: 100%;
+            margin-top: 20px;
+            min-height: 100px;
+            max-height: 450px;
+            resize: vertical;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+    .new-mod-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #333;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      height: 50px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .new-mod-modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .new-mod-modal-buttons button {
+      background-color: #ff8c00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    #NewModIcon ,
+    #NewModName{
+      width: 100%;
+      height: 40px;
+      color: white;
+      background: #333;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 16px;
+      padding: 5px 20px;
+      outline: none;
+      margin-bottom: 15px;
+      opacity: 1;
+      caret-color: white;
+      border: 2px solid #e67e00;
+    }
+
+
+    .new-mod-modal-buttons button:hover {
+      background-color: #e67e00;
+      transform: scale(1.05);
+    }
+
+    .new-mod-modal-buttons button:last-child {
+      background-color: #444;
+    }
+
+    .new-mod-modal-buttons button:last-child:hover {
+      background-color: #555;
+    }
+
+    .NewModIconBox {
+       margin-top: 20px;
+      }
+
+.UMIBtn {
+      background-color: #ff8c00;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+}
+
+    .image-holder {
+  width: 100%;
+  height: 300px;
+  border: 2px dashed #ff8c00;
+  border-radius: 10px;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: #333;
+  color: #ccc;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#imagePreview {
+  display: none;
+}
+
+.image-holder.dragover {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px dashed #ff8c00;
+}
+
+#UploadHTMLModal{
+      display: none;
+      position: fixed;
+      gap: 50px;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(18, 18, 18, 0.9);
+    }
+
+    .context-menu {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 5px;
+      padding: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+    .context-menu-item {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .context-menu-item:hover {
+      background-color: #555;
+    }
   </style>
 </head>
 <body>
@@ -863,17 +1056,21 @@
       </div>
     </div>
     <div id="menu-bottom">
-      <div class="menu-option" id="menu-customize-toggle">
+            <div class="menu-option" id="menu-customize-toggle">
         <i class="fas fa-cog"></i>
         Customize
       </div>
-      <div class="menu-option" id="close-menu">
-        <i class="fas fa-times"></i>
-        Close
+      <div class="menu-option" id="new-mod">
+        <i class="fas fa-plus"></i>
+        New Mod
       </div>
       <div class="menu-option" id="close-iframe">
         <i class="fas fa-power-off"></i>
         Close session
+      </div>
+      <div class="menu-option" id="close-menu">
+        <i class="fas fa-times"></i>
+        Close
       </div>
     </div>
     <div id="filter-menu" style="display: none;">
@@ -936,6 +1133,42 @@
         <button onclick="closeMenuCustomizationModal()">Cancel</button>
       </div>
     </div>
+  </div>
+  <div id="new-mod-modal">
+    <div class="new-mod-content">
+      <h2>New Mod</h2>
+      <input type="text" id="NewModName" placeholder="Enter Mod Name">
+      
+         <button class="UMIBtn" onclick="UploadHTML()">Upload Custom Html</button>
+
+      <div class="new-mod-modal-buttons">
+        <button onclick="CreateNewMod()">Create</button>
+        <button onclick="closeNewModModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div id="UploadHTMLModal">
+    <div class="new-mod-content">
+      <h2>Upload Custom HTML</h2>
+      <textarea id="customHtml" placeholder="Put custom HTML here..."></textarea>
+      <div class="new-mod-modal-buttons">
+        <button onclick="closeCHTMLModal()">Ok</button>
+        <button onclick="closeCHTMLModal()">Cancel</button>
+      </div>
+      </div>
+      <div class="Ai-Iframe">
+        <div style="background-color: orange; padding: 20px; text-align: center; width: 100%; height: 90%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+          <h3 style="margin: 0; color: white;">Create a mod with no code!</h3>
+          <button id="show-iframe-button" style="margin-top: 10px; padding: 10px 20px; border: none; border-radius: 5px; background-color: rgb(51, 51, 51); color: orange; cursor: pointer; transition: background-color 0.3s;">
+            Show AI
+          </button>
+        </div>
+        <script>
+          document.getElementById('show-iframe-button').onclick = function() {
+            window.open('/app/assets/src/html_ai.html', '_blank');
+          };
+        </script>
+      </div>
   </div>
   <script>
     const start = document.getElementById('start');
@@ -1384,6 +1617,210 @@
     loadCoordinates();
     loadWorlds();
     loadMenuCustomization();
+
+    const NewModToggle = document.getElementById('new-mod');
+
+    function createNewModModal() {
+      const modal = document.getElementById('new-mod-modal');
+      modal.innerHTML = `
+        <div class="new-mod-content">
+          <h2>New Mod</h2>
+          <div id="new-mod-list"></div>
+          <div class="new-mod-modal-buttons">
+            <button onclick="CreateNewMod()">Create</button>
+            <button onclick="closeMenuCustomizationModal()">Cancel</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function closeNewModModal() {
+      const modal = document.getElementById('new-mod-modal');
+      modal.style.display = 'none';
+    }
+
+    function openNenModModal() {
+      const modal = document.getElementById('new-mod-modal');
+      modal.style.display = 'flex';
+    }
+
+    NewModToggle.addEventListener('click', openNenModModal);
+
+
+function UploadHTML() {
+      const modal = document.getElementById('UploadHTMLModal');
+      modal.style.display = 'flex';
+    }
+
+
+    function closeCHTMLModal() {
+      const modal = document.getElementById('UploadHTMLModal');
+      modal.style.display = 'none';
+    }
+
+window.onload = function() {
+    loadMods();
+};
+
+function CreateNewMod() {
+    const modName = document.getElementById('NewModName').value;
+    const modIcon = document.getElementById('NewModIcon').value;
+    const customHtml = document.getElementById('customHtml').value;
+
+    if (!modName || !modIcon || !customHtml) {
+        alert('Please provide Mod Name, Mod Icon, and Custom HTML!');
+        return;
+    }
+
+    const newMod = {
+        name: modName,
+        icon: modIcon,
+        html: customHtml
+    };
+
+    const mods = JSON.parse(localStorage.getItem('mods')) || [];
+
+    mods.push(newMod);
+
+    localStorage.setItem('mods', JSON.stringify(mods));
+
+    addModToUI(newMod);
+
+    document.getElementById('NewModName').value = '';
+    document.getElementById('NewModIcon').value = '';
+    document.getElementById('customHtml').value = '';
+}
+
+function loadMods() {
+    const mods = JSON.parse(localStorage.getItem('mods')) || [];
+
+    mods.forEach(mod => {
+        addModToUI(mod);
+    });
+}
+
+function addModToUI(mod) {
+    const newModDiv = document.createElement('div');
+    newModDiv.classList.add('menu-option');
+
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('fas', mod.icon);
+
+    const modNameElement = document.createElement('div');
+    modNameElement.textContent = mod.name;
+
+    const descriptionElement = document.createElement('span');
+    descriptionElement.classList.add('description');
+    descriptionElement.textContent = 'Custom Mod';
+
+    newModDiv.appendChild(iconElement);
+    newModDiv.appendChild(modNameElement);
+    newModDiv.appendChild(descriptionElement);
+
+    newModDiv.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        console.log('Right-click detected'); // Debug log
+        const contextMenu = document.createElement('div');
+        contextMenu.className = 'context-menu';
+        contextMenu.style.position = 'absolute';
+        contextMenu.style.top = `${e.clientY}px`;
+        contextMenu.style.left = `${e.clientX}px`;
+        contextMenu.style.zIndex = '10002'; 
+        contextMenu.style.backgroundColor = '#444'; 
+        contextMenu.style.color = '#fff'; 
+        contextMenu.style.borderRadius = '10px'; 
+        contextMenu.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.5)'; 
+        contextMenu.innerHTML = `
+            <div class='context-menu-item' id='remove-mod'>Remove Mod</div>
+        `;
+        document.body.appendChild(contextMenu);
+
+        console.log('Context menu created'); // Debug log
+
+        // Remove mod functionality
+        contextMenu.querySelector('#remove-mod').addEventListener('click', () => {
+            console.log('Remove Mod clicked'); // Debug log
+            const modToRemove = newModDiv;
+            modToRemove.remove(); // Remove the specific mod element
+            document.body.removeChild(contextMenu); // Hide the context menu
+        });
+
+        // Remove context menu on click elsewhere
+        document.addEventListener('click', (event) => {
+            if (!contextMenu.contains(event.target)) {
+                document.body.removeChild(contextMenu);
+            }
+        });
+    });
+
+    newModDiv.addEventListener('click', function() {
+        openModWindow(mod.name, mod.html);
+    });
+
+    document.getElementById('menu-grid').appendChild(newModDiv);
+}
+
+function openModWindow(modName, customHtml) {
+    const modWindow = document.createElement('div');
+    modWindow.className = 'draggable-window';
+    modWindow.style.position = 'fixed';
+    modWindow.style.top = '50px';
+    modWindow.style.left = '50px';
+    modWindow.style.backgroundColor = '#2c2c2c';
+    modWindow.style.color = '#fff';
+    modWindow.style.borderRadius = '10px';
+    modWindow.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.5)';
+    modWindow.style.width = '400px';
+    modWindow.style.height = '500px';
+    modWindow.style.zIndex = '10001';
+
+    modWindow.innerHTML = `
+        <div class="draggable-header" style="background-color: #3c3c3c; padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: move; border-top-left-radius: 10px; border-top-right-radius: 10px; user-select: none; -webkit-user-select: none;">
+            <span style="font-weight: bold;">${modName}</span>
+            <button class="draggable-close" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
+        </div>
+        <iframe class="draggable-iframe" style="width: 100%; height: calc(100% - 50px); border: none; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;" srcdoc="${escapeHtml(customHtml)}"></iframe>
+    `;
+
+    modWindow.querySelector('.draggable-close').addEventListener('click', () => {
+        modWindow.remove();
+    });
+
+    document.body.appendChild(modWindow);
+
+    makeDraggable(modWindow);
+}
+
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function makeDraggable(element) {
+    const header = element.querySelector('.draggable-header');
+    let offsetX = 0, offsetY = 0, isDragging = false;
+
+    header.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - element.offsetLeft;
+        offsetY = e.clientY - element.offsetTop;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        element.style.left = `${e.clientX - offsetX}px`;
+        element.style.top = `${e.clientY - offsetY}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+}
+
   </script>
 </body>
 </html>
