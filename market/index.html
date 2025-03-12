@@ -173,32 +173,6 @@
             z-index: 1000;
         }
 
-        .iframe-container {
-            position: relative;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s ease;
-        }
-
-        .close-button:hover {
-            background-color: #ff6b81;
-        }
-
         .popup iframe {
             width: 90%;
             height: 90%;
@@ -316,10 +290,7 @@
 
 <!-- iframe popup -->
 <div id="popup" class="popup">
-    <div class="iframe-container">
-        <button class="close-button" onclick="closePopup()">&times;</button>
-        <iframe id="popup-iframe"></iframe>
-    </div>
+    <iframe id="popup-iframe"></iframe>
 </div>
 
 <script>
@@ -409,11 +380,6 @@ function openPopup(itemName) {
     iframe.src = `items/${itemName}.html`;
 
     popup.style.display = "flex";
-}
-
-function closePopup() {
-    const popup = document.getElementById('popup');
-    popup.style.display = "none";
 }
 
     function generateCategories() {
