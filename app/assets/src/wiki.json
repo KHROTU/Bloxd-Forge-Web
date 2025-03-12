@@ -1866,6 +1866,24 @@
         "content": "Crafting Materials: 4 Diamonds, 4 Wood Planks, 4 Cotton\nMax Stack: 1\nStackable: No"
     },
     {
+        "title": "Gerhard",
+        "tag": "Player",
+        "description": "Mod of the bloxd Discord.",
+        "content": "Gerhard is the mod of the bloxd discord and is very well known."
+    },
+    {
+        "title": "KHROTU",
+        "tag": "Player",
+        "description": "CO-owner of BloxdForge",
+        "content": "Well known in the bloxd community. and a developer of BloxdForge"
+    },
+    {
+        "title": "A_I_X",
+        "tag": "Player",
+        "description": "Owner/creator of BloxdForge",
+        "content": "A very well known person in the bloxd.io community that is also the creator of bloxdforge."
+    },
+    {
         "title": "whoa there, adventurer! (or should I say, 'eternal scroller'?)",
         "tag": " r/GetaLife",
         "description": "Your quest has been halted by the Doom Scrolling Protection Act of 2050. (Yes, it's a real thing. No, you can't loot it.)",
