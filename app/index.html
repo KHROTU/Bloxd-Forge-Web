@@ -153,7 +153,6 @@
         .top-right-box.expanded {
             height: 190px;
             backdrop-filter: blur(0px);
-            background-color: rgba(51, 51, 51, 1);
         }
 
         .top-right-box img {
@@ -166,6 +165,7 @@
         .top-right-box.fullscreen {
             transform: scale(0.8) translateX(60px);
             right: 50px;
+            backdrop-filter: blur(0px);
         }
 
         .top-right-box.smaller {
@@ -173,6 +173,7 @@
             right: 50px;
             z-index: 9999;
             border-radius: 10px;
+            backdrop-filter: blur(0px);
         }
 
         .download-btn, .fullscreen-btn {
@@ -589,10 +590,6 @@
             const startButton = document.querySelector('.sidebar-link');
             setActiveLink(startButton, 'page1');
         };
-
-
-window.onload = checkFirstVisitAndZoom;
-
     </script>
 </body>
 </html>
