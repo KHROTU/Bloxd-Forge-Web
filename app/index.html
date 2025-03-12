@@ -589,6 +589,20 @@
             const startButton = document.querySelector('.sidebar-link');
             setActiveLink(startButton, 'page1');
         };
+
+// ############### Fix zoom ############################
+function checkFirstVisitAndZoom() {
+  const firstVisit = localStorage.getItem("firstVisit");
+  
+  if (!firstVisit) {
+      document.body.style.zoom = "80%"; 
+      localStorage.setItem("firstVisit", "true"); 
+  }
+}
+
+
+window.onload = checkFirstVisitAndZoom;
+
     </script>
 </body>
 </html>
