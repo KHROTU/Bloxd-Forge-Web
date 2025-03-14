@@ -1886,80 +1886,165 @@ function makeDraggable(element) {
         isDragging = false;
     });
 }
+// Menu toggle functionality
 const recordmenuToggle = document.getElementById('record-menu-toggle');
-        const Recordmenu = document.getElementById('record-menu');
+const recordMenu = document.getElementById('record-menu');
 
-        recordmenuToggle.addEventListener('click', () => {
-            Recordmenu.style.display = 'block';
+if (recordmenuToggle && recordMenu) {
+    recordmenuToggle.addEventListener('click', () => {
+        recordMenu.style.display = recordMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    function closeRecordMenu() {
+        recordMenu.style.display = 'none';
+    }
+}
+
+let mediaStream = null;
+let mediaRecorder = null;
+let recordedChunks = [];
+
+async function startStream() {
+    try {
+        mediaStream = await navigator.mediaDevices.getDisplayMedia({
+            video: {
+                displaySurface: 'monitor' 
+            },
+            audio: true
         });
-
-        function closeRecordMenu() {
-            Recordmenu.style.display = 'none';
-        }
-
-        let mediaStream = null;
-        let mediaRecorder = null;
-        let recordedChunks = [];
-
-        async function startStream() {
-            try {
-                mediaStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-
-                document.getElementById('recordingbt').disabled = false;
-            } catch (err) {
-                console.error('Error capturing media:', err);
-            }
-        }
-
-        function startRecording() {
-            if (mediaStream) {
-                mediaRecorder = new MediaRecorder(mediaStream);
-                recordedChunks = [];
-
-                mediaRecorder.ondataavailable = (event) => {
-                    recordedChunks.push(event.data);
-                };
-
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                    downloadRecording(blob);
-                };
-
-                mediaRecorder.start();
-                document.getElementById('recordingIndicator').style.display = 'block';
-            }
-        }
-
-        function downloadRecording(blob) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'recorded_video.webm';
-            a.click();
-        }
-
-        document.getElementById('streamingbt').addEventListener('click', startStream);
 
         const recordingBtn = document.getElementById('recordingbt');
+        if (recordingBtn) {
+            recordingBtn.disabled = false;
+        }
+
+        mediaStream.getVideoTracks()[0].onended = () => {
+            stopRecording();
+        };
+
+    } catch (err) {
+        console.error('Error capturing media:', err);
+        alert('Failed to start screen sharing. Please ensure permissions are granted.');
+    }
+}
+
+function startRecording() {
+    if (!mediaStream) {
+        console.error('No media stream available');
+        return;
+    }
+
+    try {
+        const mimeTypes = [
+            'video/webm;codecs=vp9',
+            'video/webm;codecs=vp8',
+            'video/webm'
+        ];
+        
+        let mimeType = '';
+        for (const type of mimeTypes) {
+            if (MediaRecorder.isTypeSupported(type)) {
+                mimeType = type;
+                break;
+            }
+        }
+        
+        const options = mimeType ? { mimeType } : {};
+        mediaRecorder = new MediaRecorder(mediaStream, options);
+
+        recordedChunks = [];
+
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.onstop = () => {
+            saveRecording();
+            cleanup();
+        };
+
+        mediaRecorder.onerror = (event) => {
+            console.error('Recorder error:', event.error);
+        };
+
+        mediaRecorder.start(1000);
+        updateUI(true);
+
+    } catch (err) {
+        console.error('Error starting recording:', err);
+        alert('Recording failed to start: ' + err.message);
+    }
+}
+
+function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+    }
+    if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+    }
+}
+
+function saveRecording() {
+    if (recordedChunks.length === 0) return;
+
+    try {
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `recorded_video_${Date.now()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+    } catch (err) {
+        console.error('Error saving recording:', err);
+        alert('Failed to save recording: ' + err.message);
+    }
+}
+
+function cleanup() {
+    recordedChunks = [];
+    mediaStream = null;
+    mediaRecorder = null;
+    updateUI(false);
+}
+
+function updateUI(isRecording) {
+    const recordingBtn = document.getElementById('recordingbt');
+    const recordingIndicator = document.getElementById('recordingIndicator');
+
+    if (recordingBtn && recordingIndicator) {
+        recordingBtn.textContent = isRecording ? 'Stop Recording' : 'Start Recording';
+        recordingBtn.style.backgroundColor = isRecording ? 'red' : '#ff8c00';
+        recordingIndicator.style.display = isRecording ? 'block' : 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const streamingBtn = document.getElementById('streamingbt');
+    const recordingBtn = document.getElementById('recordingbt');
+
+    if (streamingBtn) {
+        streamingBtn.addEventListener('click', startStream);
+    }
+
+    if (recordingBtn) {
         recordingBtn.addEventListener('click', () => {
-            if (mediaRecorder) {
-                if (mediaRecorder.state === 'inactive') {
-                    mediaRecorder.start();
-                    recordingBtn.textContent = 'Recording... (Click to Stop)';
-                    recordingBtn.style.backgroundColor = 'red';
-                    document.getElementById('recordingIndicator').style.display = 'block';
-                } else if (mediaRecorder.state === 'recording') {
-                    mediaRecorder.stop();
-                    recordingBtn.textContent = 'Start Recording';
-                    recordingBtn.style.backgroundColor = '#ff8c00';
-                    document.getElementById('recordingIndicator').style.display = 'none';
-                }
-            } else {
+            if (!mediaRecorder || mediaRecorder.state === 'inactive') {
                 startRecording();
-                recordingBtn.textContent = 'Recording... (Click to Stop)';
-                recordingBtn.style.backgroundColor = 'red';
+            } else if (mediaRecorder.state === 'recording') {
+                stopRecording();
             }
         });
+    }
+});
 
   </script>
 </body>
