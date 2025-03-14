@@ -1908,9 +1908,13 @@ async function startStream() {
     try {
         mediaStream = await navigator.mediaDevices.getDisplayMedia({
             video: {
-                displaySurface: 'monitor' 
+                displaySurface: 'monitor'
             },
-            audio: true
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                sampleRate: 44100
+            }
         });
 
         const recordingBtn = document.getElementById('recordingbt');
@@ -1936,11 +1940,13 @@ function startRecording() {
 
     try {
         const mimeTypes = [
+            'video/mp4',
+            'video/webm;codecs=H264',
             'video/webm;codecs=vp9',
             'video/webm;codecs=vp8',
             'video/webm'
         ];
-        
+
         let mimeType = '';
         for (const type of mimeTypes) {
             if (MediaRecorder.isTypeSupported(type)) {
@@ -1948,8 +1954,12 @@ function startRecording() {
                 break;
             }
         }
-        
-        const options = mimeType ? { mimeType } : {};
+
+        if (!mimeType) {
+            throw new Error('No supported MIME type found for recording');
+        }
+
+        const options = { mimeType };
         mediaRecorder = new MediaRecorder(mediaStream, options);
 
         recordedChunks = [];
@@ -1961,7 +1971,7 @@ function startRecording() {
         };
 
         mediaRecorder.onstop = () => {
-            saveRecording();
+            saveRecording(mimeType);
             cleanup();
         };
 
@@ -1987,16 +1997,17 @@ function stopRecording() {
     }
 }
 
-function saveRecording() {
+function saveRecording(mimeType) {
     if (recordedChunks.length === 0) return;
 
     try {
-        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const fileExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
+        const blob = new Blob(recordedChunks, { type: mimeType });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
-        a.download = `recorded_video_${Date.now()}.webm`;
+        a.download = `recorded_video_${Date.now()}.${fileExtension}`;
         document.body.appendChild(a);
         a.click();
         setTimeout(() => {
