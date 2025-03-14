@@ -139,93 +139,93 @@
             line-height: 1.4;
         }
 
-@media (max-width: 768px) {
-    .card {
-        width: 200px;
-    }
-
-    .card img {
-        height: 200px;
-    }
-}
-
-@media (max-width: 480px) {
-    .card {
-        width: 100%;
-    }
-
-    .card img {
-        height: auto;
-    }
-}
-
-
-a {
-    text-decoration: none;
-    color: var(--accent-color);
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #ff8c00;
-}
-
-.popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(10px);
-    z-index: 69;
-}
-
-.popup-content {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    padding: 25px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: 800px;
-    max-height: 80vh;
-    position: relative;
-    overflow-y: auto;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
-
-.popup img {
-    width: 400px;
-    height: auto;
-    object-fit: contain;
-    margin-right: 20px;
-    border-radius: 10px 10px 0px 0px;
-    border: none;
-}
-
-.popup .desc-text {
-    color: var(--text-color);
-    font-size: 1.1em;
-    margin-bottom: 20px;
-    line-height: 1.6;
-}
-
-.popup .popup-buttons {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    position: sticky;
-    bottom: 0;
-    background: #383838;
-    padding: 10px 0;
-    border-radius: 0 10px 10px 15px;
-}
+        @media (max-width: 768px) {
+            .card {
+                width: 200px;
+            }
+        
+            .card img {
+                height: 200px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                width: 100%;
+            }
+        
+            .card img {
+                height: auto;
+            }
+        }
+        
+        
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #ff8c00;
+        }
+        
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            z-index: 69;
+        }
+        
+        .popup-content {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 800px;
+            max-height: 80vh;
+            position: relative;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .popup img {
+            width: 400px;
+            height: auto;
+            object-fit: contain;
+            margin-right: 20px;
+            border-radius: 10px 10px 0px 0px;
+            border: none;
+        }
+        
+        .popup .desc-text {
+            color: var(--text-color);
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .popup .popup-buttons {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            position: sticky;
+            bottom: 0;
+            background: #383838;
+            padding: 10px 0;
+            border-radius: 0 10px 10px 15px;
+        }
 
         .popup-buttons button {
             background: var(--accent-gradient);
@@ -516,73 +516,27 @@ a:hover {
                 document.getElementById("loading-spinner").style.display = "none";
             }
         }
-
+        
         async function loadNextBatch() {
             const start = currentBatch * batchSize;
             const end = start + batchSize;
             const batch = allZipFiles.slice(start, end);
-
+        
             if (batch.length === 0) {
                 document.getElementById("loading-spinner").style.display = "none";
                 return;
             }
-
-            const loadingImageUrl = "data:image/svg+xml," + encodeURIComponent(`
-                <svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
-                    <rect width="220" height="220" fill="#333"/>
-                    <text x="110" y="110" font-family="Arial" font-size="16" fill="#666" text-anchor="middle" dy=".3em">Loading...</text>
-                </svg>
-            `);
-
-            const promises = batch.map(async file => {
-                const zipName = file.name.replace(/\.zip$/i, "");
-                displayCard(zipName, file.download_url, loadingImageUrl);
-                
-                try {
-                    const bannerUrl = await extractBanner(file.download_url);
-                    const card = document.querySelector(`.card[data-name="${zipName.toLowerCase()}"] img`);
-                    if (card) {
-                        const img = new Image();
-                        img.onload = () => {
-                            card.src = bannerUrl;
-                        };
-                        img.src = bannerUrl;
-                    }
-                } catch (error) {
-                    console.error(`Failed to load banner for ${zipName}:`, error);
-                }
-            });
-
-            await Promise.all(promises);
-            currentBatch++;
-            
-            if (currentBatch * batchSize < allZipFiles.length) {
-                setTimeout(loadNextBatch, 500);
-            } else {
-                document.getElementById("loading-spinner").style.display = "none";
-            }
-        }
-
-        async function loadNextBatch() {
-            const start = currentBatch * batchSize;
-            const end = start + batchSize;
-            const batch = allZipFiles.slice(start, end);
-
-            if (batch.length === 0) {
-                document.getElementById("loading-spinner").style.display = "none";
-                return;
-            }
-
+        
             const zipPromises = batch.map(async file => {
                 const zipUrl = file.download_url;
                 const zipName = file.name.replace(/\.zip$/i, "");
                 const bannerUrl = await extractBanner(zipUrl);
                 return { zipName, zipUrl, bannerUrl };
             });
-
+        
             const zipData = await Promise.all(zipPromises);
             zipData.forEach(({ zipName, zipUrl, bannerUrl }) => displayCard(zipName, zipUrl, bannerUrl));
-
+        
             currentBatch++;
             if (currentBatch * batchSize < allZipFiles.length) {
                 setTimeout(loadNextBatch, 500);
@@ -590,14 +544,14 @@ a:hover {
                 document.getElementById("loading-spinner").style.display = "none";
             }
         }
-
+        
         async function extractBanner(zipUrl) {
             try {
-                const response = await fetch(zipUrl);
+                const response = await fetch(zipUrl, { mode: 'cors' });
                 if (!response.ok) throw new Error("Failed to fetch ZIP file");
                 const blob = await response.blob();
                 const zip = await JSZip.loadAsync(blob);
-
+            
                 for (const fileName of Object.keys(zip.files)) {
                     if (fileName.toLowerCase().endsWith("banner.png")) {
                         const bannerBlob = await zip.files[fileName].async("blob");
@@ -609,14 +563,14 @@ a:hover {
             }
             return "https://dummyimage.com/220x220/ababab/000000&text=No+Banner";
         }
-
+        
         async function extractDescription(zipUrl) {
             try {
-                const response = await fetch(zipUrl);
+                const response = await fetch(zipUrl, { mode: 'cors' });
                 if (!response.ok) throw new Error("Failed to fetch ZIP file");
                 const blob = await response.blob();
                 const zip = await JSZip.loadAsync(blob);
-
+            
                 const descFile = zip.files["desc.txt"];
                 if (descFile) {
                     return await descFile.async("string");
@@ -626,44 +580,81 @@ a:hover {
             }
             return "No description available.";
         }
-
+        
         function displayCard(name, url, bannerUrl) {
             const container = document.getElementById("cards-container");
-
+        
             const card = document.createElement("div");
             card.className = "card";
             card.dataset.name = name.toLowerCase();
-
+        
             const img = document.createElement("img");
             img.src = bannerUrl;
             img.alt = `${name} Banner`;
             img.loading = "lazy";
-
+        
             img.addEventListener("click", async () => {
                 const descText = await extractDescription(url);
                 openPopup(bannerUrl, descText, url);
             });
-
+        
             const title = document.createElement("div");
             title.className = "card-title";
-            title.innerHTML = `<a href="${url}" download>${name}</a>`;
-
+            title.innerHTML = `<a href="${url}" target="_blank">${name}</a>`;
+        
             card.appendChild(img);
             card.appendChild(title);
             container.appendChild(card);
         }
-
+        
         const debounceFilterCards = debounce(filterCards, 300);
         function filterCards() {
             const query = document.getElementById("search-input").value.toLowerCase();
             const cards = document.querySelectorAll(".card");
-
+        
             cards.forEach(card => {
                 const name = card.dataset.name;
                 card.style.display = name.includes(query) ? "block" : "none";
             });
         }
-
+        
+        async function initiateDownload(url) {
+            try {
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = url;
+                document.body.appendChild(iframe);
+            
+                const response = await fetch(url, {
+                    mode: 'cors',
+                    credentials: 'omit',
+                    headers: {
+                        'Accept': 'application/octet-stream'
+                    }
+                });
+            
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = url.split('/').pop() || 'texture-pack.zip';
+                
+                document.body.appendChild(link);
+                link.click();
+                
+                document.body.removeChild(link);
+                document.body.removeChild(iframe);
+                URL.revokeObjectURL(blobUrl);
+                
+                return true;
+            } catch (error) {
+                console.error('Download error:', error);
+                return false;
+            }
+        }
+        
         function openPopup(imageUrl, descText, downloadUrl) {
             const popup = document.getElementById("popup");
             const popupImage = document.getElementById("popup-image");
@@ -671,12 +662,12 @@ a:hover {
             const downloadButton = document.getElementById("download-btn");
             const previewButton = document.getElementById("preview-btn");
             const reviewsButton = document.getElementById("reviews-btn");
-
+        
             popupImage.src = imageUrl;
             popupText.textContent = descText;
             currentZipUrl = downloadUrl;
-
-            downloadButton.onclick = () => {
+        
+            downloadButton.onclick = async () => {
                 let errorNotification = document.getElementById('download-error-notification');
                 if (!errorNotification) {
                     errorNotification = document.createElement('div');
@@ -698,7 +689,7 @@ a:hover {
                     `;
                     document.body.appendChild(errorNotification);
                 }
-
+            
                 function showErrorNotification(message) {
                     errorNotification.textContent = message;
                     errorNotification.style.display = 'block';
@@ -706,76 +697,60 @@ a:hover {
                         errorNotification.style.display = 'none';
                     }, 5000);
                 }
-
+            
                 downloadButton.disabled = true;
                 downloadButton.style.opacity = '0.5';
                 downloadButton.textContent = 'Downloading...';
-
+            
                 const downloadTimeout = setTimeout(() => {
-                    showErrorNotification('Download timed out. Please check your internet connection.');
+                    showErrorNotification('Download timed out. Please try again.');
                     downloadButton.disabled = false;
                     downloadButton.style.opacity = '1';
                     downloadButton.textContent = 'Download Texture Pack';
                 }, 30000);
-
+            
                 try {
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.download = '';
-
                     if (!downloadUrl || !downloadUrl.startsWith('http')) {
                         throw new Error('Invalid download URL');
                     }
-
+                
                     if (!navigator.onLine) {
                         throw new Error('No internet connection');
                     }
-
-                    fetch(downloadUrl, { method: 'HEAD' })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
-
-                            clearTimeout(downloadTimeout);
-
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        })
-                        .catch(error => {
-                            showErrorNotification(`Download failed: ${error.message}`);
-                        })
-                        .finally(() => {
-                            downloadButton.disabled = false;
-                            downloadButton.style.opacity = '1';
-                            downloadButton.textContent = 'Download Texture Pack';
-                        });
+                
+                    const success = await initiateDownload(downloadUrl);
+                    clearTimeout(downloadTimeout);
+                
+                    if (!success) {
+                        throw new Error('Download failed');
+                    }
+                
                 } catch (error) {
-                    showErrorNotification(`Preparation failed: ${error.message}`);
+                    showErrorNotification(`Download failed: ${error.message}`);
+                } finally {
                     downloadButton.disabled = false;
                     downloadButton.style.opacity = '1';
                     downloadButton.textContent = 'Download Texture Pack';
                 }
             };
-
+        
             previewButton.onclick = () => {
                 openPreview(currentZipUrl);
             };
-
+        
             reviewsButton.onclick = () => {
                 openReviews(currentZipUrl);
             };
-
+        
             popup.style.display = "flex";
         }
-
+        
         document.getElementById("popup").addEventListener("click", (event) => {
             if (event.target === document.getElementById("popup")) {
                 document.getElementById("popup").style.display = "none";
             }
         });
-
+        
         const script = document.createElement("script");
         script.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
         script.onload = fetchZipFiles;

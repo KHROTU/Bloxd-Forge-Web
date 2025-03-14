@@ -317,143 +317,219 @@
     </div>
         <p>Forged Builds is a modified version of BloxdBuilds, originally created by BluePanda and BuilderBananaJr.</p>
     <script>
-        let schematics = []; 
-        let currentPage = 0; 
-        const pageSize = 30; 
-        const profanityList = ['Fuck', 'Sex', 'Nigger', 'Nigga', 'Zhoopile', 'Nig', 'Nigg', 'gay', 'nigger', 'nigga', 'zhoopile', 'nigg', 'nigg',];
+        let schematics = [];
+        let currentPage = 0;
+        const pageSize = 30;
+        let isLoaded = false;
 
-        function sanitizeText(text) {
-            return profanityList.reduce((acc, word) => 
-                acc.replace(new RegExp(word, 'gi'), '***'), text);
+        async function checkProfanity(text) {
+            try {
+                const res = await fetch('https://vector.profanity.dev', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text }),
+                });
+                if (!res.ok) throw new Error('Profanity check failed');
+                const score = await res.json();
+                return score > 0.9;
+            } catch (error) {
+                console.error('Profanity check error:', error);
+                return false;
+            }
         }
 
-        function onLoadScript(){
-            const sheetId = '1Ue6SyMuth3Kc3RJ4ias8bhQA9fv9f-FD_c4Jgu4yFFI';
-            const apiKey = 'AIzaSyBB0Wo6hgKsFUsJ3gbgidNVB3GMYq0ECFg';
+        async function sanitizeText(text) {
+            const isProfane = await checkProfanity(text);
+            return isProfane ? `<span style="filter: blur(5px);">${text}</span>` : text;
+        }
 
+        function onLoadScript() {
+            if (isLoaded) {
+                console.log('onLoadScript already ran, skipping...');
+                return;
+            }
+            isLoaded = true;
+            console.log('Fetching schematics...');
             fetch(`https://bloxdbuildsapifr.wolf10iscool.workers.dev/`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch data');
+                    return response.json();
+                })
                 .then(data => {
-                    schematics = data.values.slice(1); 
-                    schematics.sort((a, b) => new Date(b[2]) - new Date(a[2])); 
-
+                    schematics = data.values.slice(1);
+                    schematics.sort((a, b) => new Date(b[2]) - new Date(a[2]));
                     loadPage(currentPage);
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
 
-        function loadPage(page) {
+        async function loadPage(page) {
             const start = page * pageSize;
             const end = start + pageSize;
             const pageData = schematics.slice(start, end);
-
-            const sanitizedPageData = pageData.map(row => {
-                const [submissionId, respondentId, dateUploaded, schematic, image, name, username, tags] = row;
-                return [
-                    submissionId, 
-                    respondentId, 
-                    dateUploaded, 
-                    schematic, 
-                    image, 
-                    sanitizeText(name), 
-                    sanitizeText(username), 
-                    sanitizeText(tags)
-                ];
-            });
-
+        
             const container = document.querySelector('#schematicContainer');
-            container.innerHTML = ''; 
-
-            sanitizedPageData.forEach(row => {
+            container.innerHTML = '';
+        
+            for (const row of pageData) {
                 const [submissionId, respondentId, dateUploaded, schematic, image, name, username, tags] = row;
-
-                    const card = document.createElement('div');
-                    card.classList.add('schematicBox');
-                    card.innerHTML = `
-                        <img class="image" src="${image}" loading="lazy">
-                        <h2>${name}</h2>
-                        <p>Uploaded by ${username}</p>
-                        <div class="tag-list">
-                            ${tags.split(',').map(tag => `<span class="tag">${tag}</span>`).join('')}
-                        </div>
-                        <a href='${schematic}' download='${name}.zip'>
-                            <button class='button downloadButton' onclick='incrementDownloadCount("${submissionId}")'>
-                                <i class='fa-solid fa-cloud-arrow-down'></i> Download
-                            </button>
-                        </a>
-                    `;
-                    container.appendChild(card);
-            });
-
+            
+                const sanitizedName = await sanitizeText(name);
+                const sanitizedUsername = await sanitizeText(username);
+                const sanitizedTags = await sanitizeText(tags);
+            
+                const card = document.createElement('div');
+                card.classList.add('schematicBox');
+                card.dataset.schematicId = submissionId;
+            
+                card.innerHTML = `
+                    <img class="image" src="${image}" loading="lazy" alt="${name}">
+                    <h2>${sanitizedName}</h2>
+                    <p>Uploaded by ${sanitizedUsername}</p>
+                    <div class="tag-list">
+                        ${sanitizedTags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}
+                    </div>
+                    <button class='button downloadButton' data-schematic-id="${submissionId}">
+                        <i class='fa-solid fa-cloud-arrow-down'></i> Download
+                    </button>
+                `;
+                container.appendChild(card);
+            }
+        
             document.getElementById('prev').style.display = page > 0 ? 'flex' : 'none';
             document.getElementById('next').style.display = end < schematics.length ? 'flex' : 'none';
         }
 
-        document.getElementById('prev').addEventListener('click', () => {
-            if (currentPage > 0) {
-                currentPage--;
-                loadPage(currentPage);
-            }
-        });
-
-        document.getElementById('next').addEventListener('click', () => {
-            currentPage++;
-            loadPage(currentPage);
-        });
-
-        function incrementDownloadCount(schematicId) {
-            let countElement = document.getElementById(`downloadCount_${schematicId}`);
-            if (!countElement) {
-                countElement = document.createElement('div');
-                countElement.id = `downloadCount_${schematicId}`;
-                countElement.className = 'download-count';
-                document.querySelector(`[data-schematic-id='${schematicId}']`).parentNode.insertBefore(countElement, document.querySelector(`[data-schematic-id='${schematicId}']`));
-            }
+        async function initiateDownload(url, name, schematicId) {
+            try {
+                const response = await fetch(url, {
+                    mode: 'cors',
+                    credentials: 'omit',
+                    headers: {
+                        'Accept': 'application/octet-stream'
+                    }
+                });
             
-            let currentCount = parseInt(countElement.textContent) || 0;
-            currentCount++;
-            countElement.textContent = `${currentCount} downloads`;
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `${name}.zip`;
+            
+                const isAppleDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            
+                if (isAppleDevice || isSafari) {
+                    console.log('Apple/Safari detected, adjusting download method');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            
+                URL.revokeObjectURL(blobUrl);
+                incrementDownloadCount(schematicId);
+            } catch (error) {
+                console.error('Download failed:', error);
+                alert('Download failed. Please try again.');
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const downloadButtons = document.querySelectorAll('.downloadButton');
-            downloadButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const schematicId = button.dataset.schematicId;
-                    incrementDownloadCount(schematicId);
-                });
+        function setupEventListeners() {
+            document.getElementById('prev').addEventListener('click', () => {
+                if (currentPage > 0) {
+                    currentPage--;
+                    loadPage(currentPage);
+                }
             });
-        });
+        
+            document.getElementById('next').addEventListener('click', () => {
+                currentPage++;
+                loadPage(currentPage);
+            });
+        
+            document.querySelector('#schematicContainer').addEventListener('click', (e) => {
+                const button = e.target.closest('.downloadButton');
+                if (button) {
+                    const schematicId = button.dataset.schematicId;
+                    const card = button.closest('.schematicBox');
+                    const name = card.querySelector('h2').textContent;
+                    const url = schematics.find(s => s[0] === schematicId)[3];
+                    initiateDownload(url, name, schematicId);
+                }
+            });
+        }
 
         function searchSchematics() {
             const searchTerm = document.getElementById('search').value.toLowerCase();
             const schematicBoxes = document.querySelectorAll('.schematicBox');
-            
+
             schematicBoxes.forEach(box => {
                 const title = box.querySelector('h2').textContent.toLowerCase();
                 const description = box.querySelector('p').textContent.toLowerCase();
-                
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    box.style.display = 'block';
-                } else {
-                    box.style.display = 'none';
-                }
+
+                box.style.display = (title.includes(searchTerm) || description.includes(searchTerm)) ? 'block' : 'none';
             });
         }
 
         function filterByTag() {
             const tagFilter = document.getElementById("tagFilter").value.toLowerCase();
             const cards = document.querySelectorAll('.schematicBox');
-
+        
             cards.forEach(card => {
-                const cardTags = card.querySelector('.tag-list .tag').textContent.toLowerCase().split(',');
-                
-                if (tagFilter === 'none' || cardTags.some(tag => tag.trim().includes(tagFilter))) {
-                    card.style.display = ''; 
-                } else {
-                    card.style.display = 'none'; 
-                }
+                const tagElements = card.querySelectorAll('.tag-list .tag');
+                const cardTags = Array.from(tagElements).map(tag => tag.textContent.toLowerCase().trim());
+
+                card.style.display = (tagFilter === 'none' || cardTags.some(tag => tag.includes(tagFilter))) ? '' : 'none';
             });
         }
+
+        function setupEventListeners() {
+            const prev = document.getElementById('prev');
+            const next = document.getElementById('next');
+            const container = document.querySelector('#schematicContainer');
+        
+            prev.removeEventListener('click', handlePrev);
+            next.removeEventListener('click', handleNext);
+            container.removeEventListener('click', handleDownload);
+        
+            prev.addEventListener('click', handlePrev);
+            next.addEventListener('click', handleNext);
+            container.addEventListener('click', handleDownload);
+        
+            function handlePrev() {
+                if (currentPage > 0) {
+                    currentPage--;
+                    loadPage(currentPage);
+                }
+            }
+        
+            function handleNext() {
+                currentPage++;
+                loadPage(currentPage);
+            }
+        
+            function handleDownload(e) {
+                const button = e.target.closest('.downloadButton');
+                if (button) {
+                    const schematicId = button.dataset.schematicId;
+                    const card = button.closest('.schematicBox');
+                    const name = card.querySelector('h2').textContent;
+                    const url = schematics.find(s => s[0] === schematicId)[3];
+                    initiateDownload(url, name, schematicId);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded, setting up...');
+            setupEventListeners();
+            onLoadScript();
+        }, { once: true });
     </script>
 </html>
