@@ -26,20 +26,26 @@ body {
     color: white;
 }
 
-
 #top-bar {
     height: 40px;
-    background: #282828;
+    background: linear-gradient(90deg, #1e1e1e, #2c2c2c);
     display: flex;
     align-items: center;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border-bottom: 2px solid #ff6f00;
-    border-radius: 0px;
-    box-shadow: 0 2px 10px #ff6f00;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    animation: gradientAnimation 5s ease infinite, pulse 2s ease-in-out infinite;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
 }
 
 h2 {
@@ -51,7 +57,12 @@ h8 {
 }
 #main-container {
     display: flex;
-    flex: 1;
+    padding: 20px;
+    gap: 20px;
+    background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 }
 
 #left-sidebar {
@@ -59,7 +70,7 @@ h8 {
     background: #282828;
     padding: 10px;
     overflow-y: auto;
-    border-radius: 10px 10px 0 0; 
+    border-radius: 20px; 
     margin-left: 10px;
     margin-top: 15px;
     margin-right: 10px;
@@ -82,12 +93,39 @@ h8 {
     transition: background 0.3s , transition 0.3s, box-shadow 0.3s;
 }
 
-
 #storage-area:hover{
     background: #ff8c00;
     box-shadow: 0 0 15px #ff8c00;
 }
 
+#left-sidebar button {
+    background: #383838;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    border-radius: 5px;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    0% { transform: translateX(-100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+#left-sidebar button:hover {
+    background: #ff6f00;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 111, 0, 0.5);
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
 
 .file-card, .text-card {
     width: 100%;
@@ -126,13 +164,15 @@ h8 {
 }
 
 iframe {
+    pointer-events: auto;
+    z-index: 1;
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 100px);
     border: none;
     border-radius: 10px;
     margin-top: 15px;
     user-select: none;
-    pointer-events: none;
 }
 
 #right-sidebar {
@@ -141,11 +181,29 @@ iframe {
     padding: 10px;
     overflow-y: auto;
     text-align: center;
-    border-radius: 10px 10px 0 0; 
+    border-radius: 20px; 
     margin-left: 10px;
     margin-top: 15px;
     margin-right: 10px;
 }
+
+#right-sidebar button {
+    background: #383838;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    border-radius: 5px;
+}
+
+#right-sidebar button:hover {
+    background: #ff6f00;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 111, 0, 0.5);
+}
+
 .Right-Buttons{
     height: 42px;
     width: 100%;
@@ -170,7 +228,6 @@ iframe {
 .Right-Buttons:nth-child(n+3) {
     margin-top: 10px;
 }
-
 
 .Right-Buttons:hover {
     background: #ff8c00;
@@ -213,11 +270,9 @@ iframe {
     border-radius: 5px;
 }
 
-
 .command-button:nth-child(6){
     border-radius: 0 0 10px 10px;
 }
-
 
 .popup {
     display: none;
@@ -361,6 +416,43 @@ iframe {
     box-shadow: 0 4px 8px rgba(255, 111, 0, 0.3);
     z-index: 1000;
 }
+.module-card {
+    background: rgba(56, 56, 56, 0.9);
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.text-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 400px;
+    background: #282828;
+    padding: 10px;
+    z-index: 1000;
+    border: 2px solid #ff6f00;
+    box-shadow: 0 4px 8px rgba(255, 111, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    color: white;
+    animation: fadeInScale 0.3s ease;
+}
+
+@keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+}
      </style>
 </head>
 <body>
@@ -434,6 +526,12 @@ iframe {
                 </button>
 
         </div>
+    </div>
+
+    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 1000;">
+        <img src="assets/your-image.png" alt="Click-through Image" style="width: 200px; height: auto;">
+    </div>
+
 </body>
 </html>
 <script>
@@ -452,7 +550,7 @@ function openTextEditor() {
     textEditor.style.padding = "10px";
     textEditor.style.zIndex = "1000";
     textEditor.style.border = "2px solid #ff6f00";
-    textEditor.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
+    textEditor.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
     textEditor.style.color = "white";
     textEditor.style.borderRadius = "10px";
 
@@ -674,91 +772,6 @@ function displaySavedTexts() {
 
         writeTextArea.appendChild(fileCardWrapper);
     });
-}
-
-function openSavedText(item) {
-    let textPopup = document.createElement("div");
-    textPopup.style.position = "fixed";
-    textPopup.style.top = "50%";
-    textPopup.style.left = "50%";
-    textPopup.style.transform = "translate(-50%, -50%)";
-    textPopup.style.width = "500px";
-    textPopup.style.height = "400px";
-    textPopup.style.background = "#282828";
-    textPopup.style.padding = "10px";
-    textPopup.style.zIndex = "1000";
-    textPopup.style.border = "2px solid #ff6f00";
-    textPopup.style.boxShadow = "0 4px 8px rgba(255, 111, 0, 0.3)";
-    textPopup.style.display = "flex";
-    textPopup.style.flexDirection = "column";
-    textPopup.style.borderRadius = "10px";
-    textPopup.style.color = "white";
-
-    let header = document.createElement("div");
-    header.style.backgroundColor = "#383838";
-    header.style.color = "white";
-    header.style.padding = "10px";
-    header.style.display = "flex";
-    header.style.justifyContent = "space-between";
-    header.style.alignItems = "center";
-    header.style.borderBottom = "2px solid #ff6f00";
-    header.style.borderRadius = "10px 10px 0 0";
-
-    let headerTitle = document.createElement("span");
-    headerTitle.innerText = item.title;
-    headerTitle.style.fontWeight = "bold";
-    header.appendChild(headerTitle);
-
-    let closeButton = document.createElement("button");
-    closeButton.innerHTML = "×";
-    closeButton.style.background = "none";
-    closeButton.style.border = "none";
-    closeButton.style.color = "white";
-    closeButton.style.fontSize = "20px";
-    closeButton.style.cursor = "pointer";
-    closeButton.style.transition = "color 0.3s ease";
-    closeButton.onmouseover = function() { this.style.color = "#ff6f00"; };
-    closeButton.onmouseout = function() { this.style.color = "white"; };
-    closeButton.onclick = () => textPopup.remove();
-    header.appendChild(closeButton);
-
-    textPopup.appendChild(header);
-    
-    let contentContainer = document.createElement("div");
-    contentContainer.style.padding = "10px";
-    contentContainer.style.flexGrow = "1";
-    contentContainer.style.overflowY = "auto";
-
-    let content = document.createElement("p");
-    content.innerText = item.text;
-    content.style.marginBottom = "10px";
-    
-    let closeBtn = document.createElement("button");
-    closeBtn.innerText = "Close";
-    closeBtn.style.width = "100%";
-    closeBtn.style.background = "#383838";
-    closeBtn.style.border = "2px solid #ff6f00";
-    closeBtn.style.padding = "10px 20px";
-    closeBtn.style.cursor = "pointer";
-    closeBtn.style.borderRadius = "8px";
-    closeBtn.style.color = "white";
-    closeBtn.style.fontSize = "14px";
-    closeBtn.style.transition = "background 0.3s ease, color 0.3s ease";
-    closeBtn.onmouseover = function() { 
-        this.style.background = "#ff6f00"; 
-        this.style.color = "black";
-    };
-    closeBtn.onmouseout = function() { 
-        this.style.background = "#383838"; 
-        this.style.color = "white";
-    };
-    closeBtn.onclick = () => textPopup.remove();
-    
-    contentContainer.appendChild(content);
-    contentContainer.appendChild(closeBtn);
-
-    textPopup.appendChild(contentContainer);
-    document.body.appendChild(textPopup);
 }
 
 function removeSavedText(index) {
