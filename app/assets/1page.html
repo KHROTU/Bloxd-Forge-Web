@@ -453,7 +453,6 @@
       border: none;
       border-radius: 12px;
     }
-
     #filter-menu {
       position: fixed;
       top: 50%;
@@ -879,7 +878,7 @@ height: 100%;
     .new-mod-modal-buttons {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
+      margin-top: 10px;
     }
     .new-mod-modal-buttons button {
       background-color: #ff8c00;
@@ -931,6 +930,7 @@ height: 100%;
       background-color: #ff8c00;
       color: white;
       border: none;
+     margin-bottom: 10px;
       width: 100%;
       padding: 10px 20px;
       border-radius: 5px;
@@ -939,30 +939,10 @@ height: 100%;
       font-size: 14px;
 }
 
-    .image-holder {
-  width: 100%;
-  height: 300px;
-  border: 2px dashed #ff8c00;
-  border-radius: 10px;
-  display: flex;
-  margin-bottom: 20px;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  background-color: #333;
-  color: #ccc;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#imagePreview {
-  display: none;
-}
-
-.image-holder.dragover {
-  background-color: rgba(0, 0, 0, 0.2);
-  border: 2px dashed #ff8c00;
-}
+.UMIBtn:disabled {
+            background-color: #391f00;
+            cursor: not-allowed;
+        }
 
 #UploadHTMLModal{
       display: none;
@@ -994,6 +974,76 @@ height: 100%;
     }
     .context-menu-item:hover {
       background-color: #555;
+    }
+
+
+    #record-menu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 250px;
+      transform: translate(-50%, -50%);
+      background-color: rgba(20, 20, 20, 0.3);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+      z-index: 15;
+      text-align: center;
+      color: #ffffff;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    #record-menu h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #ffa500;
+    }
+
+    .record-bottom-buttons{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+   .record-bottom-buttons button{
+      background-color: #ff8c00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .record-bottom-buttons button:hover {
+      background-color: #e67e00;
+      transform: scale(1.05);
+    }
+
+    .record-bottom-buttons button:last-child {
+      background-color: #444;
+    }
+
+
+    .recording-indicator {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: 30px;
+      height: 30px;
+      background-color: #ff8c00;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ff8c00;
+      animation: flash 1s infinite;
+      display: none;
+    }
+
+    @keyframes flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
     }
   </style>
 </head>
@@ -1053,6 +1103,11 @@ height: 100%;
         <i class="fas fa-microchip"></i>
         AI Agent
         <span class="description">Boot the AI Agent</span>
+      </div>
+      <div class="menu-option" id="record-menu-toggle">
+        <i class="fas fa-video"></i>
+        Record
+        <span class="description">Record gameplay</span>
       </div>
     </div>
     <div id="menu-bottom">
@@ -1147,12 +1202,21 @@ height: 100%;
       </div>
     </div>
   </div>
+  <div id="record-menu" style="display: none;">
+    <h1>Record</h1>
+    <button class="UMIBtn" id="streamingbt">Start Streaming</button>
+    <button class="UMIBtn" id="recordingbt" disabled>Start Recording</button>
+    <div class="record-bottom-buttons">
+    <button onclick="closeRecordMenu()">Hide menu</button>
+    <button onclick="closeRecordMenu()">Close</button>
+    </div>
+    </div>
   <div id="UploadHTMLModal">
     <div class="new-mod-content">
       <h2>Upload Custom HTML</h2>
       <textarea id="customHtml" placeholder="Put custom HTML here..."></textarea>
       <div class="new-mod-modal-buttons">
-        <button onclick="closeCHTMLModal()">Ok</button>
+        <button onclick="closeCHTMLModal()">OK</button>
         <button onclick="closeCHTMLModal()">Cancel</button>
       </div>
       </div>
@@ -1170,6 +1234,7 @@ height: 100%;
         </script>
       </div>
   </div>
+  <div class="recording-indicator" id="recordingIndicator"></div>
   <script>
     const start = document.getElementById('start');
     const iframeContainer = document.getElementById('iframe-container');
@@ -1719,7 +1784,7 @@ function addModToUI(mod) {
 
     newModDiv.addEventListener('contextmenu', (e) => {
         e.preventDefault();
-        console.log('Right-click detected'); // Debug log
+        console.log('Right-click detected');
         const contextMenu = document.createElement('div');
         contextMenu.className = 'context-menu';
         contextMenu.style.position = 'absolute';
@@ -1735,17 +1800,18 @@ function addModToUI(mod) {
         `;
         document.body.appendChild(contextMenu);
 
-        console.log('Context menu created'); // Debug log
+        console.log('Context menu created');
 
-        // Remove mod functionality
         contextMenu.querySelector('#remove-mod').addEventListener('click', () => {
-            console.log('Remove Mod clicked'); // Debug log
+            console.log('Remove Mod clicked');
             const modToRemove = newModDiv;
-            modToRemove.remove(); // Remove the specific mod element
-            document.body.removeChild(contextMenu); // Hide the context menu
+            const mods = JSON.parse(localStorage.getItem('mods')) || [];
+            const updatedMods = mods.filter(m => m.name !== mod.name);
+            localStorage.setItem('mods', JSON.stringify(updatedMods));
+            modToRemove.remove();
+            document.body.removeChild(contextMenu);
         });
 
-        // Remove context menu on click elsewhere
         document.addEventListener('click', (event) => {
             if (!contextMenu.contains(event.target)) {
                 document.body.removeChild(contextMenu);
@@ -1820,6 +1886,80 @@ function makeDraggable(element) {
         isDragging = false;
     });
 }
+const recordmenuToggle = document.getElementById('record-menu-toggle');
+        const Recordmenu = document.getElementById('record-menu');
+
+        recordmenuToggle.addEventListener('click', () => {
+            Recordmenu.style.display = 'block';
+        });
+
+        function closeRecordMenu() {
+            Recordmenu.style.display = 'none';
+        }
+
+        let mediaStream = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+
+        async function startStream() {
+            try {
+                mediaStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+
+                document.getElementById('recordingbt').disabled = false;
+            } catch (err) {
+                console.error('Error capturing media:', err);
+            }
+        }
+
+        function startRecording() {
+            if (mediaStream) {
+                mediaRecorder = new MediaRecorder(mediaStream);
+                recordedChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    recordedChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    downloadRecording(blob);
+                };
+
+                mediaRecorder.start();
+                document.getElementById('recordingIndicator').style.display = 'block';
+            }
+        }
+
+        function downloadRecording(blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'recorded_video.webm';
+            a.click();
+        }
+
+        document.getElementById('streamingbt').addEventListener('click', startStream);
+
+        const recordingBtn = document.getElementById('recordingbt');
+        recordingBtn.addEventListener('click', () => {
+            if (mediaRecorder) {
+                if (mediaRecorder.state === 'inactive') {
+                    mediaRecorder.start();
+                    recordingBtn.textContent = 'Recording... (Click to Stop)';
+                    recordingBtn.style.backgroundColor = 'red';
+                    document.getElementById('recordingIndicator').style.display = 'block';
+                } else if (mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                    recordingBtn.textContent = 'Start Recording';
+                    recordingBtn.style.backgroundColor = '#ff8c00';
+                    document.getElementById('recordingIndicator').style.display = 'none';
+                }
+            } else {
+                startRecording();
+                recordingBtn.textContent = 'Recording... (Click to Stop)';
+                recordingBtn.style.backgroundColor = 'red';
+            }
+        });
 
   </script>
 </body>
