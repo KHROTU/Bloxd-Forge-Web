@@ -574,6 +574,30 @@
 
     eyedropperTool.addEventListener('mousedown', () => currentTool = 'eyedropper');
 
+    saveBtn.addEventListener('click', () => {
+      if (!selectedTexture) {
+        alert('Please select a texture first!');
+        return;
+      }
+
+      // Create a temporary canvas with original texture dimensions
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = selectedTexture.width;
+      tempCanvas.height = selectedTexture.height;
+      const tempCtx = tempCanvas.getContext('2d');
+
+      // Draw the current canvas content scaled down to original size
+      tempCtx.imageSmoothingEnabled = false;
+      tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, selectedTexture.width, selectedTexture.height);
+
+      // Create download link with original filename
+      const originalFilename = selectedTexture.src.split('/').pop().split('?')[0];
+      const link = document.createElement('a');
+      link.download = originalFilename;
+      link.href = tempCanvas.toDataURL('image/png');
+      link.click();
+    });
+
     canvas.addEventListener('click', (e) => {
       if (currentTool === 'eyedropper') {
         const { offsetX, offsetY } = e;
