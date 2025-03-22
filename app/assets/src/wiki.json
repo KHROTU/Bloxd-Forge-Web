@@ -1368,6 +1368,96 @@
         "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 4 Maple Wood Planks + 2 glass -> Potion Table\nOther Usage/Info: The only way to brew Potions.\nStackable: Yes"
     },
     {
+        "title": "Strength Potion",
+        "tag": "Strength",
+        "description": "Increases damage by 40% (Strength) or 110% (Strength II).",
+        "content": "Crafting:\nStrength: Water Bottle + Plum\nStrength II: Strength Potion + Moonstone\nSplash Strength: 2 Strength Potions\nSplash Strength II: Splash Strength Potion + Iron Bar\n\nEffect:\nStrength: 8 seconds\nStrength II: 12 seconds\nSplash Strength: 8 seconds\nSplash Strength II: 8 seconds"
+    },
+    {
+        "title": "Defense Potion",
+        "tag": "Defense",
+        "description": "Reduces incoming damage by 40% (Defense) or 50% (Defense II).",
+        "content": "Crafting:\nDefense: Water Bottle + Pear\nDefense II: Defense Potion + Moonstone\nSplash Defense: 2 Defense Potions\nSplash Defense II: Splash Defense Potion + Iron Bar\n\nEffect:\nDefense: 15 seconds\nDefense II: 15 seconds\nSplash Defense: 8 seconds\nSplash Defense II: 8 seconds"
+    },
+    {
+        "title": "Speed Potion",
+        "tag": "Speed",
+        "description": "Increases movement speed, sprinting speed, and jumping length by 50% (Speed) or 120% (Speed II).",
+        "content": "Crafting:\nSpeed: Cracked Coconut + Water Bottle\nSpeed II: Speed Potion + Moonstone\nSplash Speed: 2 Speed Potions\nSplash Speed II: Splash Speed Potion + Iron Bar\n\nEffect:\nSpeed: 8 seconds\nSpeed II: 8 seconds\nSplash Speed: 8 seconds\nSplash Speed II: 8 seconds"
+    },
+    {
+        "title": "Jump Potion",
+        "tag": "Jump",
+        "description": "Increases jump height by 2 blocks (Jump) or 6 blocks (Jump II).",
+        "content": "Crafting:\nJump: Watermelon Slice + Water Bottle\nJump II: Jump Potion + Iron Bar\nSplash Jump: 2 Jump Potions\nSplash Jump II: Splash Jump Potion + Iron Bar\n\nEffect:\nJump: 12 seconds\nJump II: 12 seconds\nSplash Jump: 8 seconds\nSplash Jump II: 8 seconds"
+    },
+    {
+        "title": "Invisibility Potion",
+        "tag": "Invisibility",
+        "description": "Renders the player invisible. Effect is removed if the player receives damage or attacks another player.",
+        "content": "Crafting:\nInvisibility: Melon Slice + Water Bottle\nSplash Invisibility: 2 Invisibility Potions\n\nEffect:\nInvisibility: 12 seconds\nSplash Invisibility: 8 seconds"
+    },
+    {
+        "title": "Haste Potion",
+        "tag": "Haste",
+        "description": "Makes the player mine 2x faster (Haste) or 3x faster (Haste II).",
+        "content": "Crafting:\nHaste: Full Bowl of Cranberries + Water Bottle\nHaste II: Haste Potion + Iron Bar\nSplash Haste: 2 Haste Potions\nSplash Haste II: Splash Haste + Iron Bar\n\nEffect:\nHaste: 50 seconds\nHaste II: 50 seconds\nSplash Haste: 8 seconds\nSplash Haste II: 8 seconds"
+    },
+    {
+        "title": "Regeneration Potion",
+        "tag": "Regeneration",
+        "description": "Restores health by 5 every second (Regeneration) or 8 every second (Regeneration II).",
+        "content": "Crafting:\nRegeneration: Cherry + Melon Slice + Water Bottle\nRegeneration II: Regeneration Potion + Iron Bar\nSplash Regeneration: 2 Regeneration Potions\nSplash Regeneration II: Splash Regeneration + Iron Bar\n\nEffect:\nRegeneration: 12 seconds\nRegeneration II: 12 seconds\nSplash Regeneration: 8 seconds\nSplash Regeneration II: 8 seconds"
+    },
+    {
+        "title": "Instant Healing Potion",
+        "tag": "Instant Healing",
+        "description": "Restores health instantly by 30 (Instant Healing) or 60 (Instant Healing II).",
+        "content": "Crafting:\nInstant Healing: Water Bottle + Apple + Watermelon Slice\nInstant Healing II: Instant Healing + Iron Bar\nSplash Instant Healing: 2 Instant Healing Potions\nSplash Instant Healing II: Splash Instant Healing + Iron Bar"
+    },
+    {
+        "title": "Instant Damage Potion",
+        "tag": "Instant Damage",
+        "description": "Inflicts 30 damage (Instant Damage) or 60 damage (Instant Damage II).",
+        "content": "Crafting:\nInstant Damage: Water Bottle + Cactus + Pumpkin Pie\nInstant Damage II: Instant Damage Potion + Iron Bar\nSplash Instant Damage: 2 Instant Damage Potions\nSplash Instant Damage II: Splash Instant Damage + Iron Bar"
+    },
+    {
+        "title": "Weakness Potion",
+        "tag": "Weakness",
+        "description": "Increases damage received by 20% (Weakness) or 30% (Weakness II).",
+        "content": "Crafting:\nWeakness: Pumpkin + Water Bottle\nWeakness II: Weakness Potion + Iron Bar\nSplash Weakness: 2 Weakness Potions\nSplash Weakness II: Splash Weakness + Iron Bar\n\nEffect:\nWeakness: 12 seconds\nWeakness II: 12 seconds\nSplash Weakness: 8 seconds\nSplash Weakness II: 8 seconds"
+    },
+    {
+        "title": "Poison Potion",
+        "tag": "Poison",
+        "description": "Depletes health by 5 every second (Poison) or 7 every second (Poison II).",
+        "content": "Crafting:\nPoison: Cactus + Water Bottle\nPoison II: Poison Potion + Iron Bar\nSplash Poison: 2 Poison Potions\nSplash Poison II: Splash Poison Potion + Iron Bar\n\nEffect:\nPoison: 12 seconds\nPoison II: 12 seconds\nSplash Poison: 8 seconds\nSplash Poison II: 8 seconds"
+    },
+    {
+        "title": "Slowness Potion",
+        "tag": "Slowness",
+        "description": "Slows the player by 30% (Slowness) or 40% (Slowness II).",
+        "content": "Crafting:\nSlowness: Bread + Poppy + Water Bottle\nSlowness II: Slowness Potion + Iron Bar\nSplash Slowness: 2 Slowness Potions\nSplash Slowness II: Splash Slowness + Iron Bar\n\nEffect:\nSlowness: 12 seconds\nSlowness II: 12 seconds\nSplash Slowness: 8 seconds\nSplash Slowness II: 8 seconds"
+    },
+    {
+        "title": "Shield Potion",
+        "tag": "Shield",
+        "description": "Grants extra HP (30 HP for Shield, 40 HP for Shield II).",
+        "content": "Crafting:\nShield: Corn + Water Bottle\nShield II: Shield Potion + Iron Bar\nSplash Shield: 2 Shield Potions\nSplash Shield II: Splash Shield + Iron Bar"
+    },
+    {
+        "title": "Knockback Potion",
+        "tag": "Knockback",
+        "description": "Throws the player 13 blocks up (Knockback) or 30 blocks up (Knockback II).",
+        "content": "Crafting:\nKnockback: Stick + Bread + Water Bottle\nSplash Knockback: 2 Knockback Potions\nSplash Knockback II: Splash Knockback Potion + Iron Bar"
+    },
+    {
+        "title": "Heat Resistance Potion",
+        "tag": "Heat Resistance",
+        "description": "Provides resistance against heat-based damage.",
+        "content": "Crafting:\nHeat Resistance: Chili Pepper + Water Bottle\nSplash Heat Resistance: 2 Heat Resistance Potions\n\nEffect:\nHeat Resistance: 12 seconds\nSplash Heat Resistance: 8 seconds"
+    },
+    {
         "title": "Chest",
         "tag": "Utility Block",
         "description": "Crafted with Workbench. Used to store items.",
