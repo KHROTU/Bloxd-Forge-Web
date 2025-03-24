@@ -424,7 +424,6 @@
       currentColor = e.target.value;
     });
 
-    // Simplified Undo System
     let undoStack = [];
     const MAX_UNDO_STEPS = 50;
 
@@ -445,7 +444,6 @@
         const ctx = canvas.getContext('2d');
         const imageData = ctx.getImageData(x, y, texturePixelSize, texturePixelSize);
         
-        // Store original pixel data for undo
         const originalPixelData = {
             x: x,
             y: y,
@@ -457,7 +455,6 @@
             ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
             trackAction(originalPixelData);
         } else if (currentTool === 'darken') {
-            // Darken the pixel
             ctx.fillStyle = `rgba(${
                 Math.max(0, imageData.data[0] - 50)}, ${
                 Math.max(0, imageData.data[1] - 50)}, ${
@@ -466,7 +463,6 @@
             ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
             trackAction(originalPixelData);
         } else if (currentTool === 'lighten') {
-            // Lighten the pixel
             ctx.fillStyle = `rgba(${
                 Math.min(255, imageData.data[0] + 50)}, ${
                 Math.min(255, imageData.data[1] + 50)}, ${
@@ -480,7 +476,6 @@
         }
     });
 
-    // Add mousemove event for continuous drawing
     canvas.addEventListener('mousemove', (e) => {
         if (e.buttons === 1) {
             const { offsetX, offsetY } = e;
@@ -496,7 +491,6 @@
                 ctx.fillStyle = currentColor;
                 ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
             } else if (currentTool === 'darken') {
-                // Darken the pixel
                 ctx.fillStyle = `rgba(${
                     Math.max(0, imageData.data[0] - 50)}, ${
                     Math.max(0, imageData.data[1] - 50)}, ${
@@ -504,7 +498,6 @@
                     imageData.data[3]/255})`;
                 ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
             } else if (currentTool === 'lighten') {
-                // Lighten the pixel
                 ctx.fillStyle = `rgba(${
                     Math.min(255, imageData.data[0] + 50)}, ${
                     Math.min(255, imageData.data[1] + 50)}, ${
@@ -520,7 +513,6 @@
             const lastAction = undoStack.pop();
             const ctx = canvas.getContext('2d');
             
-            // Restore the original pixel data
             ctx.putImageData(lastAction.imageData, lastAction.x, lastAction.y);
         }
     });
@@ -580,17 +572,14 @@
         return;
       }
 
-      // Create a temporary canvas with original texture dimensions
       const tempCanvas = document.createElement('canvas');
       tempCanvas.width = selectedTexture.width;
       tempCanvas.height = selectedTexture.height;
       const tempCtx = tempCanvas.getContext('2d');
 
-      // Draw the current canvas content scaled down to original size
       tempCtx.imageSmoothingEnabled = false;
       tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, selectedTexture.width, selectedTexture.height);
 
-      // Create download link with original filename
       const originalFilename = selectedTexture.src.split('/').pop().split('?')[0];
       const link = document.createElement('a');
       link.download = originalFilename;
@@ -609,7 +598,6 @@
       }
     });
 
-    // Loading and error handling
     function showLoading() {
         document.getElementById('loading-overlay').style.display = 'flex';
     }
@@ -629,7 +617,6 @@
         document.getElementById('error-message').style.display = 'none';
     }
 
-    // Enhance file handling with loading states
     function enhancedHandleFiles(event) {
         try {
             showLoading();
@@ -642,7 +629,6 @@
         }
     }
 
-    // Add tooltips to tools
     Object.entries({
         'darken': document.getElementById('darken-tool'),
         'lighten': document.getElementById('lighten-tool'),
@@ -657,48 +643,37 @@
         button.appendChild(tooltipSpan);
     });
 
-    // Color input functionality
     const colorTextInput = document.getElementById('color-text-input');
 
-    // Initialize color text input with picker's initial color
     colorTextInput.value = colorPicker.value;
 
-    // Update text input when color picker changes
     colorPicker.addEventListener('input', (e) => {
       currentColor = e.target.value;
       colorTextInput.value = e.target.value;
     });
 
-    // Validate and update color from text input
     colorTextInput.addEventListener('input', (e) => {
       let input = e.target.value.trim();
       
-      // Automatically add # if not present
       if (!input.startsWith('#')) {
         input = '#' + input;
       }
 
-      // Validate hex color format
       const hexRegex = /^#([0-9A-Fa-f]{3}){1,2}$/;
       if (hexRegex.test(input)) {
-        // Expand shorthand hex (e.g., #ABC to #AABBCC)
         if (input.length === 4) {
           input = '#' + input[1].repeat(2) + input[2].repeat(2) + input[3].repeat(2);
         }
 
-        // Update color picker and current color
         colorPicker.value = input;
         currentColor = input;
         
-        // Remove invalid class if present
         colorTextInput.classList.remove('invalid');
       } else {
-        // Add invalid class for visual feedback
         colorTextInput.classList.add('invalid');
       }
     });
 
-    // Handle paste events for additional validation
     colorTextInput.addEventListener('paste', (e) => {
       e.preventDefault();
       const pastedText = e.clipboardData.getData('text').trim();
