@@ -278,6 +278,37 @@
       box-shadow: none;
     }
 
+    @media (max-width: 768px) {
+      #menu {
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      touch-action: none;
+      }
+      
+      #menu-grid {
+      grid-template-columns: 1fr;
+      height: calc(100% - 120px);
+      overflow-y: auto;
+      padding: 20px;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      margin-bottom: 120px;
+      }
+
+      .menu-option {
+      width: 100%;
+      height: 150px;
+      }
+
+      body.menu-open {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      }
+    }
+
     #drag-button {
       position: fixed;
       bottom: 25px;

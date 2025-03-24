@@ -15,6 +15,7 @@
             background-color: #181818;
             color: white;
             height: 100vh;
+            overflow: hidden;
         }
         
         #fullscreen-wrapper {
@@ -38,39 +39,37 @@
         }
         
         .bottom-nav {
-            width: 90%;
+            width: 100%;
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(2px);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0;
+            padding: 8px 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.8);
-            border-radius: 0 5px 0 0;
             position: absolute;
             bottom: 0;
             left: 0;
-            transition: opacity 0.3s;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
         }
         
         .bottom-nav.hidden {
-            opacity: 0;
-            pointer-events: none;
+            transform: translateY(100%);
         }
         
         .bottom-nav a {
             text-decoration: none;
             color: white;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
             flex-grow: 1;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 5px;
         }
         
         .bottom-nav a i {
             display: block;
-            font-size: 20px;
-            margin-bottom: 5px;
+            font-size: 18px;
+            margin-bottom: 3px;
         }
         
         .bottom-nav a.active {
@@ -79,32 +78,48 @@
         
         .fullscreen-btn {
             position: absolute;
-            bottom: 0px;
-            right: 1.2%;
-            width: 80px;
-            height: 82px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(2px);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.8);
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.6);
             border: none;
-            border-radius: 5px 5px 0 0;
+            border-radius: 50%;
             cursor: pointer;
             color: white;
-            font-size: 40px;
-            transition: width 0.4s, height 0.4s;
+            font-size: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 1001;
         }
         
+        .nav-toggle-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            transition: transform 0.3s;
+        }
         
-        .fullscreen-btn.small {
-            width: 50px;
-            height: 52px;
-            font-size: 28px;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(0px);
+        @media (max-width: 768px) {
+            .bottom-nav a {
+                font-size: 10px;
+            }
+            .bottom-nav a i {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -115,6 +130,9 @@
             <button class="fullscreen-btn" onclick="toggleFullscreen()">
                 <i class="fas fa-expand"></i>
             </button>
+            <button class="nav-toggle-btn" onclick="toggleNav()">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
         <div class="bottom-nav" id="bottom-nav">
             <a href="#" onclick="loadPage('/app/assets/1page.html', this)" class="active">
@@ -123,13 +141,13 @@
             <a href="#" onclick="loadPage('/app/assets/2page.html', this)">
                 <i class="fas fa-toolbox"></i> Workshop
             </a>
-            <a href="#" onclick="loadPage('/app/assets/3page.html', this)">
-                <i class="fas fa-tools"></i> Creator
-            </a>
-            <a href="#" onclick="loadPage('https://raw.githack.com/KHROTU/Bloxd-Forge-Web/refs/heads/main/market/index.html', this)">
+            <a href="#" onclick="loadPage('/app/assets/4page.html', this)">
                 <i class="fas fa-shopping-cart"></i> Shop
             </a>
             <a href="#" onclick="loadPage('/app/assets/5page.html', this)">
+                <i class="fas fa-truck"></i> Builds
+            </a>
+            <a href="#" onclick="loadPage('/app/assets/6page.html', this)">
                 <i class="fas fa-book"></i> Wiki
             </a>
         </div>
@@ -142,14 +160,26 @@
             element.classList.add('active');
         }
 
-        let isBottomNavVisible = true;
+        let isNavVisible = true;
+
+        function toggleNav() {
+            const bottomNav = document.getElementById('bottom-nav');
+            const navToggleBtn = document.querySelector('.nav-toggle-btn');
+            isNavVisible = !isNavVisible;
+            
+            if (isNavVisible) {
+                bottomNav.classList.remove('hidden');
+                navToggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            } else {
+                bottomNav.classList.add('hidden');
+                navToggleBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            }
+        }
 
         function toggleFullscreen() {
             const wrapper = document.getElementById('fullscreen-wrapper');
             const fullscreenBtn = document.querySelector('.fullscreen-btn');
-            const bottomNav = document.getElementById('bottom-nav');
 
-            // If not in fullscreen, request fullscreen on the wrapper
             if (!document.fullscreenElement) {
                 if (wrapper.requestFullscreen) {
                     wrapper.requestFullscreen();
@@ -160,27 +190,25 @@
                 } else if (wrapper.msRequestFullscreen) {
                     wrapper.msRequestFullscreen();
                 }
-                // On entering fullscreen, ensure bottom nav is hidden
-                bottomNav.classList.add('hidden');
-                isBottomNavVisible = false;
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
             } else {
-                // While in fullscreen, toggle the bottom nav visibility
-                isBottomNavVisible = !isBottomNavVisible;
-                if (isBottomNavVisible) {
-                    bottomNav.classList.remove('hidden');
-                } else {
-                    bottomNav.classList.add('hidden');
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
                 }
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
             }
-            fullscreenBtn.classList.toggle('small');
         }
 
-        // When exiting fullscreen, make sure the bottom nav is visible
         document.addEventListener('fullscreenchange', function () {
-            const bottomNav = document.getElementById('bottom-nav');
+            const fullscreenBtn = document.querySelector('.fullscreen-btn');
             if (!document.fullscreenElement) {
-                bottomNav.classList.remove('hidden');
-                isBottomNavVisible = true;
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
             }
         });
     </script>
