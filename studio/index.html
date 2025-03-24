@@ -664,6 +664,11 @@ if(block == "Tribe Protector") block = "Lava"`;
             iframe.src = '/app/assets/src/converter/index.html';
             iframe.style.flex = '1';
             iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.minWidth = '800px';
+            iframe.style.minHeight = '600px';
+            iframe.style.transform = 'scale(1)';
             
             const content = popup.querySelector('.popup-content');
             content.style.padding = '0';
