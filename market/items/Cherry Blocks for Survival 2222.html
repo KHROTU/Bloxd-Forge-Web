@@ -326,5 +326,41 @@
             </div>
         </div>
     </div>
+    <div id="buyNowPopup" class="popup">
+      <div class="popup-content">
+        <span class="close">&times;</span>
+        <h2>To buy:</h2>
+        <p>Please DM snipermaster225 on discord and ask for this item.</p>
+        <button id="cancelBuy">Cancel</button>
+      </div>
+    </div>
+
+    <script>
+  
+    var popup = document.getElementById('buyNowPopup');
+
+   
+    var btn = document.getElementById('buyNowBtn');
+
+  
+    var span = document.getElementsByClassName('close')[0];
+
+   
+    btn.onclick = function() {
+      popup.style.display = 'block';
+    }
+
+ 
+    span.onclick = function() {
+      popup.style.display = 'none';
+    }
+
+   
+    window.onclick = function(event) {
+      if (event.target == popup) {
+        popup.style.display = 'none';
+      }
+    }
+    </script>
 </body>
 </html>
