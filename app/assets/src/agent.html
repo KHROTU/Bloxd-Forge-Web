@@ -82,29 +82,36 @@
 
     <script>
         let csrfToken = null;
+        let userId = null;
 
         function getUserId() {
-            let userId = localStorage.getItem('userId');
-            if (!userId) {
-                userId = 'user_' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('userId', userId);
+            let storedId = localStorage.getItem('userId');
+            if (!storedId) {
+                storedId = 'user_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('userId', storedId);
             }
-            return userId;
+            return storedId;
         }
 
         async function fetchCsrfToken() {
             try {
                 console.log('Fetching CSRF token...');
+                userId = getUserId();
                 const response = await fetch('https://khrotu.pythonanywhere.com/get-csrf-token', {
                     method: 'GET',
-                    credentials: 'include'
+                    headers: {
+                        'X-User-ID': userId
+                    }
                 });
                 console.log('CSRF token response status:', response.status);
                 console.log('CSRF token response headers:', [...response.headers.entries()]);
-                if (!response.ok) throw new Error('Failed to fetch CSRF token: ' + response.statusText);
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error('Failed to fetch CSRF token: ' + response.statusText + ' - ' + text);
+                }
                 const data = await response.json();
                 csrfToken = data.csrf_token;
-                console.log('Fetched CSRF token:', csrfToken);
+                console.log('Fetched CSRF token:', csrfToken, 'for UserID:', userId);
             } catch (error) {
                 console.error('Error fetching CSRF token:', error);
                 document.getElementById('output').textContent = 'Error: Could not initialize security token';
@@ -112,8 +119,8 @@
         }
 
         async function askAgent() {
-            if (!csrfToken) {
-                document.getElementById('output').textContent = 'Security token not loaded. Please refresh the page.';
+            if (!csrfToken || !userId) {
+                document.getElementById('output').textContent = 'Security token or user ID not loaded. Please refresh the page.';
                 return;
             }
 
@@ -127,18 +134,17 @@
             logo.classList.add('spinning');
 
             try {
-                console.log('Sending POST request with CSRF token:', csrfToken);
+                console.log('Sending POST request with CSRF token:', csrfToken, 'and UserID:', userId);
                 const response = await fetch('https://khrotu.pythonanywhere.com/api/ask', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'text/event-stream',
-                        'X-User-ID': getUserId(),
+                        'X-User-ID': userId,
                         'X-CSRF-Token': csrfToken,
                         'X-Origin-Site': 'BloxdForge'
                     },
-                    body: JSON.stringify({ message: userInput }),
-                    credentials: 'include'
+                    body: JSON.stringify({ message: userInput })
                 });
 
                 console.log('POST response status:', response.status);
