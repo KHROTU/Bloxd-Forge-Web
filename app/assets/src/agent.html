@@ -26,9 +26,10 @@
             overflow-y: auto;
             margin-bottom: 20px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            white-space: pre-wrap;
+            text-align: left;
+            justify-content: flex-start;
+            align-items: flex-start;
         }
         #userInput {
             width: 300px;
@@ -76,66 +77,106 @@
 </head>
 <body>
     <img id="logo" src="https://imghost.net/ib/Q4w3Wnj3Ctz2MBV_1740586783.png" alt="Logo" style="width: 100px; margin-bottom: 20px;">
-    <div id="output"></div>
+    <div id="output">Ask the BloxdForge Agent a question about Bloxd.io!</div>
     <input id="userInput" type="text" placeholder="Ask something..." />
     <button id="sendBtn" onclick="askAgent()">Send</button>
 
     <script>
         let csrfToken = null;
         let userId = null;
+        const API_BASE_URL = 'https://khrotu.pythonanywhere.com';
 
         function getUserId() {
             let storedId = localStorage.getItem('userId');
             if (!storedId) {
-                storedId = 'user_' + Math.random().toString(36).substr(2, 9);
+                storedId = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
                 localStorage.setItem('userId', storedId);
+                console.log('Generated new User ID:', storedId);
+            } else {
+                console.log('Using existing User ID:', storedId);
             }
             return storedId;
         }
 
         async function fetchCsrfToken() {
+            const output = document.getElementById('output');
             try {
                 console.log('Fetching CSRF token...');
                 userId = getUserId();
-                const response = await fetch('https://khrotu.pythonanywhere.com/get-csrf-token', {
+
+                if (!userId) {
+                    throw new Error('Could not generate or retrieve User ID.');
+                }
+
+                const response = await fetch(`${API_BASE_URL}/get-csrf-token`, {
                     method: 'GET',
                     headers: {
                         'X-User-ID': userId
-                    }
+                    },
+                    credentials: 'include'
                 });
+
                 console.log('CSRF token response status:', response.status);
-                console.log('CSRF token response headers:', [...response.headers.entries()]);
+
                 if (!response.ok) {
-                    const text = await response.text();
-                    throw new Error('Failed to fetch CSRF token: ' + response.statusText + ' - ' + text);
+                    let errorText = response.statusText;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData && errorData.error) {
+                            errorText = errorData.error;
+                        } else {
+                           errorText = await response.text();
+                        }
+                    } catch (e) {
+                         errorText = await response.text();
+                         console.warn("Could not parse error response as JSON");
+                    }
+                    throw new Error(`Failed to fetch CSRF token (${response.status}): ${errorText}`);
                 }
+
                 const data = await response.json();
+                if (!data.csrf_token) {
+                    throw new Error('CSRF token not found in response.');
+                }
                 csrfToken = data.csrf_token;
                 console.log('Fetched CSRF token:', csrfToken, 'for UserID:', userId);
+                output.textContent = 'Security token loaded. Ready to ask.';
+
             } catch (error) {
                 console.error('Error fetching CSRF token:', error);
-                document.getElementById('output').textContent = 'Error: Could not initialize security token';
+                output.textContent = `Error: Could not initialize security token. ${error.message}. Please refresh.`;
+                document.getElementById('userInput').disabled = true;
+                document.getElementById('sendBtn').disabled = true;
             }
         }
 
         async function askAgent() {
-            if (!csrfToken || !userId) {
-                document.getElementById('output').textContent = 'Security token or user ID not loaded. Please refresh the page.';
-                return;
-            }
-
-            const userInput = document.getElementById("userInput").value;
+            const userInputField = document.getElementById("userInput");
+            const userInput = userInputField.value.trim();
             const output = document.getElementById("output");
             const logo = document.getElementById("logo");
             const sendBtn = document.getElementById("sendBtn");
 
+            if (!userInput) {
+                output.textContent = 'Please enter a question.';
+                return;
+            }
+
+            if (!csrfToken || !userId) {
+                output.textContent = 'Security token or user ID not loaded. Please refresh the page.';
+                console.error('Missing CSRF token or User ID before sending request.');
+                await fetchCsrfToken();
+                if (!csrfToken || !userId) return;
+            }
+
             sendBtn.disabled = true;
+            userInputField.disabled = true;
             output.innerHTML = '<div class="spinner"></div>';
             logo.classList.add('spinning');
 
             try {
-                console.log('Sending POST request with CSRF token:', csrfToken, 'and UserID:', userId);
-                const response = await fetch('https://khrotu.pythonanywhere.com/api/ask', {
+                console.log('Sending POST request to /api/ask with CSRF token:', csrfToken, 'and UserID:', userId);
+                const response = await fetch(`${API_BASE_URL}/api/ask`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -144,49 +185,127 @@
                         'X-CSRF-Token': csrfToken,
                         'X-Origin-Site': 'BloxdForge'
                     },
-                    body: JSON.stringify({ message: userInput })
+                    body: JSON.stringify({ message: userInput }),
+                    credentials: 'include'
                 });
 
                 console.log('POST response status:', response.status);
-                console.log('POST response headers:', [...response.headers.entries()]);
+
                 if (!response.ok) {
-                    const text = await response.text();
-                    throw new Error('Network response was not ok: ' + response.statusText + ' - ' + text);
+                     let errorText = response.statusText;
+                     try {
+                        const errorChunk = await response.text();
+                        console.error("Raw error response:", errorChunk);
+                        const match = errorChunk.match(/data:\s*(\{.*\})\s*\n/);
+                        if (match && match[1]) {
+                            const errorJson = JSON.parse(match[1]);
+                            if (errorJson.error) {
+                                errorText = errorJson.error;
+                            }
+                        } else {
+                             errorText = errorChunk;
+                        }
+
+                     } catch(e) {
+                         console.warn("Could not parse SSE error", e);
+                         errorText = response.statusText + " (Could not parse error details)";
+                     }
+                    throw new Error(`Network response was not ok (${response.status}): ${errorText}`);
                 }
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 output.innerHTML = '';
+                let currentResponse = "";
+                let buffer = "";
 
                 while (true) {
                     const { done, value } = await reader.read();
-                    if (done) break;
-                    const chunk = decoder.decode(value, { stream: true });
-                    console.log('Received chunk:', chunk);
-                    const lines = chunk.split('\n');
-                    for (const line of lines) {
-                        if (line.trim()) {
-                            try {
-                                const jsonData = JSON.parse(line.replace(/^data: /, ''));
-                                if (jsonData.error) {
-                                    output.textContent = 'Error: ' + jsonData.error;
-                                } else if (jsonData.choices && jsonData.choices[0].delta.content) {
-                                    output.textContent += jsonData.choices[0].delta.content;
-                                }
-                            } catch (e) {
-                                console.error('Error parsing JSON:', e);
+                    if (done) {
+                        console.log('Stream finished.');
+                        break;
+                    }
+
+                    buffer += decoder.decode(value, { stream: true });
+                    let boundary = buffer.indexOf('\n\n');
+                    while (boundary >= 0) {
+                        const message = buffer.substring(0, boundary);
+                        buffer = buffer.substring(boundary + 2);
+
+                        console.log('Received SSE message:', message);
+                        const lines = message.split('\n');
+                        let eventType = 'message'; 
+                        let dataContent = '';
+
+                        for (const line of lines) {
+                            if (line.startsWith('event:')) {
+                                eventType = line.substring('event:'.length).trim();
+                            } else if (line.startsWith('data:')) {
+                                dataContent += line.substring('data:'.length).trim();
                             }
                         }
+
+                        console.log(`Parsed Event: ${eventType}, Data: ${dataContent}`);
+
+                        if (eventType === 'error') {
+                            try {
+                                const jsonData = JSON.parse(dataContent);
+                                currentResponse = `Error: ${jsonData.error}`;
+                                output.textContent = currentResponse;
+                                console.error('Received error event:', jsonData.error);
+                            } catch (e) {
+                                console.error('Error parsing error event data:', e, dataContent);
+                                currentResponse = 'Error: Received malformed error from server.';
+                                output.textContent = currentResponse;
+                            }
+                             reader.cancel();
+                             break;
+
+                        } else if (dataContent) {
+                             try {
+                                const jsonData = JSON.parse(dataContent);
+                                if (jsonData.choices && jsonData.choices[0].delta && jsonData.choices[0].delta.content) {
+                                     const content = jsonData.choices[0].delta.content;
+                                     currentResponse += content;
+                                     output.textContent = currentResponse;
+                                 } else if (jsonData.error) {
+                                      currentResponse = `Error: ${jsonData.error.message || 'Unknown AI error'}`;
+                                      output.textContent = currentResponse;
+                                      reader.cancel();
+                                      break;
+                                 }
+                             } catch (e) {
+                                 console.warn('Received non-JSON or unexpected data chunk:', e, dataContent);
+                             }
+                        }
+
+                        boundary = buffer.indexOf('\n\n');
                     }
+
+                     if (eventType === 'error') break;
+
                 }
+
+                 if (buffer.trim()) {
+                     console.warn("Stream ended with unprocessed buffer:", buffer);
+                 }
+
+
             } catch (error) {
                 console.error('Error in askAgent:', error);
                 output.textContent = "Error: " + error.message;
             } finally {
                 logo.classList.remove('spinning');
-                setTimeout(() => sendBtn.disabled = false, 3000);
+                userInputField.value = '';
+                userInputField.disabled = false;
+                setTimeout(() => {
+                    sendBtn.disabled = false;
+                    console.log("Send button re-enabled.");
+                }, RATE_LIMIT_SECONDS * 1000);
             }
         }
+
+         const RATE_LIMIT_SECONDS = 3;
 
         window.onload = fetchCsrfToken;
     </script>
