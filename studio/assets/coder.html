@@ -20,10 +20,10 @@
         }
         #chatContainer {
             width: 100%;
-            max-width: 800px; 
-            flex-grow: 1;
+            max-width: 800px;
+            height: calc(100vh - 200px);
             overflow-y: auto;
-            margin-bottom: 20px;
+            margin-bottom: 80px;
             padding: 15px;
             border: 1px solid #444;
             border-radius: 8px;
@@ -69,10 +69,17 @@
             font-weight: bold;
         }
         #inputContainer {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             width: 100%;
             max-width: 800px;
             gap: 10px;
+            background-color: #181818;
+            padding: 10px 0;
+            z-index: 100;
         }
         #userInput {
             flex-grow: 1;
@@ -189,8 +196,22 @@
                 messageDiv.classList.add('message');
                 messageDiv.classList.add(msg.role === 'user' ? 'user-message' : 'assistant-message');
 
-                let contentHTML = msg.content.replace(/```javascript\n([\s\S]*?)\n```/g, '<code>$1</code>');
-                contentHTML = contentHTML.replace(/```\n([\s\S]*?)\n```/g, '<code>$1</code>');
+                let contentHTML = msg.content
+                    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                    .replace(/```(\w*)\n([\s\S]*?)\n```/g, '<pre><code class="$1">$2</code></pre>')
+                    .replace(/`([^`]+)`/g, '<code>$1</code>')
+                    .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
+                    .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                    .replace(/_(.*?)_/g, '<em>$1</em>');
+
+                if (contentHTML.includes('<li>')) {
+                    contentHTML = contentHTML.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+                }
 
                 if (msg.role === 'assistant' && msg.error) {
                     messageDiv.classList.add('error-message');
@@ -203,7 +224,10 @@
                 chatContainer.appendChild(messageDiv);
             });
 
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            chatContainer.scrollTo({
+                top: chatContainer.scrollHeight,
+                behavior: 'smooth'
+            });
         }
 
 
