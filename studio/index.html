@@ -276,6 +276,11 @@
                 <p>Converter</p>
             </div>
 
+            <div class="sidebar-section" id="coder-btn" onclick="openCoder()">
+                <i class="ri-code-line"></i>
+                <p>Coder</p>
+            </div>
+
             <div class="sidebar-section" id="write-text-area">
                 <i class="ri-edit-2-line"></i>
                 <p>Write Text</p>
@@ -661,7 +666,7 @@ if(block == "Tribe Protector") block = "Lava"`;
             popup.style.height = '80vh';
             
             const iframe = document.createElement('iframe');
-            iframe.src = '/app/assets/src/converter/index.html';
+            iframe.src = '/studio/assets/converter/index.html';
             iframe.style.flex = '1';
             iframe.style.border = 'none';
             iframe.style.width = '100%';
@@ -678,6 +683,30 @@ if(block == "Tribe Protector") block = "Lava"`;
             
             document.body.appendChild(popup);
         });
+
+        function openCoder() {
+            const popup = createPopup('Coder');
+            popup.style.width = '80%';
+            popup.style.height = '80vh';
+            
+            const iframe = document.createElement('iframe');
+            iframe.src = '/studio/assets/coder.html';
+            iframe.style.flex = '1';
+            iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.minWidth = '800px';
+            iframe.style.minHeight = '600px';
+            iframe.style.transform = 'scale(1)';
+            
+            const content = popup.querySelector('.popup-content');
+            content.style.padding = '0';
+            content.style.display = 'flex';
+            content.style.flexDirection = 'column';
+            content.appendChild(iframe);
+            
+            document.body.appendChild(popup);
+        }
 
         function init() {
             const files = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
