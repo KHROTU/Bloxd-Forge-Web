@@ -53,14 +53,37 @@
             align-self: flex-start;
             text-align: left;
         }
-        .assistant-message code {
-             display: block;
-             background-color: #1e1e1e;
-             padding: 10px;
-             border-radius: 4px;
-             margin-top: 8px;
-             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-             overflow-x: auto;
+        /* Code blocks */
+        .assistant-message pre code {
+            display: block;
+            background-color: #1e1e1e;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 8px 0;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            overflow-x: auto;
+            max-width: fit-content;
+        }
+        
+        /* Inline code */
+        .assistant-message code:not(pre code) {
+            display: inline-block;
+            background-color: #1e1e1e;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        
+        /* Lists */
+        .assistant-message ul,
+        .assistant-message ol {
+            margin: 4px 0;
+            padding-left: 20px;
+        }
+        
+        .assistant-message li {
+            margin: 2px 0;
+            padding: 0;
         }
         .error-message {
             background-color: #5c3030;
