@@ -295,7 +295,8 @@
             userInputField.disabled = true;
             logo.classList.add('spinning');
 
-            const currentAssistantMessage = chatHistory[chatHistory.length - 1];
+                const currentAssistantMessage = chatHistory[chatHistory.length - 1];
+                let receivedError = false;
 
             try {
                 console.log('Sending POST request to /api/code with CSRF token:', csrfToken, 'and UserID:', userId);
@@ -371,19 +372,21 @@
                         console.log(`Parsed Event: ${eventType}, Data: ${dataContent}`);
 
                         if (eventType === 'error') {
+                             receivedError = true;
                              try {
                                  const jsonData = JSON.parse(dataContent);
-                                 accumulatedResponse = `${jsonData.error}`;
-                                 currentAssistantMessage.error = true;
+                                 accumulatedResponse = `${jsonData.error || 'Unknown error from server'}`;
                                  console.error('Received error event:', jsonData.error);
                              } catch (e) {
-                                 console.error('Error parsing error event data:', e, dataContent);
-                                 accumulatedResponse = 'Error: Received malformed error from server.';
-                                 currentAssistantMessage.error = true;
+                                 console.error('Error parsing error event data:', e, `Data: [${dataContent}]`);
+                                 accumulatedResponse = dataContent || 'Error: Received unparsable error from server.';
                              }
-                             currentAssistantMessage.content = accumulatedResponse;
-                             currentAssistantMessage.isLoading = false;
-                             renderChatHistory();
+                             if (currentAssistantMessage) {
+                                 currentAssistantMessage.content = accumulatedResponse;
+                                 currentAssistantMessage.error = true;
+                                 currentAssistantMessage.isLoading = false;
+                                 renderChatHistory();
+                             }
                              reader.cancel();
                              boundary = -1;
                              break;
@@ -413,13 +416,16 @@
                         }
                         boundary = buffer.indexOf('\n\n');
                     }
-                    if (eventType === 'error') break;
                 }
 
-                 if (!currentAssistantMessage.error) {
-                     currentAssistantMessage.content = accumulatedResponse || "Assistant did not provide a response.";
-                     currentAssistantMessage.isLoading = false;
-                     renderChatHistory();
+                 if (currentAssistantMessage) {
+                    currentAssistantMessage.isLoading = false;
+                    if (!receivedError && accumulatedResponse.trim() === "") {
+                        currentAssistantMessage.content = "Assistant did not provide a response.";
+                    } else if (!receivedError) {
+                         currentAssistantMessage.content = accumulatedResponse;
+                    }
+                    renderChatHistory();
                  }
 
             } catch (error) {
