@@ -361,7 +361,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px var(--shadow-color);
             display: none;
-            z-index: 31;  /* Increased z-index */
+            z-index: 31;
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(10px);
             max-width: 400px;
@@ -449,14 +449,14 @@
             background-color: #666666;
         }
 
-::-webkit-scrollbar {
-    display: none !important;
-}
+        ::-webkit-scrollbar {
+            display: none !important;
+        }
 
-body {
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-}
+        body {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
 
     </style>
 </head>
@@ -767,6 +767,7 @@ body {
         document.head.appendChild(script);
 
         let scene, camera, renderer, controls;
+        let onWindowResizePreview = null;
 
         async function openPreview(zipUrl) {
             const previewWindow = document.getElementById("preview-window");
@@ -774,8 +775,9 @@ body {
         
             const canvas = document.getElementById("preview-canvas");
             const parentElement = canvas.parentElement;
-            const width = parentElement.clientWidth;
-            const height = parentElement.clientHeight;
+            
+            let width = parentElement.clientWidth || 1;
+            let height = parentElement.clientHeight || 1;
             
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
@@ -785,13 +787,17 @@ body {
             renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
             renderer.setSize(width, height, false);
 
-            window.addEventListener('resize', () => {
-                const width = parentElement.clientWidth;
-                const height = parentElement.clientHeight;
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-                renderer.setSize(width, height, false);
-            });
+            onWindowResizePreview = () => {
+                if (!renderer || !camera || !parentElement) return; 
+                const newWidth = parentElement.clientWidth || 1;
+                const newHeight = parentElement.clientHeight || 1;
+                if (newWidth > 0 && newHeight > 0) {
+                    camera.aspect = newWidth / newHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(newWidth, newHeight, false);
+                }
+            };
+            window.addEventListener('resize', onWindowResizePreview);
         
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
@@ -806,9 +812,12 @@ body {
             for (const file of textureFiles) {
                 const textureBlob = await zip.files[file].async("blob");
                 const textureUrl = URL.createObjectURL(textureBlob);
-                const texture = textureLoader.load(textureUrl);
+                const texture = textureLoader.load(textureUrl, () => {
+                    URL.revokeObjectURL(textureUrl);
+                });
                 texture.magFilter = THREE.NearestFilter;
                 texture.minFilter = THREE.NearestFilter;
+                texture.generateMipmaps = false;
                 textures[file.split('/').pop()] = texture;
             }
         
@@ -826,16 +835,13 @@ body {
                 "chest_top.png": "https://raw.githubusercontent.com/KHROTU/Bloxd-Forge-Web/main/app/assets/src/tpacks/default/chest_top.png",
             };
 
-            for (const [_, defaultUrl] of Object.entries(defaultTextures)) {
-                const texture = textureLoader.load(defaultUrl);
-                texture.magFilter = THREE.NearestFilter;
-                texture.minFilter = THREE.NearestFilter;
-                texture.generateMipmaps = false;
-            }
-        
             for (const [fileName, defaultUrl] of Object.entries(defaultTextures)) {
                 if (!textures[fileName]) {
-                    textures[fileName] = textureLoader.load(defaultUrl);
+                    const texture = textureLoader.load(defaultUrl);
+                    texture.magFilter = THREE.NearestFilter;
+                    texture.minFilter = THREE.NearestFilter;
+                    texture.generateMipmaps = false; 
+                    textures[fileName] = texture;
                 }
             }
         
@@ -1020,7 +1026,7 @@ body {
         
             // skybox
             const loadSkyboxTextures = async (zip) => {
-                const textureLoader = new THREE.TextureLoader();
+                const skyTextureLoader = new THREE.TextureLoader();
                 const extensions = ['.jpg', '.png'];
                 const baseFaces = ['px', 'nx', 'py', 'ny', 'pz', 'nz'];
                 const skyboxTextures = [];
@@ -1041,11 +1047,15 @@ body {
                         if (file) {
                             const textureBlob = await file.async("blob");
                             const textureUrl = URL.createObjectURL(textureBlob);
-                            skyboxTextures.push(textureLoader.load(textureUrl));
+                            skyboxTextures.push(skyTextureLoader.load(textureUrl, () => {
+                                URL.revokeObjectURL(textureUrl);
+                            }));
+                        } else {
+                             skyboxTextures.push(null);
                         }
                     }
 
-                    if (skyboxTextures.length === 6) {
+                    if (skyboxTextures.filter(t => t !== null).length === 6) {
                         const skyboxGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
                         const skyboxMaterials = skyboxTextures.map(texture => 
                             new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide })
@@ -1053,10 +1063,10 @@ body {
                         const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterials);
                         scene.add(skybox);
                     } else {
+                        console.warn("Incomplete skybox textures, falling back to default sky.");
                         throw new Error("Incomplete skybox textures");
                     }
                 } catch (error) {
-                    console.error('Error loading skybox:', error);
                     const skyboxGeometry = new THREE.SphereGeometry(500, 32, 32);
                     const skyboxMaterial = new THREE.MeshBasicMaterial({
                         color: 0x87CEEB,
@@ -1077,6 +1087,7 @@ body {
             scene.add(directionalLight);
         
             function animate() {
+                if (!renderer) return;
                 requestAnimationFrame(animate);
                 controls.update();
                 renderer.render(scene, camera);
@@ -1089,13 +1100,37 @@ body {
             const previewWindow = document.getElementById("preview-window");
             previewWindow.style.display = "none";
 
+            if (onWindowResizePreview) {
+                window.removeEventListener('resize', onWindowResizePreview);
+                onWindowResizePreview = null;
+            }
+
             if (scene) {
-                scene.traverse(child => {
-                    if (child.isMesh) {
-                        child.geometry.dispose();
-                        child.material.dispose();
+                scene.traverse(object => {
+                    if (object.isMesh) {
+                        if (object.geometry) {
+                            object.geometry.dispose();
+                        }
+                        if (object.material) {
+                            if (Array.isArray(object.material)) {
+                                object.material.forEach(material => {
+                                    if (material) {
+                                        if (material.map) material.map.dispose();
+                                        material.dispose();
+                                    }
+                                });
+                            } else {
+                                if (object.material.map) object.material.map.dispose();
+                                object.material.dispose();
+                            }
+                        }
                     }
                 });
+
+                while (scene.children.length > 0) {
+                    const child = scene.children[0];
+                    scene.remove(child);
+                }
                 scene = null;
             }
 
@@ -1128,15 +1163,15 @@ body {
         function openReviews(packIdentifier) {
             document.getElementById('reviews-window').style.display = 'block';
             
-            disqus_config = function () {
-                this.page.url = 'https://bloxdforge.com/tpack/' + packIdentifier;
-                this.page.identifier = 'tpack_' + packIdentifier;
+            window.disqus_config = function () {
+                this.page.url = 'https://bloxdforge.com/tpack/' + packIdentifier.replace(/\.zip$/i, "");
+                this.page.identifier = 'tpack_' + packIdentifier.replace(/\.zip$/i, "");
             };
             
             if (typeof DISQUS !== 'undefined') {
                 DISQUS.reset({
                     reload: true,
-                    config: disqus_config
+                    config: window.disqus_config
                 });
             }
         }
