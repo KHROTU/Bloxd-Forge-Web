@@ -89,6 +89,7 @@
             border-radius: 15px;
             backdrop-filter: blur(10px);
             width: 300px;
+            min-height: 220px;
         }
 
         .dev-name {
@@ -100,6 +101,22 @@
         .dev-bio {
             color: rgba(216, 216, 216, 0.9);
             font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .dev-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .dev-links a {
+            color: rgba(216, 216, 216, 0.9);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .dev-links a:hover {
+            color: white;
         }
 
         @media (max-width: 768px) {
@@ -168,16 +185,24 @@
         <p>Meet the team behind BloxdForge</p>
         <div class="dev-profiles">
             <div class="dev-card">
-                <div class="dev-name">Khortu</div>
-                <div class="dev-bio">Did a bit of everything.</div>
+                <div class="dev-name">A_I_X</div>
+                <div class="dev-bio">Founder of BloxdForge</div>
+                <div class="dev-links">
+                    <a href="https://github.com/AIX-32" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    <a href="mailto:work.AIX32@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+                </div>
             </div>
             <div class="dev-card">
-                <div class="dev-name">A_I_X</div>
-                <div class="dev-bio">Founder, made 80% of the web version.</div>
+                <div class="dev-name">KHROTU</div>
+                <div class="dev-bio">Head developer</div>
+                <div class="dev-links">
+                    <a href="https://github.com/KHROTU" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    <a href="mailto:3o65iduqd@mozmail.com"><i class="fa-solid fa-envelope"></i></a>
+                </div>
             </div>
             <div class="dev-card">
                 <div class="dev-name">GEORGECR</div>
-                <div class="dev-bio">Helped with World Forge's UI development and JavaScript</div>
+                <div class="dev-bio">Developer</div>
             </div>
         </div>
     </div>
