@@ -501,8 +501,6 @@
         </div>
     </div>
     <script>
-        const batchSize = 4;
-        let currentBatch = 0;
         let allZipFiles = [];
         let currentZipUrl = null;
 
@@ -520,41 +518,31 @@
                 if (!response.ok) throw new Error("Failed to fetch files");
                 const files = await response.json();
                 allZipFiles = files.filter(file => file.type === "file" && file.name.endsWith(".zip"));
-                loadNextBatch();
+                loadAllZips();
             } catch (error) {
                 console.error("Error fetching files:", error);
                 document.getElementById("loading-spinner").style.display = "none";
             }
         }
-        
-        async function loadNextBatch() {
-            const start = currentBatch * batchSize;
-            const end = start + batchSize;
-            const batch = allZipFiles.slice(start, end);
-        
-            if (batch.length === 0) {
+
+        async function loadAllZips() {
+            if (allZipFiles.length === 0) {
                 document.getElementById("loading-spinner").style.display = "none";
                 return;
             }
-        
-            const zipPromises = batch.map(async file => {
+            let loadedCount = 0;
+            allZipFiles.forEach(async file => {
                 const zipUrl = file.download_url;
                 const zipName = file.name.replace(/\.zip$/i, "");
                 const bannerUrl = await extractBanner(zipUrl);
-                return { zipName, zipUrl, bannerUrl };
+                displayCard(zipName, zipUrl, bannerUrl);
+                loadedCount++;
+                if (loadedCount === allZipFiles.length) {
+                    document.getElementById("loading-spinner").style.display = "none";
+                }
             });
-        
-            const zipData = await Promise.all(zipPromises);
-            zipData.forEach(({ zipName, zipUrl, bannerUrl }) => displayCard(zipName, zipUrl, bannerUrl));
-        
-            currentBatch++;
-            if (currentBatch * batchSize < allZipFiles.length) {
-                setTimeout(loadNextBatch, 500);
-            } else {
-                document.getElementById("loading-spinner").style.display = "none";
-            }
         }
-        
+
         async function extractBanner(zipUrl) {
             try {
                 const response = await fetch(zipUrl, { mode: 'cors' });
@@ -573,7 +561,7 @@
             }
             return "https://dummyimage.com/220x220/ababab/000000&text=No+Banner";
         }
-        
+
         async function extractDescription(zipUrl) {
             try {
                 const response = await fetch(zipUrl, { mode: 'cors' });
@@ -590,28 +578,28 @@
             }
             return "No description available.";
         }
-        
+
         function displayCard(name, url, bannerUrl) {
             const container = document.getElementById("cards-container");
-        
-            const card = document.createElement("div");
+
+            const card = document.createElement("card");
             card.className = "card";
             card.dataset.name = name.toLowerCase();
-        
+
             const img = document.createElement("img");
             img.src = bannerUrl;
             img.alt = `${name} Banner`;
             img.loading = "lazy";
-        
+
             img.addEventListener("click", async () => {
                 const descText = await extractDescription(url);
                 openPopup(bannerUrl, descText, url);
             });
-        
+
             const title = document.createElement("div");
             title.className = "card-title";
             title.innerHTML = `<a href="${url}" target="_blank">${name}</a>`;
-        
+
             card.appendChild(img);
             card.appendChild(title);
             container.appendChild(card);
@@ -1108,29 +1096,19 @@
             if (scene) {
                 scene.traverse(object => {
                     if (object.isMesh) {
-                        if (object.geometry) {
-                            object.geometry.dispose();
-                        }
-                        if (object.material) {
-                            if (Array.isArray(object.material)) {
-                                object.material.forEach(material => {
-                                    if (material) {
-                                        if (material.map) material.map.dispose();
-                                        material.dispose();
-                                    }
-                                });
-                            } else {
-                                if (object.material.map) object.material.map.dispose();
-                                object.material.dispose();
-                            }
+                        object.geometry?.dispose();
+                        if (Array.isArray(object.material)) {
+                            object.material.forEach(mat => {
+                                mat?.map?.dispose();
+                                mat?.dispose();
+                            });
+                        } else {
+                            object.material?.map?.dispose();
+                            object.material?.dispose();
                         }
                     }
                 });
-
-                while (scene.children.length > 0) {
-                    const child = scene.children[0];
-                    scene.remove(child);
-                }
+                scene.clear();
                 scene = null;
             }
 
