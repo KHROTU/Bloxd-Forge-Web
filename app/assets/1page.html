@@ -538,30 +538,6 @@
       box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5);
     }
 
-    #apply-filter-button {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      background-color: #ffa500;
-      color: #1a1a1a;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s ease-in-out;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    #apply-filter-button:hover {
-      background-color: #ff7f00;
-      transform: scale(1.03);
-    }
-
-    #apply-filter-button:active {
-      transform: scale(1);
-      background-color: #e66b00;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    }
-
     .filter-controls {
       margin: 20px 0;
       display: flex;
@@ -582,7 +558,6 @@
 
       #apply-filter {
         width: 100%;
-        background-color: #ffa500;
       }
     }
 
@@ -849,7 +824,6 @@
       border: 2px solid #444;
     }
 
-    .Ai-Iframe , 
     .new-mod-content {
       background-color: #242424;
       color: white;
@@ -862,15 +836,21 @@
       border: 1px solid #444;
     }
 
-    .Ai-Iframe {
-      min-height: 315px;
-      max-height: 661.5px;
-      resize: vertical;
-    }
-
-    #AI-BOT-FRAME{
+    #NewModIcon ,
+    #NewModName{
       width: 100%;
-      height: 100%;
+      height: 40px;
+      color: white;
+      background: #333;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 16px;
+      padding: 5px 20px;
+      outline: none;
+      margin-bottom: 15px;
+      opacity: 1;
+      caret-color: white;
+      border: 2px solid #e67e00;
     }
 
     .new-mod-content h2 {
@@ -924,23 +904,6 @@
       cursor: pointer;
       transition: all 0.3s ease;
       font-size: 14px;
-    }
-
-    #NewModIcon ,
-    #NewModName{
-      width: 100%;
-      height: 40px;
-      color: white;
-      background: #333;
-      text-align: center;
-      border-radius: 10px;
-      font-size: 16px;
-      padding: 5px 20px;
-      outline: none;
-      margin-bottom: 15px;
-      opacity: 1;
-      caret-color: white;
-      border: 2px solid #e67e00;
     }
 
     .new-mod-modal-buttons button:hover {
@@ -1182,8 +1145,8 @@
         <option value="contrast">High Contrast</option>
       </select>
       <br/>
-      <button id="apply-filter">Apply</button>
-      <button id="close-filter-menu">Close</button>
+      <button id="apply-filter" class="UMIBtn" style="margin-right:10px;">Apply</button>
+      <button id="close-filter-menu" class="UMIBtn" style="background-color:#444;">Close</button>
     </div>
   </div>
   <div class="dark-mode-overlay" id="dark-overlay"></div>
@@ -1261,19 +1224,6 @@
         <button onclick="closeCHTMLModal()">Cancel</button>
       </div>
     </div>
-    <div class="Ai-Iframe">
-      <div style="background-color: orange; padding: 20px; text-align: center; width: 100%; height: 90%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-        <h3 style="margin: 0; color: white;">Create a mod with no code!</h3>
-        <button id="show-iframe-button" style="margin-top: 10px; padding: 10px 20px; border: none; border-radius: 5px; background-color: rgb(51, 51, 51); color: orange; cursor: pointer; transition: background-color 0.3s;">
-          Show AI
-        </button>
-      </div>
-      <script>
-        document.getElementById('show-iframe-button').onclick = function() {
-          window.open('/app/assets/src/html_ai.html', '_blank');
-        };
-      </script>
-    </div>
   </div>
   <div class="recording-indicator" id="recordingIndicator"></div>
   <script>
@@ -1329,7 +1279,9 @@
 
     function deleteCoordinate(coord) {
       const coordinates = JSON.parse(localStorage.getItem('coordinates')) || [];
-      const filteredCoordinates = coordinates.filter(c => c !== coord);
+      const filteredCoordinates = coordinates.filter(c =>
+        !(c.x === coord.x && c.y === coord.y && c.z === coord.z && c.name === coord.name)
+      );
       localStorage.setItem('coordinates', JSON.stringify(filteredCoordinates));
     }
 
