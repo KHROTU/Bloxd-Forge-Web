@@ -6,6 +6,7 @@
     <title>BloxdForge - One Stop Solution to Bloxd Gaming</title>
     <meta name="description" content="Bloxd Forge is a Bloxd QOL (Quality-Of-Life) improvement mod that offers texture-packs, a FPS booster, a chat, and a discord for support.">
     <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
+    <link rel="preload" href="https://api.github.com/repos/KHROTU/Bloxd-Forge-Web/contents/app/assets/src/tpacks?ref=main" as="fetch" fetchpriority="high" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="/favicon.ico" type="image/png">
     
@@ -59,9 +60,9 @@
         }
 
         .sidebar a:hover, .sidebar a.selected {
-            background-color: #ff8c00 ;
+            background-color: #ff8c00;
             transform: scale(1.1);
-            box-shadow: 0 0 15px #ff8c00 ;
+            box-shadow: 0 0 15px #ff8c00;
         }
 
         .sidebar a i {
@@ -198,7 +199,7 @@
         }
 
         .download-btn, .fullscreen-btn {
-            background-color: #ff8c00 ;
+            background-color: #ff8c00;
             color: white;
             border: none;
             padding: 10px;
@@ -234,7 +235,7 @@
         }
 
         .folder-menu-btn {
-            background-color: #ff8c00 ;
+            background-color: #ff8c00;
             color: white;
             border: none;
             padding: 10px;
@@ -264,7 +265,7 @@
         }
 
         #upload-folder-btn {
-            background-color: #ff8c00 ;
+            background-color: #ff8c00;
             color: white;
             border: none;
             padding: 10px;
@@ -381,10 +382,6 @@
             <iframe name="start-iframe" src="/app/assets/1page.html"></iframe>
         </div>
 
-        <div class="iframe-container" id="dynamic-iframe-container">
-            <iframe name="iframe" src="https://ThisUsedToExistButILostTheFileSoWhoopsies"></iframe>
-        </div>
-
         <div class="top-right-box">
             <img src="https://i.imgur.com/ph4qDah.png" alt="Bloxd Forge Logo" />
             <button class="fullscreen-btn" onclick="toggleFullScreen()">
@@ -417,52 +414,34 @@
         };
 
         function loadPage(pageName) {
-            const iframe = document.querySelector('iframe[name="iframe"]');
+            const iframe = document.querySelector('iframe[name="start-iframe"]');
             iframe.src = pages[pageName];
         }
 
         function setActiveLink(link, page) {
             const links = document.querySelectorAll('.sidebar-link');
-            const startContainer = document.getElementById('start-iframe-container');
-            const dynamicContainer = document.getElementById('dynamic-iframe-container');
-
             links.forEach(l => l.classList.remove('selected'));
             link.classList.add('selected');
-
-            if (page === 'page1') {
-                startContainer.style.display = 'block';
-                dynamicContainer.style.display = 'none';
-            } else {
-                startContainer.style.display = 'none';
-                dynamicContainer.style.display = 'block';
-                loadPage(page);
-            }
+            loadPage(page);
         }
 
         function toggleFullScreen() {
             const startIframe = document.querySelector('iframe[name="start-iframe"]');
-            const dynamicIframe = document.querySelector('iframe[name="iframe"]');
             const startContainer = document.getElementById('start-iframe-container');
-            const dynamicContainer = document.getElementById('dynamic-iframe-container');
             const sidebar = document.querySelector('.sidebar');
             const cornerBox = document.querySelector('.top-right-box');
             
-            const isStartFullScreen = startContainer.classList.contains('fullscreen');
-            const isDynamicFullScreen = dynamicContainer.classList.contains('fullscreen');
+            const isFullScreen = startContainer.classList.contains('fullscreen');
 
-            if (!isStartFullScreen || !isDynamicFullScreen) {
+            if (!isFullScreen) {
                 startContainer.classList.add('fullscreen');
-                dynamicContainer.classList.add('fullscreen');
                 startIframe.classList.add('fullscreen');
-                dynamicIframe.classList.add('fullscreen');
                 sidebar.classList.add('hidden');
                 cornerBox.classList.add('smaller');
                 document.body.classList.add('locked');
             } else {
                 startContainer.classList.remove('fullscreen');
-                dynamicContainer.classList.remove('fullscreen');
                 startIframe.classList.remove('fullscreen');
-                dynamicIframe.classList.remove('fullscreen');
                 sidebar.classList.remove('hidden');
                 cornerBox.classList.remove('smaller');
                 document.body.classList.remove('locked');
@@ -572,20 +551,20 @@
             const currentTime = new Date().getTime();
 
             if (!lastRefreshDate) {
-            localStorage.setItem('lastRefreshDate', currentTime.toString());
+                localStorage.setItem('lastRefreshDate', currentTime.toString());
             } else if (currentTime - parseInt(lastRefreshDate) > 43200000) {
-            const cloudEnabled = localStorage.getItem('cloudEnabled');
-            const catEnabled = localStorage.getItem('catEnabled');
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            localStorage.clear();
-            sessionStorage.clear();
-            if (cloudEnabled) localStorage.setItem('cloudEnabled', cloudEnabled);
-            if (catEnabled) localStorage.setItem('catEnabled', catEnabled);
-            if (isLoggedIn) localStorage.setItem('isLoggedIn', isLoggedIn);
-            caches.keys().then(names => {
-                for (let name of names) caches.delete(name);
-            });
-            localStorage.setItem('lastRefreshDate', currentTime.toString());
+                const cloudEnabled = localStorage.getItem('cloudEnabled');
+                const catEnabled = localStorage.getItem('catEnabled');
+                const isLoggedIn = localStorage.getItem('isLoggedIn');
+                localStorage.clear();
+                sessionStorage.clear();
+                if (cloudEnabled) localStorage.setItem('cloudEnabled', cloudEnabled);
+                if (catEnabled) localStorage.setItem('catEnabled', catEnabled);
+                if (isLoggedIn) localStorage.setItem('isLoggedIn', isLoggedIn);
+                caches.keys().then(names => {
+                    for (let name of names) caches.delete(name);
+                });
+                localStorage.setItem('lastRefreshDate', currentTime.toString());
             }
         }
 
