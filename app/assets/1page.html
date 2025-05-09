@@ -5,7 +5,6 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>BloxdForge Launcher</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -484,6 +483,7 @@
       border: none;
       border-radius: 12px;
     }
+
     #filter-menu {
       position: fixed;
       top: 50%;
@@ -833,6 +833,7 @@
     .menu-customize-modal-buttons button:last-child:hover {
       background-color: #555;
     }
+
     #new-mod-modal {
       display: none;
       position: fixed;
@@ -848,7 +849,7 @@
       border: 2px solid #444;
     }
 
-     .Ai-Iframe , 
+    .Ai-Iframe , 
     .new-mod-content {
       background-color: #242424;
       color: white;
@@ -860,14 +861,16 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
       border: 1px solid #444;
     }
+
     .Ai-Iframe {
       min-height: 315px;
       max-height: 661.5px;
       resize: vertical;
     }
+
     #AI-BOT-FRAME{
-width: 100%;
-height: 100%;
+      width: 100%;
+      height: 100%;
     }
 
     .new-mod-content h2 {
@@ -882,15 +885,15 @@ height: 100%;
       border: 2px solid #e67e00;
       border-radius: 10px;
       outline: transparent;
-            width: 100%;
-            margin-top: 20px;
-            min-height: 100px;
-            max-height: 450px;
-            resize: vertical;
-            padding: 10px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-        }
+      width: 100%;
+      margin-top: 20px;
+      min-height: 100px;
+      max-height: 450px;
+      resize: vertical;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
 
     .new-mod-item {
       display: flex;
@@ -911,6 +914,7 @@ height: 100%;
       justify-content: space-between;
       margin-top: 10px;
     }
+
     .new-mod-modal-buttons button {
       background-color: #ff8c00;
       color: white;
@@ -939,7 +943,6 @@ height: 100%;
       border: 2px solid #e67e00;
     }
 
-
     .new-mod-modal-buttons button:hover {
       background-color: #e67e00;
       transform: scale(1.05);
@@ -957,7 +960,7 @@ height: 100%;
        margin-top: 20px;
       }
 
-.UMIBtn {
+    .UMIBtn {
       background-color: #ff8c00;
       color: white;
       border: none;
@@ -968,14 +971,14 @@ height: 100%;
       cursor: pointer;
       transition: all 0.3s ease;
       font-size: 14px;
-}
+    }
 
-.UMIBtn:disabled {
+    .UMIBtn:disabled {
             background-color: #391f00;
             cursor: not-allowed;
         }
 
-#UploadHTMLModal{
+    #UploadHTMLModal{
       display: none;
       position: fixed;
       gap: 50px;
@@ -999,14 +1002,15 @@ height: 100%;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
       z-index: 1000;
     }
+
     .context-menu-item {
       padding: 8px 12px;
       cursor: pointer;
     }
+
     .context-menu-item:hover {
       background-color: #555;
     }
-
 
     #record-menu {
       position: fixed;
@@ -1038,7 +1042,7 @@ height: 100%;
       margin-top: 10px;
     }
 
-   .record-bottom-buttons button{
+    .record-bottom-buttons button{
       background-color: #ff8c00;
       color: white;
       border: none;
@@ -1058,7 +1062,6 @@ height: 100%;
       background-color: #444;
     }
 
-
     .recording-indicator {
       position: fixed;
       bottom: 10px;
@@ -1077,15 +1080,14 @@ height: 100%;
       50% { opacity: 0.3; }
     }
 
-::-webkit-scrollbar {
-    display: none !important;
-}
+    ::-webkit-scrollbar {
+      display: none !important;
+    }
 
-body {
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-}
-
+    body {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
   </style>
 </head>
 <body>
@@ -1106,7 +1108,7 @@ body {
       Bloxd.io Staging
     </button>
     <button id="world-forge">
-      <img alt="World Forge Logo"  src="https://i.imgur.com/vxZ5bNn.png" width="200"/>
+      <img alt="World Forge Logo" src="https://i.imgur.com/vxZ5bNn.png" width="200"/>
       World Forge
     </button>
   </div>
@@ -1152,7 +1154,7 @@ body {
       </div>
     </div>
     <div id="menu-bottom">
-            <div class="menu-option" id="menu-customize-toggle">
+      <div class="menu-option" id="menu-customize-toggle">
         <i class="fas fa-cog"></i>
         Customize
       </div>
@@ -1179,7 +1181,7 @@ body {
         <option value="saturate">Saturate</option>
         <option value="contrast">High Contrast</option>
       </select>
-      <br />
+      <br/>
       <button id="apply-filter">Apply</button>
       <button id="close-filter-menu">Close</button>
     </div>
@@ -1189,16 +1191,16 @@ body {
     <h1>Coordinate Saver</h1>
     <div id="coordinate-form">
       <label for="x">X Coordinate:</label>
-      <input id="x" required="" type="number"/>
+      <input id="x" required type="text" inputmode="numeric" pattern="[0-9\-]*" oninput="this.value=this.value.replace(/[^0-9\-]/g,'')"/>
       <br/>
       <label for="y">Y Coordinate:</label>
-      <input id="y" required="" type="number"/>
+      <input id="y" required type="text" inputmode="numeric" pattern="[0-9\-]*" oninput="this.value=this.value.replace(/[^0-9\-]/g,'')"/>
       <br/>
       <label for="z">Z Coordinate:</label>
-      <input id="z" required="" type="number"/>
+      <input id="z" required type="text" inputmode="numeric" pattern="[0-9\-]*" oninput="this.value=this.value.replace(/[^0-9\-]/g,'')"/>
       <br/>
       <label for="name">Name:</label>
-      <input id="name" required="" type="text"/>
+      <input id="name" required type="text"/>
       <br/>
       <button id="save-button">Save Coordinates</button>
     </div>
@@ -1234,9 +1236,7 @@ body {
     <div class="new-mod-content">
       <h2>New Mod</h2>
       <input type="text" id="NewModName" placeholder="Enter Mod Name">
-      
-         <button class="UMIBtn" onclick="UploadHTML()">Upload Custom Html</button>
-
+      <button class="UMIBtn" onclick="UploadHTML()">Upload Custom Html</button>
       <div class="new-mod-modal-buttons">
         <button onclick="CreateNewMod()">Create</button>
         <button onclick="closeNewModModal()">Cancel</button>
@@ -1248,10 +1248,10 @@ body {
     <button class="UMIBtn" id="streamingbt">Start Streaming</button>
     <button class="UMIBtn" id="recordingbt" disabled>Start Recording</button>
     <div class="record-bottom-buttons">
-    <button onclick="closeRecordMenu()">Hide menu</button>
-    <button onclick="closeRecordMenu()">Close</button>
+      <button onclick="closeRecordMenu()">Hide menu</button>
+      <button onclick="closeRecordMenu()">Close</button>
     </div>
-    </div>
+  </div>
   <div id="UploadHTMLModal">
     <div class="new-mod-content">
       <h2>Upload Custom HTML</h2>
@@ -1260,20 +1260,20 @@ body {
         <button onclick="closeCHTMLModal()">OK</button>
         <button onclick="closeCHTMLModal()">Cancel</button>
       </div>
+    </div>
+    <div class="Ai-Iframe">
+      <div style="background-color: orange; padding: 20px; text-align: center; width: 100%; height: 90%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <h3 style="margin: 0; color: white;">Create a mod with no code!</h3>
+        <button id="show-iframe-button" style="margin-top: 10px; padding: 10px 20px; border: none; border-radius: 5px; background-color: rgb(51, 51, 51); color: orange; cursor: pointer; transition: background-color 0.3s;">
+          Show AI
+        </button>
       </div>
-      <div class="Ai-Iframe">
-        <div style="background-color: orange; padding: 20px; text-align: center; width: 100%; height: 90%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-          <h3 style="margin: 0; color: white;">Create a mod with no code!</h3>
-          <button id="show-iframe-button" style="margin-top: 10px; padding: 10px 20px; border: none; border-radius: 5px; background-color: rgb(51, 51, 51); color: orange; cursor: pointer; transition: background-color 0.3s;">
-            Show AI
-          </button>
-        </div>
-        <script>
-          document.getElementById('show-iframe-button').onclick = function() {
-            window.open('/app/assets/src/html_ai.html', '_blank');
-          };
-        </script>
-      </div>
+      <script>
+        document.getElementById('show-iframe-button').onclick = function() {
+          window.open('/app/assets/src/html_ai.html', '_blank');
+        };
+      </script>
+    </div>
   </div>
   <div class="recording-indicator" id="recordingIndicator"></div>
   <script>
@@ -1753,7 +1753,7 @@ body {
     NewModToggle.addEventListener('click', openNenModModal);
 
 
-function UploadHTML() {
+    function UploadHTML() {
       const modal = document.getElementById('UploadHTMLModal');
       modal.style.display = 'flex';
     }
@@ -1764,340 +1764,340 @@ function UploadHTML() {
       modal.style.display = 'none';
     }
 
-window.onload = function() {
-    loadMods();
-};
-
-function CreateNewMod() {
-    const modName = document.getElementById('NewModName').value;
-    const modIcon = document.getElementById('NewModIcon').value;
-    const customHtml = document.getElementById('customHtml').value;
-
-    if (!modName || !modIcon || !customHtml) {
-        alert('Please provide Mod Name, Mod Icon, and Custom HTML!');
-        return;
-    }
-
-    const newMod = {
-        name: modName,
-        icon: modIcon,
-        html: customHtml
+    window.onload = function() {
+      loadMods();
     };
 
-    const mods = JSON.parse(localStorage.getItem('mods')) || [];
+    function CreateNewMod() {
+      const modName = document.getElementById('NewModName').value;
+      const modIcon = document.getElementById('NewModIcon').value;
+      const customHtml = document.getElementById('customHtml').value;
 
-    mods.push(newMod);
+      if (!modName || !modIcon || !customHtml) {
+          alert('Please provide Mod Name, Mod Icon, and Custom HTML!');
+          return;
+      }
 
-    localStorage.setItem('mods', JSON.stringify(mods));
+      const newMod = {
+          name: modName,
+          icon: modIcon,
+          html: customHtml
+      };
 
-    addModToUI(newMod);
+      const mods = JSON.parse(localStorage.getItem('mods')) || [];
 
-    document.getElementById('NewModName').value = '';
-    document.getElementById('NewModIcon').value = '';
-    document.getElementById('customHtml').value = '';
-}
+      mods.push(newMod);
 
-function loadMods() {
-    const mods = JSON.parse(localStorage.getItem('mods')) || [];
+      localStorage.setItem('mods', JSON.stringify(mods));
 
-    mods.forEach(mod => {
-        addModToUI(mod);
-    });
-}
+      addModToUI(newMod);
 
-function addModToUI(mod) {
-    const newModDiv = document.createElement('div');
-    newModDiv.classList.add('menu-option');
-
-    const iconElement = document.createElement('i');
-    iconElement.classList.add('fas', mod.icon);
-
-    const modNameElement = document.createElement('div');
-    modNameElement.textContent = mod.name;
-
-    const descriptionElement = document.createElement('span');
-    descriptionElement.classList.add('description');
-    descriptionElement.textContent = 'Custom Mod';
-
-    newModDiv.appendChild(iconElement);
-    newModDiv.appendChild(modNameElement);
-    newModDiv.appendChild(descriptionElement);
-
-    newModDiv.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        console.log('Right-click detected');
-        const contextMenu = document.createElement('div');
-        contextMenu.className = 'context-menu';
-        contextMenu.style.position = 'absolute';
-        contextMenu.style.top = `${e.clientY}px`;
-        contextMenu.style.left = `${e.clientX}px`;
-        contextMenu.style.zIndex = '10002'; 
-        contextMenu.style.backgroundColor = '#444'; 
-        contextMenu.style.color = '#fff'; 
-        contextMenu.style.borderRadius = '10px'; 
-        contextMenu.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.5)'; 
-        contextMenu.innerHTML = `
-            <div class='context-menu-item' id='remove-mod'>Remove Mod</div>
-        `;
-        document.body.appendChild(contextMenu);
-
-        console.log('Context menu created');
-
-        contextMenu.querySelector('#remove-mod').addEventListener('click', () => {
-            console.log('Remove Mod clicked');
-            const modToRemove = newModDiv;
-            const mods = JSON.parse(localStorage.getItem('mods')) || [];
-            const updatedMods = mods.filter(m => m.name !== mod.name);
-            localStorage.setItem('mods', JSON.stringify(updatedMods));
-            modToRemove.remove();
-            document.body.removeChild(contextMenu);
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!contextMenu.contains(event.target)) {
-                document.body.removeChild(contextMenu);
-            }
-        });
-    });
-
-    newModDiv.addEventListener('click', function() {
-        openModWindow(mod.name, mod.html);
-    });
-
-    document.getElementById('menu-grid').appendChild(newModDiv);
-}
-
-function openModWindow(modName, customHtml) {
-    const modWindow = document.createElement('div');
-    modWindow.className = 'draggable-window';
-    modWindow.style.position = 'fixed';
-    modWindow.style.top = '50px';
-    modWindow.style.left = '50px';
-    modWindow.style.backgroundColor = '#2c2c2c';
-    modWindow.style.color = '#fff';
-    modWindow.style.borderRadius = '10px';
-    modWindow.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.5)';
-    modWindow.style.width = '400px';
-    modWindow.style.height = '500px';
-    modWindow.style.zIndex = '10001';
-
-    modWindow.innerHTML = `
-        <div class="draggable-header" style="background-color: #3c3c3c; padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: move; border-top-left-radius: 10px; border-top-right-radius: 10px; user-select: none; -webkit-user-select: none;">
-            <span style="font-weight: bold;">${modName}</span>
-            <button class="draggable-close" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
-        </div>
-        <iframe class="draggable-iframe" style="width: 100%; height: calc(100% - 50px); border: none; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;" srcdoc="${escapeHtml(customHtml)}"></iframe>
-    `;
-
-    modWindow.querySelector('.draggable-close').addEventListener('click', () => {
-        modWindow.remove();
-    });
-
-    document.body.appendChild(modWindow);
-
-    makeDraggable(modWindow);
-}
-
-function escapeHtml(unsafe) {
-    return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-function makeDraggable(element) {
-    const header = element.querySelector('.draggable-header');
-    let offsetX = 0, offsetY = 0, isDragging = false;
-
-    header.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        offsetX = e.clientX - element.offsetLeft;
-        offsetY = e.clientY - element.offsetTop;
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        element.style.left = `${e.clientX - offsetX}px`;
-        element.style.top = `${e.clientY - offsetY}px`;
-    });
-
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
-}
-// Menu toggle functionality
-const recordmenuToggle = document.getElementById('record-menu-toggle');
-const recordMenu = document.getElementById('record-menu');
-
-if (recordmenuToggle && recordMenu) {
-    recordmenuToggle.addEventListener('click', () => {
-        recordMenu.style.display = recordMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-    function closeRecordMenu() {
-        recordMenu.style.display = 'none';
-    }
-}
-
-let mediaStream = null;
-let mediaRecorder = null;
-let recordedChunks = [];
-
-async function startStream() {
-    try {
-        mediaStream = await navigator.mediaDevices.getDisplayMedia({
-            video: {
-                displaySurface: 'monitor'
-            },
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true,
-                sampleRate: 44100
-            }
-        });
-
-        const recordingBtn = document.getElementById('recordingbt');
-        if (recordingBtn) {
-            recordingBtn.disabled = false;
-        }
-
-        mediaStream.getVideoTracks()[0].onended = () => {
-            stopRecording();
-        };
-
-    } catch (err) {
-        console.error('Error capturing media:', err);
-        alert('Failed to start screen sharing. Please ensure permissions are granted.');
-    }
-}
-
-function startRecording() {
-    if (!mediaStream) {
-        console.error('No media stream available');
-        return;
+      document.getElementById('NewModName').value = '';
+      document.getElementById('NewModIcon').value = '';
+      document.getElementById('customHtml').value = '';
     }
 
-    try {
-        const mimeTypes = [
-            'video/mp4',
-            'video/webm;codecs=H264',
-            'video/webm;codecs=vp9',
-            'video/webm;codecs=vp8',
-            'video/webm'
-        ];
+    function loadMods() {
+      const mods = JSON.parse(localStorage.getItem('mods')) || [];
 
-        let mimeType = '';
-        for (const type of mimeTypes) {
-            if (MediaRecorder.isTypeSupported(type)) {
-                mimeType = type;
-                break;
+      mods.forEach(mod => {
+          addModToUI(mod);
+      });
+    }
+
+    function addModToUI(mod) {
+      const newModDiv = document.createElement('div');
+      newModDiv.classList.add('menu-option');
+
+      const iconElement = document.createElement('i');
+      iconElement.classList.add('fas', mod.icon);
+
+      const modNameElement = document.createElement('div');
+      modNameElement.textContent = mod.name;
+
+      const descriptionElement = document.createElement('span');
+      descriptionElement.classList.add('description');
+      descriptionElement.textContent = 'Custom Mod';
+
+      newModDiv.appendChild(iconElement);
+      newModDiv.appendChild(modNameElement);
+      newModDiv.appendChild(descriptionElement);
+
+      newModDiv.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          console.log('Right-click detected');
+          const contextMenu = document.createElement('div');
+          contextMenu.className = 'context-menu';
+          contextMenu.style.position = 'absolute';
+          contextMenu.style.top = `${e.clientY}px`;
+          contextMenu.style.left = `${e.clientX}px`;
+          contextMenu.style.zIndex = '10002'; 
+          contextMenu.style.backgroundColor = '#444'; 
+          contextMenu.style.color = '#fff'; 
+          contextMenu.style.borderRadius = '10px'; 
+          contextMenu.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.5)'; 
+          contextMenu.innerHTML = `
+              <div class='context-menu-item' id='remove-mod'>Remove Mod</div>
+          `;
+          document.body.appendChild(contextMenu);
+
+          console.log('Context menu created');
+
+          contextMenu.querySelector('#remove-mod').addEventListener('click', () => {
+              console.log('Remove Mod clicked');
+              const modToRemove = newModDiv;
+              const mods = JSON.parse(localStorage.getItem('mods')) || [];
+              const updatedMods = mods.filter(m => m.name !== mod.name);
+              localStorage.setItem('mods', JSON.stringify(updatedMods));
+              modToRemove.remove();
+              document.body.removeChild(contextMenu);
+          });
+
+          document.addEventListener('click', (event) => {
+              if (!contextMenu.contains(event.target)) {
+                  document.body.removeChild(contextMenu);
+              }
+          });
+      });
+
+      newModDiv.addEventListener('click', function() {
+          openModWindow(mod.name, mod.html);
+      });
+
+      document.getElementById('menu-grid').appendChild(newModDiv);
+    }
+
+    function openModWindow(modName, customHtml) {
+      const modWindow = document.createElement('div');
+      modWindow.className = 'draggable-window';
+      modWindow.style.position = 'fixed';
+      modWindow.style.top = '50px';
+      modWindow.style.left = '50px';
+      modWindow.style.backgroundColor = '#2c2c2c';
+      modWindow.style.color = '#fff';
+      modWindow.style.borderRadius = '10px';
+      modWindow.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.5)';
+      modWindow.style.width = '400px';
+      modWindow.style.height = '500px';
+      modWindow.style.zIndex = '10001';
+
+      modWindow.innerHTML = `
+          <div class="draggable-header" style="background-color: #3c3c3c; padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: move; border-top-left-radius: 10px; border-top-right-radius: 10px; user-select: none; -webkit-user-select: none;">
+              <span style="font-weight: bold;">${modName}</span>
+              <button class="draggable-close" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
+          </div>
+          <iframe class="draggable-iframe" style="width: 100%; height: calc(100% - 50px); border: none; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;" srcdoc="${escapeHtml(customHtml)}"></iframe>
+      `;
+
+      modWindow.querySelector('.draggable-close').addEventListener('click', () => {
+          modWindow.remove();
+      });
+
+      document.body.appendChild(modWindow);
+
+      makeDraggable(modWindow);
+    }
+
+    function escapeHtml(unsafe) {
+      return unsafe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+    }
+
+    function makeDraggable(element) {
+      const header = element.querySelector('.draggable-header');
+      let offsetX = 0, offsetY = 0, isDragging = false;
+
+      header.addEventListener('mousedown', (e) => {
+          isDragging = true;
+          offsetX = e.clientX - element.offsetLeft;
+          offsetY = e.clientY - element.offsetTop;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          element.style.left = `${e.clientX - offsetX}px`;
+          element.style.top = `${e.clientY - offsetY}px`;
+      });
+
+      document.addEventListener('mouseup', () => {
+          isDragging = false;
+      });
+    }
+
+    // Menu toggle functionality
+    const recordmenuToggle = document.getElementById('record-menu-toggle');
+    const recordMenu = document.getElementById('record-menu');
+
+    if (recordmenuToggle && recordMenu) {
+        recordmenuToggle.addEventListener('click', () => {
+            recordMenu.style.display = recordMenu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        function closeRecordMenu() {
+            recordMenu.style.display = 'none';
+        }
+    }
+
+    let mediaStream = null;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+
+    async function startStream() {
+        try {
+            mediaStream = await navigator.mediaDevices.getDisplayMedia({
+                video: {
+                    displaySurface: 'monitor'
+                },
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    sampleRate: 44100
+                }
+            });
+
+            const recordingBtn = document.getElementById('recordingbt');
+            if (recordingBtn) {
+                recordingBtn.disabled = false;
             }
+
+            mediaStream.getVideoTracks()[0].onended = () => {
+                stopRecording();
+            };
+
+        } catch (err) {
+            console.error('Error capturing media:', err);
+            alert('Failed to start screen sharing. Please ensure permissions are granted.');
+        }
+    }
+
+    function startRecording() {
+        if (!mediaStream) {
+            console.error('No media stream available');
+            return;
         }
 
-        if (!mimeType) {
-            throw new Error('No supported MIME type found for recording');
+        try {
+            const mimeTypes = [
+                'video/mp4',
+                'video/webm;codecs=H264',
+                'video/webm;codecs=vp9',
+                'video/webm;codecs=vp8',
+                'video/webm'
+            ];
+
+            let mimeType = '';
+            for (const type of mimeTypes) {
+                if (MediaRecorder.isTypeSupported(type)) {
+                    mimeType = type;
+                    break;
+                }
+            }
+
+            if (!mimeType) {
+                throw new Error('No supported MIME type found for recording');
+            }
+
+            const options = { mimeType };
+            mediaRecorder = new MediaRecorder(mediaStream, options);
+
+            recordedChunks = [];
+
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                saveRecording(mimeType);
+                cleanup();
+            };
+
+            mediaRecorder.onerror = (event) => {
+                console.error('Recorder error:', event.error);
+            };
+
+            mediaRecorder.start(1000);
+            updateUI(true);
+
+        } catch (err) {
+            console.error('Error starting recording:', err);
+            alert('Recording failed to start: ' + err.message);
         }
+    }
 
-        const options = { mimeType };
-        mediaRecorder = new MediaRecorder(mediaStream, options);
+    function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+        }
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+        }
+    }
 
+    function saveRecording(mimeType) {
+        if (recordedChunks.length === 0) return;
+
+        try {
+            const fileExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
+            const blob = new Blob(recordedChunks, { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `recorded_video_${Date.now()}.${fileExtension}`;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+        } catch (err) {
+            console.error('Error saving recording:', err);
+            alert('Failed to save recording: ' + err.message);
+        }
+    }
+
+    function cleanup() {
         recordedChunks = [];
-
-        mediaRecorder.ondataavailable = (event) => {
-            if (event.data.size > 0) {
-                recordedChunks.push(event.data);
-            }
-        };
-
-        mediaRecorder.onstop = () => {
-            saveRecording(mimeType);
-            cleanup();
-        };
-
-        mediaRecorder.onerror = (event) => {
-            console.error('Recorder error:', event.error);
-        };
-
-        mediaRecorder.start(1000);
-        updateUI(true);
-
-    } catch (err) {
-        console.error('Error starting recording:', err);
-        alert('Recording failed to start: ' + err.message);
+        mediaStream = null;
+        mediaRecorder = null;
+        updateUI(false);
     }
-}
 
-function stopRecording() {
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-        mediaRecorder.stop();
-    }
-    if (mediaStream) {
-        mediaStream.getTracks().forEach(track => track.stop());
-    }
-}
+    function updateUI(isRecording) {
+      const recordingBtn = document.getElementById('recordingbt');
+      const recordingIndicator = document.getElementById('recordingIndicator');
 
-function saveRecording(mimeType) {
-    if (recordedChunks.length === 0) return;
-
-    try {
-        const fileExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
-        const blob = new Blob(recordedChunks, { type: mimeType });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = `recorded_video_${Date.now()}.${fileExtension}`;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }, 100);
-    } catch (err) {
-        console.error('Error saving recording:', err);
-        alert('Failed to save recording: ' + err.message);
-    }
-}
-
-function cleanup() {
-    recordedChunks = [];
-    mediaStream = null;
-    mediaRecorder = null;
-    updateUI(false);
-}
-
-function updateUI(isRecording) {
-    const recordingBtn = document.getElementById('recordingbt');
-    const recordingIndicator = document.getElementById('recordingIndicator');
-
-    if (recordingBtn && recordingIndicator) {
+      if (recordingBtn && recordingIndicator) {
         recordingBtn.textContent = isRecording ? 'Stop Recording' : 'Start Recording';
         recordingBtn.style.backgroundColor = isRecording ? 'red' : '#ff8c00';
         recordingIndicator.style.display = isRecording ? 'block' : 'none';
+      }
     }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    const streamingBtn = document.getElementById('streamingbt');
-    const recordingBtn = document.getElementById('recordingbt');
+    document.addEventListener('DOMContentLoaded', () => {
+      const streamingBtn = document.getElementById('streamingbt');
+      const recordingBtn = document.getElementById('recordingbt');
 
-    if (streamingBtn) {
+      if (streamingBtn) {
         streamingBtn.addEventListener('click', startStream);
-    }
+      }
 
-    if (recordingBtn) {
+      if (recordingBtn) {
         recordingBtn.addEventListener('click', () => {
-            if (!mediaRecorder || mediaRecorder.state === 'inactive') {
-                startRecording();
-            } else if (mediaRecorder.state === 'recording') {
-                stopRecording();
-            }
+          if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+            startRecording();
+          } else if (mediaRecorder.state === 'recording') {
+            stopRecording();
+          }
         });
-    }
-});
-
+      }
+    });
   </script>
 </body>
 </html>
