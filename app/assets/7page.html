@@ -216,7 +216,10 @@ body {
     </div>
 
     <div class="footer">
-        <p>Copyright &copy; 2024 ProduX, Ltd. All Rights Reserved.</p>
+        <p>Copyright &copy; <span id="year"></span> ProduX, Ltd. All Rights Reserved.</p>
     </div>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

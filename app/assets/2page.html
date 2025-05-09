@@ -515,12 +515,19 @@
 
         async function fetchZipFiles() {
             try {
-                const response = await fetch(
-                    `https://api.github.com/repos/KHROTU/Bloxd-Forge-Web/contents/app/assets/src/tpacks?ref=main`,
-                    { priority: 'high' }
-                );
-                if (!response.ok) throw new Error("Failed to fetch files");
-                const files = await response.json();
+                let files;
+                if (window.parent && window.parent.preloadedTpackFiles) {
+                    files = window.parent.preloadedTpackFiles;
+                } else if (window.preloadedTpackFiles) {
+                    files = window.preloadedTpackFiles;
+                } else {
+                    const response = await fetch(
+                        `https://api.github.com/repos/KHROTU/Bloxd-Forge-Web/contents/app/assets/src/tpacks?ref=main`,
+                        { priority: 'high' }
+                    );
+                    if (!response.ok) throw new Error("Failed to fetch files");
+                    files = await response.json();
+                }
                 allZipFiles = files.filter(
                     file => file.type === "file" && file.name.endsWith(".zip")
                 );

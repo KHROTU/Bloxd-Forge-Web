@@ -484,112 +484,131 @@
       border-radius: 12px;
     }
 
-    #filter-menu {
+    #filter-menu,
+    #record-menu,
+    #resolution-menu {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       background-color: rgba(20, 20, 20, 0.80);
-      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+      padding: 30px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+      display: none;
       z-index: 15;
+      max-width: 500px;
+      width: 100%;
       text-align: center;
-      color: #ffffff;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      color: #ddd;
     }
 
-    #filter-menu h1 {
+    #filter-menu h1,
+    #record-menu h1,
+    #resolution-menu h1 {
       margin-bottom: 20px;
       font-size: 24px;
-      color: #ffa500;
+      color: #ddd;
     }
 
     #filter-menu label,
-    #filter-menu select {
-      margin: 10px 0;
+    #resolution-menu label {
+      display: block;
+      margin: 10px 0 5px;
       font-size: 16px;
-      color: #e6e6e6;
+      color: #ddd;
     }
 
-    #filter-select {
-      width: 200px;
-      padding: 12px;
-      margin-right: 10px;
-      border: 1px solid #444;
-      border-radius: 6px;
-      background-color: #2b2b2b;
-      font-size: 15px;
-      color: #ffa500;
-      transition: all 0.3s ease-in-out;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    #filter-select,
+    #resolution-scale {
+      width: 80%;
+      margin: 10px auto;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 2px solid #444;
+      background-color: #222;
+      color: #ddd;
     }
 
-    #filter-select:hover {
-      background-color: #333;
-      border-color: #ffa500;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-    }
-
-    #filter-select:focus {
+    #filter-select:focus,
+    #resolution-scale:focus {
       outline: none;
-      border-color: #ff7f00;
-      box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5);
+      border-color: #FFA500;
+    }
+
+    #filter-menu button,
+    #record-menu button,
+    #resolution-menu button {
+      background-color: #FFA500;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      margin: 10px 5px;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+
+    #filter-menu button:hover,
+    #record-menu button:hover,
+    #resolution-menu button:hover {
+      background-color: #e85c00;
+    }
+
+    #close-filter-menu,
+    #close-record-menu,
+    #close-resolution-menu {
+      background-color: #333;
+    }
+
+    #close-filter-menu:hover,
+    #close-record-menu:hover,
+    #close-resolution-menu:hover {
+      background-color: #444;
+    }
+
+    .resolution-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     .filter-controls {
-      margin: 20px 0;
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
+      margin: 20px 0;
     }
 
     @media (max-width: 768px) {
-      .filter-controls {
+      .filter-controls,
+      .resolution-buttons {
         flex-direction: column;
         gap: 15px;
       }
 
-      #filter-select {
+      #filter-select,
+      #resolution-scale {
         width: 100%;
       }
 
-      #apply-filter {
+      #filter-menu button,
+      #record-menu button,
+      #resolution-menu button {
         width: 100%;
       }
     }
 
-    :root {
-      --button-bg: #ff9800;
-      --button-hover-bg: #e68a00;
-      --button-text-color: #ffffff;
-      --button-border-radius: 5px;
-      --button-padding: 10px 20px;
-      --button-font-size: 16px;
-      --button-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    button {
-      background-color: var(--button-bg);
-      color: var(--button-text-color);
-      border: none;
-      border-radius: var(--button-border-radius);
-      padding: var(--button-padding);
-      font-size: var(--button-font-size);
-      cursor: pointer;
-      box-shadow: var(--button-shadow);
-      transition: background-color 0.3s, transform 0.2s;
-    }
-
-    button:hover {
-      background-color: var(--button-hover-bg);
-      transform: translateY(-2px);
-    }
-
-    button:active {
-      transform: translateY(0);
+    .record-bottom-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     ::-webkit-scrollbar {
@@ -1135,18 +1154,40 @@
       </div>
     </div>
     <div id="filter-menu" style="display: none;">
-      <h1>Filter menu</h1>
-      <label for="filter-select">Select Filter:</label>
-      <select id="filter-select">
-        <option value="none">None</option>
-        <option value="grayscale">Grayscale</option>
-        <option value="sepia">Sepia</option>
-        <option value="saturate">Saturate</option>
-        <option value="contrast">High Contrast</option>
-      </select>
-      <br/>
-      <button id="apply-filter" class="UMIBtn" style="margin-right:10px;">Apply</button>
-      <button id="close-filter-menu" class="UMIBtn" style="background-color:#444;">Close</button>
+      <h1>Filter Menu</h1>
+      <div id="filter-form">
+        <label for="filter-select">Select Filter:</label>
+        <select id="filter-select">
+          <option value="none">None</option>
+          <option value="grayscale">Grayscale</option>
+          <option value="sepia">Sepia</option>
+          <option value="saturate">Saturate</option>
+          <option value="contrast">High Contrast</option>
+        </select>
+        <div class="filter-controls">
+          <button id="apply-filter">Apply</button>
+          <button id="close-filter-menu">Close</button>
+        </div>
+      </div>
+    </div>
+    <div id="resolution-menu" style="display: none;">
+      <h1>Resolution Settings</h1>
+      <div id="resolution-form">
+        <label for="resolution-scale">Resolution Scale:</label>
+        <input id="resolution-scale" type="text" inputmode="numeric" pattern="[0-9.]*" placeholder="e.g., 1 or 0.75"/>
+        <div class="resolution-buttons">
+          <button id="apply-resolution">Apply</button>
+          <button id="close-resolution-menu">Close</button>
+        </div>
+      </div>
+    </div>
+    <div id="record-menu" style="display: none;">
+      <h1>Record</h1>
+      <button class="UMIBtn" id="streamingbt">Start Streaming</button>
+      <button class="UMIBtn" id="recordingbt" disabled>Start Recording</button>
+      <div class="record-bottom-buttons">
+        <button id="close-record-menu">Close</button>
+      </div>
     </div>
   </div>
   <div class="dark-mode-overlay" id="dark-overlay"></div>
@@ -1211,8 +1252,7 @@
     <button class="UMIBtn" id="streamingbt">Start Streaming</button>
     <button class="UMIBtn" id="recordingbt" disabled>Start Recording</button>
     <div class="record-bottom-buttons">
-      <button onclick="closeRecordMenu()">Hide menu</button>
-      <button onclick="closeRecordMenu()">Close</button>
+      <button id="close-record-menu">Close</button>
     </div>
   </div>
   <div id="UploadHTMLModal">
@@ -1386,9 +1426,16 @@
       iframeContainer.style.height = `${100 / scale}%`;
     }
 
-    function askForResolution() {
-      const resolution = prompt("Enter the resolution scale (e.g., 1 for normal, 0.75 for lower resolution):");
-      const scale = parseFloat(resolution);
+    function openResolutionMenu() {
+      const resolutionMenu = document.getElementById('resolution-menu');
+      const resolutionInput = document.getElementById('resolution-scale');
+      resolutionInput.value = '';
+      resolutionMenu.style.display = 'block';
+    }
+
+    function handleResolutionSubmission() {
+      const resolutionInput = document.getElementById('resolution-scale');
+      const scale = parseFloat(resolutionInput.value);
 
       if (!isNaN(scale) && scale > 0) {
         applyResolutionScale(scale);
@@ -1397,6 +1444,7 @@
         } else {
           enableSmoothScrollingAndAnimations();
         }
+        document.getElementById('resolution-menu').style.display = 'none';
       } else {
         alert("Invalid resolution scale entered. Please enter a positive number.");
       }
@@ -1418,8 +1466,10 @@
       iframeDocument.body.style.scrollBehavior = 'smooth';
     }
 
-    document.getElementById('resolution-toggle').addEventListener('click', () => {
-      askForResolution();
+    document.getElementById('resolution-toggle').addEventListener('click', openResolutionMenu);
+    document.getElementById('apply-resolution').addEventListener('click', handleResolutionSubmission);
+    document.getElementById('close-resolution-menu').addEventListener('click', () => {
+      document.getElementById('resolution-menu').style.display = 'none';
     });
 
     const fpsPingToggle = document.getElementById('fps-ping-toggle');
@@ -1724,26 +1774,19 @@
       const modName = document.getElementById('NewModName').value;
       const modIcon = document.getElementById('NewModIcon').value;
       const customHtml = document.getElementById('customHtml').value;
-
       if (!modName || !modIcon || !customHtml) {
           alert('Please provide Mod Name, Mod Icon, and Custom HTML!');
           return;
       }
-
       const newMod = {
           name: modName,
           icon: modIcon,
           html: customHtml
       };
-
       const mods = JSON.parse(localStorage.getItem('mods')) || [];
-
       mods.push(newMod);
-
       localStorage.setItem('mods', JSON.stringify(mods));
-
       addModToUI(newMod);
-
       document.getElementById('NewModName').value = '';
       document.getElementById('NewModIcon').value = '';
       document.getElementById('customHtml').value = '';
@@ -1751,7 +1794,6 @@
 
     function loadMods() {
       const mods = JSON.parse(localStorage.getItem('mods')) || [];
-
       mods.forEach(mod => {
           addModToUI(mod);
       });
@@ -1760,21 +1802,16 @@
     function addModToUI(mod) {
       const newModDiv = document.createElement('div');
       newModDiv.classList.add('menu-option');
-
       const iconElement = document.createElement('i');
       iconElement.classList.add('fas', mod.icon);
-
       const modNameElement = document.createElement('div');
       modNameElement.textContent = mod.name;
-
       const descriptionElement = document.createElement('span');
       descriptionElement.classList.add('description');
       descriptionElement.textContent = 'Custom Mod';
-
       newModDiv.appendChild(iconElement);
       newModDiv.appendChild(modNameElement);
       newModDiv.appendChild(descriptionElement);
-
       newModDiv.addEventListener('contextmenu', (e) => {
           e.preventDefault();
           console.log('Right-click detected');
@@ -1792,9 +1829,7 @@
               <div class='context-menu-item' id='remove-mod'>Remove Mod</div>
           `;
           document.body.appendChild(contextMenu);
-
           console.log('Context menu created');
-
           contextMenu.querySelector('#remove-mod').addEventListener('click', () => {
               console.log('Remove Mod clicked');
               const modToRemove = newModDiv;
@@ -1804,7 +1839,6 @@
               modToRemove.remove();
               document.body.removeChild(contextMenu);
           });
-
           document.addEventListener('click', (event) => {
               if (!contextMenu.contains(event.target)) {
                   document.body.removeChild(contextMenu);
@@ -1832,7 +1866,6 @@
       modWindow.style.width = '400px';
       modWindow.style.height = '500px';
       modWindow.style.zIndex = '10001';
-
       modWindow.innerHTML = `
           <div class="draggable-header" style="background-color: #3c3c3c; padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: move; border-top-left-radius: 10px; border-top-right-radius: 10px; user-select: none; -webkit-user-select: none;">
               <span style="font-weight: bold;">${modName}</span>
@@ -1840,13 +1873,10 @@
           </div>
           <iframe class="draggable-iframe" style="width: 100%; height: calc(100% - 50px); border: none; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;" srcdoc="${escapeHtml(customHtml)}"></iframe>
       `;
-
       modWindow.querySelector('.draggable-close').addEventListener('click', () => {
           modWindow.remove();
       });
-
       document.body.appendChild(modWindow);
-
       makeDraggable(modWindow);
     }
 
@@ -1862,25 +1892,21 @@
     function makeDraggable(element) {
       const header = element.querySelector('.draggable-header');
       let offsetX = 0, offsetY = 0, isDragging = false;
-
       header.addEventListener('mousedown', (e) => {
           isDragging = true;
           offsetX = e.clientX - element.offsetLeft;
           offsetY = e.clientY - element.offsetTop;
       });
-
       document.addEventListener('mousemove', (e) => {
           if (!isDragging) return;
           element.style.left = `${e.clientX - offsetX}px`;
           element.style.top = `${e.clientY - offsetY}px`;
       });
-
       document.addEventListener('mouseup', () => {
           isDragging = false;
       });
     }
 
-    // Menu toggle functionality
     const recordmenuToggle = document.getElementById('record-menu-toggle');
     const recordMenu = document.getElementById('record-menu');
 
@@ -1888,9 +1914,12 @@
         recordmenuToggle.addEventListener('click', () => {
             recordMenu.style.display = recordMenu.style.display === 'block' ? 'none' : 'block';
         });
-
         function closeRecordMenu() {
             recordMenu.style.display = 'none';
+        }
+        const closeRecordMenuBtn = document.getElementById('close-record-menu');
+        if (closeRecordMenuBtn) {
+            closeRecordMenuBtn.addEventListener('click', closeRecordMenu);
         }
     }
 
@@ -1910,16 +1939,13 @@
                     sampleRate: 44100
                 }
             });
-
             const recordingBtn = document.getElementById('recordingbt');
             if (recordingBtn) {
                 recordingBtn.disabled = false;
             }
-
             mediaStream.getVideoTracks()[0].onended = () => {
                 stopRecording();
             };
-
         } catch (err) {
             console.error('Error capturing media:', err);
             alert('Failed to start screen sharing. Please ensure permissions are granted.');
@@ -1931,7 +1957,11 @@
             console.error('No media stream available');
             return;
         }
-
+        if (typeof mediaStream.active !== "undefined" && !mediaStream.active) {
+            alert('The screen share has ended or is inactive. Please start screen sharing again.');
+            console.error('MediaStream is inactive');
+            return;
+        }
         try {
             const mimeTypes = [
                 'video/mp4',
@@ -1940,7 +1970,6 @@
                 'video/webm;codecs=vp8',
                 'video/webm'
             ];
-
             let mimeType = '';
             for (const type of mimeTypes) {
                 if (MediaRecorder.isTypeSupported(type)) {
@@ -1948,34 +1977,26 @@
                     break;
                 }
             }
-
             if (!mimeType) {
                 throw new Error('No supported MIME type found for recording');
             }
-
             const options = { mimeType };
             mediaRecorder = new MediaRecorder(mediaStream, options);
-
             recordedChunks = [];
-
             mediaRecorder.ondataavailable = (event) => {
                 if (event.data.size > 0) {
                     recordedChunks.push(event.data);
                 }
             };
-
             mediaRecorder.onstop = () => {
                 saveRecording(mimeType);
                 cleanup();
             };
-
             mediaRecorder.onerror = (event) => {
                 console.error('Recorder error:', event.error);
             };
-
             mediaRecorder.start(1000);
             updateUI(true);
-
         } catch (err) {
             console.error('Error starting recording:', err);
             alert('Recording failed to start: ' + err.message);
@@ -1993,7 +2014,6 @@
 
     function saveRecording(mimeType) {
         if (recordedChunks.length === 0) return;
-
         try {
             const fileExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
             const blob = new Blob(recordedChunks, { type: mimeType });
@@ -2035,11 +2055,9 @@
     document.addEventListener('DOMContentLoaded', () => {
       const streamingBtn = document.getElementById('streamingbt');
       const recordingBtn = document.getElementById('recordingbt');
-
       if (streamingBtn) {
         streamingBtn.addEventListener('click', startStream);
       }
-
       if (recordingBtn) {
         recordingBtn.addEventListener('click', () => {
           if (!mediaRecorder || mediaRecorder.state === 'inactive') {
