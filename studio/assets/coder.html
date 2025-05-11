@@ -256,65 +256,99 @@
 
                 let contentHTML = msg.content;
 
-                let segments = [];
-                let regex = /<think>([\s\S]*?)<\/think>/gi;
-                let lastIndex = 0;
-                let match;
-                while ((match = regex.exec(contentHTML)) !== null) {
-                    if (match.index > lastIndex) {
-                        segments.push({ type: 'normal', text: contentHTML.slice(lastIndex, match.index) });
-                    }
-                    segments.push({ type: 'think', text: match[1] });
-                    lastIndex = regex.lastIndex;
-                }
-                if (lastIndex < contentHTML.length) {
-                    segments.push({ type: 'normal', text: contentHTML.slice(lastIndex) });
-                }
-
                 let finalHTML = '';
-                segments.forEach((seg, segIdx) => {
-                    if (seg.type === 'think') {
-                        const thinkId = `think-box-${idx}-${segIdx}`;
+                let thinkBoxOpen = false;
+                let thinkId = 0;
+                let cursor = 0;
+                const openTag = '<think>';
+                const closeTag = '</think>';
+
+                while (cursor < contentHTML.length) {
+                    let openIdx = contentHTML.indexOf(openTag, cursor);
+                    let closeIdx = contentHTML.indexOf(closeTag, cursor);
+
+                    if (!thinkBoxOpen && openIdx !== -1 && (openIdx <= closeIdx || closeIdx === -1)) {
+                        let normalText = contentHTML.slice(cursor, openIdx);
+                        if (normalText) {
+                            let parsed = normalText
+                                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                                .replace(/```(\w*)\n([\s\S]*?)\n```/g, function(_, lang, code) {
+                                    if (lang.toLowerCase() === 'js' || lang.toLowerCase() === 'javascript') {
+                                        code = code
+                                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                            .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                                            .replace(/_(.*?)_/g, '<em>$1</em>');
+                                    }
+                                    return `<pre><code class="${lang}">${code}</code></pre>`;
+                                })
+                                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                                .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
+                                .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
+                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                                .replace(/_(.*?)_/g, '<em>$1</em>');
+                            if (parsed.includes('<li>')) {
+                                parsed = parsed.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+                            }
+                            finalHTML += parsed;
+                        }
+                        thinkId++;
                         finalHTML += `
                         <div class="think-box">
-                            <div class="think-header" onclick="toggleThinkBox('${thinkId}')">
+                            <div class="think-header" onclick="toggleThinkBox('think-box-${idx}-${thinkId}')">
                                 <span class="think-arrow">&#x25BC;</span>
-                                <span class="think-label">Thinking</span>
+                                <span class="think-label" style="font-size:1.15em;">Thinking</span>
                             </div>
-                            <div class="think-content" id="${thinkId}" style="display:none;">
-                                ${seg.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}
-                            </div>
-                        </div>
+                            <div class="think-content" id="think-box-${idx}-${thinkId}" style="display:none;">
                         `;
+                        thinkBoxOpen = true;
+                        cursor = openIdx + openTag.length;
+                    } else if (thinkBoxOpen && closeIdx !== -1) {
+                        let thinkText = contentHTML.slice(cursor, closeIdx);
+                        finalHTML += thinkText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        finalHTML += '</div></div>';
+                        thinkBoxOpen = false;
+                        cursor = closeIdx + closeTag.length;
+                    } else if (thinkBoxOpen) {
+                        let thinkText = contentHTML.slice(cursor);
+                        finalHTML += thinkText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        cursor = contentHTML.length;
                     } else {
-                        let parsed = seg.text
-                            .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-                            .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-                            .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-                            .replace(/```(\w*)\n([\s\S]*?)\n```/g, function(_, lang, code) {
-                                if (lang.toLowerCase() === 'js' || lang.toLowerCase() === 'javascript') {
-                                    code = code
-                                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                                        .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                                        .replace(/_(.*?)_/g, '<em>$1</em>');
-                                }
-                                return `<pre><code class="${lang}">${code}</code></pre>`;
-                            })
-                            .replace(/`([^`]+)`/g, '<code>$1</code>')
-                            .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
-                            .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
-                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                            .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                            .replace(/_(.*?)_/g, '<em>$1</em>');
-
-                        if (parsed.includes('<li>')) {
-                            parsed = parsed.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+                        let normalText = contentHTML.slice(cursor);
+                        if (normalText) {
+                            let parsed = normalText
+                                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                                .replace(/```(\w*)\n([\s\S]*?)\n```/g, function(_, lang, code) {
+                                    if (lang.toLowerCase() === 'js' || lang.toLowerCase() === 'javascript') {
+                                        code = code
+                                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                            .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                                            .replace(/_(.*?)_/g, '<em>$1</em>');
+                                    }
+                                    return `<pre><code class="${lang}">${code}</code></pre>`;
+                                })
+                                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                                .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
+                                .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
+                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                                .replace(/_(.*?)_/g, '<em>$1</em>');
+                            if (parsed.includes('<li>')) {
+                                parsed = parsed.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+                            }
+                            finalHTML += parsed;
                         }
-                        finalHTML += parsed;
+                        cursor = contentHTML.length;
                     }
-                });
+                }
 
                 if (msg.role === 'assistant' && msg.error) {
                     messageDiv.classList.add('error-message');
