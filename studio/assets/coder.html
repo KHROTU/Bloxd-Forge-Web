@@ -297,76 +297,77 @@
                             finalHTML += parsed;
                         }
                         thinkId++;
-                        finalHTML += `
-                            <div class="think-box">
-                                <div class="think-header" onclick="toggleThinkBox('think-box-${idx}-${thinkId}')">
-                                    <span class="think-arrow">&#x25BC;</span>
-                                    <span class="think-label" style="font-size:1.15em;">Thinking</span>
-                                    ${msg.isLoading ? '<span class="spinner"></span>' : ''}
-                                </div>
-                                <div class="think-content" id="think-box-${idx}-${thinkId}" style="display:none;">
+                        if (closeIdx !== -1 && closeIdx > openIdx) {
+                            finalHTML += `
+                        <div class="think-box">
+                            <div class="think-header" onclick="toggleThinkBox('think-box-${idx}-${thinkId}')">
+                                <span class="think-arrow">&#x25BC;</span>
+                                <span class="think-label" style="font-size:1.15em;">Thinking</span>
+                            </div>
+                            <div class="think-content" id="think-box-${idx}-${thinkId}" style="display:none;">
                         `;
                         thinkBoxOpen = true;
-                        cursor = openIdx + openTag.length;
-                    } else if (thinkBoxOpen && closeIdx !== -1) {
-                        let thinkText = contentHTML.slice(cursor, closeIdx);
-                        finalHTML += thinkText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        finalHTML += '</div></div>';
-                        thinkBoxOpen = false;
-                        cursor = closeIdx + closeTag.length;
-                    } else if (thinkBoxOpen) {
-                        let thinkText = contentHTML.slice(cursor);
-                        finalHTML += thinkText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        cursor = contentHTML.length;
-                    } else {
-                        let normalText = contentHTML.slice(cursor);
-                        if (normalText) {
-                            let parsed = normalText
-                                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-                                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-                                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-                                .replace(/```(\w*)\n([\s\S]*?)\n```/g, function(_, lang, code) {
-                                    if (lang.toLowerCase() === 'js' || lang.toLowerCase() === 'javascript') {
-                                        code = code
-                                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                                            .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                                            .replace(/_(.*?)_/g, '<em>$1</em>');
-                                    }
-                                    return `<pre><code class="${lang}">${code}</code></pre>`;
-                                })
-                                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                                .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
-                                .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
-                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                                .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                                .replace(/_(.*?)_/g, '<em>$1</em>');
-                            if (parsed.includes('<li>')) {
-                                parsed = parsed.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
-                            }
-                            finalHTML += parsed;
-                        }
-                        cursor = contentHTML.length;
                     }
+                    cursor = openIdx + openTag.length;
+                } else if (thinkBoxOpen && closeIdx !== -1) {
+                    let thinkText = contentHTML.slice(cursor, closeIdx);
+                    finalHTML += thinkText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    finalHTML += '</div></div>';
+                    thinkBoxOpen = false;
+                    cursor = closeIdx + closeTag.length;
+                } else if (thinkBoxOpen) {
+                    let thinkText = contentHTML.slice(cursor);
+                    finalHTML += thinkText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    cursor = contentHTML.length;
+                } else {
+                    let normalText = contentHTML.slice(cursor);
+                    if (normalText) {
+                        let parsed = normalText
+                            .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                            .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                            .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                            .replace(/```(\w*)\n([\s\S]*?)\n```/g, function(_, lang, code) {
+                                if (lang.toLowerCase() === 'js' || lang.toLowerCase() === 'javascript') {
+                                    code = code
+                                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                        .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                                        .replace(/_(.*?)_/g, '<em>$1</em>');
+                                }
+                                return `<pre><code class="${lang}">${code}</code></pre>`;
+                            })
+                            .replace(/`([^`]+)`/g, '<code>$1</code>')
+                            .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
+                            .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
+                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                            .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                            .replace(/_(.*?)_/g, '<em>$1</em>');
+                        if (parsed.includes('<li>')) {
+                            parsed = parsed.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+                        }
+                        finalHTML += parsed;
+                    }
+                    cursor = contentHTML.length;
                 }
+            }
 
-        if (msg.role === 'assistant' && msg.error) {
-            messageDiv.classList.add('error-message');
-            finalHTML = `Error: ${msg.content}`;
-        } else if (msg.role === 'assistant' && msg.isLoading) {
-            finalHTML += ' <div class="spinner"></div>';
-        }
+            if (msg.role === 'assistant' && msg.error) {
+                messageDiv.classList.add('error-message');
+                finalHTML = `Error: ${msg.content}`;
+            } else if (msg.role === 'assistant' && msg.isLoading) {
+                finalHTML += ' <div class="spinner"></div>';
+            }
 
-        messageDiv.innerHTML = finalHTML;
-        chatContainer.appendChild(messageDiv);
-    });
+            messageDiv.innerHTML = finalHTML;
+            chatContainer.appendChild(messageDiv);
+        });
 
-    chatContainer.scrollTo({
-        top: chatContainer.scrollHeight,
-        behavior: 'smooth'
-    });
-}
+        chatContainer.scrollTo({
+            top: chatContainer.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
 
 
         async function fetchCsrfToken() {
