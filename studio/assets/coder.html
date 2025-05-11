@@ -168,6 +168,44 @@
         #chatContainer::-webkit-scrollbar-thumb:hover {
             background-color: #ff8c42;
         }
+        .think-box {
+            background: #232323;
+            border: 1px dashed #ff8c42;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 0.95em;
+            box-shadow: 0 2px 8px #0002;
+        }
+        .think-header {
+            cursor: pointer;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            background: #232323;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            color: #ff8c42;
+        }
+        .think-arrow {
+            margin-right: 8px;
+            font-size: 1.1em;
+            transition: transform 0.2s;
+        }
+        .think-label {
+            font-size: 0.98em;
+            letter-spacing: 0.04em;
+        }
+        .think-content {
+            padding: 10px 14px;
+            background: #181818;
+            border-radius: 0 0 6px 6px;
+            color: #e0e0e0;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 0.97em;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
     </style>
 </head>
 <body>
@@ -211,36 +249,81 @@
             const chatContainer = document.getElementById('chatContainer');
             chatContainer.innerHTML = '';
 
-            chatHistory.forEach(msg => {
+            chatHistory.forEach((msg, idx) => {
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('message');
                 messageDiv.classList.add(msg.role === 'user' ? 'user-message' : 'assistant-message');
 
-                let contentHTML = msg.content
-                    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-                    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-                    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-                    .replace(/```(\w*)\n([\s\S]*?)\n```/g, '<pre><code class="$1">$2</code></pre>')
-                    .replace(/`([^`]+)`/g, '<code>$1</code>')
-                    .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
-                    .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                    .replace(/_(.*?)_/g, '<em>$1</em>');
+                let contentHTML = msg.content;
 
-                if (contentHTML.includes('<li>')) {
-                    contentHTML = contentHTML.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+                let segments = [];
+                let regex = /<think>([\s\S]*?)<\/think>/gi;
+                let lastIndex = 0;
+                let match;
+                while ((match = regex.exec(contentHTML)) !== null) {
+                    if (match.index > lastIndex) {
+                        segments.push({ type: 'normal', text: contentHTML.slice(lastIndex, match.index) });
+                    }
+                    segments.push({ type: 'think', text: match[1] });
+                    lastIndex = regex.lastIndex;
                 }
+                if (lastIndex < contentHTML.length) {
+                    segments.push({ type: 'normal', text: contentHTML.slice(lastIndex) });
+                }
+
+                let finalHTML = '';
+                segments.forEach((seg, segIdx) => {
+                    if (seg.type === 'think') {
+                        const thinkId = `think-box-${idx}-${segIdx}`;
+                        finalHTML += `
+                        <div class="think-box">
+                            <div class="think-header" onclick="toggleThinkBox('${thinkId}')">
+                                <span class="think-arrow">&#x25BC;</span>
+                                <span class="think-label">Thinking</span>
+                            </div>
+                            <div class="think-content" id="${thinkId}" style="display:none;">
+                                ${seg.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}
+                            </div>
+                        </div>
+                        `;
+                    } else {
+                        let parsed = seg.text
+                            .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                            .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                            .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                            .replace(/```(\w*)\n([\s\S]*?)\n```/g, function(_, lang, code) {
+                                if (lang.toLowerCase() === 'js' || lang.toLowerCase() === 'javascript') {
+                                    code = code
+                                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                        .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                                        .replace(/_(.*?)_/g, '<em>$1</em>');
+                                }
+                                return `<pre><code class="${lang}">${code}</code></pre>`;
+                            })
+                            .replace(/`([^`]+)`/g, '<code>$1</code>')
+                            .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
+                            .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
+                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                            .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                            .replace(/_(.*?)_/g, '<em>$1</em>');
+
+                        if (parsed.includes('<li>')) {
+                            parsed = parsed.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+                        }
+                        finalHTML += parsed;
+                    }
+                });
 
                 if (msg.role === 'assistant' && msg.error) {
                     messageDiv.classList.add('error-message');
-                    contentHTML = `Error: ${msg.content}`;
+                    finalHTML = `Error: ${msg.content}`;
                 } else if (msg.role === 'assistant' && msg.isLoading) {
-                    contentHTML += ' <div class="spinner"></div>';
+                    finalHTML += ' <div class="spinner"></div>';
                 }
 
-                messageDiv.innerHTML = contentHTML;
+                messageDiv.innerHTML = finalHTML;
                 chatContainer.appendChild(messageDiv);
             });
 
@@ -504,6 +587,19 @@
             }
         });
 
+        window.toggleThinkBox = function(id) {
+            const content = document.getElementById(id);
+            if (!content) return;
+            const header = content.previousElementSibling;
+            const arrow = header.querySelector('.think-arrow');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.innerHTML = '&#x25B2;';
+            } else {
+                content.style.display = 'none';
+                arrow.innerHTML = '&#x25BC;';
+            }
+        }
     </script>
 </body>
 </html>

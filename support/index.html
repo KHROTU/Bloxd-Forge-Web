@@ -192,6 +192,10 @@
                     <div class="question">Q: What may be causing the crashes I am experiencing?</div>
                     <div class="answer">A: Crashes may result from insufficient system resources, software conflicts, or application bugs. We recommend updating to the latest version and ensuring your system meets the necessary requirements.</div>
                 </div>
+                <div class="faq-item">
+                    <div class="question">Q: I cannot send messages to BloxdForge Agent / BloxdForge Coder.</div>
+                    <div class="answer">A: Please join the <a href="https://discord.gg/bwGRAC4WgE">Discord server</a>, and create a ticket in the help channel.</div>
+                </div>
             </section>
 
             <section id="launcher">
@@ -215,6 +219,14 @@
                 <div class="faq-item">
                     <div class="question">Q: I am unable to download the texture packs, or the downloaded file appears to be corrupted.</div>
                     <div class="answer">A: Downloading files is managed through the GitHub API, which can sometimes be slow. We thank you for your understanding. If the problem continues, please refer to the <a href="#technical">Technical Issues</a> section to report the issue.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: Why is the preview not loading?</div>
+                    <div class="answer">A: The preview utilizes Three.js to render textures from a downloaded texture file. File downloads are managed via the GitHub API, which may occasionally experience delays. We appreciate your patience. If the issue persists, please consult the <a href="#technical">Technical Issues</a> section to report the problem.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">Q: What data is collected when I comment on a texture pack?</div>
+                    <div class="answer">A: Our commenting system is powered by <a href="https://disqus.com/" target="_blank">Disqus</a>. For more details on data collection, please refer to our <a href="https://bloxdforge.com/privacy/index.html#data-collection" target="_blank">Privacy Policy</a>.</div>
                 </div>
             </section>
 
@@ -257,8 +269,10 @@
     </div>
 
     <div class="footer">
-        <div>Copyright © 2024 ProduX, Ltd. All Rights Reserved.</div>
-        <div>Made with ❤️ from Iran, Singapore, and Australia.</div>
+        <p>Copyright &copy; <span id="year"></span> ProduX, Ltd. All Rights Reserved.</p>
     </div>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
