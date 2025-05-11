@@ -596,34 +596,96 @@
         function setCookieConsent(consent) {
             localStorage.setItem('cookieConsent', consent ? 'true' : 'false');
             window.__cookieConsent = consent;
+            if (!consent) {
+                enforceNoConsentMode();
+            } else {
+                restoreStorageAPIs();
+            }
         }
+
         function getCookieConsent() {
             return localStorage.getItem('cookieConsent');
         }
-        function disableCookies() {
-            const origLocalSet = localStorage.setItem;
-            localStorage.setItem = function(key, value) {
-                if (key === 'cookieConsent') return origLocalSet.apply(this, arguments);
-            };
-            const origSessionSet = sessionStorage.setItem;
-            sessionStorage.setItem = function(key, value) {};
+
+        function enforceNoConsentMode() {
             Object.keys(localStorage).forEach(k => {
                 if (k !== 'cookieConsent') localStorage.removeItem(k);
             });
             sessionStorage.clear();
+
+            if (!window.__noConsentStorageBlocked) {
+                window.__origLocalStorage = window.localStorage;
+                window.localStorage = new Proxy(window.localStorage, {
+                    set(target, prop, value) {
+                        if (prop === 'cookieConsent') {
+                            target.setItem(prop, value);
+                            return true;
+                        }
+                        return true;
+                    },
+                    get(target, prop) {
+                        if (['setItem', 'removeItem', 'clear'].includes(prop)) {
+                            return function(key, value) {
+                                if (prop === 'setItem' && key === 'cookieConsent') {
+                                    return target.setItem(key, value);
+                                }
+                                if (prop === 'removeItem' && key === 'cookieConsent') {
+                                    return target.removeItem(key);
+                                }
+                                if (prop === 'clear') {
+                                    Object.keys(target).forEach(k => {
+                                        if (k !== 'cookieConsent') target.removeItem(k);
+                                    });
+                                    return;
+                                }
+                                return;
+                            };
+                        }
+                        return target[prop];
+                    }
+                });
+                window.__origSessionStorage = window.sessionStorage;
+                window.sessionStorage = new Proxy(window.sessionStorage, {
+                    set(target, prop, value) { return true; },
+                    get(target, prop) {
+                        if (['setItem', 'removeItem', 'clear'].includes(prop)) {
+                            return function() { return; };
+                        }
+                        return target[prop];
+                    }
+                });
+                window.__noConsentStorageBlocked = true;
+            }
         }
+
+        function restoreStorageAPIs() {
+            if (window.__origLocalStorage) window.localStorage = window.__origLocalStorage;
+            if (window.__origSessionStorage) window.sessionStorage = window.__origSessionStorage;
+            window.__noConsentStorageBlocked = false;
+        }
+
+        function disableCookies() {
+            enforceNoConsentMode();
+        }
+
         function showCookieBannerIfNeeded() {
             if (!getCookieConsent()) {
                 document.getElementById('cookie-banner').style.display = 'block';
             }
         }
+
+        if (getCookieConsent() === 'false') {
+            enforceNoConsentMode();
+        } else {
+            restoreStorageAPIs();
+        }
+
         document.getElementById('cookie-accept').onclick = function() {
             setCookieConsent(true);
             document.getElementById('cookie-banner').style.display = 'none';
         };
         document.getElementById('cookie-decline').onclick = function() {
             setCookieConsent(false);
-            disableCookies();
             document.getElementById('cookie-banner').style.display = 'none';
         };
         window.addEventListener('load', () => {
