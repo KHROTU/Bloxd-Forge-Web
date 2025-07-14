@@ -65,19 +65,13 @@
         };
 
         const state = {
-            csrfToken: null,
-            userId: null,
-            chatHistory: [],
-            isWaiting: false,
-            messageIdCounter: 0,
-            apiBaseUrl: 'https://khrotu.pythonanywhere.com',
-            rateLimitSeconds: 3,
+            csrfToken: null, userId: null, chatHistory: [], isWaiting: false,
+            messageIdCounter: 0, apiBaseUrl: 'https://khrotu.pythonanywhere.com', rateLimitSeconds: 3,
         };
 
         marked.setOptions({
             highlight: (code, lang) => hljs.highlight(code, { language: hljs.getLanguage(lang) ? lang : 'plaintext', ignoreIllegals: true }).value,
-            gfm: true,
-            breaks: true,
+            gfm: true, breaks: true,
         });
 
         const getUserId = () => {
@@ -88,6 +82,7 @@
             }
             return id;
         };
+
         const scrollToBottom = () => ui.chatContainer.scrollTo({ top: ui.chatContainer.scrollHeight, behavior: 'smooth' });
 
         const appendMessage = (role, content, extraClass = '') => {
@@ -101,23 +96,20 @@
             return messageId;
         };
 
-        const updateMessage = (messageId, rawMarkdown) => {
+        const updateMessage = (messageId, reasoningText, contentMarkdown) => {
             const messageDiv = document.getElementById(messageId);
             if (!messageDiv) return;
 
-            const thinkMatch = rawMarkdown.match(/<think>([\s\S]*?)<\/think>/);
-            const contentMarkdown = rawMarkdown.replace(/<think>[\s\S]*?<\/think>/, '').trim();
             const contentHTML = marked.parse(contentMarkdown);
-
             let finalHTML = '';
-            if (thinkMatch && thinkMatch[1]) {
+            if (reasoningText) {
                 finalHTML = `
                     <div class="think-box">
                         <div class="think-header">
                             <span class="think-arrow">▶</span>
                             <span class="think-label">Thinking Process</span>
                         </div>
-                        <div class="think-content">${thinkMatch[1].trim().replace(/</g, '<').replace(/>/g, '>')}</div>
+                        <div class="think-content">${reasoningText.replace(/</g, '<').replace(/>/g, '>')}</div>
                     </div>`;
             }
 
@@ -152,15 +144,12 @@
             try {
                 state.userId = getUserId();
                 const response = await fetch(`${state.apiBaseUrl}/get-csrf-token`, { headers: { 'X-User-ID': state.userId } });
-
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({error: `Server responded with status ${response.status}`}));
                     throw new Error(errorData.error);
                 }
-
                 const data = await response.json();
-                if (!data.csrf_token) throw new Error("No CSRF token received from server.");
-
+                if (!data.csrf_token) throw new Error("No CSRF token received.");
                 state.csrfToken = data.csrf_token;
 
                 document.getElementById(statusId)?.remove();
@@ -168,26 +157,18 @@
                 ui.sendBtn.disabled = false;
                 ui.input.placeholder = "Describe the code you need...";
                 ui.input.focus();
-
             } catch (error) {
-                console.error("Initialization failed:", error);
                 const statusDiv = document.getElementById(statusId);
                 if (statusDiv) {
                     statusDiv.classList.add('error');
-                    statusDiv.innerHTML = `<strong>Security Error:</strong> Could not initialize. Please refresh the page. (${error.message})`;
+                    statusDiv.innerHTML = `<strong>Security Error:</strong> Could not initialize. (${error.message})`;
                 }
             }
         };
 
         const askCodeAgent = async () => {
             const userInput = ui.input.value.trim();
-            if (!userInput || state.isWaiting || !state.csrfToken) {
-                if (!state.csrfToken) {
-                    console.error("Attempted to send message without a CSRF token.");
-                    appendMessage('assistant', '<strong>Error:</strong> Not authenticated. Please refresh the page.', 'error');
-                }
-                return;
-            }
+            if (!userInput || state.isWaiting || !state.csrfToken) return;
 
             state.isWaiting = true;
             ui.sendBtn.disabled = true;
@@ -196,6 +177,8 @@
             state.chatHistory.push({ role: 'user', content: userInput });
             appendMessage('user', userInput);
             const assistantMsgId = appendMessage('assistant', '<div class="spinner"></div>');
+
+            let accumulatedReasoning = "";
             let accumulatedContent = "";
 
             try {
@@ -205,49 +188,52 @@
                     body: JSON.stringify({ messages: state.chatHistory }),
                 });
 
-                if (!response.ok || !response.body) {
-                    const errorText = await response.text();
-                    try {
-                        const match = errorText.match(/data:\s*(\{.*\})\s*/);
-                        const errorJson = JSON.parse(match[1]);
-                        throw new Error(errorJson.error);
-                    } catch {
-                         throw new Error(`Network response error: ${response.status} ${response.statusText}`);
-                    }
-                }
+                if (!response.ok || !response.body) throw new Error(`Network response error: ${response.status}`);
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
+                let buffer = "";
 
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
 
-                    const chunk = decoder.decode(value, { stream: true });
-                    const lines = chunk.split('\n\n').filter(line => line.startsWith('data:'));
+                    buffer += decoder.decode(value, { stream: true });
+                    let boundary;
+                    while ((boundary = buffer.indexOf('\n\n')) >= 0) {
+                        const message = buffer.substring(0, boundary);
+                        buffer = buffer.substring(boundary + 2);
 
-                    for (const line of lines) {
-                        const data = line.substring(5).trim();
-                        if (data === '[DONE]') continue;
-                        try {
-                            const jsonData = JSON.parse(data);
-                            if (jsonData.choices?.[0]?.delta?.content) {
-                                accumulatedContent += jsonData.choices[0].delta.content;
-                                updateMessage(assistantMsgId, accumulatedContent);
+                        if (message.startsWith('data: ')) {
+                            const data = message.substring(6).trim();
+                            if (data === '[DONE]') continue;
+                            try {
+                                const jsonData = JSON.parse(data);
+                                const delta = jsonData.choices?.[0]?.delta;
+                                if (delta) {
+                                    if (delta.reasoning) {
+                                        accumulatedReasoning += delta.reasoning;
+                                    }
+                                    if (delta.content) {
+                                        accumulatedContent += delta.content;
+                                    }
+                                    updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent);
+                                }
+                            } catch (e) {
+                                console.debug('Could not parse partial SSE chunk, will retry with more data.');
                             }
-                        } catch (e) { console.warn('Could not parse SSE chunk:', data); }
+                        }
                     }
                 }
-                updateMessage(assistantMsgId, accumulatedContent);
-                if (accumulatedContent) {
+                updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent);
+                if (accumulatedContent || accumulatedReasoning) {
                      state.chatHistory.push({ role: 'assistant', content: accumulatedContent });
                 } else {
-                     updateMessage(assistantMsgId, "The AI returned an empty response.");
+                     updateMessage(assistantMsgId, "", "The AI returned an empty response.");
                 }
-
             } catch (error) {
                 console.error('Code Agent Error:', error);
-                updateMessage(assistantMsgId, `**Error:** ${error.message}`);
+                updateMessage(assistantMsgId, "", `**Error:** ${error.message}`);
             } finally {
                 state.isWaiting = false;
                 ui.input.disabled = false;
