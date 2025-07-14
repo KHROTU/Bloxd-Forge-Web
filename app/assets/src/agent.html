@@ -5,167 +5,175 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BloxdForge Agent</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #181818; color: #ffffff; }
-        #output { width: 300px; height: 150px; padding: 10px; border: 1px solid #ff8c42; border-radius: 5px; background-color: #282828; overflow-y: auto; margin-bottom: 20px; white-space: pre-wrap; text-align: left; }
-        #userInput { width: 300px; padding: 10px; border: 1px solid #ff8c42; border-radius: 5px; margin-bottom: 10px; background-color: #282828; color: #ffffff; }
-        button { padding: 10px 20px; border: none; border-radius: 5px; background-color: #ff8c42; color: #181818; cursor: pointer; }
-        button:disabled { background-color: #666; cursor: not-allowed; }
+        :root { --bkg-color: #181818; --surface-color: #282828; --primary-color: #ff8c42; --text-color: #e0e0e0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: var(--bkg-color); color: var(--text-color); }
+        #container { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        #logo { width: 100px; margin-bottom: 20px; transition: transform 0.5s ease-in-out; }
+        #logo.spinning { animation: spin 2s linear infinite; }
+        #output { width: 90%; max-width: 400px; min-height: 150px; padding: 15px; border: 1px solid var(--primary-color); border-radius: 8px; background-color: var(--surface-color); overflow-y: auto; margin-bottom: 20px; white-space: pre-wrap; line-height: 1.6; text-align: left; display: flex; align-items: center; justify-content: center; }
+        #userInput { width: 90%; max-width: 400px; padding: 12px; border: 1px solid var(--primary-color); border-radius: 8px; margin-bottom: 10px; background-color: var(--surface-color); color: var(--text-color); font-size: 1em; box-sizing: border-box; }
+        button { padding: 12px 25px; border: none; border-radius: 8px; background-color: var(--primary-color); color: var(--bkg-color); cursor: pointer; font-weight: bold; font-size: 1em; }
+        button:disabled { background-color: #555; color: #888; cursor: not-allowed; }
         button:hover:not(:disabled) { background-color: #e67e3f; }
-        .spinner { border: 4px solid #282828; border-top: 4px solid #ff8c42; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: auto; }
+        .status-text { color: #aaa; font-style: italic; }
+        .spinner { border: 4px solid #444; border-top: 4px solid var(--primary-color); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        img[alt="Logo"].spinning { animation: spin 3s ease-in-out infinite; }
     </style>
 </head>
 <body>
-    <img id="logo" src="https://imghost.net/ib/Q4w3Wnj3Ctz2MBV_1740586783.png" alt="Logo" style="width: 100px; margin-bottom: 20px;">
-    <div id="output">Ask the BloxdForge Agent a question about Bloxd.io!</div>
-    <input id="userInput" type="text" placeholder="Ask something..." />
-    <button id="sendBtn">Send</button>
+    <div id="container">
+        <img id="logo" src="https://imghost.net/ib/Q4w3Wnj3Ctz2MBV_1740586783.png" alt="Logo">
+        <div id="output">
+            <span class="status-text">Ask the BloxdForge Agent a question about Bloxd.io!</span>
+        </div>
+        <input id="userInput" type="text" placeholder="e.g., How do I get diamonds?" autocomplete="off" disabled/>
+        <button id="sendBtn" disabled>Send</button>
+    </div>
 
     <script>
-        let csrfToken = null;
-        let userId = null;
-        const API_BASE_URL = 'https://khrotu.pythonanywhere.com';
-        const RATE_LIMIT_SECONDS = 3;
+        const ui = {
+            logo: document.getElementById('logo'),
+            output: document.getElementById('output'),
+            input: document.getElementById('userInput'),
+            sendBtn: document.getElementById('sendBtn'),
+        };
 
-        function getUserId() {
-            let storedId = localStorage.getItem('userId');
-            if (!storedId) {
-                storedId = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
-                localStorage.setItem('userId', storedId);
+        const state = {
+            csrfToken: null,
+            userId: null,
+            isWaiting: false,
+            apiBaseUrl: 'https://khrotu.pythonanywhere.com',
+            rateLimitSeconds: 3,
+        };
+
+        const setStatus = (html, isLoading = false) => {
+            ui.output.innerHTML = '';
+            if (isLoading) {
+                const spinner = document.createElement('div');
+                spinner.className = 'spinner';
+                ui.output.appendChild(spinner);
             }
-            return storedId;
-        }
+            const textElement = document.createElement('span');
+            textElement.className = 'status-text';
+            textElement.innerHTML = html;
+            ui.output.appendChild(textElement);
+        };
 
-        async function fetchCsrfToken() {
-            const output = document.getElementById('output');
+        const setResponseText = (text) => {
+            ui.output.innerHTML = '';
+            const textElement = document.createElement('span');
+            textElement.textContent = text;
+            ui.output.appendChild(textElement);
+        };
+        
+        const getUserId = () => {
+            let id = localStorage.getItem('userId');
+            if (!id) {
+                id = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+                localStorage.setItem('userId', id);
+            }
+            return id;
+        };
+
+        const fetchCsrfToken = async () => {
+            setStatus('Authenticating...', true);
             try {
-                userId = getUserId();
-                const response = await fetch(`${API_BASE_URL}/get-csrf-token`, {
-                    method: 'GET',
-                    headers: { 'X-User-ID': userId }
-                });
-
+                state.userId = getUserId();
+                const response = await fetch(`${state.apiBaseUrl}/get-csrf-token`, { headers: { 'X-User-ID': state.userId } });
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ error: 'Unknown server error' }));
-                    throw new Error(`Failed to fetch CSRF token (${response.status}): ${errorData.error}`);
+                    const errorData = await response.json().catch(() => ({ error: 'Could not connect to server' }));
+                    throw new Error(errorData.error);
                 }
-
                 const data = await response.json();
-                csrfToken = data.csrf_token;
-                output.textContent = 'Security token loaded. Ready to ask.';
-
+                state.csrfToken = data.csrf_token;
+                setStatus('Ready to help!');
+                ui.input.disabled = false;
+                ui.sendBtn.disabled = false;
             } catch (error) {
-                console.error('Error fetching CSRF token:', error);
-                output.textContent = `Error: Could not initialize. ${error.message}. Please refresh.`;
-                document.getElementById('userInput').disabled = true;
-                document.getElementById('sendBtn').disabled = true;
+                console.error('CSRF Fetch Error:', error);
+                setStatus(`Initialization Error: ${error.message}. Please refresh.`);
             }
-        }
+        };
 
-        async function askAgent() {
-            const userInputField = document.getElementById("userInput");
-            const userInput = userInputField.value.trim();
-            const output = document.getElementById("output");
-            const logo = document.getElementById("logo");
-            const sendBtn = document.getElementById("sendBtn");
+        const askAgent = async () => {
+            const userInput = ui.input.value.trim();
+            if (!userInput || state.isWaiting) return;
 
-            if (!userInput) return;
-
-            if (!csrfToken || !userId) {
-                output.textContent = 'Security not loaded. Please refresh.';
-                await fetchCsrfToken();
-                if (!csrfToken || !userId) return;
+            if (!state.csrfToken || !state.userId) {
+                setStatus('Security error. Please refresh the page.');
+                return;
             }
 
-            sendBtn.disabled = true;
-            userInputField.disabled = true;
-            output.innerHTML = '<div class="spinner"></div>';
-            logo.classList.add('spinning');
+            state.isWaiting = true;
+            ui.sendBtn.disabled = true;
+            ui.input.disabled = true;
+            ui.logo.classList.add('spinning');
+            setStatus('Agent is thinking...', true);
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/ask`, {
+                const response = await fetch(`${state.apiBaseUrl}/api/ask`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-User-ID': userId,
-                        'X-CSRF-Token': csrfToken,
-                    },
+                    headers: { 'Content-Type': 'application/json', 'X-User-ID': state.userId, 'X-CSRF-Token': state.csrfToken },
                     body: JSON.stringify({ message: userInput }),
                 });
 
                 if (!response.ok || !response.body) {
                     const errorText = await response.text();
-                    const match = errorText.match(/data:\s*(\{.*\})\s*/);
-                    if (match && match[1]) {
+                    try {
+                        const match = errorText.match(/data:\s*(\{.*\})\s*/);
                         const errorJson = JSON.parse(match[1]);
                         throw new Error(errorJson.error);
+                    } catch {
+                        throw new Error(`Network error (${response.status})`);
                     }
-                    throw new Error(`Network error (${response.status})`);
                 }
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
-                output.innerHTML = '';
                 let currentResponse = "";
-                let buffer = "";
+                setResponseText('');
 
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
 
-                    buffer += decoder.decode(value, { stream: true });
-                    let boundary;
-                    while ((boundary = buffer.indexOf('\n\n')) >= 0) {
-                        const message = buffer.substring(0, boundary);
-                        buffer = buffer.substring(boundary + 2);
-                        
-                        const eventLine = message.split('\n').find(line => line.startsWith('event:'));
-                        const dataLine = message.split('\n').find(line => line.startsWith('data:'));
-
-                        if (eventLine && eventLine.includes('error')) {
-                             if (dataLine) {
-                                const errorData = JSON.parse(dataLine.substring(5));
-                                throw new Error(errorData.error);
-                             }
-                        }
-
-                        if (dataLine) {
-                            const dataContent = dataLine.substring(5).trim();
-                            if (dataContent === '[DONE]') continue;
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n\n');
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data:')) {
+                            const data = line.substring(5).trim();
+                            if (data === '[DONE]') continue;
                             try {
-                                const jsonData = JSON.parse(dataContent);
-                                if (jsonData.choices && jsonData.choices[0].delta && jsonData.choices[0].delta.content) {
+                                const jsonData = JSON.parse(data);
+                                if (jsonData.error) throw new Error(jsonData.error.message || JSON.stringify(jsonData.error));
+                                if (jsonData.choices?.[0]?.delta?.content) {
                                     currentResponse += jsonData.choices[0].delta.content;
-                                    output.textContent = currentResponse;
+                                    setResponseText(currentResponse);
                                 }
-                            } catch (e) {
-                                console.warn('Could not parse SSE chunk:', dataContent);
-                            }
+                            } catch (e) { console.warn('Could not parse SSE JSON chunk:', data); }
+                        } else if (line.startsWith('event: error')) {
+                             throw new Error("An error occurred with the AI service.");
                         }
                     }
                 }
             } catch (error) {
-                console.error('Error in askAgent:', error);
-                output.textContent = "Error: " + error.message;
+                console.error('Ask Agent Error:', error);
+                setStatus(`Error: ${error.message}`);
             } finally {
-                logo.classList.remove('spinning');
-                userInputField.value = '';
-                userInputField.disabled = false;
-                setTimeout(() => {
-                    sendBtn.disabled = false;
-                }, RATE_LIMIT_SECONDS * 1000);
+                state.isWaiting = false;
+                ui.logo.classList.remove('spinning');
+                ui.input.value = '';
+                ui.input.disabled = false;
+                setTimeout(() => { ui.sendBtn.disabled = false; }, state.rateLimitSeconds * 1000);
             }
-        }
+        };
         
         window.onload = () => {
             fetchCsrfToken();
-            const sendBtn = document.getElementById('sendBtn');
-            const userInputField = document.getElementById('userInput');
-            
-            sendBtn.addEventListener('click', askAgent);
-            userInputField.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter' && !sendBtn.disabled) {
+            ui.sendBtn.addEventListener('click', askAgent);
+            ui.input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' && !ui.sendBtn.disabled) {
                     event.preventDefault();
                     askAgent();
                 }
