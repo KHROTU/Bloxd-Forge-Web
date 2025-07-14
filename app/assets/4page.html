@@ -374,6 +374,10 @@
         };
         const openViewModal = (index) => {
             const auction = state.auctions[index];
+            const hasBids = Array.isArray(auction.bids) && auction.bids.length > 0;
+            const currentBid = hasBids ? auction.bids[auction.bids.length - 1].amount : auction.starting_price;
+            const minNextBid = parseFloat(currentBid) + 1;
+        
             ui.viewModalContent.innerHTML = `
                 <button class="modal-close" onclick="closeModal('viewModal')">×</button>
                 <h2 class="modal-title">${auction.item_name}</h2>
@@ -382,12 +386,12 @@
                     <p class="card-info"><strong>Sale Type:</strong> ${auction.sale_type}</p>
                     <p class="card-info"><strong>Description:</strong> ${auction.description}</p>
                     <hr style="border-color: #444; margin: 1rem 0;">
-                    <p class="card-price" style="font-size: 1.5rem">Current Bid: ${auction.bids.length > 0 ? auction.bids[auction.bids.length - 1].amount : auction.starting_price} Coins</p>
+                    <p class="card-price" style="font-size: 1.5rem">Current Bid: ${currentBid} Coins</p>
                 </div>
                 <form id="bidForm" data-auction-id="${index}">
                     <div class="form-group">
-                        <label for="bidAmount" class="form-label">Your Bid</label>
-                        <input type="number" id="bidAmount" class="form-input" placeholder="Enter amount" required min="${(auction.bids.length > 0 ? auction.bids[auction.bids.length - 1].amount : auction.starting_price) + 1}">
+                        <label for="bidAmount" class="form-label">Your Bid (min. ${minNextBid})</label>
+                        <input type="number" id="bidAmount" class="form-input" placeholder="Enter amount" required min="${minNextBid}">
                     </div>
                     <div class="error-message" id="bidError"></div>
                     <div class="modal-actions">
