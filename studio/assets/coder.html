@@ -63,24 +63,32 @@
           gap: 15px;
         }
         .message {
-          padding: 12px 18px;
+          padding: 0; 
           border-radius: 12px;
           max-width: 90%;
           word-wrap: break-word;
           line-height: 1.6;
+          overflow: hidden;
         }
         .user-message {
           background-color: var(--user-msg-bg);
           align-self: flex-end;
+          padding: 12px 18px;
         }
         .assistant-message {
           background-color: var(--assistant-msg-bg);
           align-self: flex-start;
+          width: 100%;
         }
         .message.error {
           background-color: #5c3030;
           color: #ffcccc;
           font-weight: bold;
+          padding: 12px 18px;
+        }
+        
+        .main-content {
+            padding: 12px 18px;
         }
         
         .assistant-message pre {
@@ -172,19 +180,16 @@
         }
         
         .think-box {
-          border: 1px solid #4a4a4a;
-          border-radius: 6px;
-          margin: 12px 0;
+          border-bottom: 1px solid #4a4a4a;
           font-size: 0.9em;
           background: #222;
         }
         .think-header {
           cursor: pointer;
-          padding: 8px 12px;
+          padding: 8px 18px;
           display: flex;
           align-items: center;
           user-select: none;
-          border-radius: 6px 6px 0 0;
         }
         .think-arrow {
           margin-right: 8px;
@@ -197,8 +202,7 @@
           color: var(--primary-color);
         }
         .think-content {
-          padding: 10px 14px;
-          border-top: 1px solid #4a4a4a;
+          padding: 10px 18px;
           color: #c0c0c0;
           font-family: Consolas, Monaco, monospace;
           white-space: pre-wrap;
@@ -265,83 +269,89 @@
             const messageDiv = document.createElement('div');
             messageDiv.id = messageId;
             messageDiv.className = `message ${role}-message ${extraClass}`;
-            messageDiv.innerHTML = content;
+            
+            if (role === 'assistant') {
+                const mainContent = document.createElement('div');
+                mainContent.className = 'main-content';
+                mainContent.innerHTML = content;
+                messageDiv.appendChild(mainContent);
+            } else {
+                 messageDiv.innerHTML = content;
+            }
+            
             ui.chatContainer.appendChild(messageDiv);
             scrollToBottom();
             return messageId;
         };
-
+        
         const updateMessage = (messageId, reasoningText, contentText, isStreamingThinking = false) => {
             const messageDiv = document.getElementById(messageId);
             if (!messageDiv) return;
 
-            const thinkMatch = contentText.match(/<think>([\s\S]*?)<\/think>/);
-            let finalReasoning = reasoningText;
-            let finalContent = contentText;
-
-            if (thinkMatch && thinkMatch[1]) {
-                finalReasoning = (finalReasoning + '\n' + thinkMatch[1]).trim();
-                finalContent = contentText.replace(thinkMatch[0], '').trim();
+            const initialContent = messageDiv.querySelector('.main-content');
+            if (initialContent && initialContent.innerText.includes('Waiting for response...')) {
+                initialContent.innerHTML = '';
             }
 
-            const contentHTML = marked.parse(finalContent);
-            let thinkHTML = '';
-
-            if (finalReasoning) {
-                const existingThinkBox = messageDiv.querySelector('.think-box');
-                let classes = ['think-box'];
-
-                if (existingThinkBox?.classList.contains('user-touched')) {
-                    classes.push('user-touched');
-                    if (existingThinkBox.classList.contains('open')) {
-                        classes.push('open');
-                    }
-                } else if (isStreamingThinking) {
-                    classes.push('open');
-                }
-                
-                const escapedReasoning = finalReasoning.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
-
-                thinkHTML = `
-                    <div class="${classes.join(' ')}">
+            let thinkBox = messageDiv.querySelector('.think-box');
+            if (reasoningText) {
+                if (!thinkBox) {
+                    thinkBox = document.createElement('div');
+                    thinkBox.className = 'think-box';
+                    thinkBox.innerHTML = `
                         <div class="think-header">
                             <span class="think-arrow">▶</span>
                             <span class="think-label">Thinking Process</span>
                         </div>
-                        <div class="think-content">${escapedReasoning}</div>
-                    </div>`;
+                        <div class="think-content"></div>`;
+                    
+                    messageDiv.prepend(thinkBox);
+
+                    const header = thinkBox.querySelector('.think-header');
+                    header.onclick = () => {
+                        thinkBox.classList.toggle('open');
+                        thinkBox.classList.add('user-touched');
+                    };
+                }
+
+                thinkBox.querySelector('.think-content').textContent = reasoningText;
+
+                if (!thinkBox.classList.contains('user-touched')) {
+                    thinkBox.classList.toggle('open', isStreamingThinking);
+                }
+            }
+            
+            let mainContent = messageDiv.querySelector('.main-content');
+            if (!mainContent) {
+                mainContent = document.createElement('div');
+                mainContent.className = 'main-content';
+                messageDiv.appendChild(mainContent);
             }
 
-            messageDiv.innerHTML = thinkHTML + contentHTML;
+            if (contentText) {
+                mainContent.innerHTML = marked.parse(contentText);
+    
+                mainContent.querySelectorAll('pre:not(:has(.copy-btn))').forEach(pre => {
+                    const code = pre.querySelector('code');
+                    if (!code) return;
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-btn';
+                    copyButton.textContent = 'Copy';
+                    copyButton.onclick = () => {
+                        navigator.clipboard.writeText(code.innerText);
+                        copyButton.textContent = 'Copied!';
+                        setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
+                    };
+                    pre.appendChild(copyButton);
+                });
+            }
 
-            messageDiv.querySelectorAll('pre:not(:has(.copy-btn))').forEach(pre => {
-                const code = pre.querySelector('code');
-                if (!code) return;
-                const copyButton = document.createElement('button');
-                copyButton.className = 'copy-btn';
-                copyButton.textContent = 'Copy';
-                copyButton.onclick = () => {
-                    navigator.clipboard.writeText(code.innerText);
-                    copyButton.textContent = 'Copied!';
-                    setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
-                };
-                pre.appendChild(copyButton);
-            });
-
-            messageDiv.querySelectorAll('.think-header:not(.event-attached)').forEach(header => {
-                header.classList.add('event-attached');
-                header.onclick = () => {
-                    const thinkBox = header.parentElement;
-                    thinkBox.classList.toggle('open');
-                    thinkBox.classList.add('user-touched');
-                };
-            });
             scrollToBottom();
         };
 
         const initializeChat = async () => {
             appendMessage('assistant', 'Hello! I can help you write JavaScript for the Bloxd.io API.');
-            const statusId = appendMessage('assistant', 'Authenticating... <div class="spinner"></div>');
+            const statusId = appendMessage('assistant', 'Authenticating... <div class="spinner"></div>', 'status');
             try {
                 state.userId = getUserId();
                 const response = await fetch(`${state.apiBaseUrl}/get-csrf-token`, { headers: { 'X-User-ID': state.userId } });
@@ -424,6 +434,11 @@
                                         accumulatedReasoning += delta.reasoning;
                                     }
                                     if (delta.content) {
+                                        const thinkMatch = delta.content.match(/<think>([\s\S]*?)<\/think>/);
+                                        if (thinkMatch && thinkMatch[1]) {
+                                            accumulatedReasoning += thinkMatch[1];
+                                            delta.content = delta.content.replace(thinkMatch[0], '');
+                                        }
                                         accumulatedContent += delta.content;
                                         hasStartedContent = true;
                                     }
@@ -441,13 +456,21 @@
 
                 const finalContentToSave = accumulatedContent.replace(/<think>[\s\S]*?<\/think>/, '').trim();
                 if (finalContentToSave || accumulatedReasoning) {
-                    state.chatHistory.push({ role: 'assistant', content: accumulatedContent });
+                    let historyContent = finalContentToSave;
+                    if(accumulatedReasoning) {
+                        historyContent = `<think>${accumulatedReasoning}</think>\n${finalContentToSave}`;
+                    }
+                    state.chatHistory.push({ role: 'assistant', content: historyContent });
                 } else {
                     updateMessage(assistantMsgId, "", "The AI returned an empty or invalid response.", false);
                 }
             } catch (error) {
                 console.error('Code Agent Error:', error);
-                updateMessage(assistantMsgId, "", `**Error:** ${error.message}`, false);
+                const errorDiv = document.getElementById(assistantMsgId);
+                if (errorDiv) {
+                    errorDiv.innerHTML = `<div class="main-content">**Error:** ${error.message}</div>`;
+                    errorDiv.classList.add('error');
+                }
             } finally {
                 state.isWaiting = false;
                 ui.input.disabled = false;
