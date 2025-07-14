@@ -7,201 +7,41 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
     <style>
-        :root {
-            --background-color: #181818;
-            --surface-color: #282828;
-            --primary-color: #ff8c42;
-            --text-color: #e0e0e0;
-            --border-color: #444;
-            --user-msg-bg: #3a3a3a;
-            --assistant-msg-bg: #2c2c2c;
-            --code-bg: #1e1e1e;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-
-        #chatWrapper {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #header {
-            text-align: center;
-            margin-bottom: 15px;
-            flex-shrink: 0;
-        }
-
-        #header img {
-            width: 80px;
-        }
-
-        #header h2 {
-            margin-top: 5px;
-            color: var(--primary-color);
-        }
-
-        #chatContainer {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--surface-color);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            padding: 10px 15px;
-            border-radius: 8px;
-            max-width: 90%;
-            word-wrap: break-word;
-            line-height: 1.6;
-        }
-        .user-message {
-            background-color: var(--user-msg-bg);
-            align-self: flex-end;
-            text-align: right;
-        }
-        .assistant-message {
-            background-color: var(--assistant-msg-bg);
-            align-self: flex-start;
-            text-align: left;
-        }
-
-        .assistant-message pre {
-            background-color: var(--code-bg);
-            padding: 15px;
-            border-radius: 6px;
-            margin: 10px 0;
-            overflow-x: auto;
-            border: 1px solid #333;
-        }
-        .assistant-message code {
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-            font-size: 0.9em;
-        }
-        .assistant-message pre code {
-            padding: 0;
-            background: none;
-            border: none;
-        }
-        .assistant-message code:not(pre code) {
-            background-color: var(--code-bg);
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
-        .assistant-message h1, .assistant-message h2, .assistant-message h3 { margin-top: 1em; margin-bottom: 0.5em; }
-        .assistant-message ul, .assistant-message ol { padding-left: 25px; }
+        :root { --background-color: #181818; --surface-color: #282828; --primary-color: #ff8c42; --text-color: #e0e0e0; --border-color: #444; --user-msg-bg: #3a3a3a; --assistant-msg-bg: #2c2c2c; --code-bg: #1e1e1e; }
+        body { font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; background-color: var(--background-color); color: var(--text-color); }
+        #chatWrapper { width: 100%; max-width: 800px; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+        #header { text-align: center; margin-bottom: 15px; flex-shrink: 0; }
+        #header img { width: 80px; }
+        #header h2 { margin-top: 5px; color: var(--primary-color); }
+        #chatContainer { flex-grow: 1; overflow-y: auto; padding: 15px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--surface-color); display: flex; flex-direction: column; gap: 15px; }
+        .message { padding: 10px 15px; border-radius: 8px; max-width: 90%; word-wrap: break-word; line-height: 1.6; }
+        .user-message { background-color: var(--user-msg-bg); align-self: flex-end; text-align: right; }
+        .assistant-message { background-color: var(--assistant-msg-bg); align-self: flex-start; text-align: left; }
+        .assistant-message pre { background-color: var(--code-bg); padding: 15px; border-radius: 6px; margin: 10px 0; overflow-x: auto; border: 1px solid #333; }
+        .assistant-message code { font-family: Consolas, Monaco, monospace; font-size: 0.9em; }
         .assistant-message p { margin: 0.5em 0; }
-
-        .error-message {
-            background-color: #5c3030;
-            color: #ffcccc;
-            font-weight: bold;
-        }
-
-        /* --- Input Area --- */
-        #inputContainer {
-            flex-shrink: 0;
-            display: flex;
-            width: 100%;
-            max-width: 800px;
-            gap: 10px;
-            padding: 15px 0;
-            z-index: 100;
-        }
-        #userInput {
-            flex-grow: 1;
-            padding: 12px;
-            border: 1px solid var(--primary-color);
-            border-radius: 5px;
-            background-color: var(--surface-color);
-            color: #ffffff;
-            font-size: 1em;
-        }
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            background-color: var(--primary-color);
-            color: #181818;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-        }
+        #inputContainer { flex-shrink: 0; display: flex; width: 100%; max-width: 800px; gap: 10px; padding: 15px 0; }
+        #userInput { flex-grow: 1; padding: 12px; border: 1px solid var(--primary-color); border-radius: 5px; background-color: var(--surface-color); color: #ffffff; font-size: 1em; }
+        button { padding: 12px 25px; border: none; border-radius: 5px; background-color: var(--primary-color); color: #181818; cursor: pointer; font-size: 1em; font-weight: bold; }
         button:disabled { background-color: #666; cursor: not-allowed; }
         button:hover:not(:disabled) { background-color: #e67e3f; }
-
-        .spinner {
-            border: 3px solid #555;
-            border-top: 3px solid var(--primary-color);
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-left: 10px;
-            vertical-align: middle;
-        }
+        .spinner { border: 3px solid #555; border-top: 3px solid var(--primary-color); border-radius: 50%; width: 18px; height: 18px; animation: spin 1s linear infinite; display: inline-block; margin-left: 10px; vertical-align: middle; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .think-box {
-            border: 1px solid #4a4a4a;
-            border-radius: 6px;
-            margin: 12px 0;
-            font-size: 0.9em;
-            background: #222;
-        }
-        .think-header {
-            cursor: pointer;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            user-select: none;
-            border-radius: 6px 6px 0 0;
-        }
+        .think-box { border: 1px solid #4a4a4a; border-radius: 6px; margin: 12px 0; font-size: 0.9em; background: #222; }
+        .think-header { cursor: pointer; padding: 8px 12px; display: flex; align-items: center; user-select: none; border-radius: 6px 6px 0 0; }
         .think-arrow { margin-right: 8px; transition: transform 0.2s; color: var(--primary-color); }
         .think-label { font-weight: bold; color: var(--primary-color); }
-        .think-content {
-            padding: 10px 14px;
-            border-top: 1px solid #4a4a4a;
-            color: #c0c0c0;
-            font-family: Consolas, Monaco, monospace;
-            white-space: pre-wrap;
-            word-break: break-word;
-            display: none;
-        }
+        .think-content { padding: 10px 14px; border-top: 1px solid #4a4a4a; color: #c0c0c0; font-family: Consolas, Monaco, monospace; white-space: pre-wrap; word-break: break-word; display: none; }
     </style>
 </head>
 <body>
     <div id="chatWrapper">
         <div id="header">
             <img id="logo" src="https://imghost.net/ib/Q4w3Wnj3Ctz2MBV_1740586783.png" alt="Logo">
-            <h2 style="margin-top: 5px; color: #ff8c42;">BloxdForge Coder</h2>
+            <h2>BloxdForge Coder</h2>
         </div>
-
-        <div id="chatContainer">
-        </div>
-
+        <div id="chatContainer"></div>
         <div id="inputContainer">
             <input id="userInput" type="text" placeholder="Describe the code you need..." />
             <button id="sendBtn">Send</button>
@@ -218,143 +58,94 @@
         let messageIdCounter = 0;
 
         marked.setOptions({
-            highlight: function(code, lang) {
-                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-                return hljs.highlight(code, { language }).value;
-            },
+            highlight: (code, lang) => hljs.highlight(code, { language: hljs.getLanguage(lang) ? lang : 'plaintext', ignoreIllegals: true }).value,
             gfm: true,
             breaks: true,
         });
 
-        function getUserId() {
-            let storedId = localStorage.getItem('userId');
-            if (!storedId) {
-                storedId = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
-                localStorage.setItem('userId', storedId);
+        const getUserId = () => {
+            let id = localStorage.getItem('userId');
+            if (!id) {
+                id = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
+                localStorage.setItem('userId', id);
             }
-            return storedId;
-        }
-
-        function scrollToBottom() {
-            const chatContainer = document.getElementById('chatContainer');
-            chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
-        }
+            return id;
+        };
+        const scrollToBottom = () => document.getElementById('chatContainer').scrollTo({ top: document.getElementById('chatContainer').scrollHeight, behavior: 'smooth' });
         
-        function appendMessage(role, content, isLoading = false) {
+        const appendMessage = (role, content, isLoading = false) => {
             const chatContainer = document.getElementById('chatContainer');
             const messageId = `msg-${messageIdCounter++}`;
-
             const messageDiv = document.createElement('div');
             messageDiv.id = messageId;
-            messageDiv.classList.add('message', role === 'user' ? 'user-message' : 'assistant-message');
-
-            let finalHTML = content;
-            if (isLoading) {
-                finalHTML += '<div class="spinner"></div>';
-            }
-            messageDiv.innerHTML = finalHTML;
-
+            messageDiv.className = `message ${role}-message`;
+            messageDiv.innerHTML = content + (isLoading ? '<div class="spinner"></div>' : '');
             chatContainer.appendChild(messageDiv);
             scrollToBottom();
             return messageId;
-        }
+        };
 
-        function updateMessage(messageId, rawMarkdown) {
+        const updateMessage = (messageId, rawMarkdown) => {
             const messageDiv = document.getElementById(messageId);
             if (!messageDiv) return;
 
             let reasoningHTML = '';
             let contentMarkdown = rawMarkdown;
 
-            const thinkStart = '<think>';
-            const thinkEnd = '</think>';
-
-            if (contentMarkdown.includes(thinkStart)) {
-                const startIdx = contentMarkdown.indexOf(thinkStart);
-                const endIdx = contentMarkdown.lastIndexOf(thinkEnd);
-                
-                if (endIdx > startIdx) {
-                    const reasoningText = contentMarkdown.substring(startIdx + thinkStart.length, endIdx);
-                    contentMarkdown = contentMarkdown.substring(0, startIdx) + contentMarkdown.substring(endIdx + thinkEnd.length);
-
-                    reasoningHTML = `
-                        <div class="think-box">
-                            <div class="think-header" onclick="toggleThinkBox(this)">
-                                <span class="think-arrow">▼</span>
-                                <span class="think-label">Thinking Process</span>
-                            </div>
-                            <div class="think-content">${reasoningText.replace(/</g, '<').replace(/>/g, '>')}</div>
+            const thinkMatch = rawMarkdown.match(/<think>([\s\S]*?)<\/think>/);
+            if (thinkMatch && thinkMatch[1]) {
+                const reasoningText = thinkMatch[1].trim();
+                contentMarkdown = rawMarkdown.replace(thinkMatch[0], '').trim();
+                reasoningHTML = `
+                    <div class="think-box">
+                        <div class="think-header" onclick="toggleThinkBox(this)">
+                            <span class="think-arrow">▼</span>
+                            <span class="think-label">Thinking Process</span>
                         </div>
-                    `;
-                }
+                        <div class="think-content">${reasoningText}</div>
+                    </div>`;
             }
-
-            const contentHTML = marked.parse(contentMarkdown);
-            messageDiv.innerHTML = reasoningHTML + contentHTML;
+            messageDiv.innerHTML = reasoningHTML + marked.parse(contentMarkdown);
             scrollToBottom();
-        }
+        };
 
-        async function fetchCsrfToken() {
+        const fetchCsrfToken = async () => {
             try {
                 userId = getUserId();
-                const response = await fetch(`${API_BASE_URL}/get-csrf-token`, {
-                    method: 'GET',
-                    headers: { 'X-User-ID': userId },
-                    credentials: 'include'
-                });
+                const response = await fetch(`${API_BASE_URL}/get-csrf-token`, { headers: { 'X-User-ID': userId } });
                 if (!response.ok) throw new Error(`Status: ${response.status}`);
                 const data = await response.json();
-                if (!data.csrf_token) throw new Error('Token not in response.');
                 csrfToken = data.csrf_token;
             } catch (error) {
-                console.error('Error fetching CSRF token:', error);
-                appendMessage('assistant', `Error: Could not initialize security token. ${error.message}. Please refresh.`);
+                appendMessage('assistant', `<strong>Error:</strong> Could not initialize security. Please refresh. (${error.message})`);
                 document.getElementById('userInput').disabled = true;
                 document.getElementById('sendBtn').disabled = true;
             }
-        }
+        };
 
-        async function askCodeAgent() {
+        const askCodeAgent = async () => {
             if (isWaitingForResponse) return;
-
             const userInputField = document.getElementById("userInput");
             const userInput = userInputField.value.trim();
-            if (!userInput) return;
+            if (!userInput || !csrfToken) return;
 
-            if (!csrfToken || !userId) {
-                appendMessage('assistant', 'Security token invalid. Please refresh.', false);
-                return;
-            }
-            
             isWaitingForResponse = true;
             document.getElementById('sendBtn').disabled = true;
             userInputField.disabled = true;
 
             chatHistory.push({ role: 'user', content: userInput });
             appendMessage('user', userInput);
-
-            const assistantMsgId = appendMessage('assistant', 'Contacting the BloxdForge Coder...', true);
-
+            const assistantMsgId = appendMessage('assistant', '', true);
             let accumulatedContent = "";
-            let accumulatedReasoning = "";
 
             try {
                 const response = await fetch(`${API_BASE_URL}/api/code`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'text/event-stream',
-                        'X-User-ID': userId,
-                        'X-CSRF-Token': csrfToken,
-                    },
+                    headers: { 'Content-Type': 'application/json', 'X-User-ID': userId, 'X-CSRF-Token': csrfToken },
                     body: JSON.stringify({ messages: chatHistory }),
-                    credentials: 'include'
                 });
 
-                if (!response.ok || !response.body) {
-                    const errorText = await response.text();
-                    throw new Error(`Network response error: ${response.status} ${errorText}`);
-                }
+                if (!response.ok || !response.body) throw new Error(`Network response error: ${response.status}`);
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
@@ -371,30 +162,20 @@
                         buffer = buffer.substring(boundary + 2);
 
                         if (message.startsWith('data: ')) {
-                            const dataContent = message.substring(6).trim();
-                            if (dataContent === '[DONE]') continue;
-
+                            const data = message.substring(6).trim();
+                            if (data === '[DONE]') continue;
                             try {
-                                const jsonData = JSON.parse(dataContent);
-                                const delta = jsonData.choices?.[0]?.delta;
-                                if (!delta) continue;
-
-                                if (delta.content) accumulatedContent += delta.content;
-                                if (delta.reasoning) accumulatedReasoning += delta.reasoning;
-
-                                const fullRawResponse = `<think>${accumulatedReasoning}</think>${accumulatedContent}`;
-                                updateMessage(assistantMsgId, fullRawResponse);
-
-                            } catch (e) {
-                                console.warn('Could not parse SSE chunk:', dataContent, e);
-                            }
+                                const chunk = JSON.parse(data);
+                                if (chunk.choices?.[0]?.delta?.content) {
+                                    accumulatedContent += chunk.choices[0].delta.content;
+                                    updateMessage(assistantMsgId, accumulatedContent);
+                                }
+                            } catch (e) { console.warn('Could not parse SSE chunk:', data); }
                         }
                     }
                 }
-                
-                const finalRawResponse = `<think>${accumulatedReasoning}</think>${accumulatedContent}`;
-                updateMessage(assistantMsgId, finalRawResponse);
-                chatHistory.push({ role: 'assistant', content: finalRawResponse });
+                updateMessage(assistantMsgId, accumulatedContent);
+                chatHistory.push({ role: 'assistant', content: accumulatedContent });
 
             } catch (error) {
                 console.error('Error in askCodeAgent:', error);
@@ -403,41 +184,34 @@
             } finally {
                 isWaitingForResponse = false;
                 userInputField.disabled = false;
+                userInputField.value = '';
                 userInputField.focus();
-                setTimeout(() => {
-                    document.getElementById('sendBtn').disabled = false;
-                }, RATE_LIMIT_SECONDS * 1000);
+                setTimeout(() => { document.getElementById('sendBtn').disabled = false; }, RATE_LIMIT_SECONDS * 1000);
             }
-             userInputField.value = '';
-        }
+        };
+        
+        window.toggleThinkBox = (header) => {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.think-arrow');
+            const isHidden = content.style.display === 'none' || content.style.display === '';
+            content.style.display = isHidden ? 'block' : 'none';
+            arrow.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+        };
 
         window.onload = () => {
             appendMessage('assistant', 'Hello! Ask me to help you write JavaScript code using the Bloxd.io API.');
             fetchCsrfToken();
             const userInputField = document.getElementById('userInput');
             const sendBtn = document.getElementById('sendBtn');
-            
             userInputField.focus();
             sendBtn.addEventListener('click', askCodeAgent);
             userInputField.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
+                if (e.key === 'Enter' && !e.shiftKey && !sendBtn.disabled) {
                     e.preventDefault();
-                    if (!sendBtn.disabled) askCodeAgent();
+                    askCodeAgent();
                 }
             });
         };
-
-        window.toggleThinkBox = function(headerElement) {
-            const content = headerElement.nextElementSibling;
-            const arrow = headerElement.querySelector('.think-arrow');
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
-                arrow.innerHTML = '▲';
-            } else {
-                content.style.display = 'none';
-                arrow.innerHTML = '▼';
-            }
-        }
     </script>
 </body>
 </html>
