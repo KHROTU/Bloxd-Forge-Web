@@ -4,109 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BloxdForge Coder</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
     <style>
+        :root {
+            --background-color: #181818;
+            --surface-color: #282828;
+            --primary-color: #ff8c42;
+            --text-color: #e0e0e0;
+            --border-color: #444;
+            --user-msg-bg: #3a3a3a;
+            --assistant-msg-bg: #2c2c2c;
+            --code-bg: #1e1e1e;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            background-color: #181818;
-            color: #e0e0e0;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
-        #chatContainer {
+
+        #chatWrapper {
             width: 100%;
             max-width: 800px;
-            height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #header {
+            text-align: center;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        #header img {
+            width: 80px;
+        }
+
+        #header h2 {
+            margin-top: 5px;
+            color: var(--primary-color);
+        }
+
+        #chatContainer {
+            flex-grow: 1;
             overflow-y: auto;
-            margin-bottom: 80px;
             padding: 15px;
-            border: 1px solid #444;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            background-color: #282828;
+            background-color: var(--surface-color);
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
+
         .message {
             padding: 10px 15px;
             border-radius: 8px;
-            max-width: 85%;
+            max-width: 90%;
             word-wrap: break-word;
-            white-space: pre-wrap;
-            line-height: 1.5;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            line-height: 1.6;
         }
         .user-message {
-            background-color: #3a3a3a;
-            color: #e0e0e0;
+            background-color: var(--user-msg-bg);
             align-self: flex-end;
             text-align: right;
         }
         .assistant-message {
-            background-color: #4a4a4a;
-            color: #f0f0f0;
+            background-color: var(--assistant-msg-bg);
             align-self: flex-start;
             text-align: left;
         }
-        .assistant-message pre code {
-            display: block;
-            background-color: #1e1e1e;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 8px 0;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+
+        .assistant-message pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
             overflow-x: auto;
-            max-width: fit-content;
+            border: 1px solid #333;
         }
-        
-        .assistant-message code:not(pre code) {
-            display: inline-block;
-            background-color: #1e1e1e;
-            padding: 2px 4px;
-            border-radius: 3px;
+        .assistant-message code {
             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
         }
-        
-        .assistant-message ul,
-        .assistant-message ol {
-            margin: 4px 0;
-            padding-left: 20px;
-        }
-        
-        .assistant-message li {
-            margin: 2px 0;
+        .assistant-message pre code {
             padding: 0;
+            background: none;
+            border: none;
         }
+        .assistant-message code:not(pre code) {
+            background-color: var(--code-bg);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        .assistant-message h1, .assistant-message h2, .assistant-message h3 { margin-top: 1em; margin-bottom: 0.5em; }
+        .assistant-message ul, .assistant-message ol { padding-left: 25px; }
+        .assistant-message p { margin: 0.5em 0; }
+
         .error-message {
             background-color: #5c3030;
             color: #ffcccc;
-            align-self: flex-start;
             font-weight: bold;
         }
+
+        /* --- Input Area --- */
         #inputContainer {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            flex-shrink: 0;
             display: flex;
             width: 100%;
             max-width: 800px;
             gap: 10px;
-            background-color: #181818;
-            padding: 10px 0;
+            padding: 15px 0;
             z-index: 100;
         }
         #userInput {
             flex-grow: 1;
             padding: 12px;
-            border: 1px solid #ff8c42;
+            border: 1px solid var(--primary-color);
             border-radius: 5px;
-            background-color: #282828;
+            background-color: var(--surface-color);
             color: #ffffff;
             font-size: 1em;
         }
@@ -114,113 +142,70 @@
             padding: 12px 25px;
             border: none;
             border-radius: 5px;
-            background-color: #ff8c42;
+            background-color: var(--primary-color);
             color: #181818;
             cursor: pointer;
             font-size: 1em;
             font-weight: bold;
         }
-        button:disabled {
-            background-color: #666;
-            cursor: not-allowed;
-        }
-        button:hover:not(:disabled) {
-            background-color: #e67e3f;
-        }
+        button:disabled { background-color: #666; cursor: not-allowed; }
+        button:hover:not(:disabled) { background-color: #e67e3f; }
+
         .spinner {
-            border: 4px solid #555;
-            border-top: 4px solid #ff8c42;
+            border: 3px solid #555;
+            border-top: 3px solid var(--primary-color);
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 18px;
+            height: 18px;
             animation: spin 1s linear infinite;
             display: inline-block;
             margin-left: 10px;
             vertical-align: middle;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        #logoContainer {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        img[alt="Logo"] {
-            width: 80px;
-            transition: transform 0.5s ease-in-out;
-        }
-        img[alt="Logo"].spinning {
-            transform: rotate(360deg);
-        }
-        #chatContainer::-webkit-scrollbar {
-            width: 8px;
-        }
-        #chatContainer::-webkit-scrollbar-track {
-            background: #282828;
-            border-radius: 8px;
-        }
-        #chatContainer::-webkit-scrollbar-thumb {
-            background-color: #555;
-            border-radius: 8px;
-            border: 2px solid #282828;
-        }
-        #chatContainer::-webkit-scrollbar-thumb:hover {
-            background-color: #ff8c42;
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         .think-box {
-            background: #232323;
-            border: 1px dashed #ff8c42;
+            border: 1px solid #4a4a4a;
             border-radius: 6px;
-            margin: 10px 0;
-            font-size: 0.95em;
-            box-shadow: 0 2px 8px #0002;
+            margin: 12px 0;
+            font-size: 0.9em;
+            background: #222;
         }
         .think-header {
             cursor: pointer;
-            padding: 6px 12px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             user-select: none;
-            background: #232323;
             border-radius: 6px 6px 0 0;
-            font-weight: bold;
-            color: #ff8c42;
         }
-        .think-arrow {
-            margin-right: 8px;
-            font-size: 1.1em;
-            transition: transform 0.2s;
-        }
-        .think-label {
-            font-size: 0.98em;
-            letter-spacing: 0.04em;
-        }
+        .think-arrow { margin-right: 8px; transition: transform 0.2s; color: var(--primary-color); }
+        .think-label { font-weight: bold; color: var(--primary-color); }
         .think-content {
             padding: 10px 14px;
-            background: #181818;
-            border-radius: 0 0 6px 6px;
-            color: #e0e0e0;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-            font-size: 0.97em;
+            border-top: 1px solid #4a4a4a;
+            color: #c0c0c0;
+            font-family: Consolas, Monaco, monospace;
             white-space: pre-wrap;
             word-break: break-word;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div id="logoContainer">
-        <img id="logo" src="https://imghost.net/ib/Q4w3Wnj3Ctz2MBV_1740586783.png" alt="Logo">
-        <h2 style="margin-top: 5px; color: #ff8c42;">BloxdForge Coder</h2>
-    </div>
+    <div id="chatWrapper">
+        <div id="header">
+            <img id="logo" src="https://imghost.net/ib/Q4w3Wnj3Ctz2MBV_1740586783.png" alt="Logo">
+            <h2 style="margin-top: 5px; color: #ff8c42;">BloxdForge Coder</h2>
+        </div>
 
-    <div id="chatContainer">
-        <div class="message assistant-message">Hello! Ask me to help you write JavaScript code using the Bloxd.io API.</div>
-    </div>
+        <div id="chatContainer">
+        </div>
 
-    <div id="inputContainer">
-        <input id="userInput" type="text" placeholder="Describe the code you need..." />
-        <button id="sendBtn" onclick="askCodeAgent()">Send</button>
+        <div id="inputContainer">
+            <input id="userInput" type="text" placeholder="Describe the code you need..." />
+            <button id="sendBtn">Send</button>
+        </div>
     </div>
 
     <script>
@@ -228,189 +213,102 @@
         let userId = null;
         const API_BASE_URL = 'https://khrotu.pythonanywhere.com';
         const RATE_LIMIT_SECONDS = 3;
-        let chatHistory = [
-            { role: 'assistant', content: 'Hello! Ask me to help you write JavaScript code using the Bloxd.io API.' }
-        ];
+        let chatHistory = [];
         let isWaitingForResponse = false;
+        let messageIdCounter = 0;
+
+        marked.setOptions({
+            highlight: function(code, lang) {
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            },
+            gfm: true,
+            breaks: true,
+        });
 
         function getUserId() {
             let storedId = localStorage.getItem('userId');
             if (!storedId) {
                 storedId = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
                 localStorage.setItem('userId', storedId);
-                console.log('Generated new User ID:', storedId);
-            } else {
-                console.log('Using existing User ID:', storedId);
             }
             return storedId;
         }
 
-        function renderChatHistory() {
+        function scrollToBottom() {
             const chatContainer = document.getElementById('chatContainer');
-            chatContainer.innerHTML = '';
+            chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
+        }
+        
+        function appendMessage(role, content, isLoading = false) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageId = `msg-${messageIdCounter++}`;
 
-            chatHistory.forEach((msg, idx) => {
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message');
-                messageDiv.classList.add(msg.role === 'user' ? 'user-message' : 'assistant-message');
+            const messageDiv = document.createElement('div');
+            messageDiv.id = messageId;
+            messageDiv.classList.add('message', role === 'user' ? 'user-message' : 'assistant-message');
 
-                let contentHTML = msg.content;
+            let finalHTML = content;
+            if (isLoading) {
+                finalHTML += '<div class="spinner"></div>';
+            }
+            messageDiv.innerHTML = finalHTML;
 
-                let finalHTML = '';
-                let thinkBoxOpen = false;
-                let thinkId = 0;
-                let cursor = 0;
-                const openTag = '<think>';
-                const closeTag = '</think>';
-
-                while (cursor < contentHTML.length) {
-                    let openIdx = contentHTML.indexOf(openTag, cursor);
-                    let closeIdx = contentHTML.indexOf(closeTag, cursor);
-
-                    if (!thinkBoxOpen && openIdx !== -1 && (openIdx <= closeIdx || closeIdx === -1)) {
-                        let normalText = contentHTML.slice(cursor, openIdx);
-                        if (normalText) {
-                            let parsed = normalText
-                                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-                                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-                                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-                                .replace(/```(\w*)\n([\s\S]*?)\n```/g, function(_, lang, code) {
-                                    if (lang.toLowerCase() === 'js' || lang.toLowerCase() === 'javascript') {
-                                        code = code
-                                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                                            .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                                            .replace(/_(.*?)_/g, '<em>$1</em>');
-                                    }
-                                    return `<pre><code class="${lang}">${code}</code></pre>`;
-                                })
-                                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                                .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
-                                .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
-                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                                .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                                .replace(/_(.*?)_/g, '<em>$1</em>');
-                            if (parsed.includes('<li>')) {
-                                parsed = parsed.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
-                            }
-                            finalHTML += parsed;
-                        }
-                        thinkId++;
-                        finalHTML += `
-                        <div class="think-box">
-                            <div class="think-header" onclick="toggleThinkBox('think-box-${idx}-${thinkId}')">
-                                <span class="think-arrow">&#x25BC;</span>
-                                <span class="think-label" style="font-size:1.15em;">Thinking</span>
-                            </div>
-                            <div class="think-content" id="think-box-${idx}-${thinkId}" style="display:none;">
-                        `;
-                        thinkBoxOpen = true;
-                        cursor = openIdx + openTag.length;
-                    } else if (thinkBoxOpen && closeIdx !== -1) {
-                        let thinkText = contentHTML.slice(cursor, closeIdx);
-                        finalHTML += thinkText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        finalHTML += '</div></div>';
-                        thinkBoxOpen = false;
-                        cursor = closeIdx + closeTag.length;
-                    } else if (thinkBoxOpen) {
-                        let thinkText = contentHTML.slice(cursor);
-                        finalHTML += thinkText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        cursor = contentHTML.length;
-                    } else {
-                        let normalText = contentHTML.slice(cursor);
-                        if (normalText) {
-                            let parsed = normalText
-                                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-                                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-                                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-                                .replace(/```(\w*)\n([\s\S]*?)\n```/g, function(_, lang, code) {
-                                    if (lang.toLowerCase() === 'js' || lang.toLowerCase() === 'javascript') {
-                                        code = code
-                                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                                            .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                                            .replace(/_(.*?)_/g, '<em>$1</em>');
-                                    }
-                                    return `<pre><code class="${lang}">${code}</code></pre>`;
-                                })
-                                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                                .replace(/^\s*[\*\-+] (.*$)/gm, '<li>$1</li>')
-                                .replace(/^\s*\d\. (.*$)/gm, '<li>$1</li>')
-                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                                .replace(/__(.*?)__/g, '<strong>$1</strong>')
-                                .replace(/_(.*?)_/g, '<em>$1</em>');
-                            if (parsed.includes('<li>')) {
-                                parsed = parsed.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
-                            }
-                            finalHTML += parsed;
-                        }
-                        cursor = contentHTML.length;
-                    }
-                }
-
-                if (msg.role === 'assistant' && msg.error) {
-                    messageDiv.classList.add('error-message');
-                    finalHTML = `Error: ${msg.content}`;
-                } else if (msg.role === 'assistant' && msg.isLoading) {
-                    finalHTML += ' <div class="spinner"></div>';
-                }
-
-                messageDiv.innerHTML = finalHTML;
-                chatContainer.appendChild(messageDiv);
-            });
-
-            chatContainer.scrollTo({
-                top: chatContainer.scrollHeight,
-                behavior: 'smooth'
-            });
+            chatContainer.appendChild(messageDiv);
+            scrollToBottom();
+            return messageId;
         }
 
+        function updateMessage(messageId, rawMarkdown) {
+            const messageDiv = document.getElementById(messageId);
+            if (!messageDiv) return;
+
+            let reasoningHTML = '';
+            let contentMarkdown = rawMarkdown;
+
+            const thinkStart = '<think>';
+            const thinkEnd = '</think>';
+
+            if (contentMarkdown.includes(thinkStart)) {
+                const startIdx = contentMarkdown.indexOf(thinkStart);
+                const endIdx = contentMarkdown.lastIndexOf(thinkEnd);
+                
+                if (endIdx > startIdx) {
+                    const reasoningText = contentMarkdown.substring(startIdx + thinkStart.length, endIdx);
+                    contentMarkdown = contentMarkdown.substring(0, startIdx) + contentMarkdown.substring(endIdx + thinkEnd.length);
+
+                    reasoningHTML = `
+                        <div class="think-box">
+                            <div class="think-header" onclick="toggleThinkBox(this)">
+                                <span class="think-arrow">▼</span>
+                                <span class="think-label">Thinking Process</span>
+                            </div>
+                            <div class="think-content">${reasoningText.replace(/</g, '<').replace(/>/g, '>')}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            const contentHTML = marked.parse(contentMarkdown);
+            messageDiv.innerHTML = reasoningHTML + contentHTML;
+            scrollToBottom();
+        }
 
         async function fetchCsrfToken() {
-            const initialMessage = chatHistory[0];
             try {
-                console.log('Fetching CSRF token...');
                 userId = getUserId();
-
-                if (!userId) {
-                    throw new Error('Could not generate or retrieve User ID.');
-                }
-
                 const response = await fetch(`${API_BASE_URL}/get-csrf-token`, {
                     method: 'GET',
-                    headers: {
-                        'X-User-ID': userId
-                    },
+                    headers: { 'X-User-ID': userId },
                     credentials: 'include'
                 });
-
-                console.log('CSRF token response status:', response.status);
-
-                if (!response.ok) {
-                    let errorText = `(${response.status}) ${response.statusText}`;
-                     try {
-                        const errorData = await response.json();
-                         errorText = errorData.error || await response.text();
-                     } catch (e) {
-                         errorText = await response.text() || errorText;
-                     }
-                    throw new Error(`Failed to fetch CSRF token: ${errorText}`);
-                }
-
+                if (!response.ok) throw new Error(`Status: ${response.status}`);
                 const data = await response.json();
-                if (!data.csrf_token) {
-                    throw new Error('CSRF token not found in response.');
-                }
+                if (!data.csrf_token) throw new Error('Token not in response.');
                 csrfToken = data.csrf_token;
-                console.log('Fetched CSRF token:', csrfToken, 'for UserID:', userId);
-
             } catch (error) {
                 console.error('Error fetching CSRF token:', error);
-                initialMessage.content = `Error: Could not initialize security token. ${error.message}. Please refresh.`;
-                initialMessage.error = true;
-                renderChatHistory();
+                appendMessage('assistant', `Error: Could not initialize security token. ${error.message}. Please refresh.`);
                 document.getElementById('userInput').disabled = true;
                 document.getElementById('sendBtn').disabled = true;
             }
@@ -421,46 +319,26 @@
 
             const userInputField = document.getElementById("userInput");
             const userInput = userInputField.value.trim();
-            const logo = document.getElementById("logo");
-            const sendBtn = document.getElementById("sendBtn");
-
-            if (!userInput) {
-                return;
-            }
+            if (!userInput) return;
 
             if (!csrfToken || !userId) {
-                const temporaryErrorMsg = { role: 'assistant', content: 'Security token or user ID not loaded. Trying to refresh token...', error: true };
-                chatHistory.push(temporaryErrorMsg);
-                renderChatHistory();
-                console.error('Missing CSRF token or User ID before sending request.');
-                await fetchCsrfToken();
-                 chatHistory.pop();
-                 renderChatHistory();
-                if (!csrfToken || !userId) {
-                     const permanentErrorMsg = { role: 'assistant', content: 'Failed to load security token. Please refresh the page.', error: true };
-                     chatHistory.push(permanentErrorMsg);
-                     renderChatHistory();
-                     return;
-                 }
+                appendMessage('assistant', 'Security token invalid. Please refresh.', false);
+                return;
             }
+            
+            isWaitingForResponse = true;
+            document.getElementById('sendBtn').disabled = true;
+            userInputField.disabled = true;
 
             chatHistory.push({ role: 'user', content: userInput });
-            userInputField.value = '';
-            renderChatHistory();
+            appendMessage('user', userInput);
 
-            chatHistory.push({ role: 'assistant', content: '', isLoading: true });
-            renderChatHistory();
+            const assistantMsgId = appendMessage('assistant', 'Contacting the BloxdForge Coder...', true);
 
-            isWaitingForResponse = true;
-            sendBtn.disabled = true;
-            userInputField.disabled = true;
-            logo.classList.add('spinning');
-
-                const currentAssistantMessage = chatHistory[chatHistory.length - 1];
-                let receivedError = false;
+            let accumulatedContent = "";
+            let accumulatedReasoning = "";
 
             try {
-                console.log('Sending POST request to /api/code with CSRF token:', csrfToken, 'and UserID:', userId);
                 const response = await fetch(`${API_BASE_URL}/api/code`, {
                     method: 'POST',
                     headers: {
@@ -468,170 +346,96 @@
                         'Accept': 'text/event-stream',
                         'X-User-ID': userId,
                         'X-CSRF-Token': csrfToken,
-                        'X-Origin-Site': 'BloxdForge'
                     },
-                    body: JSON.stringify({ messages: chatHistory.slice(0, -1) }),
+                    body: JSON.stringify({ messages: chatHistory }),
                     credentials: 'include'
                 });
 
-                console.log('POST response status:', response.status);
-
                 if (!response.ok || !response.body) {
-                     let errorText = `(${response.status}) ${response.statusText}`;
-                     try {
-                         const errorChunk = await response.text();
-                         console.error("Raw error response:", errorChunk);
-                         const match = errorChunk.match(/data:\s*(\{.*\})\s*\n/);
-                         if (match && match[1]) {
-                             const errorJson = JSON.parse(match[1]);
-                             errorText = errorJson.error || errorText;
-                         } else {
-                             errorText = errorChunk || errorText;
-                         }
-                     } catch(e) {
-                         console.warn("Could not parse SSE error", e);
-                         errorText += " (Could not parse error details)";
-                     }
-                     throw new Error(`Network response error: ${errorText}`);
-                 }
-
+                    const errorText = await response.text();
+                    throw new Error(`Network response error: ${response.status} ${errorText}`);
+                }
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 let buffer = "";
-                let accumulatedResponse = "";
 
                 while (true) {
                     const { done, value } = await reader.read();
-                    if (done) {
-                        console.log('Stream finished.');
-                        break;
-                    }
+                    if (done) break;
 
                     buffer += decoder.decode(value, { stream: true });
-                    let boundary = buffer.indexOf('\n\n');
-
-                    while (boundary >= 0) {
+                    let boundary;
+                    while ((boundary = buffer.indexOf('\n\n')) >= 0) {
                         const message = buffer.substring(0, boundary);
                         buffer = buffer.substring(boundary + 2);
 
-                        console.log('Received SSE chunk:', message);
-                        const lines = message.split('\n');
-                        let eventType = 'message';
-                        let dataContent = '';
+                        if (message.startsWith('data: ')) {
+                            const dataContent = message.substring(6).trim();
+                            if (dataContent === '[DONE]') continue;
 
-                        for (const line of lines) {
-                            if (line.startsWith('event:')) {
-                                eventType = line.substring('event:'.length).trim();
-                            } else if (line.startsWith('data:')) {
-                                dataContent += line.substring('data:'.length).trimStart();
-                            } else if (dataContent && line.trim()){
-                                dataContent += "\n" + line.trim();
-                            }
-                        }
-
-                        console.log(`Parsed Event: ${eventType}, Data: ${dataContent}`);
-
-                        if (eventType === 'error') {
-                             receivedError = true;
-                             try {
-                                 const jsonData = JSON.parse(dataContent);
-                                 accumulatedResponse = `${jsonData.error || 'Unknown error from server'}`;
-                                 console.error('Received error event:', jsonData.error);
-                             } catch (e) {
-                                 console.error('Error parsing error event data:', e, `Data: [${dataContent}]`);
-                                 accumulatedResponse = dataContent || 'Error: Received unparsable error from server.';
-                             }
-                             if (currentAssistantMessage) {
-                                 currentAssistantMessage.content = accumulatedResponse;
-                                 currentAssistantMessage.error = true;
-                                 currentAssistantMessage.isLoading = false;
-                                 renderChatHistory();
-                             }
-                             reader.cancel();
-                             boundary = -1;
-                             break;
-
-                         } else if (dataContent && eventType === 'message') {
                             try {
                                 const jsonData = JSON.parse(dataContent);
-                                if (jsonData.choices && jsonData.choices[0].delta && jsonData.choices[0].delta.content) {
-                                    const contentChunk = jsonData.choices[0].delta.content;
-                                    accumulatedResponse += contentChunk;
-                                    currentAssistantMessage.content = accumulatedResponse;
-                                    currentAssistantMessage.isLoading = false;
-                                    renderChatHistory();
-                                } else if (jsonData.error) {
-                                      accumulatedResponse = `Error: ${jsonData.error.message || 'Unknown AI error'}`;
-                                      currentAssistantMessage.error = true;
-                                      currentAssistantMessage.content = accumulatedResponse;
-                                      currentAssistantMessage.isLoading = false;
-                                      renderChatHistory();
-                                      reader.cancel();
-                                      boundary = -1;
-                                      break;
-                                }
+                                const delta = jsonData.choices?.[0]?.delta;
+                                if (!delta) continue;
+
+                                if (delta.content) accumulatedContent += delta.content;
+                                if (delta.reasoning) accumulatedReasoning += delta.reasoning;
+
+                                const fullRawResponse = `<think>${accumulatedReasoning}</think>${accumulatedContent}`;
+                                updateMessage(assistantMsgId, fullRawResponse);
+
                             } catch (e) {
-                                console.warn('Received non-JSON or unexpected data chunk:', e, `Chunk: [${dataContent}]`);
+                                console.warn('Could not parse SSE chunk:', dataContent, e);
                             }
                         }
-                        boundary = buffer.indexOf('\n\n');
                     }
                 }
-
-                 if (currentAssistantMessage) {
-                    currentAssistantMessage.isLoading = false;
-                    if (!receivedError && accumulatedResponse.trim() === "") {
-                        currentAssistantMessage.content = "Assistant did not provide a response.";
-                    } else if (!receivedError) {
-                         currentAssistantMessage.content = accumulatedResponse;
-                    }
-                    renderChatHistory();
-                 }
+                
+                const finalRawResponse = `<think>${accumulatedReasoning}</think>${accumulatedContent}`;
+                updateMessage(assistantMsgId, finalRawResponse);
+                chatHistory.push({ role: 'assistant', content: finalRawResponse });
 
             } catch (error) {
                 console.error('Error in askCodeAgent:', error);
-                currentAssistantMessage.content = "Error: " + error.message;
-                currentAssistantMessage.error = true;
-                currentAssistantMessage.isLoading = false;
-                renderChatHistory();
+                updateMessage(assistantMsgId, `**Error:** ${error.message}`);
+                chatHistory.push({ role: 'assistant', content: `Error: ${error.message}` });
             } finally {
                 isWaitingForResponse = false;
-                logo.classList.remove('spinning');
                 userInputField.disabled = false;
+                userInputField.focus();
                 setTimeout(() => {
-                    sendBtn.disabled = false;
-                    console.log("Send button re-enabled.");
+                    document.getElementById('sendBtn').disabled = false;
                 }, RATE_LIMIT_SECONDS * 1000);
-                 if (currentAssistantMessage) currentAssistantMessage.isLoading = false;
-                 renderChatHistory();
             }
+             userInputField.value = '';
         }
 
         window.onload = () => {
-            renderChatHistory();
+            appendMessage('assistant', 'Hello! Ask me to help you write JavaScript code using the Bloxd.io API.');
             fetchCsrfToken();
-            document.getElementById('userInput').focus();
+            const userInputField = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            
+            userInputField.focus();
+            sendBtn.addEventListener('click', askCodeAgent);
+            userInputField.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!sendBtn.disabled) askCodeAgent();
+                }
+            });
         };
 
-        document.getElementById('userInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                askCodeAgent();
-            }
-        });
-
-        window.toggleThinkBox = function(id) {
-            const content = document.getElementById(id);
-            if (!content) return;
-            const header = content.previousElementSibling;
-            const arrow = header.querySelector('.think-arrow');
+        window.toggleThinkBox = function(headerElement) {
+            const content = headerElement.nextElementSibling;
+            const arrow = headerElement.querySelector('.think-arrow');
             if (content.style.display === 'none') {
                 content.style.display = 'block';
-                arrow.innerHTML = '&#x25B2;';
+                arrow.innerHTML = '▲';
             } else {
                 content.style.display = 'none';
-                arrow.innerHTML = '&#x25BC;';
+                arrow.innerHTML = '▼';
             }
         }
     </script>
