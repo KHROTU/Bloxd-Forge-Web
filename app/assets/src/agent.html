@@ -85,6 +85,7 @@
         let csrfToken = null;
         let userId = null;
         const API_BASE_URL = 'https://khrotu.pythonanywhere.com';
+        const RATE_LIMIT_SECONDS = 3;
 
         function getUserId() {
             let storedId = localStorage.getItem('userId');
