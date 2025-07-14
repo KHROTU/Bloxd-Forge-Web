@@ -213,6 +213,7 @@
         }
         .think-box.open .think-content {
           max-height: 500px;
+          overflow-y: auto;
         }
         .think-box.open .think-arrow {
           transform: rotate(90deg);
@@ -270,7 +271,7 @@
             return messageId;
         };
 
-        const updateMessage = (messageId, reasoningText, contentText) => {
+        const updateMessage = (messageId, reasoningText, contentText, isStreamingThinking = false) => {
             const messageDiv = document.getElementById(messageId);
             if (!messageDiv) return;
 
@@ -279,25 +280,39 @@
             let finalContent = contentText;
 
             if (thinkMatch && thinkMatch[1]) {
-                finalReasoning = thinkMatch[1].trim();
+                finalReasoning = (finalReasoning + '\n' + thinkMatch[1]).trim();
                 finalContent = contentText.replace(thinkMatch[0], '').trim();
             }
 
             const contentHTML = marked.parse(finalContent);
-            let finalHTML = '';
+            let thinkHTML = '';
 
             if (finalReasoning) {
-                finalHTML = `
-                    <div class="think-box">
+                const existingThinkBox = messageDiv.querySelector('.think-box');
+                let classes = ['think-box'];
+
+                if (existingThinkBox?.classList.contains('user-touched')) {
+                    classes.push('user-touched');
+                    if (existingThinkBox.classList.contains('open')) {
+                        classes.push('open');
+                    }
+                } else if (isStreamingThinking) {
+                    classes.push('open');
+                }
+                
+                const escapedReasoning = finalReasoning.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+
+                thinkHTML = `
+                    <div class="${classes.join(' ')}">
                         <div class="think-header">
                             <span class="think-arrow">▶</span>
                             <span class="think-label">Thinking Process</span>
                         </div>
-                        <div class="think-content">${finalReasoning.replace(/</g, '<').replace(/>/g, '>')}</div>
+                        <div class="think-content">${escapedReasoning}</div>
                     </div>`;
             }
 
-            messageDiv.innerHTML = finalHTML + contentHTML;
+            messageDiv.innerHTML = thinkHTML + contentHTML;
 
             messageDiv.querySelectorAll('pre:not(:has(.copy-btn))').forEach(pre => {
                 const code = pre.querySelector('code');
@@ -315,7 +330,11 @@
 
             messageDiv.querySelectorAll('.think-header:not(.event-attached)').forEach(header => {
                 header.classList.add('event-attached');
-                header.onclick = () => header.parentElement.classList.toggle('open');
+                header.onclick = () => {
+                    const thinkBox = header.parentElement;
+                    thinkBox.classList.toggle('open');
+                    thinkBox.classList.add('user-touched');
+                };
             });
             scrollToBottom();
         };
@@ -362,6 +381,7 @@
 
             let accumulatedReasoning = "";
             let accumulatedContent = "";
+            let hasStartedContent = false;
 
             try {
                 const response = await fetch(`${state.apiBaseUrl}/api/code`, {
@@ -405,8 +425,10 @@
                                     }
                                     if (delta.content) {
                                         accumulatedContent += delta.content;
+                                        hasStartedContent = true;
                                     }
-                                    updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent);
+                                    const isStreamingThinking = accumulatedReasoning.length > 0 && !hasStartedContent;
+                                    updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent, isStreamingThinking);
                                 }
                             } catch (e) {
                                 console.debug('Could not parse partial SSE chunk. Buffer will handle it.', data);
@@ -415,17 +437,17 @@
                     }
                 }
 
-                updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent);
+                updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent, false);
 
                 const finalContentToSave = accumulatedContent.replace(/<think>[\s\S]*?<\/think>/, '').trim();
                 if (finalContentToSave || accumulatedReasoning) {
                     state.chatHistory.push({ role: 'assistant', content: accumulatedContent });
                 } else {
-                    updateMessage(assistantMsgId, "", "The AI returned an empty or invalid response.");
+                    updateMessage(assistantMsgId, "", "The AI returned an empty or invalid response.", false);
                 }
             } catch (error) {
                 console.error('Code Agent Error:', error);
-                updateMessage(assistantMsgId, "", `**Error:** ${error.message}`);
+                updateMessage(assistantMsgId, "", `**Error:** ${error.message}`, false);
             } finally {
                 state.isWaiting = false;
                 ui.input.disabled = false;
