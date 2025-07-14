@@ -79,12 +79,13 @@
     <img id="logo" src="https://imghost.net/ib/Q4w3Wnj3Ctz2MBV_1740586783.png" alt="Logo" style="width: 100px; margin-bottom: 20px;">
     <div id="output">Ask the BloxdForge Agent a question about Bloxd.io!</div>
     <input id="userInput" type="text" placeholder="Ask something..." />
-    <button id="sendBtn" onclick="askAgent()">Send</button>
+    <button id="sendBtn">Send</button>
 
     <script>
         let csrfToken = null;
         let userId = null;
         const API_BASE_URL = 'https://khrotu.pythonanywhere.com';
+        const RATE_LIMIT_SECONDS = 3;
 
         function getUserId() {
             let storedId = localStorage.getItem('userId');
@@ -276,21 +277,19 @@
                                       break;
                                  }
                              } catch (e) {
-                                 console.warn('Received non-JSON or unexpected data chunk:', e, dataContent);
+                                 if (dataContent !== '[DONE]') {
+                                     console.warn('Received non-JSON or unexpected data chunk:', dataContent, e);
+                                 }
                              }
                         }
-
                         boundary = buffer.indexOf('\n\n');
                     }
-
                      if (eventType === 'error') break;
-
                 }
 
                  if (buffer.trim()) {
                      console.warn("Stream ended with unprocessed buffer:", buffer);
                  }
-
 
             } catch (error) {
                 console.error('Error in askAgent:', error);
@@ -305,10 +304,33 @@
                 }, RATE_LIMIT_SECONDS * 1000);
             }
         }
+        
+        window.onload = () => {
+            fetchCsrfToken();
 
-         const RATE_LIMIT_SECONDS = 3;
+            const sendBtn = document.getElementById('sendBtn');
+            const userInputField = document.getElementById('userInput');
 
-        window.onload = fetchCsrfToken;
+            if (sendBtn) {
+                sendBtn.addEventListener('click', askAgent);
+            } else {
+                console.error('Error: Send button element not found.');
+            }
+
+            if (userInputField) {
+                userInputField.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        
+                        if (sendBtn && !sendBtn.disabled) {
+                            askAgent();
+                        }
+                    }
+                });
+            } else {
+                console.error('Error: User input element not found.');
+            }
+        };
     </script>
 </body>
 </html>
