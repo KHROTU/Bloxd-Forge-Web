@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BloxdForge - One Stop Solution to Bloxd Gaming</title>
-    <meta name="description" content="Bloxd Forge is a Bloxd QOL (Quality-Of-Life) improvement mod that offers texture-packs, a FPS booster, a chat, and a discord for support.">
-    <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
+    <meta name="description" content="Bloxd Forge is a Bloxd Quality-Of-Life improvement mod that offers texture-packs, a FPS booster, a workshop, and a discord for support.">
     <link rel="preload" href="https://api.github.com/repos/KHROTU/Bloxd-Forge-Web/contents/app/assets/src/tpacks?ref=main" as="fetch" fetchpriority="high" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="/favicon.ico" type="image/png">
@@ -26,17 +25,18 @@
             width: 100px;
             background: linear-gradient(180deg, #242424, #181818);
             color: #fff;
-            height: 98vh;
+            height: 95%;
             padding-top: 20px;
-            border-radius: 10px;
+            border-radius: 10px 10px 0 0;
             position: fixed;
-            top: 10px;
+            bottom: 0px;
             left: 10px;
             box-shadow: 2px 0 15px rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: transform 0.3s ease;
+            border: 1px solid #282828;
         }
 
         .sidebar.hidden {
@@ -153,6 +153,8 @@
             width: auto;
             min-width: 200px;
             box-sizing: border-box;
+            border: 1px solid #3d3d3d;
+            border-top: none;
         }
 
         .top-right-box.expanded {
@@ -174,7 +176,6 @@
             transform: scale(0.8) translateX(60px);
             right: 50px;
             backdrop-filter: blur(0px);
-            max-width: 90vw;
         }
 
         .top-right-box.smaller {
@@ -183,7 +184,7 @@
             z-index: 9999;
             border-radius: 10px;
             backdrop-filter: blur(0px);
-            max-width: 90vw;
+            min-width: 200px !important;
         }
 
         @media (max-width: 768px) {
@@ -225,13 +226,15 @@
             display: none;
             position: fixed;
             top: 0px;
-            right: 230px;
+            right: 280px;
             background-color: rgba(51, 51, 51, 0.7);
             padding: 15px;
             border-radius: 0 0 10px 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             z-index: 30;
             backdrop-filter: blur(10px);
+            border: 1px solid #383838;
+            border-top: none;
         }
 
         .folder-menu-btn {
@@ -333,12 +336,60 @@
             border: none;
             margin: 0px 0;
         }
+
+        .slot-menu {
+        position: fixed;
+        bottom: 0px;
+        right: 20px;
+        width: 360px;
+        height: 420px;
+        background-color: #242424;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 0 0 15px rgba(0,0,0,0.7);
+        overflow: hidden;
+        z-index: 1000;
+        display: none;
+        border: 1px solid #383838;
+        padding: 10px;
+    }
+
+    .slot-menu iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 10px 10px 0 0;
+        background-color: #181818;
+    }
+
+    @keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-1px); }
+  40% { transform: translateX(1px); }
+  60% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
+  100% { transform: translateX(0); }
+}
+
+.slot-btn {
+  color: var(--primary-orange);
+  animation: shake 0.4s infinite;
+}
+
+
+
     </style>
 </head>
 <body>
+    <!--
     <div id="fullscreen-iframe-container">
         <iframe id="fullscreen-iframe" src="/app/assets/src/load.html"></iframe>
     </div>
+    -->
+
+
+    <div id="slot-menu" class="slot-menu" style="display: none;"></div>
+
+    
 
     <div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
 
@@ -358,10 +409,6 @@
         <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page4')">
             <i class="fas fa-shopping-cart"></i>
             <span>Shop</span>
-        </a>
-        <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page5')">
-            <i class="fas fa-truck"></i>
-            <span>Builds</span>
         </a>
         <a href="javascript:void(0)" class="sidebar-link" onclick="setActiveLink(this, 'page6')">
             <i class="fas fa-book"></i>
@@ -390,6 +437,9 @@
             <button class="folder-menu-btn" onclick="toggleFolderMenu()">
                 <i class="fas fa-folder"></i>
             </button>
+            <button class="folder-menu-btn slot-btn" onclick="stopShake(this); toggleSlotMenu();">
+                <i class="fas fa-gift"></i>
+            </button>
         </div>
 
         <div id="folder-menu" class="folder-menu">
@@ -401,15 +451,15 @@
         </div>
     </div>
 
-    <div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; width:100%; background:rgba(24,24,24,0.98); color:#fff; z-index:10000; padding:24px 10px 18px 10px; box-shadow:0 -2px 16px rgba(0,0,0,0.7); font-family:'Rubik',sans-serif;">
+    <div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; width:100%; background:rgba(24,24,24,0.98); color:#fff; z-index:10000; padding:24px 10px 18px 10px; box-shadow:0 -2px 16px rgba(0,0,0,0.7); font-family:'Rubik',sans-serif; border-radius:12px;">
         <div style="max-width:700px; margin:auto; display:flex; flex-direction:column; align-items:center;">
-            <div style="font-weight:bold; font-size:20px; margin-bottom:8px;">This website uses cookies</div>
-            <div style="font-size:15px; margin-bottom:18px; text-align:center;">
+            <div style="font-weight:bold; font-size:20px; margin-bottom:8px; text-align:center;">This website uses cookies</div>
+            <div style="font-size:15px; margin-bottom:18px; text-align:center; line-height:1.5;">
                 We use cookies to make our website work better and improve your online experience. By continuing to browse you accept the use of cookies, read more in <a href="https://bloxdforge.com/privacy" target="_blank" style="color:#ff8c00; text-decoration:underline;">our policy</a>.
             </div>
-            <div style="display:flex; gap:16px; width:100%; max-width:400px;">
-                <button id="cookie-accept" style="flex:1; background:#ff8c00; color:#fff; border:none; border-radius:8px; padding:12px 0; font-size:16px; font-weight:bold; cursor:pointer; transition:background 0.2s;">Accept all</button>
-                <button id="cookie-decline" style="flex:1; background:#444; color:#fff; border:none; border-radius:8px; padding:12px 0; font-size:16px; font-weight:bold; cursor:pointer; transition:background 0.2s;">Continue without consent</button>
+            <div style="display:flex; gap:16px; width:100%; max-width:400px; justify-content:center;">
+                <button id="cookie-accept" style="flex:1; background:#ff8c00; color:#fff; border:none; border-radius:8px; padding:12px 0; font-size:16px; font-weight:bold; cursor:pointer; transition:background 0.2s; box-shadow:0 0 8px rgba(0,0,0,0.2);">Accept all</button>
+                <button id="cookie-decline" style="flex:1; background:#444; color:#fff; border:none; border-radius:8px; padding:12px 0; font-size:16px; font-weight:bold; cursor:pointer; transition:background 0.2s; box-shadow:0 0 8px rgba(0,0,0,0.2);">Continue without consent</button>
             </div>
         </div>
     </div>
@@ -425,6 +475,28 @@
             page7: '/app/assets/7page.html',
             page8: '/app/assets/8page.html',
         };
+
+        let slotMenuLoaded = false;
+
+function toggleSlotMenu() {
+    const slotMenu = document.getElementById('slot-menu');
+
+    if (!slotMenuLoaded) {
+        const iframe = document.createElement('iframe');
+        iframe.src = "./app/assets/slots.html";
+        slotMenu.appendChild(iframe);
+        slotMenuLoaded = true;
+        slotMenu.style.display = 'block';
+    } else {
+        
+        if (slotMenu.style.display === 'none') {
+            slotMenu.style.display = 'block';
+        } else {
+            slotMenu.style.display = 'none';
+        }
+    }
+}
+
 
         function loadPage(pageName) {
             const iframe = document.querySelector('iframe[name="start-iframe"]');
@@ -452,12 +524,16 @@
                 sidebar.classList.add('hidden');
                 cornerBox.classList.add('smaller');
                 document.body.classList.add('locked');
+                document.querySelector('.folder-menu-btn').style.display = 'none';
+                document.querySelector('.slot-btn').style.display = 'none';
             } else {
                 startContainer.classList.remove('fullscreen');
                 startIframe.classList.remove('fullscreen');
                 sidebar.classList.remove('hidden');
                 cornerBox.classList.remove('smaller');
                 document.body.classList.remove('locked');
+                document.querySelector('.folder-menu-btn').style.display = 'block';
+                document.querySelector('.slot-btn').style.display = 'block';
             }
         }
 
@@ -701,6 +777,10 @@
             const startButton = document.querySelector('.sidebar-link');
             setActiveLink(startButton, 'page1');
         };
+
+        function stopShake(button) {
+            button.style.animation = 'none';
+        }
     </script>
 </body>
 </html>
