@@ -410,23 +410,30 @@ body {
                     button.disabled = this.points < prices[index];
                 });
             }
+
             startTimers() {
-    setInterval(() => {
-        const timeSinceLastPoints = Date.now() - this.lastPointsTime;
-        const timeUntilNext = 600000 - (timeSinceLastPoints % 600000); 
 
-        if (timeUntilNext <= 1000) {
-            if (this.points < 500) {   
-                this.awardPoints();
+                setInterval(() => {
+                    const timeSinceLastPoints = Date.now() - this.lastPointsTime;
+                    const timeUntilNext = 600000 - (timeSinceLastPoints % 600000); 
+
+                    if (timeUntilNext <= 1000) {
+                        this.awardPoints();
+                    }
+
+                    const minutes = Math.floor(timeUntilNext / 60000);
+                    const seconds = Math.floor((timeUntilNext % 60000) / 1000);
+                    this.timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                }, 1000);
             }
-        }
 
-        const minutes = Math.floor(timeUntilNext / 60000);
-        const seconds = Math.floor((timeUntilNext % 60000) / 1000);
-        this.timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    }, 1000);
-}
-
+            awardPoints() {
+                this.points += 100;
+                this.lastPointsTime = Date.now();
+                this.showFloatingPoints('+100');
+                this.updateDisplay();
+                this.save();
+            }
 
             showFloatingPoints(text) {
                 const floating = document.createElement('div');
