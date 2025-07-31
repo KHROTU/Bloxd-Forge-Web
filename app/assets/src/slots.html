@@ -428,12 +428,15 @@ body {
             }
 
             awardPoints() {
+                if (this.points >= 500) return;
+
                 this.points += 100;
                 this.lastPointsTime = Date.now();
                 this.showFloatingPoints('+100');
                 this.updateDisplay();
                 this.save();
             }
+
 
             showFloatingPoints(text) {
                 const floating = document.createElement('div');
