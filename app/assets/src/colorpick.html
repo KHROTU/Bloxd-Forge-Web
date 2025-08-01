@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Color maker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chroma-js@2.4.2/chroma.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 2rem;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 1rem;
+    }
+
+    .section {
+      background: #181818;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .placeholder {
+      background: #1a1a1a55;
+      border-radius: 10px;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .swatch {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.05);
+      outline: 2px solid #ff7b00;
+    }
+
+    input[type="color"] {
+      -webkit-appearance: none;
+      appearance: none;
+      border: 2px solid #444;
+      border-radius: 8px;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      background: #1e1e1e;
+      padding: 0;
+      transition: border 0.2s ease, transform 0.1s ease;
+    }
+
+    input[type="color"]:hover {
+      border-color: #ff7b00;
+      transform: scale(1.01);
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      /* Removed fixed background color */
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    @media (max-width: 1000px) {
+      .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .max-button {
+      width: 100%;
+      height: 100%;
+      margin-top: 0;
+      padding: 0;
+      transition: transform 0.3s ease;
+    }
+    .max-button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-container">
+
+    <div class="section">
+      <input type="color" id="baseColor" value="#ab003e" oninput="updateAll()">
+      <button onclick="updateAll()">Generate Colors</button>
+    </div>
+
+    <div class="section">
+      <h2>Palette</h2>
+      <div class="swatch-grid" id="paletteGrid"></div>
+    </div>
+
+    <div class="section">
+      <h2>Similar Shades</h2>
+      <div class="swatch-grid" id="shadesGrid"></div>
+    </div>
+
+    <div class="section">
+      <button class="max-button" onclick="copyAllHex()">Copy Hex</button>
+      <div id="copyStatus" style="margin-top:0.5rem; font-size:0.8rem; color:#0f0;"></div>
+    </div>
+
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+
+  </div>
+
+  <script>
+    let currentPalette = [];
+    let currentShades = [];
+
+    function createSwatch(color) {
+      const textColor = chroma(color).luminance() < 0.4 ? '#fff' : '#000';
+      return `<div class="swatch" style="background:${color};color:${textColor}" onclick="copyHex('${color}')">${color}</div>`;
+    }
+
+    function updateAll() {
+      const base = document.getElementById('baseColor').value;
+
+      document.querySelectorAll('button').forEach(btn => {
+        btn.style.background = base;
+      });
+
+      currentPalette = [
+        base,
+        chroma(base).brighten(1).hex(),
+        chroma(base).brighten(2).hex(),
+        chroma(base).darken(1).hex(),
+        chroma(base).darken(2).hex()
+      ];
+      document.getElementById('paletteGrid').innerHTML = currentPalette.map(createSwatch).join('');
+
+      currentShades = [
+        chroma(base).desaturate(0.2).hex(),
+        chroma(base).desaturate(0.5).hex(),
+        chroma(base).desaturate(1).hex(),
+        chroma(base).desaturate(2).hex()
+      ];
+      document.getElementById('shadesGrid').innerHTML = currentShades.map(createSwatch).join('');
+    }
+
+    function copyHex(hex) {
+      navigator.clipboard.writeText(hex).then(() => {
+        console.log(`Copied: ${hex}`);
+      });
+    }       
+
+    function copyAllHex() {
+      const base = document.getElementById('baseColor').value;
+      navigator.clipboard.writeText(base).then(() => {
+        const status = document.getElementById("copyStatus");
+        status.textContent = "✅ Copied main color: " + base;
+        setTimeout(() => (status.textContent = ""), 2000);
+      });
+    }
+
+    updateAll();
+  </script>
+</body>
+</html>
