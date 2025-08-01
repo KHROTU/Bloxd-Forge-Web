@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BloxdForge Converter</title>
+        <meta name="description" content="Convert schematic files from minecraft to bloxd and vice versa">
+        <title>Schematic Converter</title>
         <style>
             :root {
                 --primary-color: #ff9f40;
@@ -287,6 +288,14 @@
                 position: relative;
                 overflow: hidden;
             }
+            
+            .important p {
+                margin-bottom: 0.5rem;
+            }
+            
+            .important p:last-child {
+                margin-bottom: 0;
+            }
 
             .important::before {
                 content: '';
@@ -405,19 +414,12 @@
                 color: var(--hover-color);
             }
         </style>
-        <script src="./avsc.js"></script>
-        <script src="./pnbt.js"></script>
-        <script>
-            window.pnbt = require("prismarine-nbt");
-            window.Buffer = require("buffer").Buffer;
-            window.avsc = require("avsc");
-        </script>
-        <script src="./index.js" type="module"></script>
+        <script src="./bundle.js" defer></script>
     </head>
     <body>
         <header>
             <h1>Schematic Converter</h1>
-            <p>Convert between Minecraft schematic and bloxd.io schematic!</p>
+            <p>Convert schematic files from minecraft to bloxd and vice versa</p>
         </header>
 
         <main class="container">
@@ -426,19 +428,25 @@
                 <p>Select a file to convert</p>
                 <div class="file-input-wrapper">
                     <label class="file-input-button" for="schematic-file">Choose File</label>
-                    <input type="file" id="schematic-file" accept=".schem,.bloxdschem,.litematic">
+                    <input type="file" id="schematic-file" accept=".schem,.bloxdschem,.litematic,.schematic">
                 </div>
-            </div>
-
-            <div class="important">
-                <h3>Important</h3>
-                <p>This app was originally made by <a href="https://github.com/hansdiewurst">random</a></p>
             </div>
 
             <div id="status" class="status-section"></div>
 
+            <div class="important">
+                <h3>Important Notes</h3>
+                <p><strong>Supported types:</strong> .bloxdschem, .schematic, .schem, .litematic.</p>
+                <p>It is recommended to use <a href="https://beta.cubical.xyz" target="_blank" rel="noopener noreferrer">beta cubical</a> to convert .schematic files to .schem (File -> Export File -> Sponge Schematic) for more accurate conversion.</p>
+                <p>Blocks with no equivalent in the other game are replaced with dirt.</p>
+                <p><strong>Splitting Info:</strong> Minecraft Schematics that exceed bloxd's maximum chunk size get split into multiple files, compressed into a single .zip file. The X-Coordinate in each file name represents the build's offset on the X-Axis.</p>
+            </div>
+
             <div class="credits">
-                Credit: Significant parts of <a href="./js/block-jsons.js">block-jsons.js</a> are taken from <a href="https://bloxd.io/" target="_blank">bloxd</a>
+                This app was made by <a href="https://github.com/hansdiewurst" target="_blank" rel="noopener noreferrer">hansdiewurst</a>.
+                Significant parts of the block conversion logic are taken from <a href="https://bloxd.io/" target="_blank" rel="noopener noreferrer">bloxd.io</a>.
+                View the unbundled code <a href="https://github.com/hansdiewurst/converter" target="_blank" rel="noopener noreferrer">here</a>.
+                <br><br>
             </div>
         </main>
     </body>
