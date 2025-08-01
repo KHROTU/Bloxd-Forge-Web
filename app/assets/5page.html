@@ -1,543 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Forged Builds</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://kit.fontawesome.com/e3da39203e.js" crossorigin="anonymous"></script>
-    <style>
-      
-        :root {
-            --primary: #FFA500;
-            --secondary: #5865F2;
-            --background: #181818;
-            --surface: #1E1E1E;
-            --surface-hover: #2A2A2A;
-            --text-primary: #FFFFFF;
-            --text-secondary: #A0A0A0;
-        }
+  <meta charset="UTF-8" />
+  <title>ForgeBuilds</title>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
 
-        body {
-            background-color: var(--background);
-            color: var(--text-primary);
-            font-family: "Onest", sans-serif;
-            margin: 0;
-            line-height: 1.6;
-        }
+    #search {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: 1rem auto;
+      width: 95%;
+      height: 40px;
+      padding: 0.6rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background: #1c1c1c;
+      color: #fff;
+      border: 1px solid #333;
+      z-index: 1000;
+    }
 
-      
-        #topBar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: var(--surface);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    #cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
 
-        .topbar-left, .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+    .card {
+      background: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
 
-        #searchContainer {
-            flex-grow: 1;
-            max-width: 600px;
-        }
+    .card:hover {
+      transform: translateY(-4px);
+    }
 
-        #search {
-            width: 170%;
-            background: var(--background);
-            border: 2px solid var(--surface-hover);
-            color: var(--text-primary);
-            padding: 0.75rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid #333;
+      transition: transform 0.8s ease;
+    }
 
-        #search:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2);
-            outline: none;
-        }
+    .card img:hover {
+      transform: scale(1.5);
+    }
 
-       
-        #schematicContainer {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 2rem;
-        }
+    .card-content {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
 
-        .schematicBox {
-            background: var(--surface);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+    .name {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #ec743d;
+    }
 
-        .schematicBox:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
+    .author {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
 
-        .image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 2px solid var(--surface-hover);
-        }
+    .tags {
+      font-size: 0.85rem;
+      color: #999;
+    }
 
-        .schematicBox h2 {
-            padding: 1rem;
-            margin: 0;
-            font-size: 1.25rem;
-        }
+    a {
+      text-decoration: none;
+    }
 
-        .schematicBox p {
-            padding: 0 1rem;
-            color: var(--text-secondary);
-        }
+    .btn-download {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      color: #fff;
+      background: transparent;
+      max-width: 100%;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-align: center;
+    }
 
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            padding: 0 1rem 1rem;
-        }
-
-        .tag {
-            background: rgba(255, 165, 0, 0.1);
-            color: var(--primary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .downloadButton {
-            background: var(--primary);
-            color: #000;
-            margin: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .downloadButton:hover {
-            background: #FF8C00;
-        }
-
-      
-        .button-secondary {
-            background: var(--surface);
-            color: var(--text-primary);
-        }
-
-        .button-secondary:hover {
-            background: var(--surface-hover);
-        }
-
-       
-        .button-secondary i, 
-        .button-secondary span {
-            color: var(--text-primary);
-        }
-
-  
-        .logo-container {
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .logo-container::after {
-            content: 'Click to reload';
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--surface);
-            color: var(--text-primary);
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            z-index: 10;
-        }
-
-        .logo-container:hover::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .logo-image {
-            height: 50px;  
-            width: auto;
-            object-fit: contain;
-            margin-right: 1rem;
-            transition: transform 0.2s ease;
-        }
-
-        .logo-container:hover .logo-image {
-            transform: scale(1.05);
-        }
-
-    
-
-     
-        #filtersDiv {
-            padding: 1rem 2rem;
-            background: var(--surface);
-        }
-
-        #tagFilter {
-            background: var(--background);
-            color: var(--text-primary);
-            border: 2px solid var(--surface-hover);
-            padding: 0.5rem;
-            border-radius: 8px;
-        }
-
-      
-        #paginationContainer {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            padding: 2rem;
-        }
-
-        .pageButton {
-            background: var(--surface);
-            color: var(--text-primary);
-        }
-
-        .pageButton:hover {
-            background: var(--surface-hover);
-        }
-
-        .upload-button {
-            background: var(--primary);
-            color: #000;
-            margin-left: 11rem;
-            height: 48px;
-            padding: 0 1.5rem;
-            display: flex;
-            align-items: center;
-        }
-
-        @media (max-width: 768px) {
-            #topBar {
-                flex-direction: column;
-                padding: 1rem;
-                gap: 1rem;
-            }
-
-            #schematicContainer {
-                grid-template-columns: 1fr;
-                padding: 1rem;
-            }
-
-        ::-webkit-scrollbar-track {
-            border-radius: 0px;
-        }
-     }
-        ::-webkit-scrollbar {
-    display: none !important;
-}
-
-body {
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-}
-
-    </style>
+    .btn-download:hover {
+      background: #ec743d33;
+    }
+  </style>
 </head>
-<body onload="onLoadScript()">
+<body>
+  <input type="text" id="search" placeholder="Search builds...">
+  <div id="cards">Loading builds...</div>
 
-    <div id="topBar">
-        <div class="topbar-left">
-            <a href="index.html" class="logo-container button-secondary" onclick="onLoadScript(); return false;">
-                <img src="https://imghost.net/ib/x1T2lkISWisxup1_1740986180.png" alt="Forged Builds Logo" class="logo-image">
-            </a>
-            
-            <div id="searchContainer">
-                <input type="text" id="search" placeholder="Search schematics..." autocomplete="off" onkeyup="searchSchematics()">
-            </div>
-            <a href='/app/assets/src/upload.html' class='button upload-button'>
-                <i class='fa-solid fa-upload'></i> Upload
-            </a>
-        </div>
+  <script>
+    let allRows = [];
 
-        <div class="topbar-right">
-        </div>
-    </div>
+    function renderCards(filter = "") {
+      const container = document.getElementById('cards');
+      container.innerHTML = '';
 
- 
-    <div id="filtersDiv">
-        <select name='currentTag' id='tagFilter' onchange="filterByTag()">
-            <option class='tagFilterItem' value='none'>None</option>
-            <option class='tagFilterItem' value='farm'>Farm</option>
-            <option class='tagFilterItem' value='building'>Building</option>
-            <option class='tagFilterItem' value='furniture'>Furniture</option>
-            <option class='tagFilterItem' value='build hack'>Build Hack</option>
-            <option class='tagFilterItem' value='terrain'>Terrain</option>
-            <option class='tagFilterItem' value='vehicle'>Vehicle</option>
-            <option class='tagFilterItem' value='pixel art'>Pixel Art</option>
-        </select>
-    </div>
+      const filtered = allRows.filter(row => {
+        if (row.length < 5) return false;
+        const [url, img, name, author, tags] = row;
+        const text = `${name} ${author} ${tags}`.toLowerCase();
+        return text.includes(filter.toLowerCase());
+      });
 
-  
-    <div id="schematicContainer"></div>
+      if (filtered.length === 0) {
+        container.textContent = "No builds found.";
+        return;
+      }
 
- 
-    <div id="paginationContainer">
-        <button id="prev" class="button pageButton">
-            <i class="fa-solid fa-chevron-left"></i>
-            Previous
-        </button>
-        <button id="next" class="button pageButton">
-            Next
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
+      filtered.forEach(row => {
+        const [url, img, name, author, tags] = row;
 
-    </div>
-        <p>Forged Builds is a modified version of BloxdBuilds, originally created by BluePanda and BuilderBananaJr.</p>
-    <script>
-        let schematics = [];
-        let currentPage = 0;
-        const pageSize = 30;
-        let isLoaded = false;
+        const card = document.createElement('div');
+        card.className = 'card';
 
-        async function checkProfanity(text) {
-            try {
-                const res = await fetch('https://vector.profanity.dev', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text }),
-                });
-                if (!res.ok) throw new Error('Profanity check failed');
-                const score = await res.json();
-                return score > 0.9;
-            } catch (error) {
-                console.error('Profanity check error:', error);
-                return false;
-            }
-        }
+        const image = document.createElement('img');
+        image.src = img;
+        image.alt = name;
 
-        async function sanitizeText(text) {
-            const isProfane = await checkProfanity(text);
-            return isProfane ? `<span style="filter: blur(5px);">${text}</span>` : text;
-        }
+        const content = document.createElement('div');
+        content.className = 'card-content';
 
-        function onLoadScript() {
-            if (isLoaded) {
-                console.log('onLoadScript already ran, skipping...');
-                return;
-            }
-            isLoaded = true;
-            console.log('Fetching schematics...');
-            fetch(`https://bloxdbuildsapifr.wolf10iscool.workers.dev/`)
-                .then(response => {
-                    if (!response.ok) throw new Error('Failed to fetch data');
-                    return response.json();
-                })
-                .then(data => {
-                    schematics = data.values.slice(1);
-                    schematics.sort((a, b) => new Date(b[2]) - new Date(a[2]));
-                    loadPage(currentPage);
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
+        content.innerHTML = `
+          <div class="name">${name}</div>
+          <div class="author">By ${author}</div>
+          <div class="tags">${tags}</div>
+        `;
 
-        async function loadPage(page) {
-            const start = page * pageSize;
-            const end = start + pageSize;
-            const pageData = schematics.slice(start, end);
-        
-            const container = document.querySelector('#schematicContainer');
-            container.innerHTML = '';
-        
-            for (const row of pageData) {
-                const [submissionId, respondentId, dateUploaded, schematic, image, name, username, tags] = row;
-            
-                const sanitizedName = await sanitizeText(name);
-                const sanitizedUsername = await sanitizeText(username);
-                const sanitizedTags = await sanitizeText(tags);
-            
-                const card = document.createElement('div');
-                card.classList.add('schematicBox');
-                card.dataset.schematicId = submissionId;
-            
-                card.innerHTML = `
-                    <img class="image" src="${image}" loading="lazy" alt="${name}">
-                    <h2>${sanitizedName}</h2>
-                    <p>Uploaded by ${sanitizedUsername}</p>
-                    <div class="tag-list">
-                        ${sanitizedTags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}
-                    </div>
-                    <button class='button downloadButton' data-schematic-id="${submissionId}">
-                        <i class='fa-solid fa-cloud-arrow-down'></i> Download
-                    </button>
-                `;
-                container.appendChild(card);
-            }
-        
-            document.getElementById('prev').style.display = page > 0 ? 'flex' : 'none';
-            document.getElementById('next').style.display = end < schematics.length ? 'flex' : 'none';
-        }
+        const downloadBtn = document.createElement('a');
+        downloadBtn.href = url;
+        downloadBtn.textContent = 'Download';
+        downloadBtn.className = 'btn-download';
+        downloadBtn.setAttribute('download', '');
+        downloadBtn.setAttribute('target', '_blank');
 
-        async function initiateDownload(url, name, schematicId) {
-            try {
-                const response = await fetch(url, {
-                    mode: 'cors',
-                    credentials: 'omit',
-                    headers: {
-                        'Accept': 'application/octet-stream'
-                    }
-                });
-            
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            
-                const blob = await response.blob();
-                const blobUrl = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = blobUrl;
-                link.download = `${name}.zip`;
-            
-                const isAppleDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            
-                if (isAppleDevice || isSafari) {
-                    console.log('Apple/Safari detected, adjusting download method');
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                } else {
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }
-            
-                URL.revokeObjectURL(blobUrl);
-                incrementDownloadCount(schematicId);
-            } catch (error) {
-                console.error('Download failed:', error);
-                alert('Download failed. Please try again.');
-            }
-        }
+        content.appendChild(downloadBtn);
+        card.appendChild(image);
+        card.appendChild(content);
+        container.appendChild(card);
+      });
+    }
 
-        function setupEventListeners() {
-            document.getElementById('prev').addEventListener('click', () => {
-                if (currentPage > 0) {
-                    currentPage--;
-                    loadPage(currentPage);
-                }
-            });
-        
-            document.getElementById('next').addEventListener('click', () => {
-                currentPage++;
-                loadPage(currentPage);
-            });
-        
-            document.querySelector('#schematicContainer').addEventListener('click', (e) => {
-                const button = e.target.closest('.downloadButton');
-                if (button) {
-                    const schematicId = button.dataset.schematicId;
-                    const card = button.closest('.schematicBox');
-                    const name = card.querySelector('h2').textContent;
-                    const url = schematics.find(s => s[0] === schematicId)[3];
-                    initiateDownload(url, name, schematicId);
-                }
-            });
-        }
+    fetch('./src/builds.xlsx')
+      .then(res => res.arrayBuffer())
+      .then(buffer => {
+        const workbook = XLSX.read(buffer, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        allRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-        function searchSchematics() {
-            const searchTerm = document.getElementById('search').value.toLowerCase();
-            const schematicBoxes = document.querySelectorAll('.schematicBox');
+        renderCards();
 
-            schematicBoxes.forEach(box => {
-                const title = box.querySelector('h2').textContent.toLowerCase();
-                const description = box.querySelector('p').textContent.toLowerCase();
-
-                box.style.display = (title.includes(searchTerm) || description.includes(searchTerm)) ? 'block' : 'none';
-            });
-        }
-
-        function filterByTag() {
-            const tagFilter = document.getElementById("tagFilter").value.toLowerCase();
-            const cards = document.querySelectorAll('.schematicBox');
-        
-            cards.forEach(card => {
-                const tagElements = card.querySelectorAll('.tag-list .tag');
-                const cardTags = Array.from(tagElements).map(tag => tag.textContent.toLowerCase().trim());
-
-                card.style.display = (tagFilter === 'none' || cardTags.some(tag => tag.includes(tagFilter))) ? '' : 'none';
-            });
-        }
-
-        function setupEventListeners() {
-            const prev = document.getElementById('prev');
-            const next = document.getElementById('next');
-            const container = document.querySelector('#schematicContainer');
-        
-            prev.removeEventListener('click', handlePrev);
-            next.removeEventListener('click', handleNext);
-            container.removeEventListener('click', handleDownload);
-        
-            prev.addEventListener('click', handlePrev);
-            next.addEventListener('click', handleNext);
-            container.addEventListener('click', handleDownload);
-        
-            function handlePrev() {
-                if (currentPage > 0) {
-                    currentPage--;
-                    loadPage(currentPage);
-                }
-            }
-        
-            function handleNext() {
-                currentPage++;
-                loadPage(currentPage);
-            }
-        
-            function handleDownload(e) {
-                const button = e.target.closest('.downloadButton');
-                if (button) {
-                    const schematicId = button.dataset.schematicId;
-                    const card = button.closest('.schematicBox');
-                    const name = card.querySelector('h2').textContent;
-                    const url = schematics.find(s => s[0] === schematicId)[3];
-                    initiateDownload(url, name, schematicId);
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded, setting up...');
-            setupEventListeners();
-            onLoadScript();
-        }, { once: true });
-    </script>
+        document.getElementById('search').addEventListener('input', (e) => {
+          renderCards(e.target.value);
+        });
+      })
+      .catch(err => {
+        document.getElementById('cards').textContent = 'Failed to load builds.xlsx';
+        console.error(err);
+      });
+  </script>
+</body>
 </html>
