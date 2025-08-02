@@ -5,6 +5,7 @@ Apple
 Apple Block
 Arrow
 Aspen Door
+Aspen Ladder
 Aspen Sapling
 Aspen Trapdoor
 Awp
@@ -13,24 +14,28 @@ Ball
 Bedrock
 Black Bed
 Black Concrete
+Black Glass
 Black Glazed Terracotta
 Black Planks
 Black Popup Tower
 Black Stained Glass
 Black Strongbed
+Black Wool
 Blue Balloon
 Blue Bed
 Blue Concrete
+Blue Glass
 Blue Glazed Terracotta
 Blue Planks
 Blue Popup Tower
 Blue Strongbed
+Blue Wool
 Board
 Board Full
 Boating
 Book
-Bookshelf
 Book Page
+Bookshelf
 Bouncy Bomb
 Bouncy Bomb Block
 Bowl
@@ -42,15 +47,16 @@ Brick
 Brown Balloon
 Brown Bed
 Brown Concrete
+Brown Glass
 Brown Glazed Terracotta
 Brown Mushroom
 Brown Mushroom Block
 Brown Planks
 Brown Popup Tower
 Brown Strongbed
+Brown Wool
 Bucket
 Bunny Hop
-Dry Cactus
 Cactus
 Carved Pumpkin
 Cedar Door
@@ -83,10 +89,10 @@ Compressed Messy Stone
 Cooked Mutton
 Cooked Porkchop
 Corn
-Cornbread
-Cornflower
 Corn Block
 Corn Seeds
+Cornbread
+Cornflower
 Cotton
 Cotton Seeds
 Cow Spawn Orb
@@ -100,8 +106,10 @@ Cut Sandstone
 Cyan Balloon
 Cyan Bed
 Cyan Concrete
+Cyan Glass
 Cyan Glazed Terracotta
 Cyan Planks
+Cyan Wool
 Dandelion
 Defense Arrow
 Defense Potion
@@ -123,6 +131,7 @@ Diamond Sword
 Diorite Brick
 Dirt
 Double-barreled
+Dry Cactus
 Elm Door
 Elm Sapling
 Elm Trapdoor
@@ -145,27 +154,16 @@ Furnace Front
 Furnace Side
 Furnace Top
 Glass
-Black Glass
-Blue Glass
-Brown Glass
-Cyan Glass
-Gray Glass
-Green Glass
-Light Blue Glass
-Light Gray Glass
-Lime Glass
-Magenta Glass
-Orange Glass
-Pink Glass
- Glass
-Red Glass
-Silver Glass
-White Glass
-Yellow Glass
 Gliding
 Glistering Melon Slice
 Glistering Watermelon Slice
 Glowstone
+Gold Block
+Gold Bow
+Gold Coin
+Gold Crossbow
+Gold Ingot
+Gold Ore
 Golden Axe
 Golden Boots
 Golden Chestplate
@@ -176,45 +174,43 @@ Golden Leggings
 Golden Pickaxe
 Golden Shovel
 Golden Sword
-Gold Block
-Gold Bow
-Gold Coin
-Gold Crossbow
-Gold Ingot
-Gold Ore
 Granite Brick
 Grass Top
 Gravel
 Gray Balloon
 Gray Bed
 Gray Concrete
+Gray Glass
 Gray Glazed Terracotta
 Gray Heavy Paintball Gun
-Gray Paintball
-Gray Paintball Gun
 Gray Paint Bow
 Gray Paint Bow Charging 2
 Gray Paint Bow Charging 3
 Gray Paint Bow Charging 4
+Gray Paintball
+Gray Paintball Gun
 Gray Planks
 Gray Popup Tower
 Gray Strongbed
+Gray Wool
 Green Balloon
 Green Bed
 Green Bricks
 Green Concrete
+Green Glass
 Green Glazed Terracotta
 Green Heavy Paintball Gun
-Green Paintball
-Green Paintball Gun
 Green Paint Bow
 Green Paint Bow Charging 2
 Green Paint Bow Charging 3
 Green Paint Bow Charging 4
+Green Paintball
+Green Paintball Gun
 Green Planks
 Green Popup Tower
 Green Stone
 Green Strongbed
+Green Wool
 Grenade Block
 Grenade Launcher
 Hang Glider
@@ -243,16 +239,16 @@ Haste Arrow
 Haste Potion
 Hay Block Side
 Hay Block Top
-Health Regen
 Heal Arrow
 Heal Potion
+Health Regen
 Hydrated
 Hyper Compressed Messy Stone
 Ice
-Iceball
-Iceball Block
 Ice Brick
 Ice Bridge
+Iceball
+Iceball Block
 Instant Damage Arrow
 Instant Damage Potion
 Invisibility Arrow
@@ -286,8 +282,8 @@ Iron Sword
 Iron Trapdoor
 Iron Watermelon Side
 Iron Watermelon Top
-Jump Boost
 Jump Arrow
+Jump Boost
 Jump Potion
 Knockback Arrow
 Knockback Potion
@@ -316,47 +312,53 @@ Leaves Plum
 Light Blue Balloon
 Light Blue Bed
 Light Blue Concrete
+Light Blue Glass
 Light Blue Glazed Terracotta
 Light Blue Heavy Paintball Gun
-Light Blue Paintball
-Light Blue Paintball Gun
 Light Blue Paint Bow
 Light Blue Paint Bow Charging 2
 Light Blue Paint Bow Charging 3
 Light Blue Paint Bow Charging 4
+Light Blue Paintball
+Light Blue Paintball Gun
 Light Blue Planks
 Light Blue Popup Tower
 Light Blue Strongbed
+Light Blue Wool
 Light Gray Balloon
 Light Gray Bed
 Light Gray Concrete
+Light Gray Glass
 Light Gray Glazed Terracotta
 Light Gray Heavy Paintball Gun
-Light Gray Paintball
-Light Gray Paintball Gun
 Light Gray Paint Bow
 Light Gray Paint Bow Charging 2
 Light Gray Paint Bow Charging 3
 Light Gray Paint Bow Charging 4
+Light Gray Paintball
+Light Gray Paintball Gun
 Light Gray Planks
 Light Gray Popup Tower
 Light Gray Stained Glass
 Light Gray Strongbed
+Light Gray Wool
 Lily of The Valley
 Lime Balloon
 Lime Bed
 Lime Concrete
+Lime Glass
 Lime Glazed Terracotta
 Lime Heavy Paintball Gun
-Lime Paintball
-Lime Paintball Gun
 Lime Paint Bow
 Lime Paint Bow Charging 2
 Lime Paint Bow Charging 3
 Lime Paint Bow Charging 4
+Lime Paintball
+Lime Paintball Gun
 Lime Planks
 Lime Popup Tower
 Lime Strongbed
+Lime Wool
 Log Aspen
 Log Cedar
 Log Cherry
@@ -371,17 +373,19 @@ M1911
 Magenta Balloon
 Magenta Bed
 Magenta Concrete
+Magenta Glass
 Magenta Glazed Terracotta
 Magenta Heavy Paintball Gun
-Magenta Paintball
-Magenta Paintball Gun
 Magenta Paint Bow
 Magenta Paint Bow Charging 2
 Magenta Paint Bow Charging 3
 Magenta Paint Bow Charging 4
+Magenta Paintball
+Magenta Paintball Gun
 Magenta Planks
 Magenta Popup Tower
 Magenta Strongbed
+Magenta Wool
 Magma
 Mailbox Front
 Mailbox Front Full
@@ -422,26 +426,28 @@ Mushroom Stem
 Mystery Block
 Name Tag
 Net
+Nether Brick
 Netherite Hoe
 Netherrack
-Nether Brick
 Oak Boat
 Obsidian
 Orange Balloon
 Orange Bed
 Orange Concrete
+Orange Glass
 Orange Glazed Terracotta
 Orange Heavy Paintball Gun
-Orange Paintball
-Orange Paintball Gun
 Orange Paint Bow
 Orange Paint Bow Charging 2
 Orange Paint Bow Charging 3
 Orange Paint Bow Charging 4
+Orange Paintball
+Orange Paintball Gun
 Orange Planks
 Orange Popup Tower
 Orange Strongbed
 Orange Tulip
+Orange Wool
 Oxeye Daisy
 Palm Door
 Palm Door Bottom
@@ -474,8 +480,8 @@ Pear Door Top
 Pear Sapling
 Pear Trapdoor
 Pebble
-Pigatlas
 Pig Spawn Orb
+Pigatlas
 Pine Door
 Pine Door Bottom
 Pine Door Top
@@ -484,18 +490,20 @@ Pine Trapdoor
 Pink Balloon
 Pink Bed
 Pink Concrete
+Pink Glass
 Pink Glazed Terracotta
 Pink Heavy Paintball Gun
-Pink Paintball
-Pink Paintball Gun
 Pink Paint Bow
 Pink Paint Bow Charging 2
 Pink Paint Bow Charging 3
 Pink Paint Bow Charging 4
+Pink Paintball
+Pink Paintball Gun
 Pink Planks
 Pink Popup Tower
 Pink Strongbed
 Pink Tulip
+Pink Wool
 Placeholder
 Planks Aspen
 Planks Cedar
@@ -518,8 +526,8 @@ Plum Sapling
 Plum Trapdoor
 Podzol Top
 Poison
-Poisoned
 Poison Arrow
+Poisoned
 Poppy
 Potion
 Potion Table
@@ -536,35 +544,35 @@ Purple Bed
 Purple Concrete
 Purple Glazed Terracotta
 Purple Heavy Paintball Gun
-Purple Paintball
-Purple Paintball Gun
 Purple Paint Bow
 Purple Paint Bow Charging 2
 Purple Paint Bow Charging 3
 Purple Paint Bow Charging 4
+Purple Paintball
+Purple Paintball Gun
 Purple Planks
 Purple Popup Tower
 Purple Strongbed
+Purple Wool
 Quartz Block Chiseled
 Quartz Block Side
 Raw Beef
 Raw Mutton
 Raw Porkchop
-Redstone Lamp Off
-Redstone Lamp On
 Red Balloon
 Red Bed
 Red Concrete
+Red Glass
 Red Glazed Terracotta
 Red Heavy Paintball Gun
 Red Mushroom
 Red Mushroom Block
-Red Paintball
-Red Paintball Gun
 Red Paint Bow
 Red Paint Bow Charging 2
 Red Paint Bow Charging 3
 Red Paint Bow Charging 4
+Red Paintball
+Red Paintball Gun
 Red Planks
 Red Popup Tower
 Red Sand
@@ -573,6 +581,9 @@ Red Sandstone Brick
 Red Sandstone Top
 Red Strongbed
 Red Tulip
+Red Wool
+Redstone Lamp Off
+Redstone Lamp On
 Regen Arrow
 Regen Potion
 Reinforced Ball
@@ -600,6 +611,8 @@ Shears
 Sheep Spawn Orb
 Shield Arrow
 Shield Potion
+Silver Glass
+Silver Wool
 Slowness Arrow
 Slowness Potion
 Small Cactus
@@ -635,10 +648,6 @@ Sponge
 Steak
 Stick
 Stone
-Stonebrick
-Stonebrick Carved
-Stonebrick Cracked
-Stonebrick Mossy
 Stone Andesite
 Stone Andesite Smooth
 Stone Axe
@@ -659,6 +668,10 @@ Stone Hoe
 Stone Pickaxe
 Stone Shovel
 Stone Sword
+Stonebrick
+Stonebrick Carved
+Stonebrick Cracked
+Stonebrick Mossy
 Strength Arrow
 Strength Potion
 String
@@ -674,9 +687,9 @@ Stripped Plum Log
 Super Compressed Messy Stone
 Super Rocket Block
 Super Rpg
-Tallgrass
 Tall Grass Bottom
 Tall Grass Top
+Tallgrass
 Tar-21
 Timed Spike Bomb
 Timed Spike Bomb Charging 2
@@ -690,12 +703,12 @@ Vine Coloured
 Voidjump
 Warped Trapdoor
 Water
+Water Bottle
+Water Bucket
 Watermelon Seeds
 Watermelon Side
 Watermelon Slice
 Watermelon Top
-Water Bottle
-Water Bucket
 Weakness
 Weakness Arrow
 Weakness Potion
@@ -712,24 +725,21 @@ Wheat Stage7
 White Balloon
 White Bed
 White Concrete
+White Glass
 White Glazed Terracotta
 White Heavy Paintball Gun
-White Paintball
-White Paintball Gun
 White Paint Bow
 White Paint Bow Charging 2
 White Paint Bow Charging 3
 White Paint Bow Charging 4
+White Paintball
+White Paintball Gun
 White Planks
 White Popup Tower
 White Strongbed
 White Tulip
+White Wool
 Wither Rose
-Wooden Axe
-Wooden Hoe
-Wooden Pickaxe
-Wooden Shovel
-Wooden Sword
 Wood Armour
 Wood Boots
 Wood Bow
@@ -745,25 +755,14 @@ Wood Crossbow Charging 4
 Wood Gauntlets
 Wood Helmet
 Wood Leggings
-Black Wool
-Blue Wool
-Brown Wool
-Cyan Wool
-Gray Wool
-Green Wool
-Light Blue Wool
-Light Gray Wool
-Lime Wool
-Magenta Wool
-Orange Wool
-Pink Wool
-Purple Wool
-Red Wool
-Silver Wool
-White Wool
-Yellow Wool
+Wooden Axe
+Wooden Hoe
+Wooden Pickaxe
+Wooden Shovel
+Wooden Sword
 Yellow Bed
 Yellow Concrete
+Yellow Glass
 Yellow Glazed Terracotta
 Yellow Planks
-Aspen Ladder
+Yellow Wool
