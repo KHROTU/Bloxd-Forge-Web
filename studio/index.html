@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>World Forge</title>
-    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
     <style>
         :root {
@@ -259,7 +259,7 @@
 </head>
 <body>
     <header class="top-bar">
-        <img src="assets/logo.png" alt="World Forge Logo">
+        <img src="/assets/images/logo.png" alt="World Forge Logo">
         <h1>World Forge</h1>
     </header>
 
@@ -570,7 +570,7 @@ if(block == "Tribe Protector") block = "Lava"`;
             
             const closeBtn = document.createElement('button');
             closeBtn.className = 'popup-close';
-            closeBtn.innerHTML = '&times;';
+            closeBtn.innerHTML = '×';
             closeBtn.onclick = () => popup.remove();
             
             header.appendChild(titleElement);
@@ -628,7 +628,7 @@ if(block == "Tribe Protector") block = "Lava"`;
             popup.style.height = '70vh';
             
             const iframe = document.createElement('iframe');
-            iframe.src = 'assets/sign.html';
+            iframe.src = '/assets/iframes/sign.html';
             iframe.style.flex = '1';
             iframe.style.border = 'none';
             
@@ -647,7 +647,7 @@ if(block == "Tribe Protector") block = "Lava"`;
             popup.style.height = '80vh';
             
             const iframe = document.createElement('iframe');
-            iframe.src = '/app/assets/5page.html';
+            iframe.src = '/assets/iframes/5page.html';
             iframe.style.flex = '1';
             iframe.style.border = 'none';
             
@@ -666,7 +666,7 @@ if(block == "Tribe Protector") block = "Lava"`;
             popup.style.height = '80vh';
             
             const iframe = document.createElement('iframe');
-            iframe.src = '/studio/assets/converter/index.html';
+            iframe.src = '/assets/converter/index.html';
             iframe.style.flex = '1';
             iframe.style.border = 'none';
             iframe.style.width = '100%';
@@ -690,7 +690,7 @@ if(block == "Tribe Protector") block = "Lava"`;
             popup.style.height = '80vh';
             
             const iframe = document.createElement('iframe');
-            iframe.src = '/studio/assets/coder.html';
+            iframe.src = '/assets/iframes/coder.html';
             iframe.style.flex = '1';
             iframe.style.border = 'none';
             iframe.style.width = '100%';

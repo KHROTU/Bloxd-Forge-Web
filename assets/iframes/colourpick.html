@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BloxdForge Color Picker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chroma-js@2.4.2/chroma.min.js"></script>
+  <style>
+    :root {
+        --bg-main: #1e1e1e;
+        --bg-surface: #2d2d2d;
+        --text-primary: #ffffff;
+        --text-secondary: #b0b0b0;
+        --accent: #ff8c00;
+        --border-color: #444;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      padding: 1.5rem;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .section {
+      background: var(--bg-surface);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    h1, h2 {
+      margin-top: 0;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    h1 {
+        text-align: center;
+        border: none;
+        color: var(--accent);
+    }
+
+    .controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    input[type="color"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 0;
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    input[type="color"]::-webkit-color-swatch { border: none; border-radius: 8px; }
+    
+    #baseColorHex {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #1e1e1e;
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.75rem;
+        font-size: 1.2rem;
+        width: 150px;
+        text-align: center;
+    }
+    
+    #baseColorHex:focus {
+        outline: 2px solid var(--accent);
+        border-color: var(--accent);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 1rem;
+    }
+
+    .swatch {
+      height: 100px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      font-family: 'Courier New', Courier, monospace;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .swatch:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    
+    .swatch-label {
+        position: absolute;
+        top: 8px;
+        font-size: 0.7rem;
+        opacity: 0.7;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      background: var(--accent);
+      transition: background 0.2s ease;
+    }
+    .btn:hover {
+        background: #e67e00;
+    }
+
+    #toast {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 30px;
+        font-size: 17px;
+        opacity: 0;
+        transition: visibility 0s 0.5s, opacity 0.5s linear;
+    }
+
+    #toast.show {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.5s linear;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="section">
+        <h1>Color Palette Generator</h1>
+        <div class="controls">
+            <input type="color" id="baseColor" value="#ff8c00">
+            <input type="text" id="baseColorHex">
+        </div>
+    </div>
+
+    <div class="section">
+      <h2>Generated Palette</h2>
+      <div class="palette-grid" id="paletteGrid"></div>
+    </div>
+
+    <div class="section actions">
+      <button class="btn" onclick="copyAllAsCSS()">Copy All as CSS</button>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    const baseColorPicker = document.getElementById('baseColor');
+    const baseColorHex = document.getElementById('baseColorHex');
+    const paletteGrid = document.getElementById('paletteGrid');
+    let allGeneratedColors = [];
+
+    function createSwatch(color, label = '') {
+      const textColor = chroma(color).luminance() > 0.4 ? '#000' : '#fff';
+      return `
+        <div class="swatch" style="background:${color}; color:${textColor}" onclick="copySwatch(this, '${color}')">
+            ${label ? `<span class="swatch-label">${label}</span>` : ''}
+            <span>${color}</span>
+        </div>`;
+    }
+
+    function updateAll() {
+      const base = baseColorPicker.value;
+      baseColorHex.value = base.toUpperCase();
+      allGeneratedColors = [];
+      paletteGrid.innerHTML = '';
+
+      // Tints
+      const tints = chroma.scale([base, 'white']).mode('lch').colors(6).slice(1, 5);
+      let paletteHTML = tints.map((c, i) => {
+          allGeneratedColors.push(c);
+          return createSwatch(c, `Tint ${i+1}`);
+      }).join('');
+      
+      // Base Color
+      allGeneratedColors.push(base);
+      paletteHTML += createSwatch(base, 'Base');
+
+      // Shades
+      const shades = chroma.scale([base, 'black']).mode('lch').colors(6).slice(1, 5);
+      paletteHTML += shades.map((c, i) => {
+          allGeneratedColors.push(c);
+          return createSwatch(c, `Shade ${i+1}`);
+      }).join('');
+      
+      // Complementary
+      const complement = chroma(base).set('hsl.h', '+180').hex();
+      allGeneratedColors.push(complement);
+      paletteHTML += createSwatch(complement, 'Complement');
+
+      paletteGrid.innerHTML = paletteHTML;
+    }
+
+    function copySwatch(element, hex) {
+      navigator.clipboard.writeText(hex).then(() => {
+        const originalText = element.querySelector('span:not(.swatch-label)').textContent;
+        element.querySelector('span:not(.swatch-label)').textContent = 'Copied!';
+        setTimeout(() => {
+            element.querySelector('span:not(.swatch-label)').textContent = originalText;
+        }, 1500);
+      });
+    }       
+
+    function copyAllAsCSS() {
+        const cssVariables = allGeneratedColors.map((color, index) => `--color-${index + 1}: ${color};`).join('\n');
+        navigator.clipboard.writeText(cssVariables).then(() => {
+            showToast('CSS variables copied to clipboard!');
+        });
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    }
+
+    baseColorPicker.addEventListener('input', updateAll);
+    baseColorHex.addEventListener('change', (e) => {
+        const value = e.target.value;
+        if (chroma.valid(value)) {
+            baseColorPicker.value = chroma(value).hex();
+            updateAll();
+        }
+    });
+
+    updateAll();
+  </script>
+</body>
+</html>

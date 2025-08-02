@@ -1,0 +1,229 @@
+:root {
+    --primary: #FFA726;
+    --primary-hover: #FFB74D;
+    --background: #121212;
+    --surface: #1E1E1E;
+    --surface-hover: #2d2d2d;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0B0B0;
+    --error-color: #EF5350;
+}
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.top-bar {
+    background-color: var(--surface);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.logo {
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--primary);
+    text-decoration: none;
+}
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.search-container {
+    display: flex;
+}
+.search-input {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color);
+    background: #2b2b2b;
+    color: var(--text-primary);
+    font-size: 1rem;
+    border-radius: 20px 0 0 20px;
+    transition: all 0.3s;
+}
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+.search-button {
+    padding: 0.6rem 1rem;
+    border: none;
+    background: var(--primary);
+    color: var(--background);
+    cursor: pointer;
+    border-radius: 0 20px 20px 0;
+}
+.create-btn {
+    background-color: var(--primary);
+    color: var(--background);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+.create-btn:hover {
+    background-color: var(--primary-hover);
+}
+.main-content {
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 1400px;
+}
+.auctions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+.auction-card {
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.auction-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    background: var(--surface-hover);
+}
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #333;
+}
+.card-content {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-info {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+.card-price {
+    margin-top: auto;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+.loading, .no-results {
+    text-align: center;
+    color: var(--text-secondary);
+    grid-column: 1 / -1;
+    font-size: 1.2rem;
+    padding: 3rem;
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+.modal-content {
+    background: var(--surface);
+    width: 90%;
+    max-width: 500px;
+    padding: 2rem;
+    border-radius: 12px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.modal-title {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin: 0 0 1.5rem;
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.8rem;
+    background: #2b2b2b;
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+.modal-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+.btn-submit {
+    background: var(--primary);
+    color: var(--background);
+}
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.error-message {
+    color: var(--error-color);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: none;
+}

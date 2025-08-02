@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxdForge - One Stop Solution to everything Bloxd</title>
-    <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
-    <meta name="description" content="BloxdForge is your ultimate companion app for bloxd.io, designed to improve your gameplay.">
+    <title>BloxdForge - Help Center</title>
+    <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, help, support, privacy, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
+    <meta name="description" content="Find help, support, and review the privacy policy for BloxdForge.">
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="/favicon.ico" type="image/png">
@@ -76,47 +76,48 @@
             max-width: 500px;
         }
 
-        .dev-profiles {
+        .download-buttons {
             display: flex;
-            flex-wrap: wrap;
             gap: 2rem;
-            margin-top: 2rem;
+            flex-wrap: wrap;
         }
 
-        .dev-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            width: 300px;
-            min-height: 220px;
-        }
-
-        .dev-name {
+        .download-button {
             color: white;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .dev-bio {
-            color: rgba(216, 216, 216, 0.9);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .dev-links {
+            text-decoration: none;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
             display: flex;
-            gap: 1rem;
+            align-items: center;
+            gap: 0.8rem;
+            border: 2px solid white;
         }
 
-        .dev-links a {
-            color: rgba(216, 216, 216, 0.9);
-            font-size: 1.5rem;
-            transition: color 0.3s;
+        .filled {
+            background-color: white;
+            color: #333;
         }
 
-        .dev-links a:hover {
+        .outlined {
+            background-color: transparent;
             color: white;
+        }
+
+        .download-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .outlined:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        .download-button img {
+            height: 30px;
         }
 
         @media (max-width: 768px) {
@@ -132,8 +133,14 @@
                 font-size: 1.1rem;
             }
 
-            .dev-profiles {
+            .download-buttons {
+                width: 100%;
                 flex-direction: column;
+            }
+            
+            .download-button {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -179,32 +186,19 @@
         <button onclick="window.location.href='/'"><i class="fa-solid fa-house"></i></button> 
         <button onclick="window.location.href='/about'"><i class="fa-solid fa-user"></i></button>
         <button onclick="window.location.href='/help'"><i class="fa-solid fa-info"></i></button>
-        <button onclick="window.open('https://discord.gg/nVgUe4qrhr')"><i class="fa-brands fa-discord"></i></button> 
-    </div>
+        <button onclick="window.open('https://discord.gg/nVgUe4qrhr')"><i class="fa-brands fa-discord"></i></button>
+    </div>  
+      
     <div class="content">
-        <h1>devs</h1>
-        <p>Meet the team behind BloxdForge</p>
-        <div class="dev-profiles">
-            <div class="dev-card">
-                <div class="dev-name">A_I_X</div>
-                <div class="dev-bio">Founder of BloxdForge</div>
-                <div class="dev-links">
-                    <a href="https://github.com/AIX-32" target="_blank"><i class="fa-brands fa-github"></i></a>
-                    <a href="mailto:work.AIX32@gmail.com"><i class="fa-solid fa-envelope"></i></a>
-                </div>
-            </div>
-            <div class="dev-card">
-                <div class="dev-name">KHROTU</div>
-                <div class="dev-bio">Head developer</div>
-                <div class="dev-links">
-                    <a href="https://github.com/KHROTU" target="_blank"><i class="fa-brands fa-github"></i></a>
-                    <a href="mailto:3o65iduqd@mozmail.com"><i class="fa-solid fa-envelope"></i></a>
-                </div>
-            </div>
-            <div class="dev-card">
-                <div class="dev-name">GEORGECR</div>
-                <div class="dev-bio">Developer</div>
-            </div>
+        <h1>Help Center</h1>
+        <p>Find our privacy policy or visit our support page for frequently asked questions.</p>
+        <div class="download-buttons">
+            <a href="/privacy/" class="download-button filled">
+                Privacy Policy
+            </a>
+            <a href="/support/" class="download-button outlined">
+                Support Page
+            </a>
         </div>
     </div>
 </body>

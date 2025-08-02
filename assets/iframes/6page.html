@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge Wiki</title>
+    <link rel="stylesheet" href="../css/6page.css">
+</head>
+<body>
+    <header>
+        <h1>BloxdForge Wiki</h1>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search wikis...">
+            <button class="search-filter-btn" onclick="toggleSearchFilter()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+            </button>
+            <div class="search-filter-menu" id="searchFilterMenu">
+                <div class="filter-option" data-filter="title">Title</div>
+                <div class="filter-option" data-filter="tag">Tag</div>
+                <div class="filter-option" data-filter="description">Description</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="featured-cards">
+        <div class="featured-card">
+            <div class="featured-image">
+                <img src="../images/starter-bg.png" alt="Featured 1">
+            </div>
+            <div class="featured-content">
+                <h3 class="featured-title">Starter Guide</h3>
+                <p class="featured-description">Learn the basics of BloxdForge with our simple beginner's guide.</p>
+                <button class="featured-button" onclick="openIframe('/assets/guides/starter.html')">
+                    Open Guide
+                </button>
+            </div>
+        </div>
+
+        <div class="featured-card">
+            <div class="featured-image">
+                <img src="../images/generic-bg.png" alt="Featured 2">
+            </div>
+            <div class="featured-content">
+                <h3 class="featured-title">World Forge Guide</h3>
+                <p class="featured-description">Dive deeper into BloxdForge and master advanced building techniques.</p>
+                <button class="featured-button" onclick="openIframe('/assets/guides/worldforge.html')">
+                    Open Guide
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="featured-cards more-featured-cards" id="moreFeaturedCards">
+        <div class="featured-card">
+            <div class="featured-image">
+                <img src="../images/generic-bg.png" alt="Featured 3">
+            </div>
+            <div class="featured-content">
+                <h3 class="featured-title">Bloxd Coding Guide</h3>
+                <p class="featured-description">Master the Bloxd coding framework with our drag-and-drop block coding system.</p>
+                <button class="featured-button" onclick="openIframe('/assets/guides/coding.html')">
+                    Open Guide
+                </button>
+            </div>
+        </div>
+
+        <div class="featured-card">
+            <div class="featured-image">
+                <img src="../images/generic-bg.png" alt="Featured 4">
+            </div>
+            <div class="featured-content">
+                <h3 class="featured-title">Optimization Tips</h3>
+                <p class="featured-description">Essential techniques to make your games run smoothly and efficiently.</p>
+                <button class="featured-button" onclick="openIframe('/assets/guides/optimization.html')">
+                    Open Guide
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button id="toggleMoreBtn" onclick="toggleMoreCards()" style="margin: 1.5rem auto; display: block; background: none; border: none; color: #FFA500; font-size: 1rem; cursor: pointer;">
+      Show More Guides
+    </button>
+
+    <div class="iframe-modal" id="iframeModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeIframe()">Close</button>
+            <iframe class="modal-iframe" id="modalIframe"></iframe>
+        </div>
+    </div>
+
+    <div class="container" id="card-container"></div>
+    <div id="details-view" class="details-view">
+        <div class="details-content">
+            <button class="back-button" onclick="goBack()">Back</button>
+            <div id="details-content"></div>
+        </div>
+    </div>
+
+    <script src="../js/6page.js"></script>
+</body>
+</html>

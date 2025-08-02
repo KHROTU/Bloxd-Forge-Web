@@ -1,0 +1,104 @@
+body {
+  background: #0f0f0f;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 2rem;
+  margin: 0;
+}
+
+#search {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 1rem auto;
+  width: 95%;
+  height: 40px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #1c1c1c;
+  color: #fff;
+  border: 1px solid #333;
+  z-index: 1000;
+}
+
+#cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #333;
+  transition: transform 0.8s ease;
+}
+
+.card img:hover {
+  transform: scale(1.5);
+}
+
+.card-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ec743d;
+}
+
+.author {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.tags {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn-download {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  color: #fff;
+  background: transparent;
+  max-width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+}
+
+.btn-download:hover {
+  background: #ec743d33;
+}
