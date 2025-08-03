@@ -636,35 +636,79 @@ async function extractDescription(zipUrl) {
   return "No description available.";
 }
 
+// Pin packs ##################################
+const PRIORITY_PACKS = [
+  'Blo3D',
+  'Monochrome 8x',
+  'SleekSlots'
+];
+
+function isPriorityPack(packName) {
+  return PRIORITY_PACKS.some(priority => 
+    packName.toLowerCase().includes(priority.toLowerCase())
+  );
+}
+
 function displayCard(name, url, bannerUrl) {
   const container = document.getElementById("cards-container");
   const card = document.createElement("div");
   card.className = "card";
   card.dataset.name = name.toLowerCase();
+  
+  if (isPriorityPack(name)) {
+    card.dataset.priority = "true";
+  }
+  
   const img = document.createElement("img");
   img.src = bannerUrl;
   img.alt = `${name} Banner`;
-  img.loading = container.children.length < 3 ? "eager" : "lazy";
-  img.fetchpriority = container.children.length < 3 ? "high" : "auto";
+  
+  const isPriority = isPriorityPack(name);
+  const eagerLoad = container.children.length < 3 || isPriority;
+  img.loading = eagerLoad ? "eager" : "lazy";
+  img.fetchpriority = eagerLoad ? "high" : "auto";
+  
   img.addEventListener("click", async () => {
     const descText = await extractDescription(url);
     openPopup(bannerUrl, descText, url, name);
   });
+  
   const title = document.createElement("div");
   title.className = "card-title";
   title.innerHTML = `<a href="${url}" target="_blank">${name}</a>`;
+  
   card.appendChild(img);
   card.appendChild(title);
-  container.appendChild(card);
+  
+  if (isPriority) {
+    container.insertBefore(card, container.firstChild);
+  } else {
+    container.appendChild(card);
+  }
 }
 
 const debounceFilterCards = debounce(filterCards, 300);
 
 function filterCards() {
+  const container = document.getElementById("cards-container");
+  const cards = Array.from(container.children);
+  
+  cards.sort((a, b) => {
+    const aIsPriority = a.dataset.priority === 'true';
+    const bIsPriority = b.dataset.priority === 'true';
+    
+    if (aIsPriority && !bIsPriority) return -1;
+    if (!aIsPriority && bIsPriority) return 1;
+    
+    return a.dataset.name.localeCompare(b.dataset.name);
+  });
+  
+  cards.forEach(card => container.appendChild(card));
+  
   const query = document.getElementById("search-input").value.toLowerCase();
-  const cards = document.querySelectorAll(".card");
+  const allCards = document.querySelectorAll(".card");
 
-  cards.forEach(card => {
+  allCards.forEach(card => {
     const name = card.dataset.name;
     card.style.display = name.includes(query) ? "block" : "none";
   });
@@ -714,7 +758,6 @@ function openPopup(imageUrl, descText, downloadUrl, packName = null) {
   popupImage.src = imageUrl;
   popupText.textContent = descText;
   currentZipUrl = downloadUrl;
-  // Store pack name for sharing
   popup.dataset.packName = packName || extractPackNameFromUrl(downloadUrl);
 
   downloadButton.onclick = async () => {
