@@ -70,14 +70,14 @@ body {
 }
 
 #sidebar.retracted {
-    max-height: 45px; /* The exact height of the header to collapse TO */
+    max-height: 45px;
     padding-top: 0;
     padding-bottom: 0;
 }
 
 #sidebar.retracted .icon-button {
     opacity: 0;
-    pointer-events: none; /* Prevent clicking invisible icons */
+    pointer-events: none; 
 }
 
 #sidebar.retracted #sidebar-toggle-btn {
@@ -125,7 +125,9 @@ body {
 }
 
 .window-header {
-    background: #ff7b00;
+    background: #353535;
+    border: 1px solid #434343;
+    border-bottom: none;
     color: white;
     padding: 10px;
     cursor: move;
@@ -204,8 +206,8 @@ iframe {
 }
 
 .close-button {
-    background-color: #ff7b00;
-    border: none;
+    background-color: #ff7b0005;
+    border: 1px solid #ff7b00;
     padding: 5px 10px;
     border-radius: 5px;
     color: white;
@@ -215,10 +217,11 @@ iframe {
     font-size: 14px;
     cursor: pointer;
     line-height: 1;
+    transition: background-color 0.3s ease;
 }
 
 .close-button:hover {
-    background-color: #ff9900;
+    background-color: #ff7b00;
 }
 
 .button-grid {
