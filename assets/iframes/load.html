@@ -1,185 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxdForge - Loading</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>load</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #1a1a1a;
-            font-family: 'Arial', sans-serif;
-            color: white;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-        }
+    body {
+      background: #181818;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .container {
-            text-align: center;
-            z-index: 1;
-            animation: float 3s ease-in-out infinite;
-        }
+    .loader {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
+    .loader::before {
+      content: "";
+      background: rgba(255, 255, 255, 0.01);
+      backdrop-filter: blur(8px);
+      position: absolute;
+      width: 840px;
+      height: 240px;
+      z-index: 20;
+      border-radius: 0 0 32px 32px;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      border-top: none;
+      box-shadow: 0 30px 40px rgba(0, 0, 0, 0.1);
+      animation: anim2 2s infinite;
+    }
 
-.title {
-    font-size: 80px;
-    font-weight: bold;
-    animation: pulse 2s infinite ease-in-out;
-}
+    .loader div {
+      border-radius: 32px;
+      width: 140px;
+      height: 140px;
+      z-index: -1;
+      animation: anim 2s infinite ease-in-out;
+      animation-delay: calc(-0.3s * var(--i));
+      transform: translateY(20px);
+      margin: 0 24px;
+    }
 
+    .loader div:nth-child(1) {
+      background: #ff7a00;
+    }
 
-        .title span {
-            color: #F06105;
-        }
+    .loader div:nth-child(2) {
+      background: #ff8c1a;
+    }
 
-        /* Subtitle Styling */
-        .subtitle {
-            margin-top: 20px;
-            font-size: 16px;
-            letter-spacing: 2px;
-            opacity: 0.8;
-        }
+    .loader div:nth-child(3) {
+      background: #ff9933;
+    }
 
-        .progress-bar {
-            margin-top: 20px;
-            width: 400px;
-            height: 14px;
-            background-color: #333;
-            position: relative;
-            overflow: hidden;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 6px;
-        }
+    .loader div:nth-child(4) {
+      background: #ffb366;
+    }
 
-        .progress-bar::before {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 100%;
-            background: linear-gradient(90deg, #F06105, #FFA500);
-            animation: loading 2s infinite ease-in-out;
-            border-radius: 4px;
-        }
-
-        @keyframes loading {
-            0% { left: -100px; }
-            100% { left: 100%; }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-
-        .cube {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background-color: #FF7C17;
-            opacity: 0.5;
-            border-radius: 10px;
-            filter: blur(2px);
-            animation: moveRandom infinite;
-        }
-
-        @keyframes moveRandom {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(30vw, -30vh) rotate(90deg); }
-            50% { transform: translate(-40vw, 30vh) rotate(180deg); }
-            75% { transform: translate(20vw, 10vh) rotate(270deg); }
-            100% { transform: translate(0, 0) rotate(360deg); }
-        }
-
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background-color: rgba(255, 165, 0, 0.5);
-            border-radius: 50%;
-            animation: floatParticle 5s infinite ease-in-out;
-        }
-
-        @keyframes floatParticle {
-            0% { transform: translateY(0) translateX(0); opacity: 0.5; }
-            50% { transform: translateY(-100px) translateX(100px); opacity: 1; }
-            100% { transform: translateY(0) translateX(0); opacity: 0.5; }
-        }
-    </style>
+    @keyframes anim {
+      0%, 100% {
+        transform: translateY(20px);
+      }
+      50% {
+        transform: translateY(-240px);
+      }
+    }
+    
+  </style>
 </head>
 <body>
-    <div class="particles"></div>
-
-    <div class="container">
-        <div class="title">Bloxd<span>Forge</span></div>
-        <div class="subtitle">Wait... something amazing is coming...</div>
-        <div class="progress-bar"></div>
-    </div>
-
-    <div class="cube" style="top: 10%; left: 20%;"></div>
-    <div class="cube" style="top: 30%; left: 40%;"></div>
-    <div class="cube" style="top: 50%; left: 60%;"></div>
-    <div class="cube" style="top: 20%; left: 80%;"></div>
-    <div class="cube" style="top: 90%; left: 10%;"></div>
-
-    <script>
-        function getRandomValue(min, max) {
-            return Math.random() * (max - min) + min;
-        }
-
-        const cubes = document.querySelectorAll('.cube');
-        cubes.forEach(cube => {
-            cube.style.animationDuration = `${getRandomValue(12, 25)}s`;
-            const size = getRandomValue(100, 200);
-            cube.style.width = `${size}px`;
-            cube.style.height = `${size}px`;
-        });
-
-        const particlesContainer = document.querySelector('.particles');
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left = `${getRandomValue(0, 100)}%`;
-            particle.style.top = `${getRandomValue(0, 100)}%`;
-            particle.style.animationDuration = `${getRandomValue(3, 8)}s`;
-            particlesContainer.appendChild(particle);
-        }
-
-        const title = document.querySelector('.title');
-        title.addEventListener('mousemove', (e) => {
-            const rect = title.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width;
-            const y = (e.clientY - rect.top) / rect.height;
-            title.style.transform = `scale(1.05) rotateX(${y * 10}deg) rotateY(${x * 10}deg)`;
-        });
-
-        title.addEventListener('mouseleave', () => {
-            title.style.transform = 'scale(1) rotateX(0) rotateY(0)';
-        });
-    </script>
+  <div class="loader">
+    <div style="--i: 1"></div>
+    <div style="--i: 2"></div>
+    <div style="--i: 3"></div>
+    <div style="--i: 4"></div>
+  </div>
 </body>
-</html>
