@@ -1,206 +1,202 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxdForge - One Stop Solution to everything Bloxd</title>
-    <meta name="keywords" content="bloxd, forge, bloxdforge, bloxd forge, bloxd forge plus, chromebook bloxd, bloxd unblocked, minecraft web unblocked, minecraft free, bloxdforge plus, bloxd forge plus, bloxd multiplayer, bloxd bedwars, bloxd skywars, minecraft cracked, minecraft cracked bedwars, minecraft cracked skywars, bloxxd 4v4, bloxd pvp, bloxd autoclicker, bloxd fps booster, bloxd texture packs, bloxd texture pack, bloxd tpack, forge bloxd, forgebloxd, bloxdforge web, bloxd forge web, minecraft browser, minecraft online, minecraft multiplayer browser, minecraft web, minecraft web client, bloxd forge client, bloxd client, bloxd web, bloxd forge web client, minecraft web multiplayer, minecraft browser game, minecraft web game, bloxd forge game, bloxd game, bloxd web game, bloxd forge web game, minecraft unblocked school, minecraft school unblocked, bloxd forge school, bloxd school, minecraft browser unblocked, minecraft online unblocked, bloxd forge unblocked, bloxd unblocked game, minecraft web version, bloxd forge version, bloxd version">
-    <meta name="description" content="BloxdForge is your ultimate companion app for bloxd.io, designed to improve your gameplay. With everything from tpacks to a shop, an ingame menu and more!">
-    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="/favicon.ico" type="image/png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Rubik Mono One', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BloxdForge mobile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        body {
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            font-family: 'Rubik Mono One', sans-serif;
-        }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #111;
+      font-family: sans-serif;
+    }
 
-        .background-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: url('assets/images/bg.png');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.4);
-            animation: moveBackground 30s ease-in-out infinite;
-            transform: scale(1.1);
-        }
+    iframe#mainframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      z-index: 0;
+    }
 
-        @keyframes moveBackground {
-            0% {
-                transform: translate(0, 0) scale(1.1);
-            }
-            50% {
-                transform: translate(-5%, -5%) scale(1.15);
-            }
-            100% {
-                transform: translate(0, 0) scale(1.1);
-            }
-        }
+    .toggle-btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1001;
+      background-color: #1c1c1c;
+      border: 3px solid #242424;
+      color: #3a3a3a;
+      border-radius: 55px;
+      padding: 12px 16px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
 
-        .content {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 2rem 10%;
-            text-align: left;
-        }
+    }
 
-        h1 {
-            color: white;
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            max-width: 600px;
-        }
+    .toggle-btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
 
-        p {
-            color: rgba(216, 216, 216, 0.9);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            max-width: 500px;
-        }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background-color: #1c1c1c;
+      border: 3px solid #242424;
+      margin: 30px;
+      margin-top: 0px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      transition: left 0.3s ease;
+      z-index: 1002;
+    }
 
-        .download-buttons {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
+    .sidebar.open {
+      left: 0;
+    }
 
-        .download-button {
-            color: white;
-            text-decoration: none;
-            padding: 1.5rem 3rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            border: 2px solid white;
-        }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+    }
 
-        .filled {
-            background-color: white;
-            color: #333;
-        }
+    .overlay.show {
+      display: block;
+    }
 
-        .outlined {
-            background-color: transparent;
-            color: white;
-        }
+    .top-buttons button {
+      width: 100%;
+      padding: 18px;
+      margin-bottom: 15px;
+      font-size: 18px;
+      background-color: #252525;
+      border: 3px solid #2c2c2c;
+      color: white;
+      border-radius: 40px;
+      cursor: pointer;
+    }
 
-        .download-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
+    .top-buttons button:hover {
+      background: #555;
+    }
 
-        .outlined:hover {
-            background-color: white;
-            color: #333;
-        }
+    .bottom-buttons {
+      display: flex;
+      gap: 10px;
+    }
 
-        .download-button img {
-            height: 30px;
-        }
+    .square-btn {
+      aspect-ratio: 1 / 1;
+      width: 25%;
+      background-color: #252525;
+      border: 3px solid #2c2c2c;
+      border-radius: 70px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-        @media (max-width: 768px) {
-            .content {
-                padding: 2rem;
-            }
-            
-            h1 {
-                font-size: 3.5rem;
-            }
+    .square-btn:hover {
+      background: #555;
+    }
 
-            p {
-                font-size: 1.1rem;
-            }
+    .flex-btn {
+      flex: 1;
+      background-color: #252525;
+      border: 3px solid #2c2c2c;
+      border-radius: 70px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-            .download-buttons {
-                width: 100%;
-                flex-direction: column;
-            }
-            
-            .download-button {
-                width: 100%;
-                justify-content: center;
-            }
-        }
+    .flex-btn:hover {
+      background: #343434;
+    }
 
-        .sidebar {
-            position: fixed;
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-            width: 60px;
-            height: auto;
-            padding: 10px;
-            background: #1e1e1e;
-            border-radius: 10px 0 0 10px;
-            box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-            z-index: 999;
-        }
-
-        .sidebar button {
-            width: 40px;
-            height: 40px;
-            background: #333;
-            border: none;
-            border-radius: 50%;
-            color: #fff;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .sidebar button:hover {
-            background: #555;
-            transform: scale(1.1);
-        }
-    </style>
+    i {
+      font-size: 24px;
+      color: #555555;
+      
+    }
+  </style>
 </head>
 <body>
-    <div class="background-image"></div>
-    <div class="sidebar">
-        <button onclick="window.location.href='/'"><i class="fa-solid fa-house"></i></button> 
-        <button onclick="window.location.href='/about'"><i class="fa-solid fa-user"></i></button>
-        <button onclick="window.location.href='/help'"><i class="fa-solid fa-info"></i></button>
-        <button onclick="window.open('https://discord.gg/nVgUe4qrhr')"><i class="fa-brands fa-discord"></i></button>
-    </div>  
-      
-    <div class="content">
-        <h1>BloxdForge</h1>
-        <p>Approved. Blazing fast. Insanely powerful.</p>
-        <div class="download-buttons">
-            <a href="https://www.bloxdforge.com/app/" class="download-button filled">
-                Try now
-            </a>
-            <a href="https://www.bloxdforge.com/mobile/" class="download-button outlined">
-                Mobile
-            </a>
-        </div>
+
+  <iframe id="mainframe" src="about:blank"></iframe>
+
+  <button id="hamburger" class="toggle-btn" onclick="openSidebar()">☰</button>
+
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="top-buttons">
+      <button onclick="loadPage('iframes/wiki.html')">Wiki</button>
+      <button onclick="loadPage('iframes/workshop.html')">Workshop</button>
     </div>
+
+    <div class="bottom-buttons">
+      <button class="square-btn" onclick="closeSidebar()"><i class="fas fa-play"></i></button>
+      <button class="flex-btn" onclick="loadPage('iframes/home.html')">Home</button>
+    </div>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const hamburger = document.getElementById('hamburger');
+    const mainframe = document.getElementById('mainframe');
+
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      overlay.classList.add('show');
+      hamburger.classList.add('hidden');
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+      hamburger.classList.remove('hidden');
+    }
+
+    function loadPage(url) {
+      mainframe.src = url;
+      closeSidebar();
+    }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        closeSidebar();
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      mainframe.src = 'iframes/home.html';
+    });
+
+  </script>
+
 </body>
 </html>
