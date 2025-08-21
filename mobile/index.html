@@ -140,6 +140,14 @@
       color: #555555;
       
     }
+
+    .orange-btn {
+  background-color: #ff7a29 !important; /* deeper orange */
+  color: #ffe8d8 !important;
+  border: 3px solid #ff9448 !important; /* lighter orange border */
+}
+
+
   </style>
 </head>
 <body>
@@ -152,6 +160,7 @@
 
   <div class="sidebar" id="sidebar">
     <div class="top-buttons">
+      <button class="orange-btn" onclick="fullscreen()">Fullscreen</button>
       <button onclick="loadPage('iframes/wiki.html')">Wiki</button>
       <button onclick="loadPage('iframes/workshop.html')">Workshop</button>
     </div>
@@ -196,6 +205,13 @@
       mainframe.src = 'iframes/home.html';
     });
 
+    function fullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
   </script>
 
 </body>
