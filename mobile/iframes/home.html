@@ -327,9 +327,19 @@
         z-index: 1000;
       }
 
+      .version-text {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        color: #595959;
+        font-size: 14px;
+        z-index: 1000;
+      }
+
   </style>
 </head>
 <body>
+  <div class="version-text">Version: BFM2.0</div>
 
   <button class="hamburger-btn" id="hamburger" onclick="openSidebar()"><i class="fas fa-ellipsis-v"></i></button>
 
@@ -376,7 +386,7 @@
     <div class="grid">
       <button class="orange-btn" onclick="shareBloxdforge()">Share BloxdForge!</button>
       <button class="square-btn" data-link="https://bloxd.io/">Bloxd</button>
-      <button class="square-btn" data-link="https://beta.bloxd.io/">Beta</button>
+      <button class="square-btn" data-link="https://staging.bloxd.io/">Staging</button>
     </div>
   </div>
 
