@@ -69,6 +69,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            flex-shrink: 0;
         }
 
         .sidebar-section {
@@ -349,6 +350,14 @@
                 <p>Find Builds</p>
             </div>
         </aside>
+
+        <aside style="width: 160px; flex-shrink: 0; display: flex; flex-direction: column; background: transparent; gap: 5px;">
+             <iframe src="/assets/iframes/ad.html" style="flex-grow: 1; border:none; border-radius: var(--border-radius);"></iframe>
+             <div class="ad-disclaimer" style="font-size: 10px; color: #888; text-align: center; padding: 5px;">
+                Ads are from a third-party and not endorsed by us. Be cautious with financial/crypto services.
+             </div>
+        </aside>
+
     </main>
 
     <script>
