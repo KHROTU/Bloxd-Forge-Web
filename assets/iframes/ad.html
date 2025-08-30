@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ad</title>
-  <style>
-    body { margin: 0; background-color: #181818; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    iframe { border: none; }
-  </style>
+<meta charset="UTF-8">
+<title>Safe Ad</title>
+<style>
+  body {
+    margin: 0;
+    background-color: #181818;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  iframe {
+    border: none;
+  }
+</style>
 </head>
 <body>
-  <iframe srcdoc="
+
+<iframe 
+  width="160" 
+  height="600" 
+  sandbox="allow-scripts allow-same-origin allow-popups"
+  srcdoc="
     <html>
       <head>
         <base target='_blank'>
       </head>
       <body style='margin:0;'>
-        <script type='text/javascript'>
+        <script>
           atOptions = {
             'key' : 'ad3947e867b6f05de07231d510257667',
             'format' : 'iframe',
@@ -24,9 +38,20 @@
             'params' : {}
           };
         </script>
-        <script type='text/javascript' src='//www.highperformanceformat.com/ad3947e867b6f05de07231d510257667/invoke.js'></script>
+        <script src='//www.highperformanceformat.com/ad3947e867b6f05de07231d510257667/invoke.js'></script>
       </body>
     </html>
-  " width="160" height="600" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+  ">
+</iframe>
+
+<script>
+
+window.addEventListener('popstate', (e) => {
+  if (location.href.includes('highperformanceformat.com')) {
+    history.go(1); 
+  }
+});
+</script>
+
 </body>
 </html>
