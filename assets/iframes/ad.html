@@ -3,18 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Ad</title>
-  <style>body { margin: 0; background-color: #181818; }</style>
+  <style>
+    body { margin: 0; background-color: #181818; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    iframe { border: none; }
+  </style>
 </head>
 <body>
-  <script type="text/javascript">
-	atOptions = {
-		'key' : 'ad3947e867b6f05de07231d510257667',
-		'format' : 'iframe',
-		'height' : 600,
-		'width' : 160,
-		'params' : {}
-	};
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/ad3947e867b6f05de07231d510257667/invoke.js"></script>
+  <iframe srcdoc="
+    <html>
+      <head>
+        <base target='_blank'>
+      </head>
+      <body style='margin:0;'>
+        <script type='text/javascript'>
+          atOptions = {
+            'key' : 'ad3947e867b6f05de07231d510257667',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script type='text/javascript' src='//www.highperformanceformat.com/ad3947e867b6f05de07231d510257667/invoke.js'></script>
+      </body>
+    </html>
+  " width="160" height="600" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
 </body>
 </html>
