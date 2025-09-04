@@ -37,6 +37,45 @@ async function fetchZipFiles() {
     allZipFiles = files.filter(
       file => file.type === "file" && file.name.endsWith(".zip")
     );
+    
+
+    const tpack = getQueryParam('tpack');
+    if (tpack) {
+      const targetPack = allZipFiles.find(file => 
+        file.name.toLowerCase().replace(/\.zip$/i, '') === tpack.toLowerCase()
+      );
+      
+      if (targetPack) {
+
+        const container = document.getElementById("cards-container");
+        
+        const cardReady = new Promise((resolve) => {
+          const checkCard = setInterval(() => {
+            const card = document.querySelector(`.card[data-name="${targetPack.name.toLowerCase().replace(/\.zip$/i, '')}"]`);
+            if (card && !card.classList.contains('loading')) {
+              clearInterval(checkCard);
+              resolve(card);
+            }
+          }, 100);
+        });
+        
+
+        await processZipAndRenderCard(targetPack, container);
+        
+
+        const card = await cardReady;
+        if (card) {
+          setTimeout(() => {
+            card.click();
+          }, 100);
+        }
+        
+        const otherPacks = allZipFiles.filter(pack => pack !== targetPack);
+        displayAllCards(otherPacks);
+        return;
+      }
+    }
+    
     displayAllCards(allZipFiles);
   } catch (error) {
     console.error("Error fetching files:", error);
@@ -46,14 +85,15 @@ async function fetchZipFiles() {
 
 function displayAllCards(files) {
     const container = document.getElementById("cards-container");
-    container.innerHTML = '';
-    document.getElementById("loading-spinner").style.display = 'none';
-
-    const processingPromises = files.map(file => processZipAndRenderCard(file, container));
-
-    Promise.allSettled(processingPromises).then(() => {
-        sortAndPinPacks();
-        waitForCardsAndOpenTpack();
+    if (container.children.length === 0) {
+        document.getElementById("loading-spinner").style.display = 'none';
+    }
+    files.forEach(file => {
+        processZipAndRenderCard(file, container).then(card => {
+            if (card) {
+                sortAndPinPacks();
+            }
+        });
     });
 }
 
@@ -61,10 +101,21 @@ async function processZipAndRenderCard(file, container) {
     const zipName = file.name.replace(/\.zip$/i, "");
     const zipUrl = file.download_url;
 
+    const existingCard = document.querySelector(`.card[data-name="${zipName.toLowerCase()}"]`);
+    if (existingCard) {
+        if (existingCard.classList.contains('loading')) {
+            return existingCard;
+        }
+        return null;
+    }
+
     const card = document.createElement("div");
     card.className = "card loading";
     card.dataset.name = zipName.toLowerCase();
     card.dataset.url = zipUrl;
+    if (isPinnedPack(zipName)) {
+        card.dataset.pinned = 'true';
+    }
 
     const img = document.createElement("img");
     img.alt = `${zipName} Banner`;
@@ -86,6 +137,7 @@ async function processZipAndRenderCard(file, container) {
     card.appendChild(title);
     card.appendChild(loadingOverlay);
     container.appendChild(card);
+    sortAndPinPacks();
     
     const percentageEl = card.querySelector('.loading-percentage');
     const detailsEl = card.querySelector('.loading-details');
@@ -203,15 +255,25 @@ function getQueryParam(name) {
 async function waitForCardsAndOpenTpack() {
   const tpack = getQueryParam('tpack');
   if (!tpack) return;
-  let attempts = 0;
-  while (attempts < 60) {
-    const targetCard = document.querySelector(`.card[data-name="${tpack.toLowerCase()}"]`);
-    if (targetCard && !targetCard.classList.contains('loading')) {
-        targetCard.click();
-        return;
+  
+  const targetCard = document.querySelector(`.card[data-name="${tpack.toLowerCase()}"]`);
+  if (targetCard && !targetCard.classList.contains('loading')) {
+    targetCard.click();
+    return;
+  }
+  
+  const targetPack = allZipFiles.find(file => 
+    file.name.toLowerCase().replace(/\.zip$/i, '') === tpack.toLowerCase()
+  );
+  
+  if (targetPack) {
+    const container = document.getElementById("cards-container");
+    const card = await processZipAndRenderCard(targetPack, container);
+    if (card) {
+      card.click();
     }
-    await new Promise(r => setTimeout(r, 500));
-    attempts++;
+  } else {
+    console.warn(`Pack "${tpack}" not found`);
   }
 }
 
