@@ -653,28 +653,81 @@ make sure to give the code in one code block.
     async function sendPrompt(userText){
       if(!userText.trim()) return;
       appendMessage(userText,'user');
-      // build prompt: concatenated markdown
-      const filesConcat = docs.map(d=>`--- ${d.name} ---\n${d.text}`).join('\n\n');
-      const extras = extraInfo || '';
-      const promptParts = [];
-      if(filesConcat) promptParts.push('CONTEXT:\n'+filesConcat);
-      if(extras) promptParts.push('SYSTEM CONTEXT:\n'+extras);
-      promptParts.push('USER QUESTION:\n'+userText);
-      const prompt = promptParts.join('\n\n');
-
-      // show loading
-      const loadingMsg = appendMessage('One sec, Melting... Forging... Cooling...', 'ai');
-      // Add thinking class for shine effect
+      
+      // Step 1: Send just metadata (filenames) to AI for selection
+      const fileList = docs.map(d => d.name).join(', ');
+      
+      const selectorPrompt = `
+You are a document selector for Bloxd.io coding docs.
+The user asked: "${userText}"
+Here is the list of files available: ${fileList}
+Which files are likely needed to answer this question? Respond with the file names only, separated by commas.
+`;
+      
+      // Show loading message
+      const loadingMsg = appendMessage('Analyzing which documentation files are most relevant...', 'ai');
       if (loadingMsg) {
         loadingMsg.classList.add('thinking');
       }
+      
+      try {
+        // Get AI's file selection
+        const selectionResponse = await puter.ai.chat(selectorPrompt);
+        let selectedFilesText = '';
+        
+        if(typeof selectionResponse === 'string') {
+          selectedFilesText = selectionResponse;
+        } else if(selectionResponse && typeof selectionResponse === 'object') {
+          if(selectionResponse.message && selectionResponse.message.content) {
+            selectedFilesText = selectionResponse.message.content;
+          } else if(selectionResponse.text) {
+            selectedFilesText = selectionResponse.text;
+          } else if(selectionResponse.content) {
+            selectedFilesText = selectionResponse.content;
+          } else {
+            selectedFilesText = JSON.stringify(selectionResponse);
+          }
+        } else {
+          selectedFilesText = String(selectionResponse);
+        }
+        
+        // Parse the selected files
+        const selectedFileNames = selectedFilesText
+          .split(',')
+          .map(name => name.trim())
+          .filter(name => name.length > 0);
+        
+        // Filter docs to only include selected files
+        // Always include EXTRA.md and SIMPLES.md as they contain important general information
+        const selectedDocs = docs.filter(d => 
+          d.name === 'EXTRA.md' ||  // Always include EXTRA.md
+          d.name === 'SIMPLES.md' ||  // Always include SIMPLES.md
+          selectedFileNames.some(selectedName => 
+            d.name.toLowerCase() === selectedName.toLowerCase()
+          )
+        );
+        
+        // Build prompt with only selected files
+        const filesConcat = selectedDocs.map(d=>`--- ${d.name} ---\n${d.text}`).join('\n\n');
+        const extras = extraInfo || '';
+        const promptParts = [];
+        if(filesConcat) promptParts.push('CONTEXT:\n'+filesConcat);
+        if(extras) promptParts.push('SYSTEM CONTEXT:\n'+extras);
+        promptParts.push('USER QUESTION:\n'+userText);
+        const prompt = promptParts.join('\n\n');
 
-      try{
-        // Call Puter AI with the prompt
+        // Update loading message
+        if (loadingMsg) {
+          loadingMsg.textContent = 'One sec, Melting... Forging... Cooling...';
+        }
+
+        // Call Puter AI with the optimized prompt
         const response = await puter.ai.chat(prompt);
-        // remove the loading message (the last ai message)
-        const last = messages.querySelectorAll('.msg.ai.thinking');
-        if(last.length) last[last.length-1].remove();
+        
+        // Remove the loading message
+        if(loadingMsg) {
+          loadingMsg.remove();
+        }
 
         // Handle response - extract content from JSON response
         let text = '';
