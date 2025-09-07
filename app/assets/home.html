@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BloxdForge Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./data/scroll.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1b1a1a 0%, #171616 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .home-container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      color: #a0a0a0;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
+
+    .wide-button {
+      grid-column: span 2;
+      background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1.5rem;
+      padding: 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      height: 20vh;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 20px rgba(255, 107, 57, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wide-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .wide-button:hover::before {
+      left: 100%;
+    }
+
+    .wide-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(255, 107, 57, 0.4);
+    }
+
+    .big-btn {
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #3a3939;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      height: 350px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+      
+    }
+
+    .big-btn:hover {
+      opacity: 1;
+      transform: translateY(-8px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+      border-color: #4a4949;
+    }
+
+    .btn-title {
+      background: linear-gradient(90deg, #2e2e2e, #2a2a2a);
+      border: 1px solid #444343;
+      padding: 12px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      width: 100%;
+      text-align: center;
+      color: #e8e8e8;
+      z-index: 1;
+    }
+
+    .btn-image {
+      width: 100%;
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-content {
+      margin-top: 15px;
+      color: #bbb;
+      font-size: 0.9rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* Responsive design */
+    @media (max-width: 900px) {
+      .home-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .wide-button, .stats {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stats {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .wide-button {
+        height: 100px;
+        font-size: 1.2rem;
+      }
+      
+      .big-btn {
+        height: 300px;
+      }
+    }
+
+    /* Animation for elements */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .home-grid > * {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .wide-button {
+      animation-delay: 0.1s;
+    }
+
+    .big-btn:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .big-btn:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .stats {
+      animation-delay: 0.4s;
+    }
+
+    .fullscreen-frame {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      z-index: 80;
+      display: none;
+    }
+
+    .bottomright-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      padding: 10px;
+      background: linear-gradient(45deg, #262525, #212020);
+      border: 1px solid #303030;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: rgb(130, 130, 130);
+      transition: all 0.3s ease;
+    }
+
+    .bottomright-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(255, 107, 57, 0.2);
+      z-index: 999;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 15, 15, 0.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 1100px;
+      background: linear-gradient(145deg, #1f1e1e, #181818);
+      border: 1px solid #2a2929;
+      border-radius: 25px;
+      padding: 40px;
+      position: relative;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .modal-item {
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #3a3939;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      cursor: pointer;
+    }
+    .modal-item:hover {
+      transform: translateY(-6px);
+      border-color: #4a4949;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.35);
+    }
+
+    .modal-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #e8e8e8;
+    }
+
+    .modal-desc {
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .modal-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 500px) {
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    #fps-ping-display {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10001;
+      display: none; 
+      padding: 10px;
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #3a3939;
+      border-radius: 20px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      transition: all 0.3s ease;
+    }
+
+    .darkmode-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(145deg, #1f1e1e, #181818);
+      opacity: 0.45;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      animation: fadeIn 0.4s ease;
+      pointer-events: none;
+    }
+
+    .floating-window {
+      position: fixed;
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #3a3939;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      z-index: 100000;
+      min-width: 600px;
+      min-height: 400px;
+      max-width: 95vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      resize: both;
+    }
+
+    /* Responsive adjustments for floating windows */
+    @media (max-width: 768px) {
+      .floating-window {
+        min-width: 90vw;
+        max-width: 95vw;
+        min-height: 70vh;
+        max-height: 85vh;
+        top: 5vh !important;
+        left: 2.5vw !important;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .floating-window {
+        min-width: 95vw;
+        max-width: 98vw;
+        min-height: 75vh;
+        max-height: 90vh;
+        top: 2vh !important;
+        left: 1vw !important;
+      }
+    }
+
+    .window-header {
+      background: linear-gradient(90deg, #2e2e2e, #2a2a2a);
+      padding: 10px 15px;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #444343;
+    }
+
+    .window-title {
+      font-weight: 600;
+      color: #e8e8e8;
+      user-select: none;
+    }
+
+    .window-close {
+      background: none;
+      border: none;
+      color: #aaa;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 5px;
+    }
+
+    .window-content {
+      flex: 1;
+      padding: 15px;
+      overflow: auto;
+    }
+
+    /* Remove padding when window contains only an iframe */
+    .window-content:has(iframe:only-child),
+    .window-content.iframe-only {
+      padding: 0;
+    }
+
+    .window-content iframe:only-child {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Tall floating window variant for AI Assistant */
+    .floating-window.tall {
+      min-width: 400px;
+      max-width: 450px;
+      min-height: 700px;
+      max-height: 85vh;
+      width: 400px;
+      height: 700px;
+    }
+
+    @media (max-width: 768px) {
+      .floating-window.tall {
+        min-width: 85vw;
+        max-width: 90vw;
+        min-height: 80vh;
+        max-height: 85vh;
+        width: 85vw;
+        height: 80vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .floating-window.tall {
+        min-width: 95vw;
+        max-width: 98vw;
+        min-height: 85vh;
+        max-height: 90vh;
+        width: 95vw;
+        height: 85vh;
+      }
+    }
+
+    .popmenu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(145deg, #262525, #212020);
+      opacity: 0.45;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      animation: fadeIn 0.4s ease;
+      pointer-events: none;
+    }
+
+    .filter-option {
+      background:#2f2e2e;
+      border: 1px solid #3a3939;
+      color: #e8e8e8;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      padding: 30px 15px;
+    }
+
+    .filter-option:hover {
+      background:#2f2e2e;
+      border-color: #4a4949;
+    }
+
+    .filter-option.active {
+      background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+      border-color: #ff8c5a;
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 107, 57, 0.3);
+    }
+
+    /* Recording UI Styles */
+    #recording-window {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #252525;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      width: 400px;
+      max-width: 90%;
+      overflow: hidden;
+    }
+
+    .recording-header {
+      background: linear-gradient(90deg, #2e2e2e, #2a2a2a) !important;
+      border-color: #444343 !important;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+    }
+
+    .recording-content {
+      padding: 20px;
+      color: #e0e0e0;
+    }
+
+    .recording-btn {
+      background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px 5px;
+      transition: all 0.3s ease;
+    }
+
+    .recording-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 107, 57, 0.4);
+    }
+
+    .recording-btn:disabled {
+      background: #555;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    #recordingIndicator {
+      display: none;
+      color: #ff4d4d;
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .recording-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Bottom-right button -->
+  <button class="bottomright-btn" id="fullscreenBtn"><i class="fas fa-expand"></i></button>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="popupModal">
+    <div class="modal-content">
+      <div class="modal-grid">
+        <div class="modal-item" onclick="metrics()">
+          <div class="modal-icon"><i class="fas fa-chart-line"></i></div>
+          <h3 class="modal-title">Metrics</h3>
+          <p class="modal-desc">Show performance metrics</p>
+        </div>
+        <div class="modal-item" id="dark-mode-btn">
+          <div class="modal-icon"><i class="fas fa-moon"></i></div>
+          <h3 class="modal-title">Dark Mode</h3>
+          <p class="modal-desc">Toggle dark mode</p>
+        </div>
+        <div class="modal-item" id="coordinates-btn" data-url="./data/iframes/cords.html">
+          <div class="modal-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3 class="modal-title">Coordinates</h3>
+          <p class="modal-desc">Save and manage locations</p>
+        </div>        
+        <div class="modal-item" onclick="filters()">
+          <div class="modal-icon"><i class="fas fa-sliders-h"></i></div>
+          <h3 class="modal-title">Filters</h3>
+          <p class="modal-desc">Apply filters (BETA)</p>
+        </div>
+        <div class="modal-item" id="record-btn">
+          <div class="modal-icon"><i class="fas fa-video"></i></div>
+          <h3 class="modal-title">Record</h3>
+          <p class="modal-desc">Record gameplay</p>
+        </div>
+        <div class="modal-item" id="ai-assistant-btn">
+          <div class="modal-icon"><i class="fas fa-robot"></i></div>
+          <h3 class="modal-title">AI Agent</h3>
+          <p class="modal-desc">Boot the AI Agent</p>
+        </div>
+        <div class="modal-item" id="close-btn">
+          <div class="modal-icon"><i class="fas fa-times"></i></div>
+          <h3 class="modal-title">Close</h3>
+          <p class="modal-desc">Close the menu</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-content" class="home-container">
+    <div class="home-grid">
+      <button class="wide-button">
+        <i class="fas fa-dice"></i>
+        Try Something New
+      </button>
+
+      <div class="big-btn" data-url="https://bloxd.io">
+        <div class="btn-title">Bloxd</div>
+        <div class="btn-image" style="background-image: url('./data/img/bloxd.png');"></div>
+      </div>
+
+      <div class="big-btn" data-url="https://staging.bloxd.io">
+        <div class="btn-title">Staging</div>
+        <div class="btn-image" style="background-image: url('./data/img/staging.png');"></div>
+      </div>
+    </div>
+  </div>
+
+  <iframe class="fullscreen-frame"></iframe>
+
+  <div id="fps-ping-display">
+    <div id="fps-display">FPS: --</div>
+    <div id="ping-display">Ping: --</div>
+  </div>
+
+  <div id="iframeModal" class="modal-overlay">
+    <div class="modal-content" style="padding:0; height:80vh;">
+      <iframe id="iframeContent" src="" style="width:100%; height:100%; border:none;"></iframe>
+      <button id="iframeClose" style="position:absolute; top:10px; right:10px; font-size:1.5rem; background:transparent; border:none; color:white; cursor:pointer;">×</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal" style="display: none;"></div>
+  <div class="popmenu" id="popmenu" style="display: none;"></div>
+
+  <!-- Recording Window -->
+  <div id="recording-window" style="display: none;">
+    <div class="recording-header" id="recording-drag-handle">
+      <h3>Screen Recorder</h3>
+      <button id="close-recording" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
+    </div>
+    <div class="recording-content">
+      <p>Record your screen with audio. Click "Start Screen Share" to begin.</p>
+      <div class="recording-controls">
+        <button id="streamingbt" class="recording-btn">Start Screen Share</button>
+        <button id="recordingbt" class="recording-btn" disabled>Start Recording</button>
+      </div>
+      <div id="recordingIndicator">
+        <i class="fas fa-circle" style="color: #ff4d4d; margin-right: 5px;"></i> Recording in progress...
+      </div>
+    </div>
+  </div>
+  
+
+  <script>
+    // Listen for messages from parent window about user type
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.action) {
+        if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
+          console.log('Pro user detected - no ads to hide on home page');
+        } else if (event.data.action === 'showAds') {
+          console.log('Free user detected - no ads to show on home page');
+        }
+      }
+    });
+    
+    // Screen Recording Variables
+    let mediaStream = null;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+
+    // Draggable window functionality
+    function makeDraggable(element, header) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      
+      header.onmousedown = dragMouseDown;
+      
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // Get the mouse cursor position at startup
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // Call a function whenever the cursor moves
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // Calculate the new cursor position
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // Set the element's new position
+        element.style.top = (element.offsetTop - pos2) + "px";
+        element.style.left = (element.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        // Stop moving when mouse button is released
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+    }
+
+    // Create a new floating window
+    function createFloatingWindow(title, content) {
+      const windowId = 'window-' + Math.random().toString(36).substr(2, 9);
+      const window = document.createElement('div');
+      window.className = 'floating-window';
+      window.id = windowId;
+      
+      // Better responsive positioning
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        window.style.top = '5vh';
+        window.style.left = '2.5vw';
+      } else {
+        window.style.top = '100px';
+        window.style.left = '100px';
+      }
+      
+      // Check if content is only an iframe
+      const isIframeOnly = content.trim().startsWith('<iframe') && content.trim().endsWith('></iframe>');
+      const contentClass = isIframeOnly ? 'window-content iframe-only' : 'window-content';
+      
+      window.innerHTML = `
+        <div class="window-header">
+          <div class="window-title">${title}</div>
+          <button class="window-close">&times;</button>
+        </div>
+        <div class="${contentClass}">${content}</div>
+      `;
+      
+      document.body.appendChild(window);
+      
+      // Make window draggable by its header (only if not mobile)
+      if (!isMobile) {
+        const header = window.querySelector('.window-header');
+        makeDraggable(window, header);
+      }
+      
+      // Close button functionality
+      const closeBtn = window.querySelector('.window-close');
+      closeBtn.addEventListener('click', () => {
+        document.body.removeChild(window);
+      });
+      
+      return window;
+    }
+
+    // Create a new tall floating window (taller than wide)
+    function createTallFloatingWindow(title, iframeSrc) {
+      const windowId = 'window-' + Math.random().toString(36).substr(2, 9);
+      const window = document.createElement('div');
+      window.className = 'floating-window tall';
+      window.id = windowId;
+      
+      // Better responsive positioning for tall windows
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        window.style.top = '2vh';
+        window.style.left = '5vw';
+      } else {
+        window.style.top = '50px';
+        window.style.left = '200px';
+      }
+      
+      const content = `<iframe src="${iframeSrc}" style="width:100%; height:100%; border:none;"></iframe>`;
+      
+      window.innerHTML = `
+        <div class="window-header">
+          <div class="window-title">${title}</div>
+          <button class="window-close">&times;</button>
+        </div>
+        <div class="window-content iframe-only">${content}</div>
+      `;
+      
+      document.body.appendChild(window);
+      
+      // Make window draggable by its header (only if not mobile)
+      if (!isMobile) {
+        const header = window.querySelector('.window-header');
+        makeDraggable(window, header);
+      }
+      
+      // Close button functionality
+      const closeBtn = window.querySelector('.window-close');
+      closeBtn.addEventListener('click', () => {
+        document.body.removeChild(window);
+      });
+      
+      return window;
+    }
+
+    // Big button iframe logic
+    document.querySelectorAll('.big-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = btn.dataset.url;
+        const iframe = document.querySelector('.fullscreen-frame');
+        iframe.src = url;
+        iframe.style.display = 'block';
+        document.getElementById('main-content').style.display = 'none';
+      });
+    });
+
+    // Modal open/close logic
+    const modal = document.getElementById('popupModal');
+    const openBtn = document.getElementById('fullscreenBtn');
+    const closeBtn = document.getElementById('close-btn');
+    const metricsBtn = document.getElementById('metrics-btn');
+
+    openBtn.addEventListener('click', () => modal.style.display = 'flex');
+    closeBtn.addEventListener('click', () => modal.style.display = 'none');
+    modal.addEventListener('click', e => { 
+      if(e.target === modal) modal.style.display = 'none'; 
+    });
+
+    // Create floating windows for menu items
+    document.querySelectorAll('.modal-item').forEach(item => {
+      if (item.id && item.id !== 'close-btn' && item.id !== 'record-btn' && item.id !== 'ai-assistant-btn') {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', (e) => {
+          if (item.id === 'metrics-btn') {
+            metrics();
+            return;
+          }
+          
+          if (item.id === 'dark-mode-btn') {
+            document.body.classList.toggle('dark-mode');
+            darkModeOverlay.style.display = document.body.classList.contains('dark-mode') ? 'block' : 'none';
+            return;
+          }
+          
+          const title = item.querySelector('.modal-title').textContent;
+          const icon = item.querySelector('.modal-icon').innerHTML;
+          let content = '';
+          
+          if (item.dataset.url) {
+            content = `<iframe src="${item.dataset.url}" style="width:100%; height:100%; border:none;"></iframe>`;
+          } else {
+            content = `
+              <div style="text-align:center; padding:20px;">
+                <div style="font-size:2rem; margin-bottom:15px;">${icon}</div>
+                <h3>${title}</h3>
+                <p>${item.querySelector('.modal-desc').textContent}</p>
+              </div>
+            `;
+          }
+          
+          createFloatingWindow(title, content);
+          modal.style.display = 'none';
+        });
+      }
+    });
+
+    // AI Assistant button specific handler
+    const aiAssistantBtn = document.getElementById('ai-assistant-btn');
+    if (aiAssistantBtn) {
+      aiAssistantBtn.style.cursor = 'pointer';
+      aiAssistantBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Create tall floating window with AI Assistant interface
+        const aiAssistantUrl = './data/iframes/ai-assistant.html';
+        createTallFloatingWindow('BForge Agent', aiAssistantUrl);
+        
+        modal.style.display = 'none';
+      });
+    }
+
+    // Metrics toggle
+    const fpsPingDisplay = document.getElementById('fps-ping-display');
+    const fpsDisplay = document.getElementById('fps-display');
+    const pingDisplay = document.getElementById('ping-display');
+    let showFpsPing = false, lastFrameTime = performance.now(), frameCount = 0;
+
+    function updateFPS() {
+      const now = performance.now();
+      frameCount++;
+      if(now - lastFrameTime >= 1000) {
+        fpsDisplay.textContent = `FPS: ${frameCount}`;
+        frameCount = 0;
+        lastFrameTime = now;
+      }
+      if(showFpsPing) requestAnimationFrame(updateFPS);
+    }
+
+    function updatePing() {
+      const img = new Image();
+      const start = performance.now();
+      img.onload = () => pingDisplay.textContent = `Ping: ${Math.round(performance.now() - start)} ms`;
+      img.onerror = () => pingDisplay.textContent = 'Ping: Error';
+      img.src = "https://bloxd.io/favicon.ico?" + Math.random();
+      if(showFpsPing) setTimeout(updatePing, 1000);
+    }
+
+    // Initialize dark mode overlay
+    const darkModeOverlay = document.createElement('div');
+    darkModeOverlay.className = 'darkmode-overlay';
+    document.body.appendChild(darkModeOverlay);
+
+    // Define metrics function
+    function metrics() {
+      if (!fpsPingDisplay || !fpsDisplay || !pingDisplay) return;
+      
+      showFpsPing = !showFpsPing;
+      fpsPingDisplay.style.display = showFpsPing ? 'block' : 'none';
+      
+      if (showFpsPing) {
+        updateFPS();
+        updatePing();
+      }
+      
+      if (modal) modal.style.display = 'none';
+    }
+
+    // Connect metrics button if it exists
+    if (metricsBtn) {
+      metricsBtn.addEventListener('click', metrics);
+    }
+
+    // Load saved filter preference on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedFilter = localStorage.getItem('gameFilter');
+      if (savedFilter) {
+        // Find and click the corresponding filter button
+        const filterButton = document.querySelector(`.filter-option[onclick*="'${savedFilter}'"]`);
+        if (filterButton) {
+          filterButton.click();
+        }
+      }
+    });
+
+    // Modal functions
+    function openModal(link) {
+      const modal = document.getElementById('modal');
+      if (!modal) return;
+      
+      modal.innerHTML = `<iframe src="${link}" style="width:100%; height:100%; border:none;"></iframe>
+                        <button onclick="closeModal()" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:white; cursor:pointer; font-size:1.5rem;">×</button>`;
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      if (modal) modal.style.display = 'none';
+      modal.innerHTML = '';
+    }
+
+    function openSidebar() {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('overlay').classList.add('show');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('show');
+    }
+
+    function openFilterMenu() {
+      document.getElementById('filterPopup').classList.add('show');
+      document.getElementById('overlay').classList.add('show');
+      closeSidebar();
+    }
+
+    function closeFilterMenu() {
+      document.getElementById('filterPopup').classList.remove('show');
+      document.getElementById('overlay').classList.remove('show');
+    }
+
+    // Filters function
+    function filters() {
+      const filterContent = `
+        <div style="padding: 20px;">
+          <h3>Filters</h3>
+          <p>Select a filter to apply:</p>
+          <div style="display: grid; gap: 10px; margin-top: 15px;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 25px; margin-bottom: 25px;">
+              <button onclick="toggleFilter(this, 'none')" class="filter-option">No Filter</button>
+              <button onclick="toggleFilter(this, 'grayscale')" class="filter-option">Grayscale</button>
+              <button onclick="toggleFilter(this, 'sepia')" class="filter-option">Sepia</button>
+              <button onclick="toggleFilter(this, 'saturate')" class="filter-option">Saturate</button>
+              <button onclick="toggleFilter(this, 'brightness')" class="filter-option">Brightness</button>
+              <button onclick="toggleFilter(this, 'contrast')" class="filter-option">Contrast</button>
+          </div>
+        </div>
+      `;
+      
+      createFloatingWindow('Filters', filterContent);
+    }
+
+    function toggleFilter(button, filterValue) {
+      // Get the main game iframe
+      const gameIframe = document.querySelector('.fullscreen-frame');
+      if (!gameIframe) return;
+      
+      // Remove active class from all filter options
+      document.querySelectorAll('.filter-option').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Add active class to clicked button
+      if (button) {
+        button.classList.add('active');
+      }
+      
+      // Apply the selected filter to the iframe
+      switch(filterValue) {
+        case 'blur':
+          gameIframe.style.filter = 'blur(3px)';
+          break;
+        case 'grayscale':
+          gameIframe.style.filter = 'grayscale(100%)';
+          break;
+        case 'sepia':
+          gameIframe.style.filter = 'sepia(100%)';
+          break;
+        case 'saturate':
+          gameIframe.style.filter = 'saturate(100%)';
+          break;
+        case 'brightness':
+          gameIframe.style.filter = 'brightness(150%)';
+          break;
+        case 'contrast':
+          gameIframe.style.filter = 'contrast(150%)';
+          break;
+        case 'none':
+        default:
+          gameIframe.style.filter = 'none';
+          break;
+      }
+      
+      // Save the filter preference
+      localStorage.setItem('gameFilter', filterValue);
+    }
+    // Screen Recording Functions
+    async function startStream() {
+      try {
+        mediaStream = await navigator.mediaDevices.getDisplayMedia({
+          video: {
+            displaySurface: 'monitor'
+          },
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            sampleRate: 44100
+          }
+        });
+        document.getElementById('recordingbt').disabled = false;
+        
+        mediaStream.getVideoTracks()[0].onended = () => {
+          stopRecording();
+        };
+      } catch (err) {
+        console.error('Error capturing media:', err);
+        alert('Failed to start screen sharing. Please ensure permissions are granted.');
+      }
+    }
+
+    function startRecording() {
+      if (!mediaStream) {
+        console.error('No media stream available');
+        return;
+      }
+      if (typeof mediaStream.active !== "undefined" && !mediaStream.active) {
+        alert('The screen share has ended or is inactive. Please start screen sharing again.');
+        console.error('MediaStream is inactive');
+        return;
+      }
+      try {
+        const mimeTypes = [
+          'video/mp4',
+          'video/webm;codecs=H264',
+          'video/webm;codecs=vp9',
+          'video/webm;codecs=vp8',
+          'video/webm'
+        ];
+        let mimeType = '';
+        for (const type of mimeTypes) {
+          if (MediaRecorder.isTypeSupported(type)) {
+            mimeType = type;
+            break;
+          }
+        }
+        if (!mimeType) {
+          throw new Error('No supported MIME type found for recording');
+        }
+        const options = { mimeType };
+        mediaRecorder = new MediaRecorder(mediaStream, options);
+        recordedChunks = [];
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+          }
+        };
+        mediaRecorder.onstop = () => {
+          saveRecording(mimeType);
+          cleanup();
+        };
+        mediaRecorder.onerror = (event) => {
+          console.error('Recorder error:', event.error);
+        };
+        mediaRecorder.start(1000);
+        updateUI(true);
+      } catch (err) {
+        console.error('Error starting recording:', err);
+        alert('Recording failed to start: ' + err.message);
+      }
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+      }
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+      }
+    }
+
+    function saveRecording(mimeType) {
+      if (recordedChunks.length === 0) return;
+      try {
+        const fileExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
+        const blob = new Blob(recordedChunks, { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `recording_${new Date().toISOString().replace(/[:.]/g, '-')}.${fileExtension}`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 100);
+      } catch (err) {
+        console.error('Error saving recording:', err);
+        alert('Failed to save recording: ' + err.message);
+      }
+    }
+
+    function cleanup() {
+      recordedChunks = [];
+      mediaStream = null;
+      mediaRecorder = null;
+      updateUI(false);
+    }
+
+    function updateUI(isRecording) {
+      const recordingBtn = document.getElementById('recordingbt');
+      const recordingIndicator = document.getElementById('recordingIndicator');
+      const streamingBtn = document.getElementById('streamingbt');
+
+      if (recordingBtn && recordingIndicator && streamingBtn) {
+        streamingBtn.disabled = isRecording;
+        recordingBtn.textContent = isRecording ? 'Stop Recording' : 'Start Recording';
+        recordingBtn.style.backgroundColor = isRecording ? '#ff4d4d' : '#ff8c00';
+        recordingIndicator.style.display = isRecording ? 'block' : 'none';
+      }
+    }
+
+    // Initialize recording UI
+    document.addEventListener('DOMContentLoaded', () => {
+      const recordBtn = document.getElementById('record-btn');
+      const recordingWindow = document.getElementById('recording-window');
+      const closeRecordingBtn = document.getElementById('close-recording');
+      const streamingBtn = document.getElementById('streamingbt');
+      const recordingBtn = document.getElementById('recordingbt');
+
+      // Make the window draggable only once when the page loads
+      if (recordingWindow) {
+        makeDraggable(recordingWindow, document.getElementById('recording-drag-handle'));
+      }
+
+      // Toggle recording window
+      if (recordBtn) {
+        recordBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const popupModal = document.getElementById('popupModal');
+          if (popupModal) {
+            popupModal.style.display = 'none';
+          }
+          if (recordingWindow) {
+            recordingWindow.style.display = recordingWindow.style.display === 'block' ? 'none' : 'block';
+          }
+        });
+      }
+
+      // Close recording window
+      if (closeRecordingBtn) {
+        closeRecordingBtn.addEventListener('click', () => {
+          recordingWindow.style.display = 'none';
+          stopRecording();
+        });
+      }
+
+      // Initialize recording buttons
+      if (streamingBtn) {
+        streamingBtn.addEventListener('click', startStream);
+      }
+      if (recordingBtn) {
+        recordingBtn.addEventListener('click', () => {
+          if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+            startRecording();
+          } else if (mediaRecorder.state === 'recording') {
+            stopRecording();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

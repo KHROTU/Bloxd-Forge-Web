@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upgrade to Pro - BloxdForge</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 30%, #0f0f0f 70%, #1a1a1a 100%);
+      background-attachment: fixed;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 40px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 25% 25%, rgba(255, 107, 57, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 75% 75%, rgba(255, 140, 90, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding: 20px;
+      background: rgba(26, 26, 26, 0.4);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 107, 57, 0.1);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      font-size: 3.2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ff6b39 0%, #ff8c5a 50%, #ffa366 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 30px rgba(255, 107, 57, 0.3);
+    }
+
+    .subtitle {
+      color: #c0c0c0;
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+
+    .pro-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ffc850 0%, #ffb347 100%);
+      color: #1a1a1a;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 25px rgba(255, 200, 80, 0.4), 0 2px 8px rgba(255, 200, 80, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      animation: proGlow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes proGlow {
+      from { box-shadow: 0 8px 25px rgba(255, 200, 80, 0.4), 0 2px 8px rgba(255, 200, 80, 0.2); }
+      to { box-shadow: 0 12px 35px rgba(255, 200, 80, 0.6), 0 4px 12px rgba(255, 200, 80, 0.3); }
+    }
+
+    .progress-section {
+      background: linear-gradient(145deg, rgba(38, 37, 37, 0.8), rgba(33, 32, 32, 0.8));
+      border: 1px solid rgba(255, 107, 57, 0.2);
+      border-radius: 24px;
+      padding: 30px;
+      margin-bottom: 40px;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #ff8c5a;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 24px;
+      background: linear-gradient(135deg, #1b1a1a, #151414);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255, 107, 57, 0.2);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+    
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(135deg, #ff6b39 0%, #ff8c5a 50%, #ffa366 100%);
+      width: 0%;
+      transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 0 12px rgba(255, 107, 57, 0.5);
+    }
+    
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+      animation: shimmer 2s infinite linear;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .progress-text {
+      color: #c0c0c0;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .ads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+      padding: 0 10px;
+    }
+
+    .ad-container {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      border: 2px solid rgba(68, 67, 67, 0.5);
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(38, 37, 37, 0.8), rgba(33, 32, 32, 0.8));
+      transition: all 0.3s ease;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .ad-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 107, 57, 0.3), transparent);
+      z-index: 5;
+    }
+
+    .ad-container.clicked {
+      border-color: #ff6b39;
+      box-shadow: 0 8px 30px rgba(255, 107, 57, 0.4), 0 0 0 1px rgba(255, 107, 57, 0.2);
+    }
+
+    .ad-container.clicked::after {
+      content: '✓';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #ff6b39, #ff8c5a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      z-index: 15;
+      box-shadow: 0 4px 12px rgba(255, 107, 57, 0.4);
+    }
+
+    .ad-container:hover {
+      border-color: rgba(85, 85, 85, 0.8);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    
+
+
+    .ad-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 18px;
+    }
+
+    .ad-tracker {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 18px;
+    }
+
+    .ad-tracker.clicked {
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .completion-section {
+      background: linear-gradient(145deg, rgba(38, 37, 37, 0.9), rgba(33, 32, 32, 0.9));
+      border: 2px solid rgba(255, 107, 57, 0.3);
+      border-radius: 28px;
+      padding: 40px;
+      text-align: center;
+      display: none;
+      backdrop-filter: blur(25px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .completion-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(255, 107, 57, 0.1), transparent, rgba(255, 140, 90, 0.1), transparent);
+      animation: rotate 8s linear infinite;
+      z-index: -1;
+    }
+    
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .completion-section.show {
+      display: block;
+      animation: completionFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes completionFadeIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(30px) scale(0.95); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+      }
+    }
+
+    .success-icon {
+      font-size: 5rem;
+      color: #ff6b39;
+      margin-bottom: 25px;
+      filter: drop-shadow(0 0 20px rgba(255, 107, 57, 0.5));
+      animation: successPulse 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes successPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+
+    .success-title {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #ff6b39, #ff8c5a, #ffa366);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .success-text {
+      color: #d0d0d0;
+      margin-bottom: 30px;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .claim-btn {
+      background: linear-gradient(135deg, #ffc850 0%, #ffb347 100%);
+      color: #1a1a1a;
+      border: none;
+      padding: 18px 36px;
+      border-radius: 16px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(255, 200, 80, 0.4), 0 2px 8px rgba(255, 200, 80, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .claim-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 200, 80, 0.5), 0 4px 12px rgba(255, 200, 80, 0.3);
+    }
+
+    .features-list {
+      background: linear-gradient(145deg, rgba(42, 41, 41, 0.8), rgba(37, 36, 36, 0.8));
+      border: 1px solid rgba(255, 107, 57, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      margin-top: 30px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .features-title {
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #ff6b39, #ff8c5a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .features-list ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .features-list li {
+      padding: 12px 16px;
+      color: #d0d0d0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: linear-gradient(135deg, rgba(255, 107, 57, 0.08), rgba(255, 140, 90, 0.05));
+      border-radius: 12px;
+      border: 1px solid rgba(255, 107, 57, 0.1);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    .features-list li:hover {
+      background: linear-gradient(135deg, rgba(255, 107, 57, 0.12), rgba(255, 140, 90, 0.08));
+      border-color: rgba(255, 107, 57, 0.2);
+    }
+
+    .features-list li::before {
+      content: '✨';
+      color: #ffc850;
+      font-size: 1.2rem;
+      filter: drop-shadow(0 0 8px rgba(255, 200, 80, 0.5));
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 15px;
+      }
+      
+      .ads-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 0;
+      }
+      
+      .logo {
+        font-size: 2.4rem;
+      }
+      
+      .header {
+        padding: 16px;
+        margin-bottom: 30px;
+      }
+      
+      .progress-section {
+        padding: 20px;
+      }
+      
+      .completion-section {
+        padding: 25px;
+      }
+      
+      .success-title {
+        font-size: 1.8rem;
+      }
+      
+      .features-list li {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 2rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+      
+      .ad-container {
+        height: 180px;
+      }
+      
+      .claim-btn {
+        padding: 14px 28px;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">BLOXDFORGE</div>
+      <div class="subtitle">Upgrade to Pro Experience</div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-title">Upgrade Progress</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">Double-click each ad to unlock Pro features (0/9)</div>
+    </div>
+
+    <div class="ads-grid" id="adsGrid">
+      <div class="ad-container" data-ad="1">
+        <div class="ad-tracker" data-ad="1"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+      <div class="ad-container" data-ad="2">
+        <div class="ad-tracker" data-ad="2"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+      <div class="ad-container" data-ad="3">
+        <div class="ad-tracker" data-ad="3"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+      <div class="ad-container" data-ad="4">
+        <div class="ad-tracker" data-ad="4"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+      <div class="ad-container" data-ad="5">
+        <div class="ad-tracker" data-ad="5"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+      <div class="ad-container" data-ad="6">
+        <div class="ad-tracker" data-ad="6"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+      <div class="ad-container" data-ad="7">
+        <div class="ad-tracker" data-ad="7"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+      <div class="ad-container" data-ad="8">
+        <div class="ad-tracker" data-ad="8"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+      <div class="ad-container" data-ad="9">
+        <div class="ad-tracker" data-ad="9"></div>
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+      </div>
+    </div>
+
+    <div class="completion-section" id="completionSection">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">Congratulations!</div>
+      <div class="success-text">You've viewed all required sponsor ads. You can now claim your Pro upgrade!</div>
+      
+      <div class="features-list">
+        <div class="features-title">Pro Features You'll Unlock:</div>
+        <ul>
+          <li>Ad-free experience across all pages</li>
+          <li>Exclusive Pro user badge</li>
+          <li>Advanced creator tools</li>
+          <li>Early access to new features</li>
+        </ul>
+      </div>
+      
+      <button class="claim-btn" id="claimProBtn">Claim Pro Status</button>
+    </div>
+  </div>
+
+  <script>
+    let clickedAds = new Set();
+    const totalAds = 9;
+    
+    // Listen for messages from parent window
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.action) {
+        console.log('Received message:', event.data);
+      }
+    });
+
+    // Handle ad tracking clicks
+    document.querySelectorAll('.ad-tracker').forEach(tracker => {
+      tracker.addEventListener('click', function() {
+        const adId = this.getAttribute('data-ad');
+        const container = this.parentElement;
+        
+        if (!clickedAds.has(adId)) {
+          // First click - track for our site
+          clickedAds.add(adId);
+          container.classList.add('clicked');
+          this.classList.add('clicked');
+          
+          updateProgress();
+          
+          // Show simple instruction for second click
+          showClickInstruction(container);
+        }
+      });
+    });
+    
+    function showClickInstruction(container) {
+      // Create simple instruction overlay
+      const instruction = document.createElement('div');
+      instruction.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 14px;
+        text-align: center;
+        z-index: 20;
+        pointer-events: none;
+      `;
+      instruction.textContent = '✓ Tracked! Click again to view ad';
+      
+      container.appendChild(instruction);
+      
+      // Remove instruction after 2 seconds
+      setTimeout(() => {
+        if (instruction.parentElement) {
+          instruction.remove();
+        }
+      }, 2000);
+    }
+
+    function updateProgress() {
+      const progress = (clickedAds.size / totalAds) * 100;
+      const progressFill = document.getElementById('progressFill');
+      const progressText = document.getElementById('progressText');
+      
+      progressFill.style.width = progress + '%';
+      progressText.textContent = `Double-click each ad to unlock Pro features (${clickedAds.size}/${totalAds})`;
+      
+      if (clickedAds.size === totalAds) {
+        setTimeout(() => {
+          document.getElementById('completionSection').classList.add('show');
+          progressText.textContent = 'All 9 ads viewed! Requirements completed! 🎉';
+        }, 500);
+      }
+    }
+
+    // Handle claim Pro button
+    document.getElementById('claimProBtn').addEventListener('click', function() {
+      // Send message to parent window to upgrade user to Pro
+      try {
+        window.parent.postMessage({
+          action: 'upgradeToPro',
+          source: 'upgrade-page'
+        }, '*');
+        
+        // Show success and close
+        this.textContent = 'Pro Status Activated! ✓';
+        this.disabled = true;
+        
+        setTimeout(() => {
+          window.parent.postMessage({
+            action: 'closeUpgrade',
+            source: 'upgrade-page'
+          }, '*');
+        }, 2000);
+        
+      } catch (e) {
+        console.error('Could not communicate with parent:', e);
+        alert('Pro upgrade completed! Please close this page.');
+      }
+    });
+  </script>
+</body>
+</html>

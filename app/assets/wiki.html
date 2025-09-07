@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wiki</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * {
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #1b1a1a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e0e0e0;
+  }
+  
+  body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: linear-gradient(135deg, #1b1a1a 0%, #171616 100%);
+  }
+  
+  /* Header with search */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: linear-gradient(90deg, #262525 0%, #242323 100%);
+    border: 1px solid #3a3939;
+    border-radius: 24px;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .logo-icon {
+    font-size: 1.8rem;
+    color: #ff6b39;
+  }
+  
+  .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Search input */
+  .search-container {
+    position: relative;
+    width: 60%;
+    max-width: 500px;
+  }
+  
+  #searchInput {
+    padding: 14px 20px 14px 48px;
+    font-size: 1rem;
+    border-radius: 40px;
+    border: none;
+    background: #1f1e1e;
+    color: #e0e0e0;
+    outline: none;
+    display: block;
+    width: 100%;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15);
+    border: 1px solid #3a3939;
+  }
+  
+  #searchInput::placeholder {
+    color: #888;
+  }
+  
+  #searchInput:focus {
+    border-color: #ff6b39;
+    box-shadow: 0 0 0 2px rgba(255, 107, 57, 0.2);
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+  }
+  
+  /* Categories as horizontal scrollable buttons */
+  .categories {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 15px 5px;
+    max-width: 100vw;
+    scrollbar-width: thin;
+  }
+  
+  .categories::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .categories::-webkit-scrollbar-thumb {
+    background-color: #ff6b39;
+    border-radius: 10px;
+  }
+  
+  .category-btn {
+    background: linear-gradient(145deg, #262525, #212020);
+    border: 1px solid #444343;
+    border-radius: 24px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    color: #d8d8d8;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .category-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-color: #555;
+  }
+  
+  .category-btn.active-btn {
+    background: linear-gradient(90deg, #ff6b39 0%, #ff8c5a 100%);
+    border: 1px solid #f78c5a;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 6px 12px rgba(255, 107, 57, 0.25);
+  }
+  
+  /* Wiki grid */
+  #itemGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    padding: 10px 0 40px 0;
+  }
+  
+  /* Each wiki card */
+  .item-card {
+    background: linear-gradient(145deg, #262525, #212020);
+    border: 1px solid #3a3939;
+    border-radius: 24px;
+    padding: 24px;
+    color: #d8d8d8;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+  }
+  
+  .item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    border-color: #4a4949;
+  }
+  
+  
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .item-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #f78c5a;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  
+  .item-tag {
+    font-size: 0.85rem;
+    background: linear-gradient(90deg, #ff6b39, #ff8c5a);
+    padding: 6px 12px;
+    border-radius: 16px;
+    color: #fff;
+    user-select: none;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  
+  .item-description {
+    font-size: 1.05rem;
+    color: #c0bebe;
+    line-height: 1.5;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .item-content {
+    font-size: 0.95rem;
+    color: #bbb;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #3a3939;
+    color: #888;
+    font-size: 0.85rem;
+  }
+  
+  .item-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .item-action {
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+  
+  .item-action:hover {
+    color: #ff6b39;
+    background: rgba(255, 107, 57, 0.1);
+  }
+  
+  /* No results message */
+  .no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #888;
+    font-size: 1.1rem;
+  }
+  
+  /* Loading animation */
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    grid-column: 1 / -1;
+  }
+  
+  .loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #3a3939;
+    border-top: 4px solid #ff6b39;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px;
+    }
+    
+    .search-container {
+      width: 100%;
+    }
+    
+    #itemGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Fade in animation for cards */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .item-card {
+    animation: fadeIn 0.5s ease forwards;
+  }
+</style>
+<link rel="stylesheet" href="./data/scroll.css">  
+</head>
+<body>
+<div class="header">
+  <div class="logo">
+    <div class="logo-text">BForge Wiki</div>
+  </div>
+  
+  <div class="search-container">
+    <div class="search-icon"><i class="fas fa-search"></i></div>
+    <input id="searchInput" type="search" placeholder="Search wiki articles..." />
+  </div>
+</div>
+
+<div id="itemGrid">
+  <div class="loading">
+    <div class="loading-spinner"></div>
+  </div>
+</div>
+
+<script>
+// Listen for messages from parent window about user type
+window.addEventListener('message', function(event) {
+  if (event.data && event.data.action) {
+    if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
+      console.log('Pro user detected - no ads to hide on wiki page');
+    } else if (event.data.action === 'showAds') {
+      console.log('Free user detected - no ads to show on wiki page');
+    }
+  }
+});
+
+// Fetch data from wiki.json
+let itemsData = [];
+console.log('Starting to fetch wiki.json...');
+
+// Show loading state
+const grid = document.getElementById('itemGrid');
+grid.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>Loading wiki data...</p></div>';
+
+fetch('data/wiki.json')
+  .then(response => {
+    console.log('Response status:', response.status);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Successfully loaded wiki data. Items found:', data?.length || 0);
+    if (!data || !Array.isArray(data)) {
+      throw new Error('Invalid data format: Expected an array');
+    }
+    itemsData = data;
+    
+    // Simulate loading data
+    setTimeout(() => {
+      renderItems(itemsData);
+      
+      // Search filter
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', e => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filteredItems = itemsData.filter(item =>
+          (item.title && item.title.toLowerCase().includes(searchTerm)) ||
+          (item.tag && item.tag.toLowerCase().includes(searchTerm)) ||
+          (item.description && item.description.toLowerCase().includes(searchTerm)) ||
+          (item.content && item.content.toLowerCase().includes(searchTerm))
+        );
+        renderItems(filteredItems);
+      });
+
+      // Category buttons
+      const categoryButtons = document.querySelectorAll('.category-btn');
+      categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoryButtons.forEach(b => b.classList.remove('active-btn'));
+          btn.classList.add('active-btn');
+
+          const category = btn.getAttribute('data-category');
+          if(category === 'All Items') {
+            renderItems(itemsData);
+          } else {
+            const filteredItems = itemsData.filter(item => item.tag === category);
+            renderItems(filteredItems);
+          }
+        });
+      });
+    }, 1000); // Simulate network delay
+  })
+  .catch(error => {
+    console.error('Error loading wiki data:', error);
+    const errorMessage = `Error loading wiki data: ${error.message}. Please check console for details.`;
+    document.getElementById('itemGrid').innerHTML = `
+      <div class="no-results">
+        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ff6b39; margin-bottom: 16px;"></i>
+        <h3>Error Loading Content</h3>
+        <p>${errorMessage}</p>
+        <button onclick="window.location.reload()" style="margin-top: 20px; padding: 8px 16px; background: #ff6b39; color: white; border: none; border-radius: 4px; cursor: pointer;">
+          Retry
+        </button>
+      </div>`;
+  });
+
+function renderItems(items) {
+    const grid = document.getElementById('itemGrid');
+    
+    if (!items || items.length === 0) {
+      grid.innerHTML = '<div class="no-results"><i class="fas fa-search" style="font-size: 3rem; margin-bottom: 16px;"></i><h3>No results found</h3><p>Try a different search term or category</p></div>';
+      return;
+    }
+    
+    grid.innerHTML = '';
+    
+    items.forEach((item, index) => {
+      const itemElement = document.createElement('div');
+      itemElement.className = 'item-card';
+      itemElement.style.animationDelay = `${index * 0.1}s`;
+      
+      const formattedContent = item.content.replace(/\n/g, '<br>');
+      
+      itemElement.innerHTML = `
+        <div class="item-header">
+          <h3 class="item-title">${item.title}</h3>
+          <span class="item-tag">${item.tag}</span>
+        </div>
+        <p class="item-description">${item.description}</p>
+        <div class="item-content">${formattedContent}</div>
+      `;
+      
+      grid.appendChild(itemElement);
+    });
+  }
+</script>
+
+</body>
+</html>

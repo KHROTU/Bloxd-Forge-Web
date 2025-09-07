@@ -1,0 +1,1958 @@
+[
+    {
+        "title": "Apple",
+        "tag": "Food",
+        "description": "Eat to restore health. Restores 14 HP. Obtained by breaking leaves from Maple, Aspen, Pine, Cedar, or Elm trees.",
+        "content": "Time to Eat: 0.8 seconds\nFunction: Restores 14 HP\nBlock: 4 Apples\nObtaining: Break naturally generated or grown Maple/Aspen/Pine/Cedar/Elm Leaves. This has a chance to drop Apples.\nStackable: Yes"
+    },
+    {
+        "title": "Bread",
+        "tag": "Food",
+        "description": "Eat to restore health. Restores 18 HP. Crafted from Wheat and Coal or Wheat in a Workbench.",
+        "content": "Time to Eat: 0.6 seconds\nFunction: Restores 18 HP\nBlock: 9 Bread\nObtaining: 2 Wheat + 1 Coal in Furnace or 3 Wheat in Workbench\nStackable: Yes"
+    },
+    {
+        "title": "Cracked Coconut",
+        "tag": "Food",
+        "description": "Temporarily gain increased speed for 8 seconds. Obtained by throwing a Coconut on the ground.",
+        "content": "Time to Eat: 1 second\nFunction: Increased Speed for 8 seconds\nBlock: N/A\nObtaining: By throwing a Coconut on the ground, a Cracked Coconut will drop.\nStackable: Yes"
+    },
+    {
+        "title": "Plum",
+        "tag": "Food",
+        "description": "Temporarily gain increased damage for 8 seconds. Obtained from Plum Trees or by planting Plum Saplings.",
+        "content": "Time to Eat: 1 second\nFunction: Increased Damage for 8 seconds\nBlock: 4 Plums\nObtaining: Find a naturally generated Plum Tree or plant a Plum Sapling. When the Tree grows or when you find it, break the Leaves. This has a chance of dropping a Plum.\nStackable: Yes"
+    },
+    {
+        "title": "Pear",
+        "tag": "Food",
+        "description": "Temporarily gain reduced damage for 13 seconds. Obtained from Pear Trees or by planting Pear Saplings.",
+        "content": "Time to Eat: 1 second\nFunction: Reduced Damage for 13 seconds\nBlock: 4 Pears\nObtaining: Find a naturally generated Pear Tree or plant a Pear Sapling. When the Tree grows or when you find it, break the Leaves. This has a chance of dropping a Pear.\nStackable: Yes"
+    },
+    {
+        "title": "Cherry",
+        "tag": "Food",
+        "description": "Temporarily increases health regeneration for 5 seconds. Obtained from Cherry Trees or by planting Cherry Saplings.",
+        "content": "Time to Eat: 1 second\nFunction: Increase Health Regeneration for 5 seconds\nBlock: 4 Cherry\nObtaining: Find a naturally generated Cherry Tree or plant a Cherry Sapling. When the Tree grows or when you find it, break the Leaves. This has a chance of dropping a Cherry.\nStackable: Yes"
+    },
+    {
+        "title": "Cooked Porkchop",
+        "tag": "Food",
+        "description": "Eat to regain health. Restores 25 HP. Obtained by cooking Raw Porkchop dropped by pigs.",
+        "content": "Time to Eat: Unknown\nFunction: Restores 25 HP\nBlock: N/A\nObtaining: Can be found by cooking a Raw Porkchop dropped by a pig.\nStackable: No"
+    },
+    {
+        "title": "Steak",
+        "tag": "Food",
+        "description": "Eat to regain health. Restores 30 HP. Obtained by cooking Raw Beef dropped by cows.",
+        "content": "Time to Eat: Unknown\nFunction: Restores 30 HP\nBlock: N/A\nObtaining: Can be found by cooking a Raw Beef dropped by a cow.\nStackable: No"
+    },
+    {
+        "title": "Cooked Mutton",
+        "tag": "Food",
+        "description": "Eat to regain health. Restores 20 HP. Obtained by cooking Raw Mutton dropped by sheep.",
+        "content": "Time to Eat: Unknown\nFunction: Restores 20 HP\nBlock: N/A\nObtaining: Can be found by cooking a Raw Mutton dropped by a sheep.\nStackable: No"
+    },
+    {
+        "title": "Corn",
+        "tag": "Food",
+        "description": "Eat to get a shield buff. Creates a shield with 20 HP. Found in meadows.",
+        "content": "Time to Eat: 1 second\nFunction: Creates a shield with 20 HP\nBlock: 4 Corn\nObtaining: Can be found in meadows.\nStackable: Yes"
+    },
+    {
+        "title": "Melon Slice",
+        "tag": "Food",
+        "description": "Eat to become invisible for 12 seconds. Found in forests or grown from Melon stems.",
+        "content": "Time to Eat: 1 second\nFunction: Invisibility for 12 seconds\nBlock: 4 Melon Slices\nObtaining: Melons are found in normal/Pear forests, or you can plant a Melon stem which will grow a Melon that can be chopped into 4 Melon Slices.\nStackable: Yes"
+    },
+    {
+        "title": "Golden Melon Slice",
+        "tag": "Food",
+        "description": "Eat to become invisible for 18 seconds. Crafted with Melon Slices and Gold Bar.",
+        "content": "Time to Eat: 1.5 seconds\nFunction: Invisibility for 18 seconds\nBlock: N/A\nObtaining: Made with 2 Melon Slices and 1 Gold Bar in a Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Watermelon Slice",
+        "tag": "Food",
+        "description": "Eat to get a jump boost for 12 seconds. Found in plains or grown from Watermelon stems.",
+        "content": "Time to Eat: 1 second\nFunction: Jump Boost for 12 seconds\nBlock: 4 Watermelon Slices\nObtaining: You can find Watermelons in a plain's biome, or you can plant a Watermelon stem and grow Watermelons, dropping 4 Watermelon Slices.\nStackable: Yes"
+    },
+    {
+        "title": "Golden Watermelon Slice",
+        "tag": "Food",
+        "description": "Eat to get a jump boost for 18 seconds. Crafted with Watermelon Slices and Gold Bar.",
+        "content": "Time to Eat: 1.5 seconds\nFunction: Jump Boost for 18 seconds\nBlock: N/A\nObtaining: Made with 2 Watermelon Slices and 1 Gold Bar in a Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Pumpkin Pie",
+        "tag": "Food",
+        "description": "Temporarily gain increased damage for 16 seconds. Crafted with Pumpkin and Wheat.",
+        "content": "Time to Eat: 3 seconds\nFunction: Increased Damage for 16 seconds\nBlock: N/A\nObtaining: Made with 1 Pumpkin and 3 Wheat in a Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Bowl of Rice",
+        "tag": "Food",
+        "description": "Eat to restore health. Restores 24 HP. Crafted with Rice and Bowl.",
+        "content": "Time to Eat: 0.45 seconds\nFunction: Restores 24 HP\nBlock: N/A\nObtaining: Made with 6 Rice and 1 Bowl in a Workbench.\nStackable: No"
+    },
+    {
+        "title": "Bowl of Cranberries",
+        "tag": "Food",
+        "description": "Eat to increase mining speed. Gives Haste for 12 seconds. Obtained by scooping Cranberries with a Bowl.",
+        "content": "Time to Eat: 1 second\nFunction: Gives Haste for 12 seconds\nBlock: N/A\nObtaining: Made by scooping up Cranberries by pressing [E] or right-clicking while holding a Bowl and pointing at a Cranberry bush.\nStackable: No"
+    },
+    {
+        "title": "Mushroom Soup",
+        "tag": "Food",
+        "description": "Eat to restore health. Restores 10 HP (30 if health is below 30). Crafted with Mushrooms and Bowl.",
+        "content": "Time to Eat: 0.45 seconds\nFunction: Restores 10 HP, 30 when health is below 30\nBlock: N/A\nObtaining: Made with two Brown and two Red Mushrooms and a Bowl. Mushrooms can rarely be found in small clusters in forests.\nStackable: No"
+    },
+    {
+        "title": "Bedrock",
+        "tag": "Natural Block",
+        "description": "Naturally generated at Y -100. Cannot be obtained in Survival mode.",
+        "content": "Location: Y -100\nBest Tool to Mine: N/A\nOther Usage/Info: Cannot be obtained besides Creative. Only breakable in Creative.\nStackable: Yes"
+    },
+    {
+        "title": "Cobweb",
+        "tag": "Natural Block",
+        "description": "Slows players inside. Found in Ruins and Sky Wars.",
+        "content": "Location: Ruins\nBest Tool to Mine: Shears & Hoes\nOther Usage/Info: Slows players inside. Cannot be crafted and was a creative-only item.\nStackable: Yes"
+    },
+    {
+        "title": "Grass Block",
+        "tag": "Natural Block",
+        "description": "Found on the surface in Plains and Forests.",
+        "content": "Location: Surface in Plains and Forests\nBest Tool to Mine: Spade\nOther Usage/Info: Shearing a Grass Block turns it into Dirt and drops a new Grass Block. Right-click with a Hoe to turn it into Tilled Soil.\nStackable: Yes"
+    },
+    {
+        "title": "Dirt",
+        "tag": "Natural Block",
+        "description": "Found on the surface in Plains and Forests.",
+        "content": "Location: Surface in Plains and Forests\nBest Tool to Mine: Spade\nOther Usage/Info: Can be crafted into Messy Dirt, Dirt Slab, or Rocky Dirt. Right-click with a Hoe to till.\nStackable: Yes"
+    },
+    {
+        "title": "Rocky Dirt",
+        "tag": "Natural Block",
+        "description": "Found in Mountains and Hills.",
+        "content": "Location: Mountains, Hills\nBest Tool to Mine: Spade\nOther Usage/Info: Can be crafted from 2 Dirt Blocks. Can be crafted back into Dirt.\nStackable: Yes"
+    },
+    {
+        "title": "Snow",
+        "tag": "Natural Block",
+        "description": "Found on the surface in Snowy Plains and Mountains.",
+        "content": "Location: Surface in Snowy Plains, Mountains\nBest Tool to Mine: Spade\nOther Usage/Info: Can be crafted into Ice Bricks in an Artisan Bench.\nStackable: Yes"
+    },
+    {
+        "title": "Sand",
+        "tag": "Natural Block",
+        "description": "Found in Deserts and Riverbeds.",
+        "content": "Location: Desert, Riverbed\nBest Tool to Mine: Spade\nOther Usage/Info: Mainly used in crafting recipes to make Glass, Sandstone, Bricks, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Red Sand",
+        "tag": "Natural Block",
+        "description": "Found on the surface in Badlands.",
+        "content": "Location: Surface in Badlands\nBest Tool to Mine: Spade\nOther Usage/Info: Increases Cactus growth by 1 and increases Plant growth speed by 30%.\nStackable: Yes"
+    },
+    {
+        "title": "Stone",
+        "tag": "Natural Block",
+        "description": "Found in Mountains and Stony Caves.",
+        "content": "Location: Mountains, Stony Caves\nBest Tool to Mine: Pickaxe\nOther Usage/Info: Used to craft other types of Blocks. Turns into Messy Stone when mined unless mined with a Moonstone Pickaxe.\nStackable: Yes"
+    },
+    {
+        "title": "Clay",
+        "tag": "Natural Block",
+        "description": "Found in Riverbeds.",
+        "content": "Location: Riverbed\nBest Tool to Mine: Spade\nOther Usage/Info: Used to make Baked Clay, Concrete, Bricks, and other decorative Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Andesite",
+        "tag": "Natural Block",
+        "description": "Found in Andesite Pits.",
+        "content": "Location: Andesite Pit\nBest Tool to Mine: Pickaxe\nOther Usage/Info: Mainly used to make its variants of Smooth, Engraved, and Bricks.\nStackable: Yes"
+    },
+    {
+        "title": "Granite",
+        "tag": "Natural Block",
+        "description": "Found in Granite Valleys.",
+        "content": "Location: Granite Valley\nBest Tool to Mine: Pickaxe\nOther Usage/Info: Mainly used to make its variants of Smooth, Engraved, and Bricks.\nStackable: Yes"
+    },
+    {
+        "title": "Diorite",
+        "tag": "Natural Block",
+        "description": "Found in Diorite Caves.",
+        "content": "Location: Diorite Cave\nBest Tool to Mine: Pickaxe\nOther Usage/Info: Mainly used to make its variants of Smooth, Engraved, and Bricks.\nStackable: Yes"
+    },
+    {
+        "title": "Ice",
+        "tag": "Natural Block",
+        "description": "Found in Taiga, Tundra, and Mountains.",
+        "content": "Location: Taiga, Tundra, Mountains\nBest Tool to Mine: Pickaxe\nOther Usage/Info: Generates on the top layer of Water. Increases speed by 1.4 when walking on it. Can be used to craft Iceballs.\nStackable: Yes"
+    },
+    {
+        "title": "Maple Log",
+        "tag": "Natural Block",
+        "description": "Found in Maple Forests, Forests, Bluebell Forests, Plains, Mountains, Tundra, and Autumn Maple Forests.",
+        "content": "Location: Maple Forest, Forest, Bluebell Forest, Plains, Mountains, Tundra, Autumn Maple Forest\nBest Tool to Mine: Axe\nOther Usage/Info: Can be turned into 4 Maple Planks. Used for building and crafting Tools, Armor, and Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Maple Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Maple Forests, Forests, Bluebell Forests, Plains, Mountains, Tundra, and Autumn Maple Forests.",
+        "content": "Location: Maple Forest, Forest, Bluebell Forest, Plains, Mountains, Tundra, Autumn Maple Forest\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used as a decoration Block. Can drop Maple Saplings or Apples.\nStackable: Yes"
+    },
+    {
+        "title": "Aspen Log",
+        "tag": "Natural Block",
+        "description": "Found in Aspen Forests.",
+        "content": "Location: Aspen Forest\nBest Tool to Mine: Axe\nOther Usage/Info: Can be turned into 4 Aspen Planks. Used to make Tools, Armor, and utility Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Aspen Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Aspen Forests.",
+        "content": "Location: Aspen Forest\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used as decoration Block. Can drop Aspen Saplings or Apples.\nStackable: Yes"
+    },
+    {
+        "title": "Plum Log",
+        "tag": "Natural Block",
+        "description": "Found in Plum Forests.",
+        "content": "Location: Plum Forest\nBest Tool to Mine: Axe\nOther Usage/Info: Can be turned into 4 Plum Planks. Used to make Tools, Armor, and utility Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Plum Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Plum Forests.",
+        "content": "Location: Plum Forest\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used as decoration Block. Can drop Plum Saplings or Plums.\nStackable: Yes"
+    },
+    {
+        "title": "Pine Log",
+        "tag": "Natural Block",
+        "description": "Found in Pine Forests and Taiga.",
+        "content": "Location: Pine Forest, Taiga\nBest Tool to Mine: Axe\nOther Usage/Info: Can be turned into 4 Pine Planks. Used to make Tools, Armor, and utility Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Pine Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Pine Forests and Taiga.",
+        "content": "Location: Pine Forest, Taiga\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used as decoration Block. Can drop Pine Saplings or Apples.\nStackable: Yes"
+    },
+    {
+        "title": "Cedar Log",
+        "tag": "Natural Block",
+        "description": "Found in Pine Forests and Taiga.",
+        "content": "Location: Pine Forest, Taiga\nBest Tool to Mine: Axe\nOther Usage/Info: Can be turned into 4 Cedar Planks. Used to make Tools, Armor, and utility Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Cedar Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Pine Forests and Taiga.",
+        "content": "Location: Pine Forest, Taiga\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used as decoration Block. Can drop Cedar Saplings or Apples.\nStackable: Yes"
+    },
+    {
+        "title": "Elm Log",
+        "tag": "Natural Block",
+        "description": "Found in Exotic Forests.",
+        "content": "Location: Exotic Forest\nBest Tool to Mine: Axe\nOther Usage/Info: Can be turned into 4 Elm Planks. Used to make Tools, Armor, and utility Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Elm Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Exotic Forests.",
+        "content": "Location: Exotic Forest\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used as decoration Block. Can drop Elm Saplings or Apples.\nStackable: Yes"
+    },
+    {
+        "title": "Palm Log",
+        "tag": "Natural Block",
+        "description": "Found in Exotic Forests.",
+        "content": "Location: Exotic Forest\nBest Tool to Mine: Axe\nOther Usage/Info: Can be turned into 4 Palm Planks. Used to make Tools, Armor, and utility Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Palm Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Exotic Forests.",
+        "content": "Location: Exotic Forest\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used as decoration Block. Can drop Palm Saplings or Coconuts.\nStackable: Yes"
+    },
+    {
+        "title": "Pear Log",
+        "tag": "Natural Block",
+        "description": "Found in Pear Forests.",
+        "content": "Location: Pear Forest\nBest Tool to Mine: Axe\nOther Usage/Info: Can be turned into 4 Pear Planks. Used to make Tools, Armor, and utility Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Pear Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Pear Forests.",
+        "content": "Location: Pear Forest\nBest Tool to Mine: Axe\nOther Usage/Info: Used as decoration Block. Can drop Pear Saplings or Pears.\nStackable: Yes"
+    },
+    {
+        "title": "Autumn Maple Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Autumn Maple Forests.",
+        "content": "Location: Autumn Maple Forest\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Not renewable. Used for decoration.\nStackable: Yes"
+    },
+    {
+        "title": "Fallen Maple Leaves",
+        "tag": "Natural Block",
+        "description": "Found in Autumn Maple Forests.",
+        "content": "Location: Autumn Maple Forest\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Non-renewable. A Slab-lookalike block that allows you to walk through it.\nStackable: Yes"
+    },
+    {
+        "title": "Grass",
+        "tag": "Natural Block",
+        "description": "Found in Plains and all Forests.",
+        "content": "Location: Plains and all Forests\nBest Tool to Mine: Shears\nOther Usage/Info: Use Shears to have it drop or it disappears and has a chance of dropping Wheat Seeds. Can be used for dyeing Items green.\nStackable: Yes"
+    },
+    {
+        "title": "Tall Grass",
+        "tag": "Natural Block",
+        "description": "Found in Plains and all Forests.",
+        "content": "Location: Plains and all Forests\nBest Tool to Mine: Shears\nOther Usage/Info: Use Shears to have it drop or it disappears and has a chance of dropping Wheat Seeds. Can be used for dyeing items green.\nStackable: Yes"
+    },
+    {
+        "title": "Vines",
+        "tag": "Natural Block",
+        "description": "Found in all Forests.",
+        "content": "Location: All Forests\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used to climb walls and grows upwards.\nStackable: Yes"
+    },
+    {
+        "title": "Cactus",
+        "tag": "Natural Block",
+        "description": "Found in Deserts, Badlands, Canyons, and Cactus Deserts.",
+        "content": "Location: Desert, Badlands, Canyons, Cactus Desert\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used to craft dyed and other Items. Grows naturally to a maximum of 3 Blocks tall after being placed on Sand.\nStackable: Yes"
+    },
+    {
+        "title": "Fat Cactus",
+        "tag": "Natural Block",
+        "description": "Found in Deserts, Badlands, and Cactus Deserts.",
+        "content": "Location: Desert, Badlands, Cactus Desert\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Right-click with a Bucket on it to fill the Bucket with Water. Turns into Dried Cactus. Grows naturally to a maximum of 3 Blocks tall after being placed on Sand.\nStackable: Yes"
+    },
+    {
+        "title": "Water Block",
+        "tag": "Natural Block",
+        "description": "Found in Riverbeds.",
+        "content": "Location: Riverbed\nBest Tool to Mine: Water Bucket\nOther Usage/Info: Decoration and elevator use - also used for double jumping. It is impossible to obtain normally.\nStackable: Yes"
+    },
+    {
+        "title": "Coal Ore",
+        "tag": "Natural Block",
+        "description": "Found underground between Y 60 and Y -70.",
+        "content": "Location: Underground (Y: 60 to -70)\nBest Tool to Mine: Moonstone Pickaxe\nOther Usage/Info: Can be obtained by mining Coal Ore with a Moonstone Pickaxe. Can be crafted into Coal.\nStackable: Yes"
+    },
+    {
+        "title": "Iron Ore",
+        "tag": "Natural Block",
+        "description": "Found underground between Y 0 and Y -80.",
+        "content": "Location: Underground (Y: 0 to -80)\nBest Tool to Mine: Moonstone Pickaxe\nOther Usage/Info: Can be obtained by mining Iron Ore. Can be smelted in a Furnace using Coal to get Iron Bars.\nStackable: Yes"
+    },
+    {
+        "title": "Gold Ore",
+        "tag": "Natural Block",
+        "description": "Found underground between Y -55 and Y -99.",
+        "content": "Location: Underground (Y: -55 to -99)\nBest Tool to Mine: Moonstone Pickaxe\nOther Usage/Info: Can be obtained by mining Gold Ore. Can be smelted in a Furnace using Coal to get Gold Bars.\nStackable: Yes"
+    },
+    {
+        "title": "Diamond Ore",
+        "tag": "Natural Block",
+        "description": "Found underground between Y -85 and Y -99.",
+        "content": "Location: Underground (Y: -85 to -99)\nBest Tool to Mine: Moonstone Pickaxe\nOther Usage/Info: Can be obtained by mining Diamond Ore with a Moonstone Pickaxe. Used for decoration.\nStackable: Yes"
+    },
+    {
+        "title": "Moonstone Ore",
+        "tag": "Natural Block",
+        "description": "Found underground at Y -85.",
+        "content": "Location: Underground (Y: -85)\nBest Tool to Mine: Moonstone Pickaxe\nOther Usage/Info: Can be obtained by mining a Moonstone Ore Block with a Moonstone Pickaxe. Can be smelted into Moonstone.\nStackable: Yes"
+    },
+    {
+        "title": "Watermelon",
+        "tag": "Natural Block",
+        "description": "Found in Forests and Plains.",
+        "content": "Location: Forest, Plains\nBest Tool to Mine: Axe (Can use Moonstone Pickaxe for exact drop)\nOther Usage/Info: Can be chopped into 4 Watermelon Slices that give you a temporary Jump Boost.\nStackable: Yes"
+    },
+    {
+        "title": "Melon",
+        "tag": "Natural Block",
+        "description": "Found in Forests, Pine Forests, and Autumn Maple Forests.",
+        "content": "Location: Forest, Pine Forest, Autumn Maple Forest\nBest Tool to Mine: Axe (Can use Moonstone Pickaxe for exact drop)\nOther Usage/Info: Can be chopped into 4 Melon slices that temporarily make you invisible.\nStackable: Yes"
+    },
+    {
+        "title": "Pumpkin",
+        "tag": "Natural Block",
+        "description": "Found in Forests, Pine Forests, and Autumn Maple Forests.",
+        "content": "Location: Forest, Pine Forest, Autumn Maple Forest\nBest Tool to Mine: Axe\nOther Usage/Info: Used to make Pumpkin Pie, drops as a Block.\nStackable: Yes"
+    },
+    {
+        "title": "Wheat",
+        "tag": "Natural Block",
+        "description": "Found in Plains.",
+        "content": "Location: Plains\nBest Tool to Mine: Hoe\nOther Usage/Info: Used to make Bread and certain Potions.\nStackable: Yes"
+    },
+    {
+        "title": "Rice",
+        "tag": "Natural Block",
+        "description": "Found in Plains.",
+        "content": "Location: Plains\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used to make a Bowl of Rice.\nStackable: Yes"
+    },
+    {
+        "title": "Brown Mushroom",
+        "tag": "Natural Block",
+        "description": "Found in all Forests.",
+        "content": "Location: All Forests\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used to make Mushroom Soup and Brown Mushroom Block.\nStackable: Yes"
+    },
+    {
+        "title": "Red Mushroom",
+        "tag": "Natural Block",
+        "description": "Found in all Forests.",
+        "content": "Location: All Forests\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used to make Mushroom Soup and Red Mushroom Block.\nStackable: Yes"
+    },
+    {
+        "title": "Cotton",
+        "tag": "Natural Block",
+        "description": "Found in Plains.",
+        "content": "Location: Plains\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Harvest it to get Cotton and Cotton Seeds. Use Cotton to craft Bows, Wool, Hang Gliders, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Cranberry Bush",
+        "tag": "Natural Block",
+        "description": "Found in Tundra.",
+        "content": "Location: Tundra\nBest Tool to Mine: Shears or Hoe\nOther Usage/Info: Used to make a Bowl of Cranberries. Harvest it to get Cranberries to plant more.\nStackable: Yes"
+    },
+    {
+        "title": "Maple Wood Planks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Maple Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Maple Log -> 4 Maple Wood Planks\nOther Usage/Info: Can be crafted into Sticks, Trapdoors, Doors, Tools, Armor, Ladders, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Plum Wood Planks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Plum Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Plum Log -> 4 Plum Wood Planks\nOther Usage/Info: Can be crafted into Sticks, Trapdoors, Doors, Tools, Armor, Ladders, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Pine Wood Planks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Pine Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Pine Log -> 4 Pine Wood Planks\nOther Usage/Info: Can be crafted into Sticks, Trapdoors, Doors, Tools, Armor, Ladders, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Cedar Wood Planks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Cedar Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Cedar Log -> 4 Cedar Wood Planks\nOther Usage/Info: Can be crafted into Sticks, Trapdoors, Doors, Tools, Armor, Ladders, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Elm Wood Planks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Elm Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Elm Log -> 4 Elm Wood Planks\nOther Usage/Info: Can be crafted into Sticks, Trapdoors, Doors, Tools, Armor, Ladders, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Palm Wood Planks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Palm Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Palm Log -> 4 Palm Wood Planks\nOther Usage/Info: Can be crafted into Sticks, Trapdoors, Doors, Tools, Armor, Ladders, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Pear Wood Planks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Pear Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Pear Log -> 4 Pear Wood Planks\nOther Usage/Info: Can be crafted into Sticks, Trapdoors, Doors, Tools, Armor, Ladders, etc.\nStackable: Yes"
+    },
+    {
+        "title": "Barkless Maple Log",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Maple Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 1 Maple Log -> 1 Barkless Maple Log\nOther Usage/Info: Can be crafted into Wood Planks of the same Wood type.\nStackable: Yes"
+    },
+    {
+        "title": "Barkless Aspen Log",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Aspen Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 1 Aspen Log -> 1 Barkless Aspen Log\nOther Usage/Info: Can be crafted into Wood Planks of the same Wood type.\nStackable: Yes"
+    },
+    {
+        "title": "Barkless Pine Log",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Pine Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 1 Pine Log -> 1 Barkless Pine Log\nOther Usage/Info: Can be crafted into Wood Planks of the same Wood type.\nStackable: Yes"
+    },
+    {
+        "title": "Barkless Cedar Log",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Cedar Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 1 Cedar Log -> 1 Barkless Cedar Log\nOther Usage/Info: Can be crafted into Wood Planks of the same Wood type.\nStackable: Yes"
+    },
+    {
+        "title": "Barkless Elm Log",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Elm Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 1 Elm Log -> 1 Barkless Elm Log\nOther Usage/Info: Can be crafted into Wood Planks of the same Wood type.\nStackable: Yes"
+    },
+    {
+        "title": "Barkless Palm Log",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Palm Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 1 Palm Log -> 1 Barkless Palm Log\nOther Usage/Info: Can be crafted into Wood Planks of the same Wood type.\nStackable: Yes"
+    },
+    {
+        "title": "Barkless Plum Log",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Plum Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 1 Plum Log -> 1 Barkless Plum Log\nOther Usage/Info: Can be crafted into Wood Planks of the same Wood type.\nStackable: Yes"
+    },
+    {
+        "title": "Barkless Pear Log",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Pear Logs.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 1 Pear Log -> 1 Barkless Pear Log\nOther Usage/Info: Can be crafted into Wood Planks of the same Wood type.\nStackable: Yes"
+    },
+    {
+        "title": "Colored Planks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Maple Wood Planks and Flowers.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Maple Wood Planks + Different types of Flowers with or without Tall Grass, Cactus -> 2 Colored Wood Planks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Maple Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Maple Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 2 Maple Planks in Artisan Bench -> 4 Maple Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Pine Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Pine Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 2 Pine Planks in Artisan Bench -> 4 Pine Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Cedar Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Cedar Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 2 Cedar Planks in Artisan Bench -> 4 Cedar Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Aspen Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Aspen Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 2 Aspen Planks in Artisan Bench -> 4 Aspen Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Elm Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Elm Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 2 Elm Planks in Artisan Bench -> 4 Elm Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Palm Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Palm Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 2 Palm Planks in Artisan Bench -> 4 Palm Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Plum Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Plum Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 2 Plum Planks in Artisan Bench -> 4 Plum Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Pear Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Pear Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 2 Pear Planks in Artisan Bench -> 4 Pear Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Messy Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Dropped from mining Stone or Messy Stone with a Pickaxe.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: N/A\nOther Usage/Info: Dropped from mining Stone or Messy Stone with a Pickaxe (Not Moonstone Pickaxe).\nStackable: Yes"
+    },
+    {
+        "title": "Messy Stone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Messy Stone in Artisan Bench = 4 Messy Stone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Stone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Stone in Artisan Bench -> 4 Stone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Dirt Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Dirt.",
+        "content": "Best Tool to Break: Spade\nCrafting Materials: 2 Dirt Blocks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Grass Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Grass Blocks.",
+        "content": "Best Tool to Break: Spade\nCrafting Materials: 2 Grass Blocks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Messy Dirt",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Dirt.",
+        "content": "Best Tool to Break: Spade\nCrafting Materials: 2 Dirt in an Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Dry Fat Cactus",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Fat Cactus.",
+        "content": "Best Tool to Break: Hoe\nCrafting Materials: Right-click on Fat Cactus with an Empty Bucket to turn it into Dry Fat Cactus\nOther Usage/Info: Refilling back to Fat Cactus. Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Magma",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Coal and Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: Coal + 4 Stone in Furnace = Magma\nOther Usage/Info: Decoration and Building, used in crafting Fireballs.\nStackable: Yes"
+    },
+    {
+        "title": "Mossy Messy Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Messy Stone and Vines.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: Messy Stone + Vine\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Mossy Stone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Mossy Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Mossy Messy Stone in Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Clay, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Clay + Sand + Coal\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Bricks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Stone Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Stone, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Stone + Sand + Coal\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Stone Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Stone Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Stone Bricks in Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Mossy Stone Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Stone Bricks and Tall Grass.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: Stone Bricks + Tall Grass in Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Mossy Stone Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Mossy Stone Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Mossy Stone Bricks in Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Stone and Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Stone + Sand in Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Stone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Stone in Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Stone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Stone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Engraved Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Engraved Stone in Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Iron Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Iron Bars.",
+        "content": "Best Tool to Break: Stone (or better) Pickaxe\nCrafting Materials: 9 Iron Bars\nOther Usage/Info: Decoration and Building and used to store Iron.\nStackable: Yes"
+    },
+    {
+        "title": "Gold Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Gold Bars.",
+        "content": "Best Tool to Break: Stone (or better) Pickaxe\nCrafting Materials: 9 Gold Bars\nOther Usage/Info: Decoration and Building and used to store Gold.\nStackable: Yes"
+    },
+    {
+        "title": "Diamond Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Diamonds.",
+        "content": "Best Tool to Break: Iron (or better) Pickaxe\nCrafting Materials: 9 Diamonds\nOther Usage/Info: Decoration and Building and used to store Diamonds.\nStackable: Yes"
+    },
+    {
+        "title": "Coal Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 9 Coal\nOther Usage/Info: Decoration and Building and used to store Coal.\nStackable: Yes"
+    },
+    {
+        "title": "Moonstone Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Moonstone.",
+        "content": "Best Tool to Break: Iron (or better) Pickaxe\nCrafting Materials: 9 Moonstone\nOther Usage/Info: Decoration and Building and used to store Moonstone.\nStackable: Yes"
+    },
+    {
+        "title": "Glass",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Sand and Coal.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 4 Sand + 1 Coal in Furnace to get 4 Glass\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Colored Glass",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Glass and Flowers.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Glass + Different Flowers with or without Tall Grass\nOther Usage/Info: Decoration and Building. Can be crafted into Patterned Glass.\nStackable: Yes"
+    },
+    {
+        "title": "Patterned Glass",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Colored Glass and Colored Planks.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Colored Glass + Colored Planks (Both has to be same color)\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Sandstone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Sand -> 1 Sandstone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Sandstone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Sandstone -> 4 Sandstone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Sandstone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Sandstone and Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Sandstone + Sand -> 2 Smooth Sandstone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Sandstone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Sandstone -> 4 Smooth Sandstone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Marked Sandstone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Sandstone -> 1 Marked Sandstone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Marked Sandstone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Marked Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Marked Sandstone -> 4 Marked Sandstone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Sandstone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Sandstone -> 1 Engraved Sandstone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Sandstone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Engraved Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Engraved Sandstone -> 4 Engraved Sandstone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Sandstone Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Sandstone, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Sandstone + Sand + Coal -> 4 Sandstone Bricks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Sandstone Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Sandstone Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Sandstone Bricks -> 4 Sandstone Bricks Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Red Sandstone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Red Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Red Sand -> 1 Red Sandstone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Red Sandstone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Red Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Red Sandstone -> 4 Red Sandstone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Red Sandstone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Red Sandstone and Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Red Sandstone + Sand -> 2 Smooth Red Sandstone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Red Sandstone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Red Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Red Sandstone -> 4 Smooth Red Sandstone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Marked Red Sandstone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Red Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Red Sandstone -> 1 Marked Red Sandstone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Marked Red Sandstone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Marked Red Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Marked Red Sandstone -> 4 Marked Red Sandstone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Red Sandstone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Red Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Red Sandstone -> 1 Engraved Red Sandstone\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Red Sandstone Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Engraved Red Sandstone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Engraved Red Sandstone -> 4 Engraved Red Sandstone Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Red Sandstone Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Red Sandstone, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Red Sandstone + Sand + Coal -> 4 Red Sandstone Bricks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Red Sandstone Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Red Sandstone Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Red Sandstone Bricks -> 4 Red Sandstone Bricks Slab\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Diorite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Diorite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Diorite -> 4 Diorite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Diorite",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Diorite and Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Diorite + Sand -> 2 Smooth Diorite\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Diorite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Diorite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Diorite -> 4 Smooth Diorite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Diorite",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Diorite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Diorite -> 1 Engraved Diorite\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Diorite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Engraved Diorite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Engraved Diorite -> 4 Engraved Diorite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Diorite Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Diorite, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Diorite + Sand + Coal -> 4 Diorite Bricks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Diorite Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Diorite Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Diorite Bricks -> 2 Diorite Bricks Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Granite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Granite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Granite -> 4 Granite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Granite",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Granite and Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Granite + Sand -> 2 Smooth Granite\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Granite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Granite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Granite -> 4 Smooth Granite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Granite",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Granite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Granite -> 1 Engraved Granite\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Granite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Engraved Granite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Engraved Granite -> 4 Engraved Granite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Granite Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Granite, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Granite + Sand + Coal -> 4 Granite Bricks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Granite Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Granite Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Granite Bricks -> 4 Granite Bricks Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Andesite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Andesite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Andesite -> 4 Andesite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Andesite",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Andesite and Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Andesite + Sand -> 2 Smooth Andesite\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Smooth Andesite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Andesite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Andesite -> 4 Smooth Andesite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Andesite",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Smooth Andesite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Smooth Andesite -> 1 Engraved Andesite\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Engraved Andesite Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Engraved Andesite.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Engraved Andesite -> 4 Engraved Andesite Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Andesite Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Andesite, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Andesite + Sand + Coal -> 4 Andesite Bricks\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Andesite Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Andesite Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Andesite Bricks -> 4 Andesite Bricks Slabs\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Compressed Messy Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 9 Messy Stone\nOther Usage/Info: Clearing up storage space by compression.\nStackable: Yes"
+    },
+    {
+        "title": "Extra Compressed Messy Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Compressed Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 9 Compressed Messy Stone (81 Messy Stone)\nOther Usage/Info: Clearing up storage space by compression.\nStackable: Yes"
+    },
+    {
+        "title": "Super Compressed Messy Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Extra Compressed Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 9 Extra Compressed Messy Stone (729 Messy Stone)\nOther Usage/Info: Clearing up storage space by compression.\nStackable: Yes"
+    },
+    {
+        "title": "Hyper Compressed Messy Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Super Compressed Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 9 Super Compressed Messy Stone (6561 Messy Stone)\nOther Usage/Info: Clearing up storage space by compression.\nStackable: Yes"
+    },
+    {
+        "title": "Ultra Compressed Messy Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Hyper Compressed Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 9 Hyper Compressed Messy Stone (59049 Messy Stone)\nOther Usage/Info: Clearing up storage space by compression.\nStackable: Yes"
+    },
+    {
+        "title": "Mega Compressed Messy Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Ultra Compressed Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 9 Ultra Compressed Messy Stone (531441 Messy Stone)\nOther Usage/Info: Clearing up storage space by compression.\nStackable: Yes"
+    },
+    {
+        "title": "Tilled Soil",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Grass Blocks using a Hoe.",
+        "content": "Best Tool to Break: Spade\nCrafting Materials: Can be obtained by tilling a Grass Block using a Hoe\nOther Usage/Info: Usually used to plant Seeds and Flowers. Can be used for Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Bread Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Bread.",
+        "content": "Best Tool to Break: Hoe\nCrafting Materials: 9 Bread\nOther Usage/Info: Used as a way to store Bread. Can be used for Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Apple Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Apples.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 4 Apples\nOther Usage/Info: Used as a way to store Apples. Can be used for Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Plum Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Plums.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 4 Plums\nOther Usage/Info: Used as a way to store Plums. Can be used for Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Pear Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Pears.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 4 Pears\nOther Usage/Info: Used as a way to store Pears. Can be used for Decoration or Building.\nStackable: Yes"
+    },
+    {
+        "title": "Coconut Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Coconuts.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 4 Coconuts\nOther Usage/Info: Used as a way to store Coconuts. Can be used for Decoration or Building.\nStackable: Yes"
+    },
+    {
+        "title": "Carved Pumpkin",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Pumpkin.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Pumpkin\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Jack O' Lantern",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Carved Pumpkin and Coal.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: Carved Pumpkin + Coal\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Dyed Wools",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Cotton and Plants.",
+        "content": "Best Tool to Break: Shears\nCrafting Materials: 4 Cotton -> White Wool\nWhite Wool + Plants -> Wool in different colours (according to the Plants used)\nOther Usage/Info: Decoration and Building. There are 16 types of Dyed Wool.\nStackable: Yes"
+    },
+    {
+        "title": "Dyed Carpets",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Wool.",
+        "content": "Best Tool to Break: Shears\nCrafting Materials: 2 Wool in Artisan Bench -> 8 Carpets of the same colour\nOther Usage/Info: Decoration and building. There are 16 different colours of Carpets.\nStackable: Yes"
+    },
+    {
+        "title": "Baked Clay",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Clay and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Clay + 1 Coal -> Baked Clay in Furnace\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Colored Baked Clay",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Baked Clay and Plants.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: Baked Clay + Plant -> Coloured Baked Clay in different colours (according to the Plants used)\nOther Usage/Info: Decoration and Building. There are 16 colours.\nStackable: Yes"
+    },
+    {
+        "title": "Ceramics",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Colored Baked Clay, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Colored Baked Clay + 2 Sand + Coal\nOther Usage/Info: Decoration and Building. There are 15 types of Ceramic. Only Cyan doesn't have a Ceramic variant.\nStackable: Yes"
+    },
+    {
+        "title": "Net",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Leaves.",
+        "content": "Best Tool to Break: Axe\nCrafting Materials: 15 of any Leaves\nOther Usage/Info: Security. Slows players inside.\nStackable: Yes"
+    },
+    {
+        "title": "Gray Concrete",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Messy Stone, Clay, and Sand.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: Messy Stone + Clay + 2 Sand with Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Concrete (All other colors)",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Gray Concrete and Flowers.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: Gray Concrete + any Flower with Artisan Bench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Red Mushroom Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Red Mushrooms.",
+        "content": "Best Tool to Break: Hoe, Shears\nCrafting Materials: 4 Red Mushroom in a Workbench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Brown Mushroom Block",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Brown Mushrooms.",
+        "content": "Best Tool to Break: Hoe, Shears\nCrafting Materials: 4 Brown Mushroom in a Workbench\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Iron Watermelon",
+        "tag": "Artificial/Crafted Block",
+        "description": "The rarest Block in the game. Can be crafted into 128 Iron Bars.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: N/A\nOther Usage/Info: The rarest Block in the game. Can be crafted into 128 Iron Bars, could be a 'reliable' Iron farm, if you have an ENORMOUS Watermelon farm.\nStackable: Yes"
+    },
+    {
+        "title": "Ice Bricks",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Snow and Ice.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: Snow + Ice\nOther Usage/Info: Decoration and Building. Increase speed while walking on it, like Ice.\nStackable: Yes"
+    },
+    {
+        "title": "Ice Bricks Slab",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Ice Bricks.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Ice Bricks -> 4 Ice Brick Slabs\nOther Usage/Info: Decoration and Building. Increase speed while walking on it, like Ice.\nStackable: Yes"
+    },
+    {
+        "title": "Obsidian",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Magma and Water Bucket.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Magma + 1 Water Bucket\nOther Usage/Info: One of the toughest Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Dark Red Stone",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Magma.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Magma\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Dark Red Brick",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Dark Red Stone, Sand, and Coal.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Dark Red Stone + 1 Sand + 1 Coal\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Golden Decoration",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Gold Bars.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 4 Gold Bar\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Protector",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Diamond and Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Diamond + 1 Stone\nOther Usage/Info: Protects 32x96x32 area. Maximum is 8 per player. Prevents other players from changing Blocks and opening Chests in the placed Chunk.\nStackable: Yes"
+    },
+    {
+        "title": "Tribe Protector",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Moonstone and Stone.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 2 Moonstone + 1 Stone\nOther Usage/Info: Protects a 32x96x32 area. Only players in your Tribe have access to it. Only the owner of a Tribe can place a Tribe Protector. The maximum is 4 per tribe. Prevents other Tribes from changing Blocks and opening Chests in the placed Chunk.\nStackable: Yes"
+    },
+    {
+        "title": "Faction Protector",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Gold Coins.",
+        "content": "Best Tool to Break: Pickaxe\nCrafting Materials: 100 Gold Coin\nOther Usage/Info: Protects a 32x96x32 area. Only players in your Faction have access to it. Only the owner of a Faction can place a Faction Protector. Prevents other Factions from changing Blocks and opening Chests in the placed Chunk.\nStackable: Yes"
+    },
+    {
+        "title": "Moonstone Explosive",
+        "tag": "Artificial/Crafted Block",
+        "description": "Crafted from Moonstone and Sand.",
+        "content": "Best Tool to Break: N/A (explodes seconds after being placed)\nCrafting Materials: 1 Moonstone + 10 Sand = Moonstone Explosive\nOther Usage/Info: Explodes, breaking lots of Blocks around it and killing players.\nStackable: Yes"
+    },
+    {
+        "title": "Maple Door",
+        "tag": "Utility Block",
+        "description": "Crafted from Maple Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Maple Wood Planks -> Maple Door\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Maple Trapdoor",
+        "tag": "Utility Block",
+        "description": "Crafted from Maple Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Maple Wood Plank -> Maple Trapdoor\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Plum Door",
+        "tag": "Utility Block",
+        "description": "Crafted from Plum Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Plum Wood Planks -> Plum Door\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Plum Trapdoor",
+        "tag": "Utility Block",
+        "description": "Crafted from Plum Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Plum Wood Plank -> Plum Trapdoor\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Aspen Door",
+        "tag": "Utility Block",
+        "description": "Crafted from Aspen Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Aspen Wood Planks -> Aspen Door\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Aspen Trapdoor",
+        "tag": "Utility Block",
+        "description": "Crafted from Aspen Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Aspen Wood Plank -> Aspen Trapdoor\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Pine Door",
+        "tag": "Utility Block",
+        "description": "Crafted from Pine Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Pine Wood Planks -> Pine Door\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Pine Trapdoor",
+        "tag": "Utility Block",
+        "description": "Crafted from Pine Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Pine Wood Plank -> Pine Trapdoor\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Cedar Door",
+        "tag": "Utility Block",
+        "description": "Crafted from Cedar Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Cedar Wood Planks -> Cedar Door\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Cedar Trapdoor",
+        "tag": "Utility Block",
+        "description": "Crafted from Cedar Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Cedar Wood Plank -> Cedar Trapdoor\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Elm Door",
+        "tag": "Utility Block",
+        "description": "Crafted from Elm Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Elm Wood Planks -> Elm Door\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Elm Trapdoor",
+        "tag": "Utility Block",
+        "description": "Crafted from Elm Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Elm Wood Plank -> Elm Trapdoor\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Palm Door",
+        "tag": "Utility Block",
+        "description": "Crafted from Palm Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Palm Wood Planks -> Palm Door\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Palm Trapdoor",
+        "tag": "Utility Block",
+        "description": "Crafted from Palm Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Palm Wood Plank -> Palm Trapdoor\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Pear Door",
+        "tag": "Utility Block",
+        "description": "Crafted from Pear Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Pear Wood Planks -> Pear Door\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Pear Trapdoor",
+        "tag": "Utility Block",
+        "description": "Crafted from Pear Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Pear Wood Planks -> Pear Trapdoor\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Maple Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Maple Wood Plank -> Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Aspen Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Aspen Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Aspen Wood Plank -> Aspen Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Pine Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Pine Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Pine Wood Plank -> Pine Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Cedar Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Cedar Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Cedar Wood Plank -> Cedar Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Elm Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Elm Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Elm Wood Plank -> Elm Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Palm Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Palm Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Palm Wood Plank -> Palm Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Plum Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Plum Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Plum Wood Plank -> Plum Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Pear Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Pear Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Pear Wood Plank -> Pear Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Iron Ladder",
+        "tag": "Utility Block",
+        "description": "Crafted from Iron Ingot.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nCrafting Materials: Iron Ingot -> Iron Ladder\nOther Usage/Info: Crafted with Workbench.\nStackable: Yes"
+    },
+    {
+        "title": "Board",
+        "tag": "Utility Block",
+        "description": "Crafted from Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 1 Wood Plank -> 1 Board\nOther Usage/Info: Used to write on.\nStackable: Yes"
+    },
+    {
+        "title": "Workbench",
+        "tag": "Utility Block",
+        "description": "Crafted from Maple Wood Planks.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 4 Maple Wood Planks -> Workbench\nOther Usage/Info: Used to craft most Items.\nStackable: Yes"
+    },
+    {
+        "title": "Artisan Bench",
+        "tag": "Utility Block",
+        "description": "Crafted from Maple Wood Planks and Messy Stone.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 2 Maple Wood Planks + 2 Messy Stone -> Artisan Bench\nOther Usage/Info: Used to craft building Blocks.\nStackable: Yes"
+    },
+    {
+        "title": "Furnace",
+        "tag": "Utility Block",
+        "description": "Crafted from Messy Stone.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nCrafting Materials: 8 Messy Stone -> Furnace\nOther Usage/Info: Can make Empty Bottles, Magma and smelt Ores.\nStackable: Yes"
+    },
+    {
+        "title": "Potion Table",
+        "tag": "Utility Block",
+        "description": "Crafted from Maple Wood Planks and Glass.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 4 Maple Wood Planks + 2 glass -> Potion Table\nOther Usage/Info: The only way to brew Potions.\nStackable: Yes"
+    },
+    {
+        "title": "Strength Potion",
+        "tag": "Strength",
+        "description": "Increases damage by 40% (Strength) or 110% (Strength II).",
+        "content": "Crafting:\nStrength: Water Bottle + Plum\nStrength II: Strength Potion + Moonstone\nSplash Strength: 2 Strength Potions\nSplash Strength II: Splash Strength Potion + Iron Bar\n\nEffect:\nStrength: 8 seconds\nStrength II: 12 seconds\nSplash Strength: 8 seconds\nSplash Strength II: 8 seconds"
+    },
+    {
+        "title": "Defense Potion",
+        "tag": "Defense",
+        "description": "Reduces incoming damage by 40% (Defense) or 50% (Defense II).",
+        "content": "Crafting:\nDefense: Water Bottle + Pear\nDefense II: Defense Potion + Moonstone\nSplash Defense: 2 Defense Potions\nSplash Defense II: Splash Defense Potion + Iron Bar\n\nEffect:\nDefense: 15 seconds\nDefense II: 15 seconds\nSplash Defense: 8 seconds\nSplash Defense II: 8 seconds"
+    },
+    {
+        "title": "Speed Potion",
+        "tag": "Speed",
+        "description": "Increases movement speed, sprinting speed, and jumping length by 50% (Speed) or 120% (Speed II).",
+        "content": "Crafting:\nSpeed: Cracked Coconut + Water Bottle\nSpeed II: Speed Potion + Moonstone\nSplash Speed: 2 Speed Potions\nSplash Speed II: Splash Speed Potion + Iron Bar\n\nEffect:\nSpeed: 8 seconds\nSpeed II: 8 seconds\nSplash Speed: 8 seconds\nSplash Speed II: 8 seconds"
+    },
+    {
+        "title": "Jump Potion",
+        "tag": "Jump",
+        "description": "Increases jump height by 2 blocks (Jump) or 6 blocks (Jump II).",
+        "content": "Crafting:\nJump: Watermelon Slice + Water Bottle\nJump II: Jump Potion + Iron Bar\nSplash Jump: 2 Jump Potions\nSplash Jump II: Splash Jump Potion + Iron Bar\n\nEffect:\nJump: 12 seconds\nJump II: 12 seconds\nSplash Jump: 8 seconds\nSplash Jump II: 8 seconds"
+    },
+    {
+        "title": "Invisibility Potion",
+        "tag": "Invisibility",
+        "description": "Renders the player invisible. Effect is removed if the player receives damage or attacks another player.",
+        "content": "Crafting:\nInvisibility: Melon Slice + Water Bottle\nSplash Invisibility: 2 Invisibility Potions\n\nEffect:\nInvisibility: 12 seconds\nSplash Invisibility: 8 seconds"
+    },
+    {
+        "title": "Haste Potion",
+        "tag": "Haste",
+        "description": "Makes the player mine 2x faster (Haste) or 3x faster (Haste II).",
+        "content": "Crafting:\nHaste: Full Bowl of Cranberries + Water Bottle\nHaste II: Haste Potion + Iron Bar\nSplash Haste: 2 Haste Potions\nSplash Haste II: Splash Haste + Iron Bar\n\nEffect:\nHaste: 50 seconds\nHaste II: 50 seconds\nSplash Haste: 8 seconds\nSplash Haste II: 8 seconds"
+    },
+    {
+        "title": "Regeneration Potion",
+        "tag": "Regeneration",
+        "description": "Restores health by 5 every second (Regeneration) or 8 every second (Regeneration II).",
+        "content": "Crafting:\nRegeneration: Cherry + Melon Slice + Water Bottle\nRegeneration II: Regeneration Potion + Iron Bar\nSplash Regeneration: 2 Regeneration Potions\nSplash Regeneration II: Splash Regeneration + Iron Bar\n\nEffect:\nRegeneration: 12 seconds\nRegeneration II: 12 seconds\nSplash Regeneration: 8 seconds\nSplash Regeneration II: 8 seconds"
+    },
+    {
+        "title": "Instant Healing Potion",
+        "tag": "Instant Healing",
+        "description": "Restores health instantly by 30 (Instant Healing) or 60 (Instant Healing II).",
+        "content": "Crafting:\nInstant Healing: Water Bottle + Apple + Watermelon Slice\nInstant Healing II: Instant Healing + Iron Bar\nSplash Instant Healing: 2 Instant Healing Potions\nSplash Instant Healing II: Splash Instant Healing + Iron Bar"
+    },
+    {
+        "title": "Instant Damage Potion",
+        "tag": "Instant Damage",
+        "description": "Inflicts 30 damage (Instant Damage) or 60 damage (Instant Damage II).",
+        "content": "Crafting:\nInstant Damage: Water Bottle + Cactus + Pumpkin Pie\nInstant Damage II: Instant Damage Potion + Iron Bar\nSplash Instant Damage: 2 Instant Damage Potions\nSplash Instant Damage II: Splash Instant Damage + Iron Bar"
+    },
+    {
+        "title": "Weakness Potion",
+        "tag": "Weakness",
+        "description": "Increases damage received by 20% (Weakness) or 30% (Weakness II).",
+        "content": "Crafting:\nWeakness: Pumpkin + Water Bottle\nWeakness II: Weakness Potion + Iron Bar\nSplash Weakness: 2 Weakness Potions\nSplash Weakness II: Splash Weakness + Iron Bar\n\nEffect:\nWeakness: 12 seconds\nWeakness II: 12 seconds\nSplash Weakness: 8 seconds\nSplash Weakness II: 8 seconds"
+    },
+    {
+        "title": "Poison Potion",
+        "tag": "Poison",
+        "description": "Depletes health by 5 every second (Poison) or 7 every second (Poison II).",
+        "content": "Crafting:\nPoison: Cactus + Water Bottle\nPoison II: Poison Potion + Iron Bar\nSplash Poison: 2 Poison Potions\nSplash Poison II: Splash Poison Potion + Iron Bar\n\nEffect:\nPoison: 12 seconds\nPoison II: 12 seconds\nSplash Poison: 8 seconds\nSplash Poison II: 8 seconds"
+    },
+    {
+        "title": "Slowness Potion",
+        "tag": "Slowness",
+        "description": "Slows the player by 30% (Slowness) or 40% (Slowness II).",
+        "content": "Crafting:\nSlowness: Bread + Poppy + Water Bottle\nSlowness II: Slowness Potion + Iron Bar\nSplash Slowness: 2 Slowness Potions\nSplash Slowness II: Splash Slowness + Iron Bar\n\nEffect:\nSlowness: 12 seconds\nSlowness II: 12 seconds\nSplash Slowness: 8 seconds\nSplash Slowness II: 8 seconds"
+    },
+    {
+        "title": "Shield Potion",
+        "tag": "Shield",
+        "description": "Grants extra HP (30 HP for Shield, 40 HP for Shield II).",
+        "content": "Crafting:\nShield: Corn + Water Bottle\nShield II: Shield Potion + Iron Bar\nSplash Shield: 2 Shield Potions\nSplash Shield II: Splash Shield + Iron Bar"
+    },
+    {
+        "title": "Knockback Potion",
+        "tag": "Knockback",
+        "description": "Throws the player 13 blocks up (Knockback) or 30 blocks up (Knockback II).",
+        "content": "Crafting:\nKnockback: Stick + Bread + Water Bottle\nSplash Knockback: 2 Knockback Potions\nSplash Knockback II: Splash Knockback Potion + Iron Bar"
+    },
+    {
+        "title": "Heat Resistance Potion",
+        "tag": "Heat Resistance",
+        "description": "Provides resistance against heat-based damage.",
+        "content": "Crafting:\nHeat Resistance: Chili Pepper + Water Bottle\nSplash Heat Resistance: 2 Heat Resistance Potions\n\nEffect:\nHeat Resistance: 12 seconds\nSplash Heat Resistance: 8 seconds"
+    },
+    {
+        "title": "Chest",
+        "tag": "Utility Block",
+        "description": "Crafted with Workbench. Used to store items.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 4 Maple Planks -> Chest\nOther Usage/Info: Used to store items.\nStackable: Yes"
+    },
+    {
+        "title": "Moonstone Chest",
+        "tag": "Utility Block",
+        "description": "Crafted with Workbench. Used to store items.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nCrafting Materials: 2 Moonstone -> Moonstone Chest\nOther Usage/Info: Access the same items from any moonstone chest.\nStackable: Yes"
+    },
+    {
+        "title": "Mailbox",
+        "tag": "Utility Block",
+        "description": "Crafted with Workbench. Used to store Books.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 6 Wood Planks of any type.\nOther Usage/Info: Let other players leave you notes.\nStackable: Yes"
+    },
+    {
+        "title": "Empty Bookshelf",
+        "tag": "Utility Block",
+        "description": "Crafted with Workbench. Used to store up to 6 Books.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 6 Wood Planks\nOther Usage/Info: Empty bookshelf.\nStackable: Yes"
+    },
+    {
+        "title": "Lime Bed",
+        "tag": "Utility Block",
+        "description": "Used to set your respawn point. There are 16 different colors of Beds. Craft them from a Lime Bed and Flowers.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: 3 Green Wool + 3 Wood Planks\nOther Usage/Info: Used to set your respawn point.\nStackable: Yes"
+    },
+    {
+        "title": "Beds",
+        "tag": "Utility Block",
+        "description": "Crafted from a Lime Bed and Flowers. There are 16 different colors of Beds.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 999\nCrafting Materials: Lime Bed + Flower(s)\nOther Usage/Info: For Black Bed: 2 Lime Beds + Flowers -> 2 Black Beds.\nStackable: Yes"
+    },
+    {
+        "title": "Kill Spike",
+        "tag": "Creative Block",
+        "description": "One shot any players. (Creative in Worlds only)",
+        "content": "Max Stack: 999\nOther Usage/Info: One shot any players.\nStackable: Yes"
+    },
+    {
+        "title": "Bookshelf",
+        "tag": "Creative Block",
+        "description": "When it is placed, it is a full bookshelf.",
+        "content": "Max Stack: 999\nOther Usage/Info: When it is placed, it is a full bookshelf.\nStackable: Yes"
+    },
+    {
+        "title": "Hay Bale",
+        "tag": "Greenville Block",
+        "description": "Found in Wheat Field, Haybale Valley. Used for building and selling for money in [B] shop for 20 Coins each.",
+        "content": "Best Tool to Break: Shears/Hoe\nMax Stack: 999\nOther Usage/Info: Building, selling for money in [B] shop for 20 Coins each.\nStackable: Yes"
+    },
+    {
+        "title": "Gravel",
+        "tag": "Greenville Block",
+        "description": "Found in Gated Wooden House, Woodcutting Area (Isle of Grove), Farm House. Used for decoration and building.",
+        "content": "Best Tool to Break: Spade\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Green Stone",
+        "tag": "Greenville Block",
+        "description": "Found in Farming Portal to Isle of Grove. Used for decoration and building.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Dim Lamp On",
+        "tag": "Greenville Block",
+        "description": "Found in Isle of Grove. Used for decoration and building.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Dim Lamp Off",
+        "tag": "Greenville Block",
+        "description": "Found in Haybale Valley Ship. Used for decoration and building.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Sponge",
+        "tag": "Greenville Block",
+        "description": "Found in Isle of Grove, Center of Diorite Building. Used for decoration and building.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Useless Soil",
+        "tag": "Greenville Block",
+        "description": "Found in Isle of Grove. Used for decoration and building.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Chiseled Block of Quartz",
+        "tag": "Greenville Block",
+        "description": "Found in Town Square Fountain. Used for decoration and building.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Azure Bluet",
+        "tag": "Greenville Block",
+        "description": "Found in Farming Area Greenville. Used for decoration and building.",
+        "content": "Best Tool to Break: Shears/Hoe\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Mushroom Stem",
+        "tag": "Greenville Block",
+        "description": "Found in Green Mushroom House, Red Mushroom House. Used for decoration and building.",
+        "content": "Best Tool to Break: Hoe\nMax Stack: 999\nOther Usage/Info: Decoration and Building.\nStackable: Yes"
+    },
+    {
+        "title": "Yellowstone",
+        "tag": "One Block Block",
+        "description": "Found in Moon phase. Used for building.",
+        "content": "Max Stack: 999\nOther Usage/Info: Building.\nStackable: Yes"
+    },
+    {
+        "title": "Lapis Lazuli Ore",
+        "tag": "Doodle Cube Block",
+        "description": "Used for building & decoration.",
+        "content": "Max Stack: 1\nOther Usage/Info: Building & Decoration.\nStackable: No"
+    },
+    {
+        "title": "Block of Emerald",
+        "tag": "Doodle Cube Block",
+        "description": "Used for building & decoration.",
+        "content": "Max Stack: 1\nOther Usage/Info: Building & Decoration.\nStackable: No"
+    },
+    {
+        "title": "Emerald Ore",
+        "tag": "Doodle Cube Block",
+        "description": "Used for building & decoration.",
+        "content": "Max Stack: 1\nOther Usage/Info: Building & Decoration.\nStackable: No"
+    },
+    {
+        "title": "Beacon",
+        "tag": "Doodle Cube Block",
+        "description": "Used for building & decoration.",
+        "content": "Max Stack: 1\nOther Usage/Info: Building & Decoration.\nStackable: No"
+    },
+    {
+        "title": "Invisible Solid",
+        "tag": "Doodle Cube Block",
+        "description": "Used for building & decoration.",
+        "content": "Max Stack: 1\nOther Usage/Info: Building & Decoration.\nStackable: No"
+    },
+    {
+        "title": "Water",
+        "tag": "Doodle Cube Block",
+        "description": "Used for building & decoration.",
+        "content": "Max Stack: 1\nOther Usage/Info: Building & Decoration.\nStackable: No"
+    },
+    {
+        "title": "Beacon",
+        "tag": "Sky Wars Block",
+        "description": "Found in Snow, Castle maps. Used as a handy block.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Handy Block.\nStackable: Yes"
+    },
+    {
+        "title": "Useless Soil",
+        "tag": "Sky Wars Block",
+        "description": "Found in Castle map. Used as a handy block.",
+        "content": "Best Tool to Break: Spade\nMax Stack: 999\nOther Usage/Info: Handy Block.\nStackable: Yes"
+    },
+    {
+        "title": "Chiseled Block of Quartz",
+        "tag": "Sky Wars Block",
+        "description": "Found in Snow map. Used as a handy block.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Handy Block.\nStackable: Yes"
+    },
+    {
+        "title": "Gravel",
+        "tag": "Sky Wars Block",
+        "description": "Found in Jungle map. Used as a handy block.",
+        "content": "Best Tool to Break: Shovel\nMax Stack: 999\nOther Usage/Info: Handy Block.\nStackable: Yes"
+    },
+    {
+        "title": "Azure Bluet",
+        "tag": "Sky Wars Block",
+        "description": "Found in Jungle map. Used for building & decoration.",
+        "content": "Best Tool to Break: Hoe\nMax Stack: 999\nOther Usage/Info: Illegal Flower.\nStackable: Yes"
+    },
+    {
+        "title": "Loot Chest",
+        "tag": "Pirates Block",
+        "description": "Found in Plunderer kit. Summons a chest with loot.",
+        "content": "Best Tool to Break: Axe\nMax Stack: 1\nOther Usage/Info: Place me and it'll fill with loot!\nStackable: No"
+    },
+    {
+        "title": "Artillery Beacon",
+        "tag": "Pirates Block",
+        "description": "Found in Admiral kit. Used to request an Artillery Strike.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 1\nOther Usage/Info: Place to request an artillery strike!\nStackable: No"
+    },
+    {
+        "title": "Portal Keystone",
+        "tag": "Pirates Block",
+        "description": "Found in Portalmaster kit. Summon a Portal.",
+        "content": "Best Tool to Break: None (unbreakable for anyone expect yourself)\nMax Stack: 2\nOther Usage/Info: Place to to create a portal!\nStackable: No"
+    },
+    {
+        "title": "Green Bricks",
+        "tag": "Murder Mystery Block",
+        "description": "Found in Water Park map. Used for building and decoration.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Building and Decoration.\nStackable: Yes"
+    },
+    {
+        "title": "Dark Green Bricks",
+        "tag": "Murder Mystery Block",
+        "description": "Found in Water Park map. Used for building and decoration.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Building and Decoration.\nStackable: Yes"
+    },
+    {
+        "title": "Blocker",
+        "tag": "Bloxd Hop Block",
+        "description": "Used for parkour assistance.",
+        "content": "Best Tool to Break: Pickaxe\nMax Stack: 999\nOther Usage/Info: Parkour assistance.\nStackable: Yes"
+    },
+    {
+        "title": "Wood Pickaxe",
+        "tag": "Tool",
+        "description": "Used for mining Stone and Coal. Mining other Ores doesn't drop them.",
+        "content": "Crafting: 4 Wood Planks\nDamage: 18\nNeed Workbench: No\nUsage: Mining of Stone and Coal.\nStackable: No"
+    },
+    {
+        "title": "Stone Pickaxe",
+        "tag": "Tool",
+        "description": "Allows mining of Coal and Iron Ore.",
+        "content": "Crafting: 1 Wood Plank, 3 Messy Stone / Stone / Andesite / Granite / Diorite\nDamage: 22\nNeed Workbench: Yes\nUsage: Mining Coal and Iron Ore.\nStackable: No"
+    },
+    {
+        "title": "Iron Pickaxe",
+        "tag": "Tool",
+        "description": "Allows mining of all Ores.",
+        "content": "Crafting: 1 Wood Plank, 3 Iron Bars\nDamage: 27\nNeed Workbench: Yes\nUsage: Mining all Ores.\nStackable: No"
+    },
+    {
+        "title": "Gold Pickaxe",
+        "tag": "Tool",
+        "description": "Faster than Iron Pickaxe.",
+        "content": "Crafting: 1 Wood Plank, 3 Gold Bars\nDamage: 30\nNeed Workbench: Yes\nUsage: Faster mining of all Ores.\nStackable: No"
+    },
+    {
+        "title": "Diamond Pickaxe",
+        "tag": "Tool",
+        "description": "Even faster than Gold Pickaxe.",
+        "content": "Crafting: 1 Wood Plank, 3 Diamonds\nDamage: 32\nNeed Workbench: Yes\nUsage: Faster mining of all Ores.\nStackable: No"
+    },
+    {
+        "title": "Moonstone Pickaxe",
+        "tag": "Tool",
+        "description": "Stones and Ores drop their exact Block, also faster than Diamond Pickaxe.",
+        "content": "Crafting: 1 Wood Plank, 3 Moonstone\nDamage: 32\nNeed Workbench: Yes\nUsage: Mining with exact block drops.\nStackable: No"
+    },
+    {
+        "title": "Wood Spade",
+        "tag": "Tool",
+        "description": "Used for digging loose materials like Dirt, Sand, Snow, Gravel, and Grass Blocks.",
+        "content": "Crafting: 2 Wood Planks\nDamage: 15\nNeed Workbench: No\nUsage: Digging loose materials.\nStackable: No"
+    },
+    {
+        "title": "Stone Spade",
+        "tag": "Tool",
+        "description": "Faster digging of loose materials.",
+        "content": "Crafting: 1 Wood Plank, 1 Messy Stone / Stone / Andesite / Granite / Diorite\nDamage: 19\nNeed Workbench: Yes\nUsage: Faster digging of loose materials.\nStackable: No"
+    },
+    {
+        "title": "Iron Spade",
+        "tag": "Tool",
+        "description": "Faster digging of loose materials.",
+        "content": "Crafting: 1 Wood Plank, 1 Iron Bar\nDamage: 24\nNeed Workbench: Yes\nUsage: Faster digging of loose materials.\nStackable: No"
+    },
+    {
+        "title": "Gold Spade",
+        "tag": "Tool",
+        "description": "Faster digging of loose materials.",
+        "content": "Crafting: 1 Wood Plank, 1 Gold Bar\nDamage: 26\nNeed Workbench: Yes\nUsage: Faster digging of loose materials.\nStackable: No"
+    },
+    {
+        "title": "Diamond Spade",
+        "tag": "Tool",
+        "description": "Fastest digging of loose materials.",
+        "content": "Crafting: 1 Wood Plank, 1 Diamond\nDamage: 28\nNeed Workbench: Yes\nUsage: Fastest digging of loose materials.\nStackable: No"
+    },
+    {
+        "title": "Wood Hoe",
+        "tag": "Tool",
+        "description": "Used for tilling Grass Blocks into Tilled Soil and collecting Leaves, Wheat, and Haybales.",
+        "content": "Crafting: 3 Wood Planks\nDamage: 15\nNeed Workbench: No\nUsage: Tilling Grass Blocks and collecting plant-related blocks.\nStackable: No"
+    },
+    {
+        "title": "Stone Hoe",
+        "tag": "Tool",
+        "description": "Faster collection of Leaves, Wheat, and Haybales.",
+        "content": "Crafting: 1 Wood Plank, 2 Messy Stone / Stone / Andesite / Granite / Diorite\nDamage: 19\nNeed Workbench: Yes\nUsage: Faster collection of plant-related blocks.\nStackable: No"
+    },
+    {
+        "title": "Iron Hoe",
+        "tag": "Tool",
+        "description": "Faster collection of Leaves, Wheat, and Haybales.",
+        "content": "Crafting: 1 Wood Plank, 2 Iron Bars\nDamage: 24\nNeed Workbench: Yes\nUsage: Faster collection of plant-related blocks.\nStackable: No"
+    },
+    {
+        "title": "Gold Hoe",
+        "tag": "Tool",
+        "description": "Faster collection of Leaves, Wheat, and Haybales.",
+        "content": "Crafting: 1 Wood Plank, 2 Gold Bars\nDamage: 26\nNeed Workbench: Yes\nUsage: Faster collection of plant-related blocks.\nStackable: No"
+    },
+    {
+        "title": "Diamond Hoe",
+        "tag": "Tool",
+        "description": "Fastest collection of Leaves, Wheat, and Haybales.",
+        "content": "Crafting: 1 Wood Plank, 2 Diamonds\nDamage: 28\nNeed Workbench: Yes\nUsage: Fastest collection of plant-related blocks.\nStackable: No"
+    },
+    {
+        "title": "Wood Axe",
+        "tag": "Tool",
+        "description": "Used for chopping trees and sometimes for PvP.",
+        "content": "Crafting: 4 Wood Planks\nDamage: 20\nNeed Workbench: No\nUsage: Chopping trees and PvP.\nStackable: No"
+    },
+    {
+        "title": "Stone Axe",
+        "tag": "Tool",
+        "description": "Faster chopping of trees and sometimes used for PvP.",
+        "content": "Crafting: 1 Wood Plank, 3 Messy Stone / Stone / Andesite / Granite / Diorite\nDamage: 24\nNeed Workbench: Yes\nUsage: Faster chopping of trees and PvP.\nStackable: No"
+    },
+    {
+        "title": "Iron Axe",
+        "tag": "Tool",
+        "description": "Faster chopping of trees and sometimes used for PvP.",
+        "content": "Crafting: 1 Wood Plank, 3 Iron Bars\nDamage: 31\nNeed Workbench: Yes\nUsage: Faster chopping of trees and PvP.\nStackable: No"
+    },
+    {
+        "title": "Gold Axe",
+        "tag": "Tool",
+        "description": "Faster chopping of trees and sometimes used for PvP.",
+        "content": "Crafting: 1 Wood Plank, 3 Gold Bars\nDamage: 33\nNeed Workbench: Yes\nUsage: Faster chopping of trees and PvP.\nStackable: No"
+    },
+    {
+        "title": "Diamond Axe",
+        "tag": "Tool",
+        "description": "Fastest chopping of trees and sometimes used for PvP.",
+        "content": "Crafting: 1 Wood Plank, 3 Diamonds\nDamage: 36\nNeed Workbench: Yes\nUsage: Fastest chopping of trees and PvP.\nStackable: No"
+    },
+    {
+        "title": "Shears",
+        "tag": "Tool",
+        "description": "Used for cutting Wool, Leaves, Flowers, Grass, and Cobwebs/Nets.",
+        "content": "Crafting: 1 Wood Plank, 2 Iron Bars\nDamage: 27\nNeed Workbench: Yes\nUsage: Cutting Wool, Leaves, Flowers, Grass, and Cobwebs/Nets.\nStackable: No"
+    },
+    {
+        "title": "Compass",
+        "tag": "Tool",
+        "description": "Used to find players in SkyWars, Pirates, and Survival Royale.",
+        "content": "Crafting: 1 Iron Bar, 1 Gold Bar\nDamage: 4\nNeed Workbench: Yes\nUsage: Finding players in specific game modes.\nStackable: No"
+    },
+    {
+        "title": "Pebble",
+        "tag": "Tool",
+        "description": "Can be thrown at players to do damage. Used as paintballs in Paintball.",
+        "content": "Crafting: 1 Messy Stone or 1 Stone\nDamage: Varies\nNeed Workbench: Yes\nUsage: Throwing at players or as paintballs.\nStackable: Yes"
+    },
+    {
+        "title": "Wood Sword",
+        "tag": "Weapon",
+        "description": "Used for PvP.",
+        "content": "Crafting: 3 Wood Planks\nDamage: 22\nNeed Workbench: No\nUsage: PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Stone Sword",
+        "tag": "Weapon",
+        "description": "Used for PvP.",
+        "content": "Crafting: 1 Wood Plank, 2 Messy Stone / Stone / Andesite / Granite / Diorite\nDamage: 27\nNeed Workbench: Yes\nUsage: PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Iron Sword",
+        "tag": "Weapon",
+        "description": "Used for PvP.",
+        "content": "Crafting: 1 Wood Plank, 2 Iron Bars\nDamage: 34\nNeed Workbench: Yes\nUsage: PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Gold Sword",
+        "tag": "Weapon",
+        "description": "Used for PvP.",
+        "content": "Crafting: 1 Wood Plank, 2 Gold Bars\nDamage: 37\nNeed Workbench: Yes\nUsage: PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Diamond Sword",
+        "tag": "Weapon",
+        "description": "Used for PvP.",
+        "content": "Crafting: 1 Wood Plank, 2 Diamonds\nDamage: 40\nNeed Workbench: Yes\nUsage: PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Wood Bow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players.",
+        "content": "Crafting: 3 Wood Planks, 1 Cotton, 2 Sticks\nDamage: 33\nNeed Workbench: No\nCharge Time: 0.9 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Stone Bow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players.",
+        "content": "Crafting: 3 Messy Stone / Stone / Andesite / Granite / Diorite, 1 Cotton, 2 Sticks\nDamage: 40\nNeed Workbench: Yes\nCharge Time: 0.9 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Iron Bow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players.",
+        "content": "Crafting: 3 Iron Bars, 1 Cotton, 2 Sticks\nDamage: 51\nNeed Workbench: Yes\nCharge Time: 0.9 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Gold Bow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players.",
+        "content": "Crafting: 3 Gold Bars, 1 Cotton, 2 Sticks\nDamage: 55\nNeed Workbench: Yes\nCharge Time: 0.9 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Diamond Bow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players.",
+        "content": "Crafting: 3 Diamonds, 1 Cotton, 2 Sticks\nDamage: 60\nNeed Workbench: Yes\nCharge Time: 0.9 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Wood Crossbow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players. Can be charged for a quick fire.",
+        "content": "Crafting: 4 Wood Planks, 1 Cotton, 2 Sticks, 2 Iron Bars\nDamage: 33\nNeed Workbench: No\nCharge Time: 1.15 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Stone Crossbow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players. Can be charged for a quick fire.",
+        "content": "Crafting: 4 Messy Stone / Stone / Andesite / Granite / Diorite, 1 Cotton, 2 Sticks, 2 Iron Bars\nDamage: 40\nNeed Workbench: Yes\nCharge Time: 1.15 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Iron Crossbow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players. Can be charged for a quick fire.",
+        "content": "Crafting: 6 Iron Bars, 1 Cotton, 2 Sticks\nDamage: 51\nNeed Workbench: Yes\nCharge Time: 1.15 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Gold Crossbow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players. Can be charged for a quick fire.",
+        "content": "Crafting: 4 Gold Bars, 1 Cotton, 2 Sticks, 2 Iron Bars\nDamage: 55\nNeed Workbench: Yes\nCharge Time: 1.15 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Diamond Crossbow",
+        "tag": "Weapon",
+        "description": "Used for shooting Arrows at players. Can be charged for a quick fire.",
+        "content": "Crafting: 4 Diamonds, 1 Cotton, 2 Sticks, 2 Iron Bars\nDamage: 60\nNeed Workbench: Yes\nCharge Time: 1.15 seconds\nUsage: Ranged PvP combat.\nStackable: No"
+    },
+    {
+        "title": "Wood Armor",
+        "tag": "Armor",
+        "description": "Provides basic protection. Can be dyed with Flowers for aesthetic purposes.",
+        "content": "Crafting Materials: 28 Wood Planks\nProtection: 40% (Full Set)\nStackable: No"
+    },
+    {
+        "title": "Iron Armor",
+        "tag": "Armor",
+        "description": "Provides moderate protection.",
+        "content": "Crafting Materials: 28 Iron Bars\nProtection: 54% (Full Set)\nStackable: No"
+    },
+    {
+        "title": "Gold Armor",
+        "tag": "Armor",
+        "description": "Provides high protection.",
+        "content": "Crafting Materials: 28 Gold Bars\nProtection: 70% (Full Set)\nStackable: No"
+    },
+    {
+        "title": "Diamond Armor",
+        "tag": "Armor",
+        "description": "Provides the highest protection.",
+        "content": "Crafting Materials: 28 Diamonds\nProtection: 80% (Full Set)\nStackable: No"
+    },
+    {
+        "title": "Wood Hang Glider",
+        "tag": "Hang Glider",
+        "description": "Used for gliding through the air.",
+        "content": "Crafting Materials: 6 Wood Planks, 4 Cotton\nMax Stack: 1\nStackable: No"
+    },
+    {
+        "title": "Iron Hang Glider",
+        "tag": "Hang Glider",
+        "description": "Used for gliding through the air. Faster than Wood Hang Glider.",
+        "content": "Crafting Materials: 4 Iron Bars, 4 Wood Planks, 4 Cotton\nMax Stack: 1\nStackable: No"
+    },
+    {
+        "title": "Gold Hang Glider",
+        "tag": "Hang Glider",
+        "description": "Used for gliding through the air. Faster than Iron Hang Glider.",
+        "content": "Crafting Materials: 4 Gold Bars, 4 Wood Planks, 4 Cotton\nMax Stack: 1\nStackable: No"
+    },
+    {
+        "title": "Diamond Hang Glider",
+        "tag": "Hang Glider",
+        "description": "Used for gliding through the air. Fastest Hang Glider.",
+        "content": "Crafting Materials: 4 Diamonds, 4 Wood Planks, 4 Cotton\nMax Stack: 1\nStackable: No"
+    }
+]

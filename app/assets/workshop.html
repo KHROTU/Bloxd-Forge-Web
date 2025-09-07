@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Workshop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff6b39;
+            --primary-hover: #ff8c5a;
+            --primary-light: rgba(255, 107, 57, 0.1);
+            --background-dark: #1b1a1a;
+            --background-darker: #161515;
+            --surface-color: #262525;
+            --surface-hover: #2d2c2c;
+            --border-color: #3a3939;
+            --border-light: #4a4949;
+            --text-primary: #e0e0e0;
+            --text-secondary: #c0bebe;
+            --text-muted: #888;
+            --text-accent: #ff8c5a;
+            --success-color: #4ade80;
+            --warning-color: #fbbf24;
+            --error-color: #ef4444;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.25);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+            background: var(--background-dark);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-primary);
+        }
+        body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            background: linear-gradient(135deg, #1b1a1a 0%, #171616 50%, #1a1919 100%);
+            min-height: 100vh;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 32px;
+            background: linear-gradient(135deg, var(--surface-color) 0%, #242323 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 24px;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-hover), #ffb380);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.025em;
+        }
+        #packCount {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-left: 12px;
+            background: var(--primary-light);
+            padding: 4px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 107, 57, 0.2);
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+        }
+        .search-container {
+            position: relative;
+            width: 60%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+        }
+        #searchInput {
+            padding: 16px 24px 16px 56px;
+            font-size: 1rem;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-color);
+            background: var(--background-darker);
+            color: var(--text-primary);
+            outline: none;
+            width: 100%;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        #searchInput::placeholder {
+            color: var(--text-muted);
+        }
+        #searchInput:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 57, 0.2), inset 0 2px 8px rgba(0, 0, 0, 0.2);
+            background: var(--surface-color);
+        }
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            z-index: 1;
+        }
+        #itemGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 28px;
+            padding: 20px 0 60px 0;
+            container-type: inline-size;
+        }
+        .hero-section {
+            margin-bottom: 48px;
+            background: linear-gradient(135deg, var(--surface-color) 0%, #252424 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+        }
+        .hero-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            min-height: 400px;
+        }
+        .hero-main {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: linear-gradient(145deg, var(--background-darker), #1a1919);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+        .hero-main:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: var(--shadow-xl);
+        }
+        .hero-sidebar {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+        }
+        .hero-small {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: linear-gradient(145deg, var(--background-darker), #1a1919);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+        .hero-small:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+        .hero-card-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .hero-small .hero-card-image {
+            height: 120px;
+        }
+        .hero-card:hover .hero-card-image {
+            transform: scale(1.05);
+        }
+        .hero-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 32px 24px 24px 24px;
+            color: white;
+        }
+        .hero-small .hero-card-content {
+            padding: 24px 20px 20px 20px;
+        }
+        .hero-card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-small .hero-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .hero-card-author {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-small .hero-card-author {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        .hero-card-description {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.9);
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-small .hero-card-description {
+            font-size: 0.9rem;
+            -webkit-line-clamp: 1;
+        }
+        .hero-pin-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 107, 57, 0.95);
+            color: white;
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+        }
+        .hero-download-btn {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            padding: 10px 16px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+        }
+        .hero-download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        @media (max-width: 968px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto;
+            }
+            .hero-sidebar {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr;
+            }
+        }
+        @media (max-width: 640px) {
+            .hero-section {
+                padding: 24px 20px;
+            }
+            .hero-sidebar {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+            .hero-card-content {
+                padding: 20px 16px 16px 16px;
+            }
+        }
+        .item-card {
+            background: linear-gradient(145deg, var(--surface-color), #212020);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+        .item-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--border-light);
+            background: linear-gradient(145deg, var(--surface-hover), #252424);
+        }
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        .pin-icon {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 10;
+            background: rgba(255, 107, 57, 0.9);
+            color: white;
+            padding: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .item-card:hover .item-image {
+            transform: scale(1.05);
+        }
+        .item-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 16px;
+        }
+        .item-title {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--text-accent);
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.025em;
+        }
+        .item-author {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: -12px;
+            font-weight: 500;
+        }
+        
+        .item-description-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .item-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            font-weight: 400;
+            margin: 0;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 4.95em;
+        }
+
+        .item-description.expanded {
+            -webkit-line-clamp: unset;
+            max-height: 1000px;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .read-more-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .read-more-btn:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        .item-footer {
+            margin-top: auto;
+            padding: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.025em;
+        }
+        .download-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            background: linear-gradient(135deg, var(--primary-hover) 0%, #ff9d6b 100%);
+        }
+        .grid-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 40px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+        .grid-message i {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            color: var(--primary-color);
+            opacity: 0.8;
+        }
+        .grid-message h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        .grid-message p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.6;
+        }
+        .loading-spinner {
+            width: 56px;
+            height: 56px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px auto;
+            box-shadow: var(--shadow-sm);
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            .header { flex-direction: column; gap: 16px; }
+            .search-container { width: 100%; }
+            #itemGrid { grid-template-columns: 1fr; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .item-card { animation: fadeIn 0.5s ease forwards; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-text">Workshop<span id="packCount"></span></div>
+        </div>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input id="searchInput" type="search" placeholder="Search packs by title, author..." />
+        </div>
+    </div>
+
+    <div id="heroSection" class="hero-section" style="display: none;">
+        <h2 class="hero-title">Featured Packs</h2>
+        <p class="hero-subtitle">Discover our most popular and highly-rated content packs</p>
+        <div id="heroGrid" class="hero-grid">
+            <!-- Hero cards will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <div id="itemGrid"></div>
+
+    <script>
+        // Listen for messages from parent window about user type
+        window.addEventListener('message', function(event) {
+          if (event.data && event.data.action) {
+            if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
+              console.log('Pro user detected - no ads to hide on workshop page');
+            } else if (event.data.action === 'showAds') {
+              console.log('Free user detected - no ads to show on workshop page');
+            }
+          }
+        });
+        
+        // Local data configuration - no Firebase needed
+        // Pack data embedded directly in HTML
+        let allTpacks = [
+            {
+                id: "monochrome",
+                title: "Chrome Mono",
+                author: "BloxdForge",
+                description: "Chrome Mono is one of the best texture packs for Bloxd.io, offering a premium experience with sleek monochrome visuals. Transform your gaming experience with high-quality textures that provide both style and clarity.",
+                imageUrl: "data/packs/Monochrome/Monochrome.jpg",
+                downloadUrl: "data/packs/Monochrome/Monochrome8x.zip",
+                pinned: true
+            },
+            {
+                id: "blo3d",
+                title: "Blo3D",
+                author: "BloxdForge",
+                description: "A pack that makes every block and item in the game look 3D! Experience Bloxd.io like never before with stunning three-dimensional visuals that bring depth and realism to your gameplay.",
+                imageUrl: "data/packs/Blo3D/Blo3D.jpg",
+                downloadUrl: "data/packs/Blo3D/Blo3D.zip",
+                pinned: true
+            },
+            {
+                id: "sleekslots",
+                title: "SleekSlots",
+                author: "BloxdForge",
+                description: "Make your inventory smaller and easier to use! This streamlined UI pack optimizes your inventory interface for better accessibility and improved gameplay experience.",
+                imageUrl: "data/packs/Sleekslots/SleekSlots.jpg",
+                downloadUrl: "data/packs/Sleekslots/SleekSlots.zip",
+                pinned: true
+            },
+            {
+                id: "burnt16",
+                title: "Burnt16",
+                author: "Endur",
+                description: "Pink themed pack with nice textures, a skybox, nice UI, and models. Made for PvP and bedwars with stunning visual enhancements that give you the competitive edge.",
+                imageUrl: "data/packs/Burnt16/Burnt16.jpg",
+                downloadUrl: "data/packs/Burnt16/Burnt16x.zip",
+                pinned: false
+            },
+            {
+                id: "fadefyre",
+                title: "FadeFyre VX1",
+                author: "Infernal",
+                description: "FadeFyre VX1 is a texture pack that includes a detailed skybox, custom models, improved textures, and a redesigned HUD for items. The wool textures are also well-made, adding more depth to builds.",
+                imageUrl: "data/packs/FadeFyre/FadeFyre.jpg",
+                downloadUrl: "data/packs/FadeFyre/FadeFyreVX1.zip",
+                pinned: false
+            },
+            {
+                id: "hyperxray",
+                title: "HyperXray",
+                author: "BloxdForge",
+                description: "The Hyper Xray enhances your gameplay by allowing you to easily see ores, making resource gathering more efficient. It also provides the ability to detect underground bases and helps you quickly identify murderers in Murder Mystery.",
+                imageUrl: "data/packs/HyperXray/HyperXray.jpg",
+                downloadUrl: "data/packs/HyperXray/HyperXray.zip",
+                pinned: false
+            },
+            {
+                id: "kosmos",
+                title: "Kosmos 128x",
+                author: "Infernal",
+                description: "Kosmos 128x is a high-resolution, visually appealing texture pack designed specifically for BedWars and SkyWars, enhancing gameplay with its refined aesthetics and crisp visual quality.",
+                imageUrl: "data/packs/Kosmos/Kosmos.jpg",
+                downloadUrl: "data/packs/Kosmos/Kosmos18x.zip",
+                pinned: false
+            },
+            {
+                id: "golde",
+                title: "Golde v2",
+                author: "Endur",
+                description: "Gold themed pack with nice textures. Made for PvP and bedwars with luxurious golden aesthetics that make your gameplay experience shine with elegance and style.",
+                imageUrl: "data/packs/golde/Golde v2.jpg",
+                downloadUrl: "data/packs/golde/Goldev2.zip",
+                pinned: false
+            }
+            // Add more packs here as needed
+        ];
+        const grid = document.getElementById('itemGrid');
+        const searchInput = document.getElementById('searchInput');
+        const packCountElement = document.getElementById('packCount');
+        
+        let currentSearchTerm = '';
+        let currentSortBy = 'pinned-alpha';
+
+        function renderHeroSection(packs) {
+            const heroSection = document.getElementById('heroSection');
+            const heroGrid = document.getElementById('heroGrid');
+            
+            // Filter for pinned packs
+            const pinnedPacks = packs.filter(pack => pack.pinned);
+            
+            if (pinnedPacks.length === 0) {
+                heroSection.style.display = 'none';
+                return;
+            }
+            
+            heroSection.style.display = 'block';
+            heroGrid.innerHTML = '';
+            
+            // Create main hero card (first pinned pack)
+            const mainPack = pinnedPacks[0];
+            const mainCard = document.createElement('div');
+            mainCard.className = 'hero-main hero-card';
+            mainCard.innerHTML = `
+                <img src="${mainPack.imageUrl}" alt="${mainPack.title} preview" class="hero-card-image">
+                <div class="hero-pin-badge">
+                    <i class="fas fa-star"></i>
+                    Featured
+                </div>
+                <div class="hero-card-content">
+                    <h3 class="hero-card-title">${mainPack.title}</h3>
+                    <p class="hero-card-author">by ${mainPack.author}</p>
+                    <p class="hero-card-description">${mainPack.description}</p>
+                </div>
+                <a href="${mainPack.downloadUrl}" class="hero-download-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-download"></i>
+                    Download
+                </a>
+            `;
+            heroGrid.appendChild(mainCard);
+            
+            // Create sidebar with smaller cards
+            const sidebar = document.createElement('div');
+            sidebar.className = 'hero-sidebar';
+            
+            // Add up to 2 more pinned packs in sidebar
+            for (let i = 1; i < Math.min(pinnedPacks.length, 3); i++) {
+                const pack = pinnedPacks[i];
+                const smallCard = document.createElement('div');
+                smallCard.className = 'hero-small hero-card';
+                smallCard.innerHTML = `
+                    <img src="${pack.imageUrl}" alt="${pack.title} preview" class="hero-card-image">
+                    <div class="hero-pin-badge">
+                        <i class="fas fa-thumbtack"></i>
+                        Featured
+                    </div>
+                    <div class="hero-card-content">
+                        <h3 class="hero-card-title">${pack.title}</h3>
+                        <p class="hero-card-author">by ${pack.author}</p>
+                        <p class="hero-card-description">${pack.description}</p>
+                    </div>
+                    <a href="${pack.downloadUrl}" class="hero-download-btn" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-download"></i>
+                    </a>
+                `;
+                sidebar.appendChild(smallCard);
+            }
+            
+            heroGrid.appendChild(sidebar);
+        }
+        
+        function renderPacks(packs, isSearchMode = false) {
+            // During search, show all packs including pinned ones
+            // During normal mode, filter out pinned packs (they're shown in hero section)
+            const packsToShow = isSearchMode ? packs : packs.filter(pack => !pack.pinned);
+            
+            if (!packsToShow || packsToShow.length === 0) {
+                const isEmpty = isSearchMode ? 
+                    (packs.length === 0) : 
+                    (allTpacks.filter(pack => !pack.pinned).length === 0);
+                const message = isEmpty ? 
+                    (isSearchMode ? 'No packs match your search' : 'No regular packs available') : 
+                    'No packs found';
+                const subtitle = isEmpty ? 
+                    (isSearchMode ? 'Try different search terms.' : 'Check out our featured packs above!') : 
+                    'Try adjusting your search or filters.';
+                    
+                grid.innerHTML = `
+                    <div class="grid-message">
+                        <i class="fas fa-search"></i>
+                        <h3>${message}</h3>
+                        <p>${subtitle}</p>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = '';
+            packsToShow.forEach((pack, index) => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.style.animationDelay = `${index * 0.05}s`;
+
+                card.innerHTML = `
+                    <div class="image-container">
+                        ${pack.pinned && isSearchMode ? '<i class="fa-solid fa-thumbtack pin-icon"></i>' : ''}
+                        <img src="${pack.imageUrl}" alt="${pack.title} preview" class="item-image">
+                    </div>
+                    <div class="item-content">
+                        <h3 class="item-title">${pack.title}</h3>
+                        <p class="item-author">by ${pack.author}</p>
+                        <div class="item-description-wrapper">
+                            <p class="item-description">${pack.description}</p>
+                            <button class="read-more-btn">Read More</button>
+                        </div>
+                        <div class="item-footer">
+                            <a href="${pack.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+
+                const description = card.querySelector('.item-description');
+                const readMoreBtn = card.querySelector('.read-more-btn');
+
+                if (description.scrollHeight > description.clientHeight) {
+                    readMoreBtn.style.display = 'block';
+
+                    readMoreBtn.addEventListener('click', () => {
+                        description.classList.toggle('expanded');
+                        if (description.classList.contains('expanded')) {
+                            readMoreBtn.textContent = 'Show Less';
+                        } else {
+                            readMoreBtn.textContent = 'Read More';
+                        }
+                    });
+                }
+            });
+        }
+        
+
+        function initializeData() {
+            // Sort with pinned first
+            allTpacks.sort((a, b) => {
+                if (a.pinned && !b.pinned) return -1;
+                if (!a.pinned && b.pinned) return 1;
+                return a.title.localeCompare(b.title);
+            });
+            
+            packCountElement.textContent = `(${allTpacks.length} Packs)`;
+            
+            // Render hero section with pinned packs
+            renderHeroSection(allTpacks);
+            
+            // Render main grid with non-pinned packs
+            renderPacks(allTpacks);
+        }
+        
+        // Enhanced search functionality
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            if (searchTerm) {
+                // Search through ALL packs (including pinned ones)
+                const filteredPacks = allTpacks.filter(pack =>
+                    pack.title.toLowerCase().includes(searchTerm) ||
+                    pack.author.toLowerCase().includes(searchTerm) ||
+                    pack.description.toLowerCase().includes(searchTerm)
+                );
+                
+                // Hide hero section during search
+                document.getElementById('heroSection').style.display = 'none';
+                
+                // Update count to show search results
+                packCountElement.textContent = `(${filteredPacks.length} of ${allTpacks.length} Packs)`;
+                
+                // Render search results (including pinned packs in results)
+                renderPacks(filteredPacks, true); // true = search mode
+            } else {
+                // No search term - show normal layout
+                // Show hero section when not searching
+                renderHeroSection(allTpacks);
+                
+                // Reset count
+                packCountElement.textContent = `(${allTpacks.length} Packs)`;
+                
+                // Render normal layout (exclude pinned from main grid)
+                renderPacks(allTpacks, false); // false = normal mode
+            }
+        });
+        
+        initializeData();
+    </script>
+</body>
+</html>

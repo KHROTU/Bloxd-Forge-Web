@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coordinate Saver Grid</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body {
+    background: linear-gradient(145deg, #262525, #212020);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+    min-height: 100vh;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 25px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .grid input, .grid button {
+    border-radius: 15px;
+    border: 1px solid #3a3939;
+    background: #262525;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .grid input {
+    padding: 3vh;
+    text-align: center;
+  }
+
+  .orange-btn {
+    background: linear-gradient(45deg, #ff6b39, #ff8c5a) !important;
+    border: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .orange-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255,107,57,0.3);
+  }
+
+  /* Fullscreen modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 15, 15, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  .modal-content {
+    width: 90%;
+    max-width: 700px;
+    background: linear-gradient(145deg, #1f1e1e, #181818);
+    border: 1px solid #2a2929;
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .coord-item {
+    background: linear-gradient(145deg, #262525, #212020);
+    border: 1px solid #3a3939;
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .coord-item span {
+    font-size: 0.95rem;
+    color: #ddd;
+  }
+
+  .delete-btn {
+    background: #ff4b4b;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: white;
+  }
+
+  .delete-btn:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 500px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  ::-webkit-scrollbar {
+display: none;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="grid">
+    <input type="text" id="coordName" placeholder="Name">
+    <input type="number" id="coordX" placeholder="X">
+    <input type="number" id="coordY" placeholder="Y">
+    <input type="number" id="coordZ" placeholder="Z">
+    <button class="orange-btn" id="saveBtn">Save</button>
+    <button class="orange-btn" id="showBtn">Cords</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="coordsModal">
+  <div class="modal-content" id="coordsList"></div>
+</div>
+
+<script>
+const saveBtn = document.getElementById('saveBtn');
+const showBtn = document.getElementById('showBtn');
+const modal = document.getElementById('coordsModal');
+const coordsList = document.getElementById('coordsList');
+
+function loadCoords() {
+  coordsList.innerHTML = '';
+  const coords = JSON.parse(localStorage.getItem('coords') || '[]');
+  if(coords.length === 0){
+    coordsList.innerHTML = '<p>No coordinates saved yet.</p>';
+    return;
+  }
+  coords.forEach((c, index) => {
+    const div = document.createElement('div');
+    div.className = 'coord-item';
+    div.innerHTML = `<span>${c.name}: X=${c.x}, Y=${c.y}, Z=${c.z}</span>
+                     <button class="delete-btn">Delete</button>`;
+    div.querySelector('.delete-btn').addEventListener('click', () => {
+      coords.splice(index, 1);
+      localStorage.setItem('coords', JSON.stringify(coords));
+      loadCoords();
+    });
+    coordsList.appendChild(div);
+  });
+}
+
+saveBtn.addEventListener('click', () => {
+  const name = document.getElementById('coordName').value.trim();
+  const x = document.getElementById('coordX').value;
+  const y = document.getElementById('coordY').value;
+  const z = document.getElementById('coordZ').value;
+
+  if(!name || x === '' || y === '' || z === '') return alert('Fill all fields');
+
+  const coords = JSON.parse(localStorage.getItem('coords') || '[]');
+  coords.push({name, x, y, z});
+  localStorage.setItem('coords', JSON.stringify(coords));
+
+  document.getElementById('coordName').value = '';
+  document.getElementById('coordX').value = '';
+  document.getElementById('coordY').value = '';
+  document.getElementById('coordZ').value = '';
+});
+
+showBtn.addEventListener('click', () => {
+  loadCoords();
+  modal.style.display = 'flex';
+});
+
+modal.addEventListener('click', e => {
+  if(e.target === modal) modal.style.display = 'none';
+});
+</script>
+
+</body>
+</html>

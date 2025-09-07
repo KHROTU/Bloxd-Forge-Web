@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BloxdForge Window UI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #141313;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      padding: 20px;
+      gap: 20px;
+      justify-content: space-between;
+      align-items: stretch;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #1b1a1a, #191818);
+      border: 1px solid #2c2b2b;
+      border-radius: 35px;
+      padding: 24px 20px;
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      flex-shrink: 0;
+    }
+
+    .card {
+      background: linear-gradient(90deg, #262525, #242323);
+      border: 1px solid #3a3939;
+      padding: 16px 20px;
+      border-radius: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+      color: #e8e8e8;
+      font-weight: 500;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 107, 57, 0.1);
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.4rem;
+      color: #ff6b39;
+    }
+
+    .window {
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      width: 600px;
+      height: 400px;
+      min-width: 300px;
+      min-height: 200px;
+      border-radius: 16px;
+      border: 1px solid #2c2b2b;
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+      background: #000;
+      z-index: 1000;
+      resize: both;
+    }
+
+    .resize-handle {
+      position: absolute;
+      background: transparent;
+      z-index: 10;
+    }
+
+    .resize-handle-e {
+      cursor: e-resize;
+      width: 10px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .resize-handle-s {
+      cursor: s-resize;
+      height: 10px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .resize-handle-se {
+      cursor: se-resize;
+      width: 20px;
+      height: 20px;
+      right: 0;
+      bottom: 0;
+    }
+
+    .window-header {
+      background: #2c2c2c;
+      color: white;
+      padding: 8px 12px;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .fullscreen-btn, .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    
+    .fullscreen-btn:hover, .close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .window.fullscreen {
+      position: fixed;
+      z-index: 1000;
+      width: 100vw !important;
+      height: 100vh !important;
+      top: 0 !important;
+      left: 0 !important;
+      margin: 0 !important;
+      max-width: none !important;
+      max-height: none !important;
+    }
+
+    .window iframe {
+      width: 100%;
+      height: calc(100% - 40px);
+      border: none;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: #ff6b39;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .ad-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="desktop" style="flex: 1; position: relative;"></div>
+
+    <div class="ad-container">
+      <div class="ad">
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" alt="Ad"></iframe>
+      </div>
+      <div class="ad">
+        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" alt="Ad"></iframe>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="card" data-url="./data/iframes/editor.html">
+        <span class="card-title">Editor</span>
+        <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
+      </div>
+      <div class="card" data-url="./data/iframes/imgtobloxd.html">
+        <span class="card-title">Image to bloxd</span>
+        <div class="card-icon"><i class="fas fa-image"></i></div>
+      </div>
+      <div class="card" data-url="./data/iframes/creator.html">
+        <span class="card-title">Wiki</span>
+        <div class="card-icon"><i class="fas fa-book"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="ad-container">
+    <div class="ad">
+      <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" alt="Ad"></iframe>
+    </div>
+    <div class="ad">
+      <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" alt="Ad"></iframe>
+    </div>
+  </div>
+  <div class="ad-container">
+    <div class="ad">
+      <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" alt="Ad"></iframe>
+    </div>
+    <div class="ad">
+      <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" alt="Ad"></iframe>
+    </div>
+  </div>
+
+
+  <script>
+    const desktop = document.getElementById('desktop');
+    const cards = document.querySelectorAll('.card');
+    const adContainers = document.querySelectorAll('.ad-container');
+    
+    // Listen for messages from parent window about user type
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.action) {
+        if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
+          // Hide all ad containers for Pro users
+          adContainers.forEach(container => {
+            container.style.display = 'none';
+          });
+          console.log('Ads hidden for Pro user');
+        } else if (event.data.action === 'showAds') {
+          // Show all ad containers for Free users
+          adContainers.forEach(container => {
+            container.style.display = 'grid';
+          });
+          console.log('Ads shown for Free user');
+        }
+      }
+    });
+
+    const windowSizes = {
+      'Editor': { width: 68, height: 50, unit: 'vw' },
+      'Creator': { width: 70, height: 70, unit: 'vw' },
+      'Wiki': { width: 70, height: 70, unit: 'vw' }
+    };
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const url = card.getAttribute('data-url');
+        const title = card.querySelector('.card-title').textContent;
+        const size = windowSizes[title] || { width: 60, height: 60, unit: 'vw' }; // Default size with vw units
+        spawnWindow(url, size.width, size.height, title, size.unit || 'vw');
+      });
+    });
+
+    // Make element resizable
+    function makeResizable(element) {
+      const resizer = document.createElement('div');
+      resizer.className = 'resize-handle resize-handle-se';
+      element.appendChild(resizer);
+
+      // Create a cover element
+      const cover = document.createElement('div');
+      cover.className = 'resize-cover';
+      cover.style.display = 'none';
+      cover.style.position = 'absolute';
+      cover.style.top = '0';
+      cover.style.left = '0';
+      cover.style.width = '100%';
+      cover.style.height = '100%';
+      cover.style.zIndex = '1001';
+      cover.style.pointerEvents = 'none';
+      element.appendChild(cover);
+
+      resizer.addEventListener('mousedown', initResize, false);
+
+      function initResize(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Show cover and disable iframe pointer events
+        cover.style.display = 'block';
+        const iframe = element.querySelector('iframe');
+        if (iframe) {
+          iframe.style.pointerEvents = 'none';
+        }
+        
+        window.addEventListener('mousemove', resize, false);
+        window.addEventListener('mouseup', stopResize, { once: true });
+
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const startWidth = parseInt(document.defaultView.getComputedStyle(element).width, 10);
+        const startHeight = parseInt(document.defaultView.getComputedStyle(element).height, 10);
+
+        function resize(e) {
+          const newWidth = startWidth + e.clientX - startX;
+          const newHeight = startHeight + e.clientY - startY;
+          
+          if (newWidth > 300) {
+            element.style.width = newWidth + 'px';
+          }
+          
+          if (newHeight > 200) {
+            element.style.height = newHeight + 'px';
+          }
+        }
+
+        function stopResize() {
+          // Hide cover and re-enable iframe pointer events
+          cover.style.display = 'none';
+          const iframe = element.querySelector('iframe');
+          if (iframe) {
+            iframe.style.pointerEvents = 'auto';
+          }
+          window.removeEventListener('mousemove', resize, false);
+        }
+      }
+    }
+
+    function spawnWindow(url, width = 60, height = 60, title = 'Window', unit = 'vw') {
+      const win = document.createElement('div');
+      win.className = 'window';
+      win.style.width = `${width}${unit}`;
+      win.style.height = `${height}${unit}`;
+      win.innerHTML = `
+        <div class="window-header">
+          <span>${title}</span>
+          <div class="window-controls">
+            <button class="fullscreen-btn" title="Toggle Fullscreen">
+              <i class="fas fa-expand"></i>
+            </button>
+            <button class="close-btn" title="Close">&times;</button>
+          </div>
+        </div>
+        <iframe src="${url}"></iframe>
+      `;
+
+      const closeBtn = win.querySelector('.close-btn');
+      const fullscreenBtn = win.querySelector('.fullscreen-btn');
+      
+      closeBtn.addEventListener('click', () => win.remove());
+      
+      // Toggle fullscreen
+      fullscreenBtn.addEventListener('click', () => {
+        win.classList.toggle('fullscreen');
+        const icon = fullscreenBtn.querySelector('i');
+        if (win.classList.contains('fullscreen')) {
+          icon.classList.replace('fa-expand', 'fa-compress');
+          win.style.width = '100vw';
+          win.style.height = '100vh';
+          win.style.top = '0';
+          win.style.left = '0';
+          win.style.margin = '0';
+          win.style.maxWidth = 'none';
+          win.style.maxHeight = 'none';
+        } else {
+          icon.classList.replace('fa-compress', 'fa-expand');
+          // Restore original size
+          win.style.width = `${width}${unit}`;
+          win.style.height = `${height}${unit}`;
+          win.style.top = '';
+          win.style.left = '';
+          win.style.margin = '';
+          win.style.maxWidth = '';
+          win.style.maxHeight = '';
+        }
+      });
+
+      let offsetX, offsetY, isDragging = false;
+      const header = win.querySelector('.window-header');
+
+      header.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - win.offsetLeft;
+        offsetY = e.clientY - win.offsetTop;
+      });
+
+      document.addEventListener('mouseup', () => isDragging = false);
+      document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          win.style.left = `${e.clientX - offsetX}px`;
+          win.style.top = `${e.clientY - offsetY}px`;
+        }
+      });
+
+      desktop.appendChild(win);
+      makeResizable(win);
+    }
+  </script>
+
+</body>
+</html>

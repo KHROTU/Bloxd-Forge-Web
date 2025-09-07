@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BForge Agent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #262525, #212020);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 15px;
+            gap: 15px;
+        }
+
+        .chat-header {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #3a3939;
+            background: linear-gradient(145deg, #2e2e2e, #2a2a2a);
+            border-radius: 15px;
+        }
+
+        .chat-header h2 {
+            background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: messageSlide 0.3s ease;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+        }
+
+        .message.bot .message-avatar {
+            background: linear-gradient(45deg, #4a4949, #3a3939);
+        }
+
+        .message-content {
+            background: linear-gradient(145deg, #2e2e2e, #2a2a2a);
+            border: 1px solid #3a3939;
+            border-radius: 15px;
+            padding: 12px 16px;
+            max-width: 85%;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+            border-color: #ff8c5a;
+            color: white;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            border-top: 1px solid #3a3939;
+            background: linear-gradient(145deg, #2e2e2e, #2a2a2a);
+            border-radius: 15px;
+        }
+
+        .message-input {
+            flex: 1;
+            background: #262525;
+            border: 1px solid #3a3939;
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            resize: none;
+            min-height: 45px;
+            max-height: 120px;
+        }
+
+        .message-input::placeholder {
+            color: #666;
+        }
+
+        .message-input:focus {
+            border-color: #ff6b39;
+            box-shadow: 0 0 0 2px rgba(255, 107, 57, 0.2);
+        }
+
+        .send-button {
+            background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            align-self: flex-end;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 57, 0.4);
+        }
+
+        .send-button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: #aaa;
+            font-style: italic;
+            font-size: 0.85rem;
+            padding: 10px 0;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: #ff6b39;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; transform: scale(1); }
+            30% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .welcome-message {
+            text-align: center;
+            color: #aaa;
+            padding: 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .welcome-message .icon {
+            font-size: 2rem;
+            background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2><i class="fas fa-robot"></i> BForge Agent</h2>
+            <p>Your AI Assistant for Bloxd.io</p>
+        </div>
+
+        <div class="messages-container" id="messagesContainer">
+            <div class="welcome-message">
+                <p>Hello! I'm BForge Agent, your AI assistant for Bloxd.io.
+                I have access to the complete BForge wiki database.</p>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="message-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <span>BForge Agent is thinking</span>
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <textarea 
+                id="messageInput" 
+                class="message-input" 
+                placeholder="Ask me about..."
+                rows="1"
+            ></textarea>
+            <button id="sendButton" class="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        // Initialize chat system
+        class BForgeAgent {
+            constructor() {
+                this.messagesContainer = document.getElementById('messagesContainer');
+                this.messageInput = document.getElementById('messageInput');
+                this.sendButton = document.getElementById('sendButton');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                this.wikiData = null;
+                
+                this.initializeEvents();
+                this.loadWikiData();
+                this.testPuterConnection();
+            }
+
+            async testPuterConnection() {
+                // Wait a bit for Puter to load
+                setTimeout(() => {
+                    if (typeof puter === 'undefined') {
+                        console.error('Puter is not loaded!');
+                        this.addMessage('Warning: Puter AI library is not loaded. Please refresh the page.', false);
+                    } else if (!puter.ai) {
+                        console.error('Puter AI is not available!');
+                        this.addMessage('Warning: Puter AI service is not available.', false);
+                    } else {
+                        console.log('Puter AI is ready!');
+                    }
+                }, 2000);
+            }
+
+            async loadWikiData() {
+                try {
+                    // Load wiki data from the JSON file
+                    const response = await fetch('../wiki.json');
+                    this.wikiData = await response.json();
+                    console.log('Wiki data loaded:', this.wikiData?.length || 0, 'items');
+                } catch (error) {
+                    console.error('Failed to load wiki data:', error);
+                    this.wikiData = [];
+                }
+            }
+
+            initializeEvents() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.messageInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Auto-resize textarea
+                this.messageInput.addEventListener('input', () => {
+                    this.messageInput.style.height = 'auto';
+                    this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 120) + 'px';
+                });
+            }
+
+            addMessage(content, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+                
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = 'message-avatar';
+                avatarDiv.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                
+                // Handle different response formats from Puter AI
+                let textContent = '';
+                if (typeof content === 'string') {
+                    textContent = content;
+                } else if (content && typeof content === 'object') {
+                    // Handle Puter AI response object format
+                    if (content.message && content.message.content) {
+                        textContent = content.message.content;
+                    } else if (content.content) {
+                        textContent = content.content;
+                    } else if (content.text) {
+                        textContent = content.text;
+                    } else {
+                        // Fallback: stringify the object to see its structure
+                        textContent = JSON.stringify(content, null, 2);
+                        console.log('Unexpected response format:', content);
+                    }
+                } else {
+                    textContent = 'Empty response received';
+                }
+                
+                contentDiv.innerHTML = textContent.replace(/\n/g, '<br>');
+                
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(contentDiv);
+                
+                // Remove welcome message if it exists
+                const welcomeMsg = this.messagesContainer.querySelector('.welcome-message');
+                if (welcomeMsg) {
+                    welcomeMsg.remove();
+                }
+                
+                this.messagesContainer.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            showTyping() {
+                this.typingIndicator.style.display = 'flex';
+                this.scrollToBottom();
+            }
+
+            hideTyping() {
+                this.typingIndicator.style.display = 'none';
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 100);
+            }
+
+            getRelevantWikiData(userMessage) {
+                if (!this.wikiData || this.wikiData.length === 0) {
+                    return [];
+                }
+                
+                const lowerMessage = userMessage.toLowerCase();
+                const keywords = lowerMessage.split(/\s+/).filter(word => word.length > 2);
+                
+                // Find relevant items based on keywords with improved matching
+                const relevantItems = this.wikiData.filter(item => {
+                    const itemText = `${item.title} ${item.description} ${item.content} ${item.tag}`.toLowerCase();
+                    
+                    // Check for exact phrase matches first
+                    if (itemText.includes(lowerMessage)) {
+                        return true;
+                    }
+                    
+                    // Check if all keywords are present (for multi-word searches like "moonstone pickaxe")
+                    const allKeywordsMatch = keywords.every(keyword => itemText.includes(keyword));
+                    if (allKeywordsMatch && keywords.length > 1) {
+                        return true;
+                    }
+                    
+                    // Check individual keywords for single word searches
+                    return keywords.some(keyword => itemText.includes(keyword));
+                }).slice(0, 15); // Increased limit to 15 for better coverage
+                
+                console.log('Search query:', lowerMessage);
+                console.log('Keywords:', keywords);
+                console.log('Found relevant items:', relevantItems.length);
+                console.log('Relevant items:', relevantItems.map(item => item.title));
+                
+                // If no specific matches, return a sample of different categories
+                if (relevantItems.length === 0) {
+                    const categories = ['Tool', 'Weapon', 'Armor', 'Food', 'Natural Block'];
+                    const samples = [];
+                    categories.forEach(category => {
+                        const categoryItems = this.wikiData.filter(item => item.tag === category);
+                        if (categoryItems.length > 0) {
+                            samples.push(categoryItems[0]); // Add one item from each category
+                        }
+                    });
+                    console.log('No matches found, using category samples:', samples.map(item => item.title));
+                    return samples;
+                }
+                
+                return relevantItems;
+            }
+
+            createSystemPrompt(userMessage, useFullWiki = false, relevantWikiData = []) {
+                let wikiContext;
+                let contextDescription;
+                
+                if (useFullWiki) {
+                    wikiContext = this.wikiData && this.wikiData.length > 0 ? 
+                        JSON.stringify(this.wikiData, null, 2) : 'No wiki data available.';
+                    contextDescription = 'Here is the COMPLETE Bloxd.io wiki database:';
+                } else {
+                    wikiContext = relevantWikiData.length > 0 ? 
+                        JSON.stringify(relevantWikiData, null, 2) : 'No specific wiki data found for your query.';
+                    contextDescription = 'Here is relevant Bloxd.io wiki information for the user\'s question:';
+                }
+                
+                return [
+                    {
+                        role: 'system',
+                        content: `You are BForge Agent, an AI assistant specialized in helping users with Bloxd.io.
+                        
+${contextDescription}
+${wikiContext}
+
+Guidelines:
+- You have to use the info given to you to explain the info to the user do not use markdown
+- Provide helpful, accurate information based on the ${useFullWiki ? 'complete' : ''} wiki data provided
+- Be friendly and conversational
+- ${useFullWiki ? 'You have access to the complete database, so you can answer questions about any items, crafting recipes, tools, weapons, armor, etc.' : 'If asked about items not in the wiki data provided, mention that you don\'t have that specific information but offer to help with what you do know'}
+- Keep responses concise but informative
+- Use the information from the wiki data to answer questions about crafting recipes, item stats, etc.
+- Do not use markdown formatting like ** or # or bullets, use plain text only
+- When a user asks about a thing (like "diamond"), check if there's a more specific related item (like "diamond ore"). Give answers using the related, more precise item instead of the general term, if the user says "diamond" just answer the question as if the user asked about "diamond ore".
+- Avoid random tangents unless the user asks for extra info.
+- Give answers that are most closely related to the user's question.
+- Be more concise and to the point
+- Be nice and patient
+- Focus on being helpful with Bloxd.io questions`
+                    },
+                    {
+                        role: 'user',
+                        content: userMessage
+                    }
+                ];
+            }
+
+            async sendMessage() {
+                const message = this.messageInput.value.trim();
+                if (!message) return;
+
+                // Disable input
+                this.messageInput.disabled = true;
+                this.sendButton.disabled = true;
+
+                // Add user message
+                this.addMessage(message, true);
+                
+                // Clear input
+                this.messageInput.value = '';
+                this.messageInput.style.height = 'auto';
+
+                // Show typing indicator
+                this.showTyping();
+
+                try {
+                    // Check if Puter is available
+                    if (typeof puter === 'undefined') {
+                        throw new Error('Puter is not loaded');
+                    }
+                    
+                    if (!puter.ai) {
+                        throw new Error('Puter AI is not available');
+                    }
+                    
+                    console.log('Puter AI available, sending request...');
+                    console.log('Wiki data loaded:', this.wikiData ? this.wikiData.length : 0, 'items');
+                    
+                    let response;
+                    let messages;
+                    
+                    try {
+                        // First attempt: Try with complete wiki data
+                        console.log('Attempting to use full wiki database...');
+                        messages = this.createSystemPrompt(message, true);
+                        console.log('Sending full wiki messages:', messages.length, 'messages');
+                        response = await puter.ai.chat(messages);
+                        console.log('Full wiki request successful!');
+                        
+                    } catch (fullWikiError) {
+                        console.log('Full wiki failed, trying filtered approach:', fullWikiError.message);
+                        
+                        // Fallback: Use filtered relevant data
+                        const relevantWikiData = this.getRelevantWikiData(message);
+                        messages = this.createSystemPrompt(message, false, relevantWikiData);
+                        console.log('Sending filtered messages:', messages.length, 'messages, items:', relevantWikiData.length);
+                        response = await puter.ai.chat(messages);
+                        console.log('Filtered wiki request successful!');
+                    }
+                    
+                    console.log('Got response:', response);
+                    console.log('Response type:', typeof response);
+                    console.log('Response structure:', JSON.stringify(response, null, 2));
+                    
+                    // Hide typing and add bot response
+                    this.hideTyping();
+                    this.addMessage(response);
+                    
+                } catch (error) {
+                    console.error('Detailed AI Error:', {
+                        message: error.message,
+                        stack: error.stack,
+                        puterAvailable: typeof puter !== 'undefined',
+                        puterAiAvailable: typeof puter !== 'undefined' && !!puter.ai
+                    });
+                    this.hideTyping();
+                    
+                    let errorMsg = "Sorry, I'm having trouble connecting to my AI brain right now. ";
+                    if (typeof puter === 'undefined') {
+                        errorMsg += "Puter library is not loaded. ";
+                    } else if (!puter.ai) {
+                        errorMsg += "Puter AI service is not available. ";
+                    } else {
+                        errorMsg += "Please try again in a moment! Error: " + error.message;
+                    }
+                    
+                    this.addMessage(errorMsg, false);
+                }
+
+                // Re-enable input
+                this.messageInput.disabled = false;
+                this.sendButton.disabled = false;
+                this.messageInput.focus();
+            }
+        }
+
+        // Initialize the chat when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new BForgeAgent();
+        });
+    </script>
+</body>
+</html>

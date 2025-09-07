@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloxdForge - TPack Editor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #141313;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e0e0e0;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      padding: 20px;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top right, #1e1c1c, #141313);
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #1b1a1a 0%, #191818 100%);
+      border: 1px solid #2c2b2b;
+      border-radius: 35px;
+      padding: 24px 20px;
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      flex-shrink: 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #ff6b3944, transparent);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #2c2b2b;
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .logo span {
+      color: #a0a0a0;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    .main-content {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .canvas-container {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #111;
+      border-radius: 35px;
+      border: 1.5px solid #2c2b2b;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    canvas {
+      background-image: linear-gradient(to bottom, #171717, #151515);
+      border: 0.6px solid #2c2b2b;
+      cursor: crosshair;
+      border-radius: 5px;
+      transition: all 0.4s;
+    }
+
+    canvas:hover {
+      cursor: crosshair;
+      border: 0.6px solid #ff6b39;
+    }
+
+    .tools-section {
+      background: linear-gradient(180deg, #1b1a1a 0%, #191818 100%);
+      border: 1px solid #2c2b2b;
+      border-radius: 35px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .card {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #3a3939;
+      padding: 16px 20px;
+      border-radius: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+      border-color: #4a4949;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      color: #e8e8e8;
+      font-weight: 500;
+      z-index: 1;
+    }
+
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 107, 57, 0.1);
+      border-radius: 14px;
+      margin-left: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.6rem;
+      color: #ff6b39;
+      z-index: 1;
+    }
+
+    .active-card {
+      background: linear-gradient(90deg, #ff6b39 0%, #ff8c5a 100%) !important;
+      border: 1px solid #f78c5a !important;
+      color: #fff !important;
+      font-weight: bold !important;
+    }
+
+    .active-card .card-title {
+      color: #fff !important;
+    }
+
+    .active-card .card-icon {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .tool-btn {
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #444343;
+      border-radius: 18px;
+      padding: 12px;
+      font-size: 1.2rem;
+      color: #e8e8e8;
+      cursor: pointer;
+      width: 100%;
+      height: 10vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      aspect-ratio: 1;
+    }
+
+    .tool-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      color: #ff8c5a;
+      border-color: #ff6b39;
+    }
+
+    .active-btn {
+      background: linear-gradient(145deg, #ff6b39, #e55a2e) !important;
+      border: 1px solid #f78c5a !important;
+      color: #fff !important;
+    }
+
+    .color-section {
+      background: linear-gradient(180deg, #1b1a1a 0%, #191818 100%);
+      border: 1px solid #2c2b2b;
+      border-radius: 35px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      height: 100%;
+    }
+
+    .color-picker-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    #color-picker {
+      width: 100%;
+      height: 50px;
+      padding: 5px;
+      background: #262525;
+      border: 1px solid #444343;
+      border-radius: 18px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    #color-picker:hover {
+      border-color: #ff6b39;
+    }
+
+    .color-input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .color-text-input {
+      width: 100%;
+      padding: 12px;
+      background: #262525;
+      color: #fff;
+      border: 1px solid #444343;
+      border-radius: 18px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .color-text-input:focus {
+      outline: none;
+      border-color: #ff6b39;
+    }
+
+    .color-text-input.invalid {
+      border-color: #ff6b6b;
+    }
+
+    #custom-colors {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .color-box {
+      width: 100%;
+      aspect-ratio: 1;
+      cursor: pointer;
+      border: 2px solid #444343;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .color-box:hover {
+      transform: scale(1.05);
+      border: 2px solid #fff;
+    }
+
+    .file-list-container {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 5px;
+      margin: 15px 0;
+    }
+
+    .file-list-container::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .file-list-container::-webkit-scrollbar-thumb {
+      background: #ff6b39;
+      border-radius: 10px;
+    }
+
+    #file-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #file-list li {
+      padding: 12px 15px;
+      cursor: pointer;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #3a3939;
+    }
+
+    #file-list li:hover {
+      background: linear-gradient(90deg, #2d2b2b 0%, #2a2929 100%);
+      border-color: #4a4949;
+    }
+
+    .upload-btn {
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #444343;
+      border-radius: 18px;
+      padding: 15px;
+      color: #e8e8e8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      font-weight: 500;
+    }
+
+    .upload-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      color: #ff8c5a;
+      border-color: #ff6b39;
+    }
+
+    #folder-input {
+      display: none;
+    }
+
+    .bottom-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .cube-btn {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #444343;
+      border-radius: 18px;
+      font-size: 1.6rem;
+      font-weight: bold;
+      line-height: 0;
+      color: #ff6b39;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .cube-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      color: #ff8c5a;
+    }
+
+    .long-btn {
+      flex: 1;
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #444343;
+      border-radius: 18px;
+      padding: 0 12px;
+      font-size: 1.6rem;
+      font-weight: bold;
+      line-height: 0;
+      color: #e8e8e8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .long-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .active-btn {
+      background: linear-gradient(145deg, #ff6b39, #e55a2e) !important;
+      border: 1px solid #f78c5a !important;
+      color: #fff !important;
+    }
+
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #ff6b39;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #error-message {
+      color: #ff6b6b;
+      text-align: center;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .tooltip {
+      position: relative;
+    }
+
+    .tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff6b39;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      margin-bottom: 8px;
+    }
+
+    .tooltip:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    h3, h4 {
+      margin: 0 0 15px 0;
+      color: #e8e8e8;
+      font-weight: 500;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .section-title i {
+      color: #ff6b39;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-overlay">
+    <div id="loading-spinner"></div>
+  </div>
+  <div id="error-message">
+    An error occurred. Please try again.
+  </div>
+
+  <div class="container">
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+
+        <span>TPACK EDITOR</span>
+      </div>
+      
+      <div class="section-title">
+        <h3>Textures:</h3>
+      </div>
+      
+      <div class="file-list-container">
+        <ul id="file-list"></ul>
+      </div>
+      
+      <button id="upload-folder-btn" class="upload-btn tooltip" data-tooltip="Upload texture images">
+        <i class="fas fa-upload"></i>&nbsp; Upload Textures
+      </button>
+      <input type="file" id="folder-input" accept="image/png" multiple directory style="display: none;" />
+      
+      <div class="bottom-buttons">
+        <button style="display: none;" class="cube-btn tooltip" id="fullscreenBtn" data-tooltip="Toggle fullscreen">
+          <i style="display: none;" class="fas fa-expand"></i>
+        </button>
+        <button style="display: none;" class="long-btn active-btn">
+          <i style="display: none;" class="fas fa-home"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="canvas-container">
+        <canvas id="canvas" width="500" height="500"></canvas>
+      </div>
+      
+      <div class="tools-section">
+        <div class="card tooltip" data-tooltip="Basic drawing tool">
+          <span class="card-title">Pencil Tool</span>
+          <div class="card-icon"><i class="fas fa-pencil-alt"></i></div>
+        </div>
+        
+        <div class="tool-grid">
+          <button id="undo-btn" class="tool-btn tooltip" data-tooltip="Undo last action">
+            <i class="fas fa-undo"></i>
+          </button>
+          <button id="darken-tool" class="tool-btn tooltip" data-tooltip="Darken areas">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="lighten-tool" class="tool-btn tooltip" data-tooltip="Lighten areas">
+            <i class="fas fa-sun"></i>
+          </button>
+          <button id="eraser-tool" class="tool-btn tooltip" data-tooltip="Erase parts of texture">
+            <i class="fas fa-eraser"></i>
+          </button>
+          <button id="eyedropper-tool" class="tool-btn tooltip" data-tooltip="Pick color from texture">
+            <i class="fas fa-eye-dropper"></i>
+          </button>
+          <button id="save-btn" class="tool-btn tooltip active-btn" data-tooltip="Save texture">
+            <i class="fas fa-save"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="color-section">
+      <div class="section-title">
+        <h3>Color Palette</h3>
+      </div>
+      
+      <div class="color-picker-container">
+        <input type="color" id="color-picker">
+        
+        <div class="color-input-container">
+          <input type="text" id="color-text-input" class="color-text-input" maxlength="7" placeholder="Hex Color">
+        </div>
+      </div>
+      
+      <h4>Custom Colors</h4>
+      <div id="custom-colors"></div>
+      
+      <button id="add-color-btn" class="upload-btn tooltip" data-tooltip="Add current color to palette">
+        <i class="fas fa-plus"></i>&nbsp; Add Color
+      </button>
+    </div>
+  </div>
+
+</body>
+</html>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+  <script>
+  (() => {
+  // DOM elements
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const fileList = document.getElementById('file-list');
+  const folderInput = document.getElementById('folder-input');
+  const uploadFolderBtn = document.getElementById('upload-folder-btn');
+
+  const colorPicker = document.getElementById('color-picker');
+  const colorTextInput = document.getElementById('color-text-input');
+  const customColorsContainer = document.getElementById('custom-colors');
+  const addColorBtn = document.getElementById('add-color-btn');
+
+  const undoBtn = document.getElementById('undo-btn');
+  const darkenBtn = document.getElementById('darken-tool');
+  const lightenBtn = document.getElementById('lighten-tool');
+  const eraserBtn = document.getElementById('eraser-tool');
+  const eyedropperBtn = document.getElementById('eyedropper-tool');
+  const saveBtn = document.getElementById('save-btn');
+
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+  // Tools state
+  let currentTool = 'pencil'; // pencil default
+  let selectedColor = '#ff6b39';
+  let customColors = [];
+
+  // Undo stack
+  const undoStack = [];
+  const MAX_UNDO = 20;
+
+  // Currently loaded image info
+  let currentImage = null; // ImageData of the current texture
+  let textureSize = 16; // 8 or 16 pixels side length (default 16)
+  let currentFileName = 'texture.png'; // Track current file name
+  
+  // Canvas size is 500x500 (fixed), so pixel scale is:
+  const CANVAS_SIZE = 500;
+  let pixelScale = CANVAS_SIZE / textureSize; // size of one pixel block on canvas
+
+  // Disable image smoothing for pixel art crispness
+  ctx.imageSmoothingEnabled = false;
+
+  // Helper: draw image data on canvas scaled up (nearest neighbor)
+  function drawTexture(imageData) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Put original image at (0,0)
+    // We'll scale pixels up manually
+    // Let's do per-pixel drawing for best control:
+
+    // Create an offscreen canvas to hold the small texture
+    const off = document.createElement('canvas');
+    off.width = textureSize;
+    off.height = textureSize;
+    const offCtx = off.getContext('2d');
+    offCtx.putImageData(imageData, 0, 0);
+
+    // Draw scaled on main canvas
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(off, 0, 0, textureSize, textureSize, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  }
+
+  // Helper: create blank transparent image data for given texture size
+  function createBlankTexture(size) {
+    return ctx.createImageData(size, size);
+  }
+
+  // Helper: push current canvas state to undo stack
+  function pushUndo() {
+    if (!currentImage) return;
+    if (undoStack.length >= MAX_UNDO) undoStack.shift();
+    // Save a copy of currentImage (clone ImageData)
+    undoStack.push(new ImageData(new Uint8ClampedArray(currentImage.data), currentImage.width, currentImage.height));
+  }
+
+  // Helper: apply undo
+  function undo() {
+    if (undoStack.length === 0) return;
+    currentImage = undoStack.pop();
+    drawTexture(currentImage);
+  }
+
+  // Helper: update pixel at (x, y) with RGBA color
+  function setPixel(imageData, x, y, rgba) {
+    if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) return;
+    const idx = (y * imageData.width + x) * 4;
+    imageData.data[idx] = rgba[0];
+    imageData.data[idx + 1] = rgba[1];
+    imageData.data[idx + 2] = rgba[2];
+    imageData.data[idx + 3] = rgba[3];
+  }
+
+  // Helper: get pixel color at (x,y) RGBA array
+  function getPixel(imageData, x, y) {
+    if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) return [0,0,0,0];
+    const idx = (y * imageData.width + x) * 4;
+    return [
+      imageData.data[idx],
+      imageData.data[idx + 1],
+      imageData.data[idx + 2],
+      imageData.data[idx + 3],
+    ];
+  }
+
+  // Convert hex to rgba array [r,g,b,255]
+  function hexToRgba(hex) {
+    if (!hex || hex[0] !== '#' || (hex.length !== 7 && hex.length !== 4)) return [0,0,0,255];
+    if (hex.length === 7) {
+      return [
+        parseInt(hex.substr(1,2), 16),
+        parseInt(hex.substr(3,2), 16),
+        parseInt(hex.substr(5,2), 16),
+        255,
+      ];
+    } else if (hex.length === 4) {
+      return [
+        parseInt(hex[1] + hex[1], 16),
+        parseInt(hex[2] + hex[2], 16),
+        parseInt(hex[3] + hex[3], 16),
+        255,
+      ];
+    }
+  }
+
+  // Convert RGBA to hex string (ignore alpha)
+  function rgbaToHex(rgba) {
+    const r = rgba[0].toString(16).padStart(2, '0');
+    const g = rgba[1].toString(16).padStart(2, '0');
+    const b = rgba[2].toString(16).padStart(2, '0');
+    return `#${r}${g}${b}`;
+  }
+
+  // Check if hex string is valid
+  function isValidHex(hex) {
+    return /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(hex);
+  }
+
+  // Tool handlers
+
+  // We'll track if mouse is down and current tool action
+  let mouseDown = false;
+
+  // Convert canvas pixel coords to texture pixel coords
+  function getTextureCoords(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+
+    const tx = Math.floor(x / pixelScale);
+    const ty = Math.floor(y / pixelScale);
+    return { tx, ty };
+  }
+
+  // Draw pixel depending on tool
+  function drawAtPixel(x, y) {
+    if (!currentImage) return;
+
+    switch (currentTool) {
+      case 'pencil': {
+        const rgba = hexToRgba(selectedColor);
+        setPixel(currentImage, x, y, rgba);
+        break;
+      }
+      case 'eraser': {
+        // Eraser clears pixel (transparent)
+        setPixel(currentImage, x, y, [0, 0, 0, 0]);
+        break;
+      }
+      case 'darken': {
+        const px = getPixel(currentImage, x, y);
+        const darkened = darkenColor(px, 0.15);
+        setPixel(currentImage, x, y, darkened);
+        break;
+      }
+      case 'lighten': {
+        const px = getPixel(currentImage, x, y);
+        const lightened = lightenColor(px, 0.15);
+        setPixel(currentImage, x, y, lightened);
+        break;
+      }
+      // eyedropper handled separately
+    }
+  }
+
+  // Color manipulation helpers
+
+  // Convert RGBA to HSL (0-1 ranges)
+  function rgbaToHsl(rgba) {
+    let r = rgba[0]/255, g = rgba[1]/255, b = rgba[2]/255;
+    let max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+      h = s = 0; // achromatic
+    } else {
+      let d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch(max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
+    }
+    return [h, s, l];
+  }
+
+  // Convert HSL to RGBA (alpha = original alpha)
+  function hslToRgba(h, s, l, alpha=255) {
+    let r, g, b;
+
+    if (s === 0) {
+      r = g = b = l; // achromatic
+    } else {
+      function hue2rgb(p, q, t) {
+        if(t < 0) t += 1;
+        if(t > 1) t -= 1;
+        if(t < 1/6) return p + (q - p) * 6 * t;
+        if(t < 1/2) return q;
+        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+      }
+      let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      let p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1/3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1/3);
+    }
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), alpha];
+  }
+
+  // Darken pixel by amount (0-1)
+  function darkenColor(rgba, amount) {
+    if (rgba[3] === 0) return rgba; // transparent no change
+    let [h,s,l] = rgbaToHsl(rgba);
+    l = Math.max(0, l - amount);
+    return hslToRgba(h, s, l, rgba[3]);
+  }
+
+  // Lighten pixel by amount (0-1)
+  function lightenColor(rgba, amount) {
+    if (rgba[3] === 0) return rgba;
+    let [h,s,l] = rgbaToHsl(rgba);
+    l = Math.min(1, l + amount);
+    return hslToRgba(h, s, l, rgba[3]);
+  }
+
+  // Handle mouse events on canvas
+  function onPointerDown(e) {
+    mouseDown = true;
+    const { tx, ty } = getTextureCoords(e.clientX, e.clientY);
+    if (tx < 0 || ty < 0 || tx >= textureSize || ty >= textureSize) return;
+
+    if (currentTool === 'eyedropper') {
+      const px = getPixel(currentImage, tx, ty);
+      if (px[3] !== 0) {
+        selectedColor = rgbaToHex(px);
+        updateColorInputs(selectedColor);
+      }
+      setActiveTool('pencil'); // switch back to pencil after eyedropper
+      return;
+    }
+
+    pushUndo();
+    drawAtPixel(tx, ty);
+    drawTexture(currentImage);
+  }
+
+  function onPointerMove(e) {
+    if (!mouseDown) return;
+    const { tx, ty } = getTextureCoords(e.clientX, e.clientY);
+    if (tx < 0 || ty < 0 || tx >= textureSize || ty >= textureSize) return;
+
+    if (currentTool !== 'eyedropper') {
+      drawAtPixel(tx, ty);
+      drawTexture(currentImage);
+    }
+  }
+
+  function onPointerUp(e) {
+    mouseDown = false;
+  }
+
+  // Sync color picker and hex input
+  function updateColorInputs(hex) {
+    if (isValidHex(hex)) {
+      colorPicker.value = hex;
+      colorTextInput.value = hex.toUpperCase();
+      colorTextInput.classList.remove('invalid');
+    } else {
+      colorTextInput.classList.add('invalid');
+    }
+  }
+
+  // Add a custom color box
+  function addCustomColor(hex) {
+    if (!isValidHex(hex)) return;
+    if (customColors.includes(hex.toUpperCase())) return; // no duplicates
+
+    customColors.push(hex.toUpperCase());
+    renderCustomColors();
+  }
+
+  // Render custom colors grid
+  function renderCustomColors() {
+    customColorsContainer.innerHTML = '';
+    customColors.forEach(color => {
+      const div = document.createElement('div');
+      div.className = 'color-box';
+      div.style.backgroundColor = color;
+      div.title = color;
+      div.addEventListener('click', () => {
+        selectedColor = color;
+        updateColorInputs(color);
+      });
+      customColorsContainer.appendChild(div);
+    });
+  }
+
+  // Load texture image into canvas
+  function loadTexture(img) {
+    textureSize = img.width;
+    if (textureSize !== 8 && textureSize !== 16) {
+      alert('Texture must be 8x8 or 16x16 pixels');
+      return;
+    }
+
+    pixelScale = CANVAS_SIZE / textureSize;
+
+    // Draw image on offscreen canvas at native size
+    const off = document.createElement('canvas');
+    off.width = textureSize;
+    off.height = textureSize;
+    const offCtx = off.getContext('2d');
+    offCtx.clearRect(0, 0, textureSize, textureSize);
+    offCtx.drawImage(img, 0, 0);
+
+    // Get ImageData
+    currentImage = offCtx.getImageData(0, 0, textureSize, textureSize);
+    undoStack.length = 0; // clear undo
+    drawTexture(currentImage);
+  }
+
+  // Handle files selected for upload
+  function handleFiles(files) {
+    for (const file of files) {
+      if (!file.type.startsWith('image/png')) continue;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = () => {
+          addFileToList(file.name, img);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Add file to file list UI
+  function addFileToList(name, img) {
+    const li = document.createElement('li');
+    li.textContent = name;
+    li.title = `Load ${name}`;
+    li.addEventListener('click', () => {
+      loadTexture(img);
+      currentFileName = name; // Remember the file name when loading
+      highlightActiveFile(li);
+    });
+    fileList.appendChild(li);
+  }
+
+  // Highlight active file in list
+  function highlightActiveFile(activeLi) {
+    [...fileList.children].forEach(li => li.classList.remove('active-btn'));
+    activeLi.classList.add('active-btn');
+  }
+
+  // Tool selection UI update
+  const toolButtons = {
+    pencil: null,
+    undo: undoBtn,
+    darken: darkenBtn,
+    lighten: lightenBtn,
+    eraser: eraserBtn,
+    eyedropper: eyedropperBtn,
+    save: saveBtn
+  };
+
+  // Only pencil is a card, tools are buttons, so set active class accordingly
+  function setActiveTool(toolName) {
+    currentTool = toolName;
+
+    // Update pencil card active style
+    document.querySelectorAll('.card').forEach(card => {
+      if (card.querySelector('.card-title').textContent.toLowerCase().includes(toolName)) {
+        card.classList.add('active-card');
+      } else {
+        card.classList.remove('active-card');
+      }
+    });
+
+    // Update tool buttons active style
+    [undoBtn, darkenBtn, lightenBtn, eraserBtn, eyedropperBtn, saveBtn].forEach(btn => {
+      btn.classList.remove('active-btn');
+    });
+
+    if (toolName !== 'pencil' && toolName !== 'save' && toolButtons[toolName]) {
+      toolButtons[toolName].classList.add('active-btn');
+    }
+  }
+
+  // Save canvas as PNG (scaled down to original texture size)
+  function saveTexture() {
+    if (!currentImage) return;
+    const off = document.createElement('canvas');
+    off.width = textureSize;
+    off.height = textureSize;
+    const offCtx = off.getContext('2d');
+
+    offCtx.putImageData(currentImage, 0, 0);
+
+    off.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      // Use the current file name or fallback to a generated name
+      a.download = currentFileName || `texture_${textureSize}x${textureSize}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }, 'image/png');
+  }
+
+  // Fullscreen toggle for canvas container
+  fullscreenBtn.addEventListener('click', () => {
+    const container = document.querySelector('.canvas-container');
+    if (!document.fullscreenElement) {
+      container.requestFullscreen().catch(err => alert(`Error attempting to enable fullscreen: ${err.message}`));
+    } else {
+      document.exitFullscreen();
+    }
+  });
+
+  // Initial tool card click handler (pencil)
+  document.querySelector('.card').addEventListener('click', () => {
+    setActiveTool('pencil');
+  });
+
+  // Tool buttons click handlers
+  undoBtn.addEventListener('click', () => {
+    undo();
+  });
+
+  darkenBtn.addEventListener('click', () => {
+    setActiveTool('darken');
+  });
+
+  lightenBtn.addEventListener('click', () => {
+    setActiveTool('lighten');
+  });
+
+  eraserBtn.addEventListener('click', () => {
+    setActiveTool('eraser');
+  });
+
+  eyedropperBtn.addEventListener('click', () => {
+    setActiveTool('eyedropper');
+  });
+
+  saveBtn.addEventListener('click', () => {
+    saveTexture();
+  });
+
+  // Color picker change sync
+  colorPicker.addEventListener('input', e => {
+    const val = e.target.value.toUpperCase();
+    selectedColor = val;
+    colorTextInput.value = val;
+  });
+
+  // Hex input change sync + validation
+  colorTextInput.addEventListener('input', e => {
+    const val = e.target.value;
+    if (isValidHex(val)) {
+      selectedColor = val.toUpperCase();
+      colorPicker.value = selectedColor;
+      colorTextInput.classList.remove('invalid');
+    } else {
+      colorTextInput.classList.add('invalid');
+    }
+  });
+
+  // Add custom color button
+  addColorBtn.addEventListener('click', () => {
+    if (isValidHex(selectedColor)) {
+      addCustomColor(selectedColor);
+    }
+  });
+
+  // Upload folder button triggers hidden input
+  uploadFolderBtn.addEventListener('click', () => {
+    folderInput.click();
+  });
+
+  // Handle folder input files
+  folderInput.addEventListener('change', e => {
+    if (e.target.files.length > 0) {
+      handleFiles(e.target.files);
+      e.target.value = ''; // reset input so same files can be re-uploaded if needed
+    }
+  });
+
+  // Canvas pointer events
+  canvas.addEventListener('pointerdown', onPointerDown);
+  canvas.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+
+  // Initialize default blank texture 16x16 on load
+  function init() {
+    currentImage = createBlankTexture(16);
+    textureSize = 16;
+    pixelScale = CANVAS_SIZE / textureSize;
+    drawTexture(currentImage);
+    setActiveTool('pencil');
+    updateColorInputs(selectedColor);
+    renderCustomColors();
+  }
+
+  init();
+
+})();
+
+  </script>
+</body>
+</html>
