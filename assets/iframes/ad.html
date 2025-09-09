@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Safe Ad</title>
+<title>Stacked Ads</title>
 <style>
   body {
     margin: 0;
     background-color: #181818;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 20px; /* space between ads */
     height: 100vh;
   }
   iframe {
@@ -19,6 +21,7 @@
 </head>
 <body>
 
+<!-- First Ad -->
 <iframe 
   width="160" 
   height="600" 
@@ -44,14 +47,31 @@
   ">
 </iframe>
 
-<script>
-
-window.addEventListener('popstate', (e) => {
-  if (location.href.includes('highperformanceformat.com')) {
-    history.go(1); 
-  }
-});
-</script>
+<!-- Second Ad -->
+<iframe 
+  width="468" 
+  height="60" 
+  sandbox="allow-scripts allow-same-origin allow-popups"
+  srcdoc="
+    <html>
+      <head>
+        <base target='_blank'>
+      </head>
+      <body style='margin:0;'>
+        <script>
+          atOptions = {
+            'key' : 'c740cacfdd45f165f304b024442d5b28',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        </script>
+        <script src='//www.highperformanceformat.com/c740cacfdd45f165f304b024442d5b28/invoke.js'></script>
+      </body>
+    </html>
+  ">
+</iframe>
 
 </body>
 </html>
