@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Stacked Ads</title>
+<title>Skibidi Ads</title>
 <style>
   body {
     margin: 0;
@@ -22,7 +22,7 @@
 <body>
 
 <!-- First Ad -->
-<iframe 
+<iframe id="ad1"
   width="160" 
   height="600" 
   sandbox="allow-scripts allow-same-origin allow-popups"
@@ -48,7 +48,7 @@
 </iframe>
 
 <!-- Second Ad -->
-<iframe 
+<iframe id="ad2"
   width="468" 
   height="60" 
   sandbox="allow-scripts allow-same-origin allow-popups"
@@ -72,6 +72,19 @@
     </html>
   ">
 </iframe>
+
+<script>
+  function refreshAd(id) {
+    const iframe = document.getElementById(id);
+    const srcdoc = iframe.srcdoc;
+    iframe.srcdoc = ''; // Clear first
+    setTimeout(() => { iframe.srcdoc = srcdoc; }, 50); // tiny delay to force reload
+  }
+
+  // Refresh every 30 seconds
+  setInterval(() => refreshAd('ad1'), 30000);
+  setInterval(() => refreshAd('ad2'), 30000);
+</script>
 
 </body>
 </html>
