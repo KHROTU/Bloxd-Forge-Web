@@ -284,9 +284,124 @@
             gap: 8px;
             transition: var(--transition);
             box-shadow: var(--shadow-md);
+            border: none;
+            cursor: pointer;
+        }
+        .hero-download-btn.small {
+            padding: 8px 12px;
+            font-size: 0.8rem;
         }
         .hero-download-btn:hover {
             transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        /* Hero card buttons */
+        .hero-card-buttons {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            gap: 10px;
+        }
+        .close-share-popup {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        .close-share-popup:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+        .share-pack-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        .share-pack-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            margin: 0 0 8px 0;
+        }
+        .share-pack-author {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin: 0 0 15px 0;
+        }
+        .share-pack-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 25px 0;
+        }
+        .share-url-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .share-url-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: var(--background-darker);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .share-url-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 107, 57, 0.2);
+        }
+        .copy-share-url-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .copy-share-url-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .share-download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.025em;
+        }
+        .share-download-btn:hover {
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
         }
         @media (max-width: 968px) {
@@ -499,6 +614,182 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        /* Button group styles */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        /* Share button styles */
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: #fff;
+            padding: 14px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.025em;
+            cursor: pointer;
+            flex: 1;
+            min-width: 0;
+        }
+        .share-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            background: linear-gradient(135deg, #7a8288, #5a6268);
+        }
+        /* Share popup styles */
+        .share-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+        .share-popup-content {
+            background: linear-gradient(145deg, var(--surface-color), #252424);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+        .share-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .share-popup-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        /* Hero card buttons */
+        .hero-card-buttons {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            gap: 10px;
+        }
+        .close-share-popup {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        .close-share-popup:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+        .share-pack-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        .share-pack-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            margin: 0 0 8px 0;
+        }
+        .share-pack-author {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin: 0 0 15px 0;
+        }
+        .share-pack-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 25px 0;
+        }
+        .share-url-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .share-url-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: var(--background-darker);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .share-url-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 107, 57, 0.2);
+        }
+        .copy-share-url-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .copy-share-url-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .share-download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.025em;
+        }
+        .share-download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
         @media (max-width: 768px) {
             body { padding: 15px; }
             .header { flex-direction: column; gap: 16px; }
@@ -532,6 +823,27 @@
     </div>
 
     <div id="itemGrid"></div>
+
+    <!-- Share Popup -->
+    <div id="sharePopup" class="share-popup">
+        <div class="share-popup-content">
+            <div class="share-popup-header">
+                <h2 class="share-popup-title">Share This Pack</h2>
+                <button class="close-share-popup">&times;</button>
+            </div>
+            <img id="sharePackImage" class="share-pack-image" src="" alt="Pack Preview">
+            <h3 id="sharePackTitle" class="share-pack-title"></h3>
+            <p id="sharePackAuthor" class="share-pack-author"></p>
+            <p id="sharePackDescription" class="share-pack-description"></p>
+            <div class="share-url-container">
+                <input type="text" id="shareUrlInput" class="share-url-input" readonly>
+                <button id="copyShareUrlBtn" class="copy-share-url-btn">Copy</button>
+            </div>
+            <a id="shareDownloadBtn" class="share-download-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-download"></i> Download Pack
+            </a>
+        </div>
+    </div>
 
     <script>
         // Listen for messages from parent window about user type
@@ -638,6 +950,60 @@
         let currentSearchTerm = '';
         let currentSortBy = 'pinned-alpha';
 
+        // Share popup elements
+        const sharePopup = document.getElementById('sharePopup');
+        const closeSharePopup = document.querySelector('.close-share-popup');
+        const sharePackImage = document.getElementById('sharePackImage');
+        const sharePackTitle = document.getElementById('sharePackTitle');
+        const sharePackAuthor = document.getElementById('sharePackAuthor');
+        const sharePackDescription = document.getElementById('sharePackDescription');
+        const shareUrlInput = document.getElementById('shareUrlInput');
+        const copyShareUrlBtn = document.getElementById('copyShareUrlBtn');
+        const shareDownloadBtn = document.getElementById('shareDownloadBtn');
+
+        // Close share popup when clicking the close button
+        closeSharePopup.addEventListener('click', () => {
+            sharePopup.style.display = 'none';
+        });
+
+        // Close share popup when clicking outside the content
+        sharePopup.addEventListener('click', (e) => {
+            if (e.target === sharePopup) {
+                sharePopup.style.display = 'none';
+            }
+        });
+
+        // Copy share URL to clipboard
+        copyShareUrlBtn.addEventListener('click', () => {
+            shareUrlInput.select();
+            document.execCommand('copy');
+            
+            // Show feedback
+            const originalText = copyShareUrlBtn.textContent;
+            copyShareUrlBtn.textContent = 'Copied!';
+            setTimeout(() => {
+                copyShareUrlBtn.textContent = originalText;
+            }, 2000);
+        });
+
+        // Function to show share popup for a pack
+        function showSharePopup(pack) {
+            sharePackImage.src = pack.imageUrl;
+            sharePackImage.alt = `${pack.title} preview`;
+            sharePackTitle.textContent = pack.title;
+            sharePackAuthor.textContent = `by ${pack.author}`;
+            sharePackDescription.textContent = pack.description;
+            
+            // Generate share URL
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?packname=${encodeURIComponent(pack.id)}`;
+            shareUrlInput.value = shareUrl;
+            
+            shareDownloadBtn.href = pack.downloadUrl;
+            
+            sharePopup.style.display = 'flex';
+        }
+
         function renderHeroSection(packs) {
             const heroSection = document.getElementById('heroSection');
             const heroGrid = document.getElementById('heroGrid');
@@ -695,7 +1061,7 @@
                         <p class="hero-card-author">by ${pack.author}</p>
                         <p class="hero-card-description">${pack.description}</p>
                     </div>
-                    <a href="${pack.downloadUrl}" class="hero-download-btn" target="_blank" rel="noopener noreferrer">
+                    <a href="${pack.downloadUrl}" class="hero-download-btn small" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-download"></i>
                     </a>
                 `;
@@ -703,22 +1069,24 @@
             }
             
             heroGrid.appendChild(sidebar);
+            
+            // Remove event listeners for share buttons in hero section since they're removed
         }
         
         function renderPacks(packs, isSearchMode = false) {
             // During search, show all packs including pinned ones
-            // During normal mode, filter out pinned packs (they're shown in hero section)
-            const packsToShow = isSearchMode ? packs : packs.filter(pack => !pack.pinned);
+            // During normal mode, show all packs (including pinned ones)
+            const packsToShow = packs; // Always show all packs in the grid
             
             if (!packsToShow || packsToShow.length === 0) {
                 const isEmpty = isSearchMode ? 
                     (packs.length === 0) : 
-                    (allTpacks.filter(pack => !pack.pinned).length === 0);
+                    (allTpacks.length === 0);
                 const message = isEmpty ? 
-                    (isSearchMode ? 'No packs match your search' : 'No regular packs available') : 
+                    (isSearchMode ? 'No packs match your search' : 'No packs available') : 
                     'No packs found';
                 const subtitle = isEmpty ? 
-                    (isSearchMode ? 'Try different search terms.' : 'Check out our featured packs above!') : 
+                    (isSearchMode ? 'Try different search terms.' : 'Check back later for new packs!') : 
                     'Try adjusting your search or filters.';
                     
                 grid.innerHTML = `
@@ -736,9 +1104,13 @@
                 card.className = 'item-card';
                 card.style.animationDelay = `${index * 0.05}s`;
 
+                // Determine if this is a pinned pack
+                const isPinned = pack.pinned;
+                const pinIcon = isPinned ? '<i class="fa-solid fa-thumbtack pin-icon"></i>' : '';
+
                 card.innerHTML = `
                     <div class="image-container">
-                        ${pack.pinned && isSearchMode ? '<i class="fa-solid fa-thumbtack pin-icon"></i>' : ''}
+                        ${pinIcon}
                         <img src="${pack.imageUrl}" alt="${pack.title} preview" class="item-image">
                     </div>
                     <div class="item-content">
@@ -749,9 +1121,14 @@
                             <button class="read-more-btn">Read More</button>
                         </div>
                         <div class="item-footer">
-                            <a href="${pack.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-download"></i> Download
-                            </a>
+                            <div class="button-group">
+                                <button class="share-btn" data-pack-id="${pack.id}">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                                <a href="${pack.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -772,6 +1149,13 @@
                         }
                     });
                 }
+
+                // Add event listener for share button
+                const shareBtn = card.querySelector('.share-btn');
+                shareBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showSharePopup(pack);
+                });
             });
         }
         
@@ -826,7 +1210,25 @@
             }
         });
         
+        // Check for packname parameter in URL and show popup if found
+        function checkForSharedPack() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const packName = urlParams.get('packname');
+            
+            if (packName) {
+                // Find the pack with the matching ID
+                const pack = allTpacks.find(p => p.id === packName);
+                
+                if (pack) {
+                    // Show the pack in the share popup
+                    showSharePopup(pack);
+                }
+            }
+        }
+        
+        // Initialize data and check for shared pack
         initializeData();
+        checkForSharedPack();
     </script>
 </body>
 </html>
