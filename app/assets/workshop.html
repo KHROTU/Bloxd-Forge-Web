@@ -282,8 +282,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border: none;
             cursor: pointer;
         }
@@ -292,8 +292,12 @@
             font-size: 0.8rem;
         }
         .hero-download-btn:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .hero-download-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         /* Hero card buttons */
         .hero-card-buttons {
@@ -557,20 +561,25 @@
             text-align: center;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
             color: #fff;
-            padding: 14px 24px;
+            padding: 12px 24px;
             border-radius: var(--radius-lg);
             text-decoration: none;
             font-weight: 700;
             font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.1);
             letter-spacing: 0.025em;
+            height: 50px;
         }
         .download-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             background: linear-gradient(135deg, var(--primary-hover) 0%, #ff9d6b 100%);
+        }
+        .download-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .grid-message {
             grid-column: 1 / -1;
@@ -627,23 +636,32 @@
             justify-content: center;
             background: linear-gradient(135deg, #6c757d, #495057);
             color: #fff;
-            padding: 14px;
+            padding: 22px;
             border-radius: var(--radius-lg);
             text-decoration: none;
             font-weight: 700;
             font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.1);
             letter-spacing: 0.025em;
             cursor: pointer;
             flex: 1;
             min-width: 0;
+            height: 50px;
         }
         .share-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             background: linear-gradient(135deg, #7a8288, #5a6268);
+        }
+        .share-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .share-btn i {
+            margin: 0;
+            font-size: 1.2rem;
         }
         /* Share popup styles */
         .share-popup {
