@@ -668,9 +668,24 @@
     </div>
   </div>
 
+  <!-- Worlds Modal -->
+  <div class="modal-overlay" id="worldsModal" style="display: none;">
+    <div class="modal-content" style="max-width: 1200px; width: 90%; padding: 0; overflow: hidden;">
+      <div style="background: linear-gradient(90deg, #2e2e2e, #2a2a2a); padding: 15px 20px; border-bottom: 1px solid #444343; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0; color: #e8e8e8; font-size: 1.5rem;">Try Something New</h2>
+        <button id="closeWorldsModal" style="background: none; border: none; color: #aaa; font-size: 1.8rem; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">×</button>
+      </div>
+      <div style="padding: 20px; max-height: 70vh; overflow-y: auto;">
+        <div id="worldsContainer" class="modal-grid" style="grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 20px;">
+          <!-- World cards will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="main-content" class="home-container">
     <div class="home-grid">
-      <button class="wide-button">
+      <button class="wide-button" id="trySomethingNewBtn">
         <i class="fas fa-dice"></i>
         Try Something New
       </button>
@@ -1321,6 +1336,127 @@
         });
       }
     });
+
+    // World data
+    const worldsData = [
+      {
+        id: 1,
+        title: "This menu is in works",
+        description: "PLACEHOLDER",
+        banner: "https://placehold.co/300x100/262525/ffffff?text=PLACEHOLDER",
+        url: "https://bloxd.io/world/placeholder"
+      },
+      {
+        id: 2,
+        title: "PLACEHOLDER",
+        description: "PLACEHOLDER",
+        banner: "https://placehold.co/300x100/262525/ffffff?text=PLACEHOLDER",
+        url: "https://bloxd.io/world/placeholder"
+      },
+      {
+        id: 3,
+        title: "PLACEHOLDER",
+        description: "PLACEHOLDER",
+        banner: "https://placehold.co/300x100/262525/ffffff?text=PLACEHOLDER",
+        url: "https://bloxd.io/world/placeholder"
+      },
+      {
+        id: 4,
+        title: "PLACEHOLDER",
+        description: "PLACEHOLDER",
+        banner: "https://placehold.co/300x100/262525/ffffff?text=PLACEHOLDER",
+        url: "https://bloxd.io/world/placeholder"
+      },
+      {
+        id: 5,
+        title: "PLACEHOLDER",
+        description: "PLACEHOLDER",
+        banner: "https://placehold.co/300x100/262525/ffffff?text=PLACEHOLDER",
+        url: "https://bloxd.io/world/placeholder"
+      },
+      {
+        id: 6,
+        title: "PLACEHOLDER",
+        description: "PLACEHOLDER",
+        banner: "https://placehold.co/300x100/262525/ffffff?text=PLACEHOLDER",
+        url: "https://bloxd.io/world/placeholder"
+      }
+    ];
+
+    // Function to populate world cards
+    function populateWorldCards() {
+      const container = document.getElementById('worldsContainer');
+      container.innerHTML = '';
+      
+      worldsData.forEach(world => {
+        const card = document.createElement('div');
+        card.className = 'world-card';
+        card.style.cssText = `
+          background: linear-gradient(145deg, #262525, #212020);
+          border: 1px solid #3a3939;
+          border-radius: 15px;
+          overflow: hidden;
+          display: flex;
+          height: 120px;
+          transition: all 0.3s ease;
+        `;
+        
+        card.innerHTML = `
+          <div style="width: 40%; height: 100%; overflow: hidden;">
+            <img src="${world.banner}" alt="${world.title}" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div style="width: 60%; padding: 15px; display: flex; flex-direction: column;">
+            <h3 style="margin: 0 0 8px 0; color: #e8e8e8; font-size: 1.1rem;">${world.title}</h3>
+            <p style="margin: 0; color: #bbb; font-size: 0.85rem; flex-grow: 1; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${world.description}</p>
+            <div style="margin-top: 10px; text-align: right;">
+              <button class="try-world-btn" data-url="${world.url}" style="
+                background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+                border: none;
+                color: white;
+                padding: 8px 15px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.3s ease;
+              ">Try</button>
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(card);
+      });
+      
+      // Add event listeners to try buttons
+      document.querySelectorAll('.try-world-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const url = this.getAttribute('data-url');
+          const iframe = document.querySelector('.fullscreen-frame');
+          iframe.src = url;
+          iframe.style.display = 'block';
+          document.getElementById('main-content').style.display = 'none';
+          document.getElementById('worldsModal').style.display = 'none';
+        });
+      });
+    }
+
+    // Event listener for Try Something New button
+    document.getElementById('trySomethingNewBtn').addEventListener('click', function() {
+      populateWorldCards();
+      document.getElementById('worldsModal').style.display = 'flex';
+    });
+
+    // Event listener for closing the worlds modal
+    document.getElementById('closeWorldsModal').addEventListener('click', function() {
+      document.getElementById('worldsModal').style.display = 'none';
+    });
+
+    // Close worlds modal when clicking outside
+    document.getElementById('worldsModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.style.display = 'none';
+      }
+    });
+
   </script>
 </body>
 </html>
