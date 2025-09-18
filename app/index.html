@@ -396,6 +396,92 @@ iframe.blurred {
   transform: translateY(5px);
   box-shadow: 0 5px 15px rgba(255, 107, 57, 0.4);
 }
+
+/* Pro Upgrade Popup Styles */
+.showpop {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(145deg, #ff6b39, #e55a2e);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  max-width: 300px;
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+}
+
+.showpop.show {
+  transform: translateX(0);
+}
+
+.showpop h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.showpop p {
+  margin: 0 0 15px 0;
+  font-size: 0.9rem;
+  color: #fff9f9;
+}
+
+.showpop-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.showpop-btn {
+  background: #ff8258;
+  box-shadow: 0 3px 0px #ec7a45;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  flex: 1;
+  text-align: center;
+}
+
+.showpop-btn:hover {
+  transform: translateY(2px);
+  box-shadow: 0 1px 5px rgba(255, 107, 57, 0.4);
+}
+
+.showpop-btn.try {
+  box-shadow: 0 3px 0px #ff8f5c;
+}
+
+.showpop-btn.try:hover {
+  transform: translateY(2px);
+  box-shadow: 0 1px 5px rgba(255, 200, 80, 0.4);
+}
+
+.showpop-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.showpop-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 a {
   color: white;
 }
@@ -403,6 +489,100 @@ a {
 /* Authentication System Styles */
 .auth-section {
   padding-top: 16px;
+}
+
+.auth-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-popup-content {
+  background: linear-gradient(145deg, #262525, #212020);
+  border: 1px solid #444343;
+  border-radius: 15px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.auth-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #444343;
+}
+
+.auth-popup-header h3 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 1.3rem;
+}
+
+.auth-popup-close {
+  background: none;
+  border: none;
+  color: #a0a0a0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.auth-popup-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.auth-popup-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upgrade-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #444343;
+}
+
+.upgrade-section h4 {
+  margin: 0 0 12px 0;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+#open-upgrade-btn {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+#code-input {
+  margin-bottom: 0;
+}
+
+#code-message.success {
+  color: #4ade80;
+}
+
+#code-message.error {
+  color: #f87171;
 }
 
 .auth-user-info {
@@ -414,49 +594,36 @@ a {
   gap: 10px;
   align-items: center;
   color: #e0e0e0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   margin-bottom: 12px;
   height: 70px;
 }
 
-.auth-controls {
-  background: linear-gradient(145deg, #262525, #212020);
-  border: 1px solid #444343;
-  border-radius: 15px;
-  padding: 16px;
-  flex-direction: column;
-  gap: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
-}
-
 .auth-menu-btn {
-  width: 24px;
-  height: 24px;
-  background: rgba(255, 107, 57, 0.1);
-  border: 1px solid #ff6b39;
-  border-radius: 6px;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #444343;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 12px;
-  color: #ff6b39;
+  font-size: 22px;
+  color: #a0a0a0;
   margin-left: auto;
 }
 
 .auth-menu-btn:hover {
-  background: rgba(255, 107, 57, 0.2);
-  transform: scale(1.1);
-  box-shadow: 0 2px 8px rgba(255, 107, 57, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .auth-menu-btn.active {
-  background: rgba(255, 107, 57, 0.3);
+  background: rgba(255, 255, 255, 0.3);
   color: #fff;
-  border-color: #ff8c5a;
-  transform: rotate(180deg);
+  border-color: #555454;
 }
 
 .auth-avatar {
@@ -471,7 +638,8 @@ a {
   color: #fff;
   flex-shrink: 0;
   transition: all 0.18s ease;
-  background: linear-gradient(135deg, #ff6b39, #ff8c5a);
+  background: linear-gradient(135deg, #262525, #1b1a1a);
+  border: 1px solid #444343;
 }
 
 .auth-avatar.vip {
@@ -515,30 +683,33 @@ a {
 }
 
 .auth-btn {
-  background: linear-gradient(145deg, #ff6b39, #e55a2e);
-  color: #fff;
-  border: none;
+  background: linear-gradient(145deg, #262525, #1b1a1a);
+  color: #e0e0e0;
+  border: 1px solid #444343;
   padding: 10px 16px;
   border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(255, 107, 57, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .auth-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 107, 57, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #2c2b2b, #212020);
 }
 
 .auth-btn.secondary {
-  background: linear-gradient(145deg, #3a3939, #2c2b2b);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #262525, #1b1a1a);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #444343;
 }
 
 .auth-btn.secondary:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #2c2b2b, #212020);
 }
 
 .profile-form {
@@ -572,8 +743,8 @@ a {
 
 .form-input:focus, .form-select:focus {
   outline: none;
-  border-color: #ff6b39;
-  box-shadow: 0 0 0 2px rgba(255, 107, 57, 0.1);
+  border-color: #555454;
+  box-shadow: 0 0 0 2px rgba(85, 84, 84, 0.1);
 }
 
 .form-input:disabled, .form-select:disabled {
@@ -586,6 +757,10 @@ a {
   color: #a0a0a0;
   text-align: center;
   margin-bottom: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid #444343;
 }
 
 .profile-actions {
@@ -623,6 +798,16 @@ a {
   <p>The advertisements are not affiliated with BloxdForge. Any actions you take in response to them are your own responsibility.<a href="https://www.bloxdforge.com/privacy" target="_blank">Privacy Policy</a>
   </p>
   <button id="closePopup">Never show up again</button>
+</div>
+
+<div class="showpop" id="showpop">
+  <button class="showpop-close" id="showpopClose">&times;</button>
+  <h3>Try BloxdForge Pro!</h3>
+  <p>No more ads and support the developers of BloxdForge, Its free!</p>
+  <div class="showpop-buttons">
+    <button class="showpop-btn" id="showpopDismiss">Dismiss</button>
+    <button class="showpop-btn try" id="showpopTry">Try Pro</button>
+  </div>
 </div>
 
 <body>
@@ -666,36 +851,59 @@ a {
               <i class="fas fa-cog"></i>
             </div>
           </div>
-          
-          <div class="auth-controls" id="auth-controls" style="display: none;">
-            <div class="auth-status" id="auth-status">signed out</div>
+        </div>
+        
+        <!-- Authentication Popup Menu -->
+        <div class="auth-popup" id="auth-popup" style="display: none;">
+          <div class="auth-popup-content">
+            <div class="auth-popup-header">
+              <h3>Account Settings</h3>
+              <button class="auth-popup-close" id="auth-popup-close">&times;</button>
+            </div>
             
-            <button class="auth-btn" id="sign-in-btn">Sign In</button>
-            <button class="auth-btn secondary" id="sign-out-btn" style="display: none;">Sign Out</button>
-            
-            <div class="profile-form" id="profile-form" style="display: none;">
-              <div class="form-group">
-                <label>Description</label>
-                <input class="form-input" id="profile-description" type="text" placeholder="Enter description" disabled />
-              </div>
+            <div class="auth-popup-body">
+              <div class="auth-status" id="auth-status">signed out</div>
               
-              <div class="form-group">
-                <label>Account Type</label>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <select class="form-select" id="profile-section" disabled>
-                    <option value="Free">Free</option>
-                    <option value="Pro">Pro</option>
-                  </select>
-                  <button class="auth-btn" id="upgrade-pro-btn" style="padding: 6px 12px; font-size: 12px;">Upgrade to Pro</button>
+              <button class="auth-btn" id="sign-in-btn">Sign In</button>
+              <button class="auth-btn secondary" id="sign-out-btn" style="display: none;">Sign Out</button>
+              
+              <div class="profile-form" id="profile-form" style="display: none;">
+                <div class="form-group">
+                  <label>Description</label>
+                  <input class="form-input" id="profile-description" type="text" placeholder="Enter description" disabled />
                 </div>
+                
+                <div class="form-group">
+                  <label>Account Type</label>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <select class="form-select" id="profile-section" disabled>
+                      <option value="Free">Free</option>
+                      <option value="Pro">Pro</option>
+                    </select>
+                    <button class="auth-btn" id="upgrade-pro-btn" style="padding: 6px 12px; font-size: 12px;">Upgrade</button>
+                  </div>
+                </div>
+                
+                <div class="profile-actions">
+                  <button class="auth-btn" id="save-profile-btn" disabled>Save</button>
+                  <button class="auth-btn secondary" id="load-profile-btn" disabled>Load</button>
+                </div>
+                
+                <div class="profile-data" id="profile-data"></div>
               </div>
               
-              <div class="profile-actions">
-                <button class="auth-btn" id="save-profile-btn" disabled>Save</button>
-                <button class="auth-btn secondary" id="load-profile-btn" disabled>Load</button>
+              <!-- Upgrade and Code Redemption Section -->
+              <div class="upgrade-section">
+                <h4>Upgrade Options</h4>
+                <button class="auth-btn" id="open-upgrade-btn">Upgrade with Ads</button>
+                
+                <h4>Redeem Code</h4>
+                <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                  <input type="text" class="form-input" id="code-input" placeholder="Enter code" />
+                  <button class="auth-btn" id="redeem-code-btn" style="padding: 8px 12px; font-size: 12px;">Redeem</button>
+                </div>
+                <div id="code-message" style="font-size: 12px; min-height: 18px;"></div>
               </div>
-              
-              <div class="profile-data" id="profile-data"></div>
             </div>
           </div>
         </div>
@@ -715,7 +923,6 @@ a {
     
     // DOM Elements
     const authUserInfo = document.getElementById('auth-user-info');
-    const authControls = document.getElementById('auth-controls');
     const authAvatar = document.getElementById('auth-avatar');
     const authUsername = document.getElementById('auth-username');
     const authUserRank = document.getElementById('auth-user-rank');
@@ -783,7 +990,28 @@ a {
       
     function updateUserRank(section) {
       if (section && (section === 'Pro' || section === 'Free')) {
-        authUserRank.textContent = section;
+        // Display expiration time for Pro users
+        if (section === 'Pro' && CURRENT_USER?.proExpiration) {
+          if (CURRENT_USER.proExpiration === 'forever') {
+            authUserRank.textContent = 'Pro';
+            authUserRank.style.color = '#ffc850'; // Gold color for forever Pro
+          } else {
+            const expirationTime = new Date(CURRENT_USER.proExpiration);
+            const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60))); // minutes
+            if (timeLeft > 60 * 24) { // More than 1 day
+              authUserRank.textContent = `Pro (${Math.floor(timeLeft / (60 * 24))}d)`;
+            } else if (timeLeft > 60) { // More than 1 hour
+              authUserRank.textContent = `Pro (${Math.floor(timeLeft / 60)}h)`;
+            } else {
+              authUserRank.textContent = `Pro (${timeLeft}m)`;
+            }
+            authUserRank.style.color = '#666'; // Reset to default color
+          }
+        } else {
+          authUserRank.textContent = section;
+          authUserRank.style.color = '#666'; // Reset to default color
+        }
+        
         authUserRank.className = `auth-user-rank ${section.toLowerCase()}`;
         authUserRank.style.display = 'block';
         
@@ -819,6 +1047,26 @@ a {
       if (!CURRENT_USER?.username) {
         console.log('No current user, returning Free');
         return 'Free';
+      }
+      
+      // Check if Pro status is forever or has expired
+      if (CURRENT_USER.userType === 'Pro' && CURRENT_USER.proExpiration) {
+        if (CURRENT_USER.proExpiration === 'forever') {
+          // Forever Pro status never expires
+          console.log('Forever Pro status, returning Pro');
+          return 'Pro';
+        }
+        
+        const expirationTime = new Date(CURRENT_USER.proExpiration);
+        if (Date.now() > expirationTime.getTime()) {
+          // Pro status has expired, downgrade to Free
+          console.log('Pro status expired, downgrading to Free');
+          CURRENT_USER.userType = 'Free';
+          delete CURRENT_USER.proExpiration;
+          saveToLocalStorage('bloxdforge-user', CURRENT_USER);
+          updateUserRank('Free');
+          return 'Free';
+        }
       }
       
       // Check CURRENT_USER object first (most reliable)
@@ -955,13 +1203,17 @@ a {
           profileData.textContent = 'No saved profile found.';
         }
         
+        // Close auth popup
+        document.getElementById('auth-popup').style.display = 'none';
+        authMenuBtn.classList.remove('active');
+        
         showNotification(`Welcome back, ${user.username}!`);
       } else {
         // User signed out - clear localStorage
         clearLocalStorage('bloxdforge-user');
         
         authUserInfo.style.display = 'flex';
-        authControls.style.display = 'none';
+        document.getElementById('auth-popup').style.display = 'none';
         authMenuBtn.classList.remove('active');
         authUsername.textContent = 'Not signed in';
         authUserRank.style.display = 'none';
@@ -1022,8 +1274,9 @@ a {
         }
         
         // Display simplified format
+        const expirationText = payload.section === 'Pro' && payload.proExpiration ? ' (Expires in 1 hour)' : '';
         profileData.style.display = 'block';
-        profileData.innerHTML = `Description: ${payload.description}\nAccount Type: ${payload.section}\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
+        profileData.innerHTML = `Description: ${payload.description}\nAccount Type: ${payload.section}${expirationText}\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
       } catch (e) {
         showNotification('Error saving profile');
         console.error(e);
@@ -1050,6 +1303,7 @@ a {
     // Make showEditForm globally accessible
     window.showEditForm = showEditForm;
     
+    // Upgrade user to Pro for 1 hour (existing function)
     async function upgradeUserToPro() {
       if (!CURRENT_USER?.username) {
         showNotification('Please sign in first');
@@ -1057,13 +1311,15 @@ a {
       }
       
       try {
-        // Update profile to Pro
+        // Update profile to Pro with expiration time (1 hour from now)
+        const expirationTime = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
         const payload = {
           description: profileDescription.value.trim() || 'Pro User',
           section: 'Pro',
           savedAt: new Date().toISOString(),
           app: 'BloxdForge',
-          upgradedAt: new Date().toISOString()
+          upgradedAt: new Date().toISOString(),
+          proExpiration: expirationTime.toISOString()
         };
         
         await puter.fs.write(filenameForUser(), JSON.stringify(payload, null, 2));
@@ -1073,9 +1329,10 @@ a {
         applyVipStyle('Pro');
         updateUserRank('Pro');
         
-        // Update stored user data with new type
+        // Update stored user data with new type and expiration
         if (CURRENT_USER) {
           CURRENT_USER.userType = 'Pro';
+          CURRENT_USER.proExpiration = expirationTime.toISOString();
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
         }
         
@@ -1085,12 +1342,126 @@ a {
         // Hide profile form and show display
         profileForm.style.display = 'none';
         profileData.style.display = 'block';
-        profileData.innerHTML = `Description: ${payload.description}\nAccount Type: Pro\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
+        profileData.innerHTML = `Description: ${payload.description}\nAccount Type: Pro (Expires in 1 hour)\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
         
-        showNotification('🎉 Congratulations! You are now a Pro user!');
+        // Update authUserRank to show expiration time
+        if (authUserRank) {
+          authUserRank.textContent = 'Pro (60m)';
+        }
+        
+        showNotification('🎉 Congratulations! You are now a Pro user for 1 hour!');
         
       } catch (e) {
         showNotification('Error upgrading to Pro');
+        console.error(e);
+      }
+    }
+    
+    // NEW FUNCTION: Upgrade user to Pro for 1 week
+    async function upgradeUserToProWeek() {
+      if (!CURRENT_USER?.username) {
+        showNotification('Please sign in first');
+        return;
+      }
+      
+      try {
+        // Update profile to Pro with expiration time (1 week from now)
+        const expirationTime = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 1 week from now
+        const payload = {
+          description: profileDescription.value.trim() || 'Pro User',
+          section: 'Pro',
+          savedAt: new Date().toISOString(),
+          app: 'BloxdForge',
+          upgradedAt: new Date().toISOString(),
+          proExpiration: expirationTime.toISOString()
+        };
+        
+        await puter.fs.write(filenameForUser(), JSON.stringify(payload, null, 2));
+        
+        // Update UI immediately
+        profileSection.value = 'Pro';
+        applyVipStyle('Pro');
+        updateUserRank('Pro');
+        
+        // Update stored user data with new type and expiration
+        if (CURRENT_USER) {
+          CURRENT_USER.userType = 'Pro';
+          CURRENT_USER.proExpiration = expirationTime.toISOString();
+          saveToLocalStorage('bloxdforge-user', CURRENT_USER);
+        }
+        
+        // Immediately apply Pro ad management
+        manageAdsForUserType('Pro');
+        
+        // Hide profile form and show display
+        profileForm.style.display = 'none';
+        profileData.style.display = 'block';
+        profileData.innerHTML = `Description: ${payload.description}\nAccount Type: Pro (Expires in 1 week)\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
+        
+        // Update authUserRank to show expiration time
+        if (authUserRank) {
+          const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60))); // minutes
+          authUserRank.textContent = `Pro (${Math.floor(timeLeft / 60)}h)`;
+        }
+        
+        showNotification('🎉 Congratulations! You are now a Pro user for 1 week!');
+        
+      } catch (e) {
+        showNotification('Error upgrading to Pro for 1 week');
+        console.error(e);
+      }
+    }
+    
+    // NEW FUNCTION: Upgrade user to Pro forever
+    async function upgradeUserToProForever() {
+      if (!CURRENT_USER?.username) {
+        showNotification('Please sign in first');
+        return;
+      }
+      
+      try {
+        // Update profile to Pro with no expiration time
+        const payload = {
+          description: profileDescription.value.trim() || 'Pro User',
+          section: 'Pro',
+          savedAt: new Date().toISOString(),
+          app: 'BloxdForge',
+          upgradedAt: new Date().toISOString(),
+          proExpiration: 'forever' // Special value indicating forever Pro
+        };
+        
+        await puter.fs.write(filenameForUser(), JSON.stringify(payload, null, 2));
+        
+        // Update UI immediately
+        profileSection.value = 'Pro';
+        applyVipStyle('Pro');
+        updateUserRank('Pro');
+        
+        // Update stored user data with new type and forever status
+        if (CURRENT_USER) {
+          CURRENT_USER.userType = 'Pro';
+          CURRENT_USER.proExpiration = 'forever';
+          saveToLocalStorage('bloxdforge-user', CURRENT_USER);
+        }
+        
+        // Immediately apply Pro ad management
+        manageAdsForUserType('Pro');
+        
+        // Hide profile form and show display
+        profileForm.style.display = 'none';
+        profileData.style.display = 'block';
+        profileData.innerHTML = `Description: ${payload.description}\nAccount Type: Pro (Forever)\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
+        
+        // Update authUserRank to show forever status
+        if (authUserRank) {
+          authUserRank.textContent = 'Pro';
+          authUserRank.style.color = '#ffc850'; // Gold color for forever Pro
+        }
+        
+        showNotification('🎉 Congratulations! You are now a Pro user forever!');
+        
+      } catch (e) {
+        showNotification('Error upgrading to Pro Forever');
         console.error(e);
       }
     }
@@ -1108,25 +1479,56 @@ a {
         try {
           const obj = JSON.parse(text);
           if (obj.description && obj.section) {
+            // Check if Pro status is forever or has expired
+            let userSection = obj.section;
+            if (obj.section === 'Pro' && obj.proExpiration) {
+              if (obj.proExpiration === 'forever') {
+                // Forever Pro status never expires
+                userSection = 'Pro';
+              } else {
+                const expirationTime = new Date(obj.proExpiration);
+                if (Date.now() > expirationTime.getTime()) {
+                  // Pro status has expired, downgrade to Free
+                  userSection = 'Free';
+                  showNotification('Your Pro status has expired. You have been downgraded to Free.');
+                }
+              }
+            }
+            
             // Data exists - hide profile creation form and show only display data
             profileForm.style.display = 'none';
             
             // Apply VIP styling if Pro
-            applyVipStyle(obj.section);
-            updateUserRank(obj.section);
+            applyVipStyle(userSection);
+            updateUserRank(userSection);
             
             // Update stored user data with loaded type
             if (CURRENT_USER) {
-              CURRENT_USER.userType = obj.section;
+              CURRENT_USER.userType = userSection;
+              if (obj.proExpiration && userSection === 'Pro') {
+                CURRENT_USER.proExpiration = obj.proExpiration;
+              } else {
+                delete CURRENT_USER.proExpiration;
+              }
               saveToLocalStorage('bloxdforge-user', CURRENT_USER);
             }
             
             // Immediately apply ad management after loading profile
-            manageAdsForUserType(obj.section);
+            manageAdsForUserType(userSection);
             
             // Display only description and account type with edit button
+            let expirationText = '';
+            if (userSection === 'Pro' && obj.proExpiration) {
+              if (obj.proExpiration === 'forever') {
+                expirationText = ' (Forever)';
+              } else {
+                const expirationTime = new Date(obj.proExpiration);
+                const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60))); // minutes
+                expirationText = ` (Expires in ${timeLeft} minutes)`;
+              }
+            }
             profileData.style.display = 'block';
-            profileData.innerHTML = `Description: ${obj.description}\nAccount Type: ${obj.section}\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
+            profileData.innerHTML = `Description: ${obj.description}\nAccount Type: ${userSection}${expirationText}\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
             
             showNotification('Profile loaded successfully!');
           } else {
@@ -1139,19 +1541,49 @@ a {
             
             if (obj.description) profileDescription.value = obj.description;
             if (obj.section) {
-              profileSection.value = obj.section;
-              applyVipStyle(obj.section);
-              updateUserRank(obj.section);
+              // Check if Pro status is forever or has expired
+              let userSection = obj.section;
+              if (obj.section === 'Pro' && obj.proExpiration) {
+                if (obj.proExpiration === 'forever') {
+                  // Forever Pro status never expires
+                  userSection = 'Pro';
+                } else {
+                  const expirationTime = new Date(obj.proExpiration);
+                  if (Date.now() > expirationTime.getTime()) {
+                    // Pro status has expired, downgrade to Free
+                    userSection = 'Free';
+                  }
+                }
+              }
+              
+              profileSection.value = userSection;
+              applyVipStyle(userSection);
+              updateUserRank(userSection);
               
               // Update stored user data with loaded type
               if (CURRENT_USER) {
-                CURRENT_USER.userType = obj.section;
+                CURRENT_USER.userType = userSection;
+                if (obj.proExpiration && userSection === 'Pro') {
+                  CURRENT_USER.proExpiration = obj.proExpiration;
+                } else {
+                  delete CURRENT_USER.proExpiration;
+                }
                 saveToLocalStorage('bloxdforge-user', CURRENT_USER);
               }
             }
             
             profileData.style.display = 'block';
-            profileData.textContent = 'Profile incomplete. Please update your information.';
+            let profileText = 'Profile incomplete. Please update your information.';
+            if (userSection === 'Pro' && obj.proExpiration) {
+              if (obj.proExpiration === 'forever') {
+                profileText += '\nPro status: Forever';
+              } else {
+                const expirationTime = new Date(obj.proExpiration);
+                const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60))); // minutes
+                profileText += `\nPro status expires in ${timeLeft} minutes.`;
+              }
+            }
+            profileData.textContent = profileText;
           }
         } catch (parseError) {
           profileForm.style.display = 'block';
@@ -1226,24 +1658,31 @@ a {
       manageAdsForUserType(e.target.value);
     });
     
-    // Toggle auth controls when clicking the menu button
+    // Toggle auth popup when clicking the menu button
     authMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const isOpen = authControls.style.display === 'flex';
-      authControls.style.display = isOpen ? 'none' : 'flex';
+      const authPopup = document.getElementById('auth-popup');
+      const isOpen = authPopup.style.display === 'flex';
       
-      // Update menu button appearance
       if (isOpen) {
+        authPopup.style.display = 'none';
         authMenuBtn.classList.remove('active');
       } else {
+        authPopup.style.display = 'flex';
         authMenuBtn.classList.add('active');
       }
     });
     
-    // Close auth controls when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!authUserInfo.contains(e.target) && !authControls.contains(e.target)) {
-        authControls.style.display = 'none';
+    // Close auth popup when clicking the close button
+    document.getElementById('auth-popup-close').addEventListener('click', () => {
+      document.getElementById('auth-popup').style.display = 'none';
+      authMenuBtn.classList.remove('active');
+    });
+    
+    // Close auth popup when clicking outside
+    document.getElementById('auth-popup').addEventListener('click', (e) => {
+      if (e.target.id === 'auth-popup') {
+        e.target.style.display = 'none';
         authMenuBtn.classList.remove('active');
       }
     });
@@ -1253,6 +1692,8 @@ a {
       if (event.data && event.data.source === 'upgrade-page') {
         if (event.data.action === 'upgradeToPro') {
           upgradeUserToPro();
+        } else if (event.data.action === 'upgradeToProForever') {
+          upgradeUserToProForever();
         } else if (event.data.action === 'closeUpgrade') {
           // Close the upgrade iframe/window if it exists
           const upgradeFrame = document.getElementById('upgrade-frame');
@@ -1263,7 +1704,7 @@ a {
       }
     });
     
-    // Upgrade Pro button functionality
+    // Handle claim Pro button
     if (upgradeProBtn) {
       upgradeProBtn.addEventListener('click', function() {
         if (!CURRENT_USER?.username) {
@@ -1316,11 +1757,201 @@ a {
       });
     }
     
+    // Open Upgrade iframe button
+    document.getElementById('open-upgrade-btn').addEventListener('click', function() {
+      if (!CURRENT_USER?.username) {
+        showNotification('Please sign in first');
+        return;
+      }
+      
+      // Create and show upgrade page in iframe
+      const upgradeFrame = document.createElement('iframe');
+      upgradeFrame.id = 'upgrade-frame';
+      upgradeFrame.src = './assets/upgrade-pro.html';
+      upgradeFrame.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        border: none;
+        z-index: 10000;
+        background: #1b1a1a;
+      `;
+      
+      document.body.appendChild(upgradeFrame);
+      
+      // Add close button
+      const closeBtn = document.createElement('button');
+      closeBtn.innerHTML = '×';
+      closeBtn.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10001;
+        background: #ff6b39;
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      `;
+      
+      closeBtn.addEventListener('click', function() {
+        upgradeFrame.remove();
+        closeBtn.remove();
+      });
+      
+      document.body.appendChild(closeBtn);
+    });
+    
+    // Code Redemption Functionality
+    document.getElementById('redeem-code-btn').addEventListener('click', function() {
+      const codeInput = document.getElementById('code-input');
+      const codeMessage = document.getElementById('code-message');
+      const code = codeInput.value.trim().toUpperCase();
+      
+      // Clear previous messages
+      codeMessage.textContent = '';
+      codeMessage.className = '';
+      
+      if (!code) {
+        codeMessage.textContent = 'Please enter a code';
+        codeMessage.className = 'error';
+        return;
+      }
+      
+      // codes
+      const validCodes = {
+        'ILF67': { type: 'pro_forever', description: 'Pro status forever' },
+        'Bf-7': { type: 'pro_week', description: 'Pro status for 1 week' },
+        'CAT': { type: 'image', imageUrl: './assets/data/img/cat.png' },
+        'FEMBOYS': { type: 'image', imageUrl: 'https://i.pinimg.com/originals/48/fa/45/48fa45e3d81916b3a198551e4dc0326b.jpg' }
+      };
+      
+      if (validCodes[code]) {
+        const codeData = validCodes[code];
+        
+        if (codeData.type === 'pro_forever') {
+          // Redeem Pro status forever
+          upgradeUserToProForever();
+          codeMessage.textContent = 'Code redeemed successfully! You now have Pro status forever.';
+          codeMessage.className = 'success';
+        } else if (codeData.type === 'pro_week') {
+          // Redeem Pro status for 1 week
+          upgradeUserToProWeek();
+          codeMessage.textContent = 'Code redeemed successfully! You now have Pro status for 1 week.';
+          codeMessage.className = 'success';
+        } else if (codeData.type === 'image') {
+          // Show popup image
+          showPopupImage(codeData.imageUrl);
+          codeMessage.textContent = 'Code redeemed successfully! Check out your reward.';
+          codeMessage.className = 'success';
+        }
+      } else {
+        codeMessage.textContent = 'Invalid code. Please try again.';
+        codeMessage.className = 'error';
+      }
+      
+      // Clear input
+      codeInput.value = '';
+    });
+    
+    // Function to show popup image
+    function showPopupImage(imageUrl) {
+      // Create popup container
+      const popup = document.createElement('div');
+      popup.id = 'image-popup';
+      popup.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10002;
+      `;
+      
+      // Create popup content
+      const popupContent = document.createElement('div');
+      popupContent.style.cssText = `
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+      `;
+      
+      // Create close button
+      const closeBtn = document.createElement('button');
+      closeBtn.innerHTML = '×';
+      closeBtn.style.cssText = `
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background: #ff6b39;
+        color: white;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      `;
+      
+      // Create image
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.style.cssText = `
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      `;
+      
+      // Add event listeners
+      closeBtn.addEventListener('click', function() {
+        popup.remove();
+      });
+      
+      popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+          popup.remove();
+        }
+      });
+      
+      // Assemble popup
+      popupContent.appendChild(closeBtn);
+      popupContent.appendChild(img);
+      popup.appendChild(popupContent);
+      document.body.appendChild(popup);
+    }
+    
     // Initialize auth state
     async function initializeAuth() {
       // Check for stored user data
       const storedUser = loadFromLocalStorage('bloxdforge-user');
       if (storedUser) {
+        // Check if Pro status is forever or has expired
+        if (storedUser.userType === 'Pro' && storedUser.proExpiration) {
+          if (storedUser.proExpiration !== 'forever') {
+            const expirationTime = new Date(storedUser.proExpiration);
+            if (Date.now() > expirationTime.getTime()) {
+              // Pro status has expired, downgrade to Free
+              storedUser.userType = 'Free';
+              delete storedUser.proExpiration;
+              saveToLocalStorage('bloxdforge-user', storedUser);
+            }
+          }
+        }
+        
         await setSignedIn(storedUser);
         // Wait for profile to be loaded, then apply ad management
         setTimeout(() => {
@@ -1336,6 +1967,30 @@ a {
     
     // Call initialization
     initializeAuth();
+    
+    // Periodically check for Pro status expiration (every minute)
+    setInterval(() => {
+      if (CURRENT_USER && CURRENT_USER.userType === 'Pro' && CURRENT_USER.proExpiration) {
+        // Skip expiration check for forever Pro status
+        if (CURRENT_USER.proExpiration === 'forever') {
+          return;
+        }
+        
+        const expirationTime = new Date(CURRENT_USER.proExpiration);
+        if (Date.now() > expirationTime.getTime()) {
+          // Pro status has expired, downgrade to Free
+          CURRENT_USER.userType = 'Free';
+          delete CURRENT_USER.proExpiration;
+          saveToLocalStorage('bloxdforge-user', CURRENT_USER);
+          updateUserRank('Free');
+          manageAdsForUserType('Free');
+          showNotification('Your Pro status has expired. You have been downgraded to Free.');
+        } else {
+          // Update the display with remaining time
+          updateUserRank('Pro');
+        }
+      }
+    }, 60000); // Check every minute
     
     // Existing BloxdForge functionality
     const cards = document.querySelectorAll('.card');
@@ -1472,6 +2127,106 @@ a {
     document.getElementById("closePopup").addEventListener("click", () => {
       document.getElementById("popupinfo").style.display = "none";
       localStorage.setItem("popupinfo", Date.now());
+    });
+    
+    // Showpop functionality
+    function initShowPop() {
+      const showpop = document.getElementById('showpop');
+      const showpopClose = document.getElementById('showpopClose');
+      const showpopDismiss = document.getElementById('showpopDismiss');
+      const showpopTry = document.getElementById('showpopTry');
+      
+      // Check if user has dismissed the popup before
+      if (!localStorage.getItem('showpopDismissed')) {
+        // Show popup after a delay
+        setTimeout(() => {
+          showpop.classList.add('show');
+        }, 5000);
+      }
+      
+      // Close button
+      showpopClose.addEventListener('click', () => {
+        showpop.classList.remove('show');
+      });
+      
+      // Dismiss button
+      showpopDismiss.addEventListener('click', () => {
+        showpop.classList.remove('show');
+        localStorage.setItem('showpopDismissed', Date.now());
+      });
+      
+      // Try Pro button
+      showpopTry.addEventListener('click', () => {
+        showpop.classList.remove('show');
+        // Trigger the upgrade process
+        if (CURRENT_USER?.username) {
+          // User is signed in, open upgrade page
+          const upgradeFrame = document.createElement('iframe');
+          upgradeFrame.id = 'upgrade-frame';
+          upgradeFrame.src = './assets/upgrade-pro.html';
+          upgradeFrame.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            z-index: 10000;
+            background: #1b1a1a;
+          `;
+          
+          document.body.appendChild(upgradeFrame);
+          
+          // Add close button
+          const closeBtn = document.createElement('button');
+          closeBtn.innerHTML = '×';
+          closeBtn.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10001;
+            background: #ff6b39;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          `;
+          
+          closeBtn.addEventListener('click', function() {
+            upgradeFrame.remove();
+            closeBtn.remove();
+          });
+          
+          document.body.appendChild(closeBtn);
+        } else {
+          // User not signed in, prompt to sign in first
+          showNotification('Please sign in first to upgrade to Pro');
+          // Show sign in button if not already visible
+          const authPopup = document.getElementById('auth-popup');
+          if (authPopup.style.display !== 'flex') {
+            authPopup.style.display = 'flex';
+            authMenuBtn.classList.add('active');
+          }
+        }
+      });
+    }
+    
+    // Initialize showpop
+    initShowPop();
+    
+    // Close auth popup when clicking outside
+    document.addEventListener('click', (e) => {
+      const authPopup = document.getElementById('auth-popup');
+      if (authPopup.style.display === 'flex' && 
+          !authPopup.contains(e.target) && 
+          !authUserInfo.contains(e.target)) {
+        authPopup.style.display = 'none';
+        authMenuBtn.classList.remove('active');
+      }
     });
   </script>
 </body>
