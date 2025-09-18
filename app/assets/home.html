@@ -613,6 +613,77 @@
       justify-content: center;
       margin-top: 20px;
     }
+    
+    .recording-options {
+      margin: 15px 0;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .recording-options h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #ff8c5a;
+      font-size: 1rem;
+    }
+    
+    .recording-options label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #e0e0e0;
+      font-weight: 500;
+      padding: 5px 0;
+      transition: color 0.2s ease;
+    }
+    
+    .recording-options label:hover {
+      color: #ff8c5a;
+    }
+    
+    .recording-options input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+      cursor: pointer;
+      accent-color: #ff6b39;
+      border-radius: 4px;
+      transition: transform 0.2s ease;
+    }
+    
+    .recording-options input[type="checkbox"]:hover {
+      transform: scale(1.1);
+    }
+
+    #mic-indicator {
+      display: none;
+      color: #4CAF50;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: rgba(76, 175, 80, 0.15);
+      border-radius: 5px;
+      border-left: 3px solid #4CAF50;
+      align-items: center;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    
+    #mic-indicator.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    #mic-indicator i {
+      margin-right: 8px;
+      font-size: 0.9rem;
+    }
+
   </style>
 </head>
 <body>
@@ -726,7 +797,17 @@
       <button id="close-recording" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
     </div>
     <div class="recording-content">
-      <p>Record your screen with audio. Click "Start Screen Share" to begin.</p>
+      <p>Record your screen with audio. Enable microphone recording to capture your voice. Click "Start Screen Share" to begin.</p>
+      <div class="recording-options">
+        <h4 style="margin-top: 0; margin-bottom: 10px; color: #ff8c5a; font-size: 1rem;">Recording Options</h4>
+        <label>
+          <input type="checkbox" id="mic-toggle">
+          Record microphone audio
+        </label>
+        <div id="mic-indicator">
+          <i class="fas fa-microphone"></i> Microphone enabled
+        </div>
+      </div>
       <div class="recording-controls">
         <button id="streamingbt" class="recording-btn">Start Screen Share</button>
         <button id="recordingbt" class="recording-btn" disabled>Start Recording</button>
@@ -1127,16 +1208,63 @@
     // Screen Recording Functions
     async function startStream() {
       try {
-        mediaStream = await navigator.mediaDevices.getDisplayMedia({
-          video: {
-            displaySurface: 'monitor'
-          },
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            sampleRate: 44100
-          }
+        // Check if mic recording is enabled
+        const recordMic = document.getElementById('mic-toggle')?.checked || false;
+        
+        if (recordMic) {
+          // Get both screen and microphone streams
+          console.log('Getting screen stream with audio');
+          const screenStream = await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: true
+          });
+          
+          console.log('Getting microphone stream');
+          const micStream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              sampleRate: 44100
+            }
+          });
+          
+          // Create a new MediaStream and add all tracks
+          mediaStream = new MediaStream();
+          
+          // Add video track from screen share
+          screenStream.getVideoTracks().forEach(track => {
+            mediaStream.addTrack(track);
+          });
+          
+          // Add audio tracks
+          screenStream.getAudioTracks().forEach(track => {
+            mediaStream.addTrack(track);
+          });
+          
+          micStream.getAudioTracks().forEach(track => {
+            mediaStream.addTrack(track);
+          });
+          
+          console.log('Combined stream tracks:', mediaStream.getTracks().length);
+        } else {
+          // Get only screen stream
+          console.log('Getting screen stream only');
+          mediaStream = await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: true
+          });
+        }
+        
+        // Log stream info
+        console.log('Media stream tracks:', mediaStream.getTracks());
+        mediaStream.getTracks().forEach((track, index) => {
+          console.log(`Track ${index}:`, {
+            kind: track.kind,
+            label: track.label,
+            readyState: track.readyState
+          });
         });
+        
         document.getElementById('recordingbt').disabled = false;
         
         mediaStream.getVideoTracks()[0].onended = () => {
@@ -1144,7 +1272,11 @@
         };
       } catch (err) {
         console.error('Error capturing media:', err);
-        alert('Failed to start screen sharing. Please ensure permissions are granted.');
+        if (err.name === 'NotAllowedError') {
+          alert('Failed to start screen sharing. Please ensure permissions are granted for both screen and microphone access.');
+        } else {
+          alert('Failed to start screen sharing: ' + err.message);
+        }
       }
     }
 
@@ -1159,24 +1291,74 @@
         return;
       }
       try {
-        const mimeTypes = [
-          'video/mp4',
-          'video/webm;codecs=H264',
-          'video/webm;codecs=vp9',
-          'video/webm;codecs=vp8',
-          'video/webm'
-        ];
+        // Check what tracks we have
+        const hasVideo = mediaStream.getVideoTracks().length > 0;
+        const hasAudio = mediaStream.getAudioTracks().length > 0;
+        
+        console.log('Stream tracks:', {
+          video: hasVideo,
+          audio: hasAudio,
+          audioTracks: mediaStream.getAudioTracks().length
+        });
+        
+        // Try different mime types based on what we're recording
         let mimeType = '';
-        for (const type of mimeTypes) {
-          if (MediaRecorder.isTypeSupported(type)) {
-            mimeType = type;
-            break;
+        
+        if (hasVideo && hasAudio) {
+          // Try video+audio combinations
+          const mimeTypes = [
+            'video/webm;codecs=vp9,opus',  // VP9 video with Opus audio
+            'video/webm;codecs=vp8,opus',  // VP8 video with Opus audio
+            'video/webm'                   // Generic webm (let browser choose)
+          ];
+          
+          for (const type of mimeTypes) {
+            if (MediaRecorder.isTypeSupported(type)) {
+              mimeType = type;
+              console.log('Selected MIME type for video+audio:', mimeType);
+              break;
+            }
+          }
+        } else if (hasVideo) {
+          // Video only
+          const mimeTypes = [
+            'video/webm;codecs=vp9',
+            'video/webm;codecs=vp8',
+            'video/webm'
+          ];
+          
+          for (const type of mimeTypes) {
+            if (MediaRecorder.isTypeSupported(type)) {
+              mimeType = type;
+              console.log('Selected MIME type for video only:', mimeType);
+              break;
+            }
+          }
+        } else if (hasAudio) {
+          // Audio only
+          const mimeTypes = [
+            'audio/webm;codecs=opus',
+            'audio/webm'
+          ];
+          
+          for (const type of mimeTypes) {
+            if (MediaRecorder.isTypeSupported(type)) {
+              mimeType = type;
+              console.log('Selected MIME type for audio only:', mimeType);
+              break;
+            }
           }
         }
+        
+        // Fallback if no mime type is supported
         if (!mimeType) {
-          throw new Error('No supported MIME type found for recording');
+          console.warn('No supported MIME type found, using default');
+          mimeType = ''; // Use browser default
         }
+        
         const options = { mimeType };
+        console.log('MediaRecorder options:', options);
+        
         mediaRecorder = new MediaRecorder(mediaStream, options);
         recordedChunks = [];
         mediaRecorder.ondataavailable = (event) => {
@@ -1190,6 +1372,7 @@
         };
         mediaRecorder.onerror = (event) => {
           console.error('Recorder error:', event.error);
+          alert('Recorder error: ' + event.error.message);
         };
         mediaRecorder.start(1000);
         updateUI(true);
@@ -1209,10 +1392,21 @@
     }
 
     function saveRecording(mimeType) {
-      if (recordedChunks.length === 0) return;
+      console.log('Saving recording with MIME type:', mimeType);
+      console.log('Recorded chunks:', recordedChunks.length);
+      
+      if (recordedChunks.length === 0) {
+        console.warn('No recorded data to save');
+        return;
+      }
+      
       try {
         const fileExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
-        const blob = new Blob(recordedChunks, { type: mimeType });
+        console.log('File extension:', fileExtension);
+        
+        const blob = new Blob(recordedChunks, { type: mimeType || 'video/webm' });
+        console.log('Blob size:', blob.size, 'bytes');
+        
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.style.display = 'none';
@@ -1232,7 +1426,10 @@
 
     function cleanup() {
       recordedChunks = [];
-      mediaStream = null;
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+      }
       mediaRecorder = null;
       updateUI(false);
     }
@@ -1332,6 +1529,19 @@
             startRecording();
           } else if (mediaRecorder.state === 'recording') {
             stopRecording();
+          }
+        });
+      }
+      
+      // Add event listener for mic toggle
+      const micToggle = document.getElementById('mic-toggle');
+      const micIndicator = document.getElementById('mic-indicator');
+      if (micToggle && micIndicator) {
+        micToggle.addEventListener('change', function() {
+          if (this.checked) {
+            micIndicator.classList.add('show');
+          } else {
+            micIndicator.classList.remove('show');
           }
         });
       }
