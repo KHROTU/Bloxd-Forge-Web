@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -114,7 +115,7 @@
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
       position: relative;
       overflow: hidden;
-      
+
     }
 
     .big-btn:hover {
@@ -161,8 +162,9 @@
       .home-grid {
         grid-template-columns: 1fr;
       }
-      
-      .wide-button, .stats {
+
+      .wide-button,
+      .stats {
         grid-column: span 1;
       }
     }
@@ -172,12 +174,12 @@
         flex-direction: column;
         gap: 15px;
       }
-      
+
       .wide-button {
         height: 100px;
         font-size: 1.2rem;
       }
-      
+
       .big-btn {
         height: 300px;
       }
@@ -188,13 +190,14 @@
         opacity: 0;
         transform: translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
 
-    .home-grid > * {
+    .home-grid>* {
       animation: fadeIn 0.6s ease forwards;
     }
 
@@ -216,7 +219,8 @@
 
     .fullscreen-frame {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
       border: none;
@@ -256,7 +260,7 @@
       border: 1px solid #3a3939;
       border-radius: 12px;
       padding: 15px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
       z-index: 9998;
       max-width: 250px;
       display: none;
@@ -282,7 +286,8 @@
 
     .modal-overlay {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
       background: rgba(15, 15, 15, 0.95);
@@ -301,7 +306,7 @@
       border-radius: 25px;
       padding: 40px;
       position: relative;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
     }
 
     .modal-grid {
@@ -317,13 +322,14 @@
       padding: 25px;
       text-align: center;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
       cursor: pointer;
     }
+
     .modal-item:hover {
       transform: translateY(-6px);
       border-color: #4a4949;
-      box-shadow: 0 15px 25px rgba(0,0,0,0.35);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.35);
     }
 
     .modal-icon {
@@ -350,6 +356,7 @@
         grid-template-columns: repeat(2, 1fr);
       }
     }
+
     @media (max-width: 500px) {
       .modal-grid {
         grid-template-columns: 1fr;
@@ -361,18 +368,19 @@
       top: 20px;
       right: 20px;
       z-index: 10001;
-      display: none; 
+      display: none;
       padding: 10px;
       background: linear-gradient(145deg, #262525, #212020);
       border: 1px solid #3a3939;
       border-radius: 20px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
       transition: all 0.3s ease;
     }
 
     .darkmode-overlay {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
       background: linear-gradient(145deg, #1f1e1e, #181818);
@@ -390,7 +398,7 @@
       background: linear-gradient(145deg, #262525, #212020);
       border: 1px solid #3a3939;
       border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       z-index: 100000;
       min-width: 600px;
       min-height: 400px;
@@ -514,7 +522,7 @@
     }
 
     .filter-option {
-      background:#2f2e2e;
+      background: #2f2e2e;
       border: 1px solid #3a3939;
       color: #e8e8e8;
       padding: 10px 15px;
@@ -526,7 +534,7 @@
     }
 
     .filter-option:hover {
-      background:#2f2e2e;
+      background: #2f2e2e;
       border-color: #4a4949;
     }
 
@@ -605,7 +613,7 @@
       justify-content: center;
       margin-top: 20px;
     }
-    
+
     .recording-options {
       margin: 15px 0;
       padding: 15px;
@@ -613,14 +621,14 @@
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     .recording-options h4 {
       margin-top: 0;
       margin-bottom: 10px;
       color: #ff8c5a;
       font-size: 1rem;
     }
-    
+
     .recording-options label {
       display: flex;
       align-items: center;
@@ -631,11 +639,11 @@
       padding: 5px 0;
       transition: color 0.2s ease;
     }
-    
+
     .recording-options label:hover {
       color: #ff8c5a;
     }
-    
+
     .recording-options input[type="checkbox"] {
       width: 18px;
       height: 18px;
@@ -645,7 +653,7 @@
       border-radius: 4px;
       transition: transform 0.2s ease;
     }
-    
+
     .recording-options input[type="checkbox"]:hover {
       transform: scale(1.1);
     }
@@ -664,23 +672,23 @@
       opacity: 0;
       transform: translateY(-5px);
     }
-    
+
     #mic-indicator.show {
       display: flex;
       opacity: 1;
       transform: translateY(0);
     }
-    
+
     #mic-indicator i {
       margin-right: 8px;
       font-size: 0.9rem;
     }
-
   </style>
 </head>
+
 <body>
   <button class="bottomright-btn" id="menupopBtn"><i class="fas fa-bars"></i></button>
-  
+
   <div class="tooltip" id="menuTooltip">
     <div class="tooltip-content">Lot of cool stuff in this menu check it out!</div>
     <div class="tooltip-arrow"></div>
@@ -703,7 +711,7 @@
           <div class="modal-icon"><i class="fas fa-map-marker-alt"></i></div>
           <h3 class="modal-title">Coordinates</h3>
           <p class="modal-desc">Save and manage locations</p>
-        </div>        
+        </div>
         <div class="modal-item" onclick="filters()">
           <div class="modal-icon"><i class="fas fa-sliders-h"></i></div>
           <h3 class="modal-title">Filters</h3>
@@ -730,12 +738,15 @@
 
   <div class="modal-overlay" id="worldsModal" style="display: none;">
     <div class="modal-content" style="max-width: 1200px; width: 90%; padding: 0; overflow: hidden;">
-      <div style="background: linear-gradient(90deg, #2e2e2e, #2a2a2a); padding: 15px 20px; border-bottom: 1px solid #444343; display: flex; justify-content: space-between; align-items: center;">
+      <div
+        style="background: linear-gradient(90deg, #2e2e2e, #2a2a2a); padding: 15px 20px; border-bottom: 1px solid #444343; display: flex; justify-content: space-between; align-items: center;">
         <h2 style="margin: 0; color: #e8e8e8; font-size: 1.5rem;">Try Something New</h2>
-        <button id="closeWorldsModal" style="background: none; border: none; color: #aaa; font-size: 1.8rem; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">×</button>
+        <button id="closeWorldsModal"
+          style="background: none; border: none; color: #aaa; font-size: 1.8rem; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">×</button>
       </div>
       <div style="padding: 20px; max-height: 70vh; overflow-y: auto;">
-        <div id="worldsContainer" class="modal-grid" style="grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 20px;">
+        <div id="worldsContainer" class="modal-grid"
+          style="grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 20px;">
         </div>
       </div>
     </div>
@@ -770,7 +781,8 @@
   <div id="iframeModal" class="modal-overlay">
     <div class="modal-content" style="padding:0; height:80vh;">
       <iframe id="iframeContent" src="" style="width:100%; height:100%; border:none;"></iframe>
-      <button id="iframeClose" style="position:absolute; top:10px; right:10px; font-size:1.5rem; background:transparent; border:none; color:white; cursor:pointer;">×</button>
+      <button id="iframeClose"
+        style="position:absolute; top:10px; right:10px; font-size:1.5rem; background:transparent; border:none; color:white; cursor:pointer;">×</button>
     </div>
   </div>
 
@@ -780,10 +792,12 @@
   <div id="recording-window" style="display: none;">
     <div class="recording-header" id="recording-drag-handle">
       <h3>Screen Recorder</h3>
-      <button id="close-recording" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
+      <button id="close-recording"
+        style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
     </div>
     <div class="recording-content">
-      <p>Record your screen with audio. Enable microphone recording to capture your voice. Click "Start Screen Share" to begin.</p>
+      <p>Record your screen with audio. Enable microphone recording to capture your voice. Click "Start Screen Share" to
+        begin.</p>
       <div class="recording-options">
         <h4 style="margin-top: 0; margin-bottom: 10px; color: #ff8c5a; font-size: 1rem;">Recording Options</h4>
         <label>
@@ -803,10 +817,10 @@
       </div>
     </div>
   </div>
-  
+
 
   <script>
-    window.addEventListener('message', function(event) {
+    window.addEventListener('message', function (event) {
       if (event.data && event.data.action) {
         if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
           console.log('Pro user detected - no ads to hide on home page');
@@ -815,16 +829,16 @@
         }
       }
     });
-    
+
     let mediaStream = null;
     let mediaRecorder = null;
     let recordedChunks = [];
 
     function makeDraggable(element, header) {
       let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-      
+
       header.onmousedown = dragMouseDown;
-      
+
       function dragMouseDown(e) {
         e = e || window.event;
         e.preventDefault();
@@ -856,7 +870,7 @@
       const window = document.createElement('div');
       window.className = 'floating-window';
       window.id = windowId;
-      
+
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
         window.style.top = '5vh';
@@ -865,10 +879,10 @@
         window.style.top = '100px';
         window.style.left = '100px';
       }
-      
+
       const isIframeOnly = content.trim().startsWith('<iframe') && content.trim().endsWith('></iframe>');
       const contentClass = isIframeOnly ? 'window-content iframe-only' : 'window-content';
-      
+
       window.innerHTML = `
         <div class="window-header">
           <div class="window-title">${title}</div>
@@ -876,19 +890,19 @@
         </div>
         <div class="${contentClass}">${content}</div>
       `;
-      
+
       document.body.appendChild(window);
-      
+
       if (!isMobile) {
         const header = window.querySelector('.window-header');
         makeDraggable(window, header);
       }
-      
+
       const closeBtn = window.querySelector('.window-close');
       closeBtn.addEventListener('click', () => {
         document.body.removeChild(window);
       });
-      
+
       return window;
     }
 
@@ -897,7 +911,7 @@
       const window = document.createElement('div');
       window.className = 'floating-window tall';
       window.id = windowId;
-      
+
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
         window.style.top = '2vh';
@@ -906,9 +920,9 @@
         window.style.top = '50px';
         window.style.left = '200px';
       }
-      
+
       const content = `<iframe src="${iframeSrc}" style="width:100%; height:100%; border:none;"></iframe>`;
-      
+
       window.innerHTML = `
         <div class="window-header">
           <div class="window-title">${title}</div>
@@ -916,19 +930,19 @@
         </div>
         <div class="window-content iframe-only">${content}</div>
       `;
-      
+
       document.body.appendChild(window);
-      
+
       if (!isMobile) {
         const header = window.querySelector('.window-header');
         makeDraggable(window, header);
       }
-      
+
       const closeBtn = window.querySelector('.window-close');
       closeBtn.addEventListener('click', () => {
         document.body.removeChild(window);
       });
-      
+
       return window;
     }
 
@@ -949,8 +963,8 @@
 
     openBtn.addEventListener('click', () => modal.style.display = 'flex');
     closeBtn.addEventListener('click', () => modal.style.display = 'none');
-    modal.addEventListener('click', e => { 
-      if(e.target === modal) modal.style.display = 'none'; 
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.style.display = 'none';
     });
 
     document.querySelectorAll('.modal-item').forEach(item => {
@@ -961,17 +975,17 @@
             metrics();
             return;
           }
-          
+
           if (item.id === 'dark-mode-btn') {
             document.body.classList.toggle('dark-mode');
             darkModeOverlay.style.display = document.body.classList.contains('dark-mode') ? 'block' : 'none';
             return;
           }
-          
+
           const title = item.querySelector('.modal-title').textContent;
           const icon = item.querySelector('.modal-icon').innerHTML;
           let content = '';
-          
+
           if (item.dataset.url) {
             content = `<iframe src="${item.dataset.url}" style="width:100%; height:100%; border:none;"></iframe>`;
           } else {
@@ -983,7 +997,7 @@
               </div>
             `;
           }
-          
+
           createFloatingWindow(title, content);
           modal.style.display = 'none';
         });
@@ -996,10 +1010,10 @@
       aiAssistantBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const aiAssistantUrl = './data/iframes/ai-assistant.html';
         createTallFloatingWindow('BForge Agent', aiAssistantUrl);
-        
+
         modal.style.display = 'none';
       });
     }
@@ -1012,12 +1026,12 @@
     function updateFPS() {
       const now = performance.now();
       frameCount++;
-      if(now - lastFrameTime >= 1000) {
+      if (now - lastFrameTime >= 1000) {
         fpsDisplay.textContent = `FPS: ${frameCount}`;
         frameCount = 0;
         lastFrameTime = now;
       }
-      if(showFpsPing) requestAnimationFrame(updateFPS);
+      if (showFpsPing) requestAnimationFrame(updateFPS);
     }
 
     function updatePing() {
@@ -1026,7 +1040,7 @@
       img.onload = () => pingDisplay.textContent = `Ping: ${Math.round(performance.now() - start)} ms`;
       img.onerror = () => pingDisplay.textContent = 'Ping: Error';
       img.src = "https://bloxd.io/favicon.ico?" + Math.random();
-      if(showFpsPing) setTimeout(updatePing, 1000);
+      if (showFpsPing) setTimeout(updatePing, 1000);
     }
 
     const darkModeOverlay = document.createElement('div');
@@ -1035,15 +1049,15 @@
 
     function metrics() {
       if (!fpsPingDisplay || !fpsDisplay || !pingDisplay) return;
-      
+
       showFpsPing = !showFpsPing;
       fpsPingDisplay.style.display = showFpsPing ? 'block' : 'none';
-      
+
       if (showFpsPing) {
         updateFPS();
         updatePing();
       }
-      
+
       if (modal) modal.style.display = 'none';
     }
 
@@ -1064,7 +1078,7 @@
     function openModal(link) {
       const modal = document.getElementById('modal');
       if (!modal) return;
-      
+
       modal.innerHTML = `<iframe src="${link}" style="width:100%; height:100%; border:none;"></iframe>
                         <button onclick="closeModal()" style="position:absolute; top:10px; right:10px; background:transparent; border:none; color:white; cursor:pointer; font-size:1.5rem;">×</button>`;
       modal.style.display = 'flex';
@@ -1113,23 +1127,23 @@
           </div>
         </div>
       `;
-      
+
       createFloatingWindow('Filters', filterContent);
     }
 
     function toggleFilter(button, filterValue) {
       const gameIframe = document.querySelector('.fullscreen-frame');
       if (!gameIframe) return;
-      
+
       document.querySelectorAll('.filter-option').forEach(btn => {
         btn.classList.remove('active');
       });
-      
+
       if (button) {
         button.classList.add('active');
       }
-      
-      switch(filterValue) {
+
+      switch (filterValue) {
         case 'blur':
           gameIframe.style.filter = 'blur(3px)';
           break;
@@ -1153,20 +1167,20 @@
           gameIframe.style.filter = 'none';
           break;
       }
-      
+
       localStorage.setItem('gameFilter', filterValue);
     }
     async function startStream() {
       try {
         const recordMic = document.getElementById('mic-toggle')?.checked || false;
-        
+
         if (recordMic) {
           console.log('Getting screen stream with audio');
           const screenStream = await navigator.mediaDevices.getDisplayMedia({
             video: true,
             audio: true
           });
-          
+
           console.log('Getting microphone stream');
           const micStream = await navigator.mediaDevices.getUserMedia({
             audio: {
@@ -1175,21 +1189,21 @@
               sampleRate: 44100
             }
           });
-          
+
           mediaStream = new MediaStream();
-          
+
           screenStream.getVideoTracks().forEach(track => {
             mediaStream.addTrack(track);
           });
-          
+
           screenStream.getAudioTracks().forEach(track => {
             mediaStream.addTrack(track);
           });
-          
+
           micStream.getAudioTracks().forEach(track => {
             mediaStream.addTrack(track);
           });
-          
+
           console.log('Combined stream tracks:', mediaStream.getTracks().length);
         } else {
           console.log('Getting screen stream only');
@@ -1198,7 +1212,7 @@
             audio: true
           });
         }
-        
+
         console.log('Media stream tracks:', mediaStream.getTracks());
         mediaStream.getTracks().forEach((track, index) => {
           console.log(`Track ${index}:`, {
@@ -1207,9 +1221,9 @@
             readyState: track.readyState
           });
         });
-        
+
         document.getElementById('recordingbt').disabled = false;
-        
+
         mediaStream.getVideoTracks()[0].onended = () => {
           stopRecording();
         };
@@ -1236,22 +1250,22 @@
       try {
         const hasVideo = mediaStream.getVideoTracks().length > 0;
         const hasAudio = mediaStream.getAudioTracks().length > 0;
-        
+
         console.log('Stream tracks:', {
           video: hasVideo,
           audio: hasAudio,
           audioTracks: mediaStream.getAudioTracks().length
         });
-        
+
         let mimeType = '';
-        
+
         if (hasVideo && hasAudio) {
           const mimeTypes = [
             'video/webm;codecs=vp9,opus',
             'video/webm;codecs=vp8,opus',
             'video/webm'
           ];
-          
+
           for (const type of mimeTypes) {
             if (MediaRecorder.isTypeSupported(type)) {
               mimeType = type;
@@ -1265,7 +1279,7 @@
             'video/webm;codecs=vp8',
             'video/webm'
           ];
-          
+
           for (const type of mimeTypes) {
             if (MediaRecorder.isTypeSupported(type)) {
               mimeType = type;
@@ -1278,7 +1292,7 @@
             'audio/webm;codecs=opus',
             'audio/webm'
           ];
-          
+
           for (const type of mimeTypes) {
             if (MediaRecorder.isTypeSupported(type)) {
               mimeType = type;
@@ -1287,15 +1301,15 @@
             }
           }
         }
-        
+
         if (!mimeType) {
           console.warn('No supported MIME type found, using default');
           mimeType = '';
         }
-        
+
         const options = { mimeType };
         console.log('MediaRecorder options:', options);
-        
+
         mediaRecorder = new MediaRecorder(mediaStream, options);
         recordedChunks = [];
         mediaRecorder.ondataavailable = (event) => {
@@ -1331,19 +1345,19 @@
     function saveRecording(mimeType) {
       console.log('Saving recording with MIME type:', mimeType);
       console.log('Recorded chunks:', recordedChunks.length);
-      
+
       if (recordedChunks.length === 0) {
         console.warn('No recorded data to save');
         return;
       }
-      
+
       try {
         const fileExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
         console.log('File extension:', fileExtension);
-        
+
         const blob = new Blob(recordedChunks, { type: mimeType || 'video/webm' });
         console.log('Blob size:', blob.size, 'bytes');
-        
+
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.style.display = 'none';
@@ -1388,22 +1402,22 @@
       const tooltip = document.getElementById('menuTooltip');
       const menuBtn = document.getElementById('menupopBtn');
       const modal = document.getElementById('popupModal');
-      
+
       const hasSeenTooltip = localStorage.getItem('hasSeenMenuTooltip');
-      
+
       if (!hasSeenTooltip) {
         setTimeout(() => {
           tooltip.style.display = 'block';
         }, 1000);
       }
-      
+
       menuBtn.addEventListener('click', () => {
         if (tooltip.style.display === 'block') {
           tooltip.style.display = 'none';
           localStorage.setItem('hasSeenMenuTooltip', 'true');
         }
       });
-      
+
       if (modal) {
         const observer = new MutationObserver(() => {
           if (modal.style.display === 'flex') {
@@ -1411,7 +1425,7 @@
             localStorage.setItem('hasSeenMenuTooltip', 'true');
           }
         });
-        
+
         observer.observe(modal, { attributes: true, attributeFilter: ['style'] });
       }
 
@@ -1458,11 +1472,11 @@
           }
         });
       }
-      
+
       const micToggle = document.getElementById('mic-toggle');
       const micIndicator = document.getElementById('mic-indicator');
       if (micToggle && micIndicator) {
-        micToggle.addEventListener('change', function() {
+        micToggle.addEventListener('change', function () {
           if (this.checked) {
             micIndicator.classList.add('show');
           } else {
@@ -1520,7 +1534,7 @@
     function populateWorldCards() {
       const container = document.getElementById('worldsContainer');
       container.innerHTML = '';
-      
+
       worldsData.forEach(world => {
         const card = document.createElement('div');
         card.className = 'world-card';
@@ -1533,7 +1547,7 @@
           height: 120px;
           transition: all 0.3s ease;
         `;
-        
+
         card.innerHTML = `
           <div style="width: 40%; height: 100%; overflow: hidden;">
             <img src="${world.banner}" alt="${world.title}" style="width: 100%; height: 100%; object-fit: cover;">
@@ -1555,12 +1569,12 @@
             </div>
           </div>
         `;
-        
+
         container.appendChild(card);
       });
-      
+
       document.querySelectorAll('.try-world-btn').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
           const url = this.getAttribute('data-url');
           const iframe = document.querySelector('.fullscreen-frame');
           iframe.src = url;
@@ -1571,16 +1585,16 @@
       });
     }
 
-    document.getElementById('trySomethingNewBtn').addEventListener('click', function() {
+    document.getElementById('trySomethingNewBtn').addEventListener('click', function () {
       populateWorldCards();
       document.getElementById('worldsModal').style.display = 'flex';
     });
 
-    document.getElementById('closeWorldsModal').addEventListener('click', function() {
+    document.getElementById('closeWorldsModal').addEventListener('click', function () {
       document.getElementById('worldsModal').style.display = 'none';
     });
 
-    document.getElementById('worldsModal').addEventListener('click', function(e) {
+    document.getElementById('worldsModal').addEventListener('click', function (e) {
       if (e.target === this) {
         this.style.display = 'none';
       }
@@ -1588,4 +1602,5 @@
 
   </script>
 </body>
+
 </html>
