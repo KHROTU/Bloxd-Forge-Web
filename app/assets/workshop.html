@@ -299,7 +299,6 @@
             transform: translateY(0);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        /* Hero card buttons */
         .hero-card-buttons {
             position: absolute;
             bottom: 16px;
@@ -623,13 +622,11 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        /* Button group styles */
         .button-group {
             display: flex;
             gap: 10px;
             width: 100%;
         }
-        /* Share button styles */
         .share-btn {
             display: inline-flex;
             align-items: center;
@@ -663,7 +660,6 @@
             margin: 0;
             font-size: 1.2rem;
         }
-        /* Share popup styles */
         .share-popup {
             display: none;
             position: fixed;
@@ -699,7 +695,6 @@
             color: var(--text-primary);
             margin: 0;
         }
-        /* Hero card buttons */
         .hero-card-buttons {
             position: absolute;
             bottom: 16px;
@@ -836,13 +831,11 @@
         <h2 class="hero-title">Featured Packs</h2>
         <p class="hero-subtitle">Discover our most popular and highly-rated content packs</p>
         <div id="heroGrid" class="hero-grid">
-            <!-- Hero cards will be dynamically inserted here -->
         </div>
     </div>
 
     <div id="itemGrid"></div>
 
-    <!-- Share Popup -->
     <div id="sharePopup" class="share-popup">
         <div class="share-popup-content">
             <div class="share-popup-header">
@@ -864,7 +857,6 @@
     </div>
 
     <script>
-        // Listen for messages from parent window about user type
         window.addEventListener('message', function(event) {
           if (event.data && event.data.action) {
             if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
@@ -875,8 +867,6 @@
           }
         });
         
-        // Local data configuration - no Firebase needed
-        // Pack data embedded directly in HTML
         let allTpacks = [
             {
                 id: "monochrome",
@@ -959,7 +949,6 @@
                 downloadUrl: "data/packs/golde/Goldev2.zip",
                 pinned: false
             }
-            // Add more packs here as needed
         ];
         const grid = document.getElementById('itemGrid');
         const searchInput = document.getElementById('searchInput');
@@ -968,7 +957,6 @@
         let currentSearchTerm = '';
         let currentSortBy = 'pinned-alpha';
 
-        // Share popup elements
         const sharePopup = document.getElementById('sharePopup');
         const closeSharePopup = document.querySelector('.close-share-popup');
         const sharePackImage = document.getElementById('sharePackImage');
@@ -979,24 +967,20 @@
         const copyShareUrlBtn = document.getElementById('copyShareUrlBtn');
         const shareDownloadBtn = document.getElementById('shareDownloadBtn');
 
-        // Close share popup when clicking the close button
         closeSharePopup.addEventListener('click', () => {
             sharePopup.style.display = 'none';
         });
 
-        // Close share popup when clicking outside the content
         sharePopup.addEventListener('click', (e) => {
             if (e.target === sharePopup) {
                 sharePopup.style.display = 'none';
             }
         });
 
-        // Copy share URL to clipboard
         copyShareUrlBtn.addEventListener('click', () => {
             shareUrlInput.select();
             document.execCommand('copy');
             
-            // Show feedback
             const originalText = copyShareUrlBtn.textContent;
             copyShareUrlBtn.textContent = 'Copied!';
             setTimeout(() => {
@@ -1004,7 +988,6 @@
             }, 2000);
         });
 
-        // Function to show share popup for a pack
         function showSharePopup(pack) {
             sharePackImage.src = pack.imageUrl;
             sharePackImage.alt = `${pack.title} preview`;
@@ -1012,7 +995,6 @@
             sharePackAuthor.textContent = `by ${pack.author}`;
             sharePackDescription.textContent = pack.description;
             
-            // Generate share URL
             const baseUrl = window.location.origin + window.location.pathname;
             const shareUrl = `${baseUrl}?packname=${encodeURIComponent(pack.id)}`;
             shareUrlInput.value = shareUrl;
@@ -1026,7 +1008,6 @@
             const heroSection = document.getElementById('heroSection');
             const heroGrid = document.getElementById('heroGrid');
             
-            // Filter for pinned packs
             const pinnedPacks = packs.filter(pack => pack.pinned);
             
             if (pinnedPacks.length === 0) {
@@ -1037,7 +1018,6 @@
             heroSection.style.display = 'block';
             heroGrid.innerHTML = '';
             
-            // Create main hero card (first pinned pack)
             const mainPack = pinnedPacks[0];
             const mainCard = document.createElement('div');
             mainCard.className = 'hero-main hero-card';
@@ -1059,11 +1039,9 @@
             `;
             heroGrid.appendChild(mainCard);
             
-            // Create sidebar with smaller cards
             const sidebar = document.createElement('div');
             sidebar.className = 'hero-sidebar';
             
-            // Add up to 2 more pinned packs in sidebar
             for (let i = 1; i < Math.min(pinnedPacks.length, 3); i++) {
                 const pack = pinnedPacks[i];
                 const smallCard = document.createElement('div');
@@ -1088,13 +1066,10 @@
             
             heroGrid.appendChild(sidebar);
             
-            // Remove event listeners for share buttons in hero section since they're removed
         }
         
         function renderPacks(packs, isSearchMode = false) {
-            // During search, show all packs including pinned ones
-            // During normal mode, show all packs (including pinned ones)
-            const packsToShow = packs; // Always show all packs in the grid
+            const packsToShow = packs;
             
             if (!packsToShow || packsToShow.length === 0) {
                 const isEmpty = isSearchMode ? 
@@ -1122,7 +1097,6 @@
                 card.className = 'item-card';
                 card.style.animationDelay = `${index * 0.05}s`;
 
-                // Determine if this is a pinned pack
                 const isPinned = pack.pinned;
                 const pinIcon = isPinned ? '<i class="fa-solid fa-thumbtack pin-icon"></i>' : '';
 
@@ -1168,7 +1142,6 @@
                     });
                 }
 
-                // Add event listener for share button
                 const shareBtn = card.querySelector('.share-btn');
                 shareBtn.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1179,7 +1152,6 @@
         
 
         function initializeData() {
-            // Sort with pinned first
             allTpacks.sort((a, b) => {
                 if (a.pinned && !b.pinned) return -1;
                 if (!a.pinned && b.pinned) return 1;
@@ -1188,63 +1160,48 @@
             
             packCountElement.textContent = `(${allTpacks.length} Packs)`;
             
-            // Render hero section with pinned packs
             renderHeroSection(allTpacks);
             
-            // Render main grid with non-pinned packs
             renderPacks(allTpacks);
         }
         
-        // Enhanced search functionality
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase().trim();
             
             if (searchTerm) {
-                // Search through ALL packs (including pinned ones)
                 const filteredPacks = allTpacks.filter(pack =>
                     pack.title.toLowerCase().includes(searchTerm) ||
                     pack.author.toLowerCase().includes(searchTerm) ||
                     pack.description.toLowerCase().includes(searchTerm)
                 );
                 
-                // Hide hero section during search
                 document.getElementById('heroSection').style.display = 'none';
                 
-                // Update count to show search results
                 packCountElement.textContent = `(${filteredPacks.length} of ${allTpacks.length} Packs)`;
                 
-                // Render search results (including pinned packs in results)
-                renderPacks(filteredPacks, true); // true = search mode
+                renderPacks(filteredPacks, true);
             } else {
-                // No search term - show normal layout
-                // Show hero section when not searching
                 renderHeroSection(allTpacks);
                 
-                // Reset count
                 packCountElement.textContent = `(${allTpacks.length} Packs)`;
                 
-                // Render normal layout (exclude pinned from main grid)
-                renderPacks(allTpacks, false); // false = normal mode
+                renderPacks(allTpacks, false);
             }
         });
         
-        // Check for packname parameter in URL and show popup if found
         function checkForSharedPack() {
             const urlParams = new URLSearchParams(window.location.search);
             const packName = urlParams.get('packname');
             
             if (packName) {
-                // Find the pack with the matching ID
                 const pack = allTpacks.find(p => p.id === packName);
                 
                 if (pack) {
-                    // Show the pack in the share popup
                     showSharePopup(pack);
                 }
             }
         }
         
-        // Initialize data and check for shared pack
         initializeData();
         checkForSharedPack();
     </script>

@@ -239,17 +239,14 @@
     const cards = document.querySelectorAll('.card');
     const adContainers = document.querySelectorAll('.ad-container');
     
-    // Listen for messages from parent window about user type
     window.addEventListener('message', function(event) {
       if (event.data && event.data.action) {
         if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
-          // Hide all ad containers for Pro users
           adContainers.forEach(container => {
             container.style.display = 'none';
           });
           console.log('Ads hidden for Pro user');
         } else if (event.data.action === 'showAds') {
-          // Show all ad containers for Free users
           adContainers.forEach(container => {
             container.style.display = 'grid';
           });
@@ -268,18 +265,16 @@
       card.addEventListener('click', () => {
         const url = card.getAttribute('data-url');
         const title = card.querySelector('.card-title').textContent;
-        const size = windowSizes[title] || { width: 60, height: 60, unit: 'vw' }; // Default size with vw units
+        const size = windowSizes[title] || { width: 60, height: 60, unit: 'vw' };
         spawnWindow(url, size.width, size.height, title, size.unit || 'vw');
       });
     });
 
-    // Make element resizable
     function makeResizable(element) {
       const resizer = document.createElement('div');
       resizer.className = 'resize-handle resize-handle-se';
       element.appendChild(resizer);
 
-      // Create a cover element
       const cover = document.createElement('div');
       cover.className = 'resize-cover';
       cover.style.display = 'none';
@@ -298,7 +293,6 @@
         e.preventDefault();
         e.stopPropagation();
         
-        // Show cover and disable iframe pointer events
         cover.style.display = 'block';
         const iframe = element.querySelector('iframe');
         if (iframe) {
@@ -327,7 +321,6 @@
         }
 
         function stopResize() {
-          // Hide cover and re-enable iframe pointer events
           cover.style.display = 'none';
           const iframe = element.querySelector('iframe');
           if (iframe) {
@@ -361,7 +354,6 @@
       
       closeBtn.addEventListener('click', () => win.remove());
       
-      // Toggle fullscreen
       fullscreenBtn.addEventListener('click', () => {
         win.classList.toggle('fullscreen');
         const icon = fullscreenBtn.querySelector('i');
@@ -376,7 +368,6 @@
           win.style.maxHeight = 'none';
         } else {
           icon.classList.replace('fa-compress', 'fa-expand');
-          // Restore original size
           win.style.width = `${width}${unit}`;
           win.style.height = `${height}${unit}`;
           win.style.top = '';

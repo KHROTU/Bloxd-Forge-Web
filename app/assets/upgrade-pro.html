@@ -524,35 +524,30 @@
     let clickedAds = new Set();
     const totalAds = 9;
     
-    // Listen for messages from parent window
     window.addEventListener('message', function(event) {
       if (event.data && event.data.action) {
         console.log('Received message:', event.data);
       }
     });
 
-    // Handle ad tracking clicks
     document.querySelectorAll('.ad-tracker').forEach(tracker => {
       tracker.addEventListener('click', function() {
         const adId = this.getAttribute('data-ad');
         const container = this.parentElement;
         
         if (!clickedAds.has(adId)) {
-          // First click - track for our site
           clickedAds.add(adId);
           container.classList.add('clicked');
           this.classList.add('clicked');
           
           updateProgress();
           
-          // Show simple instruction for second click
           showClickInstruction(container);
         }
       });
     });
     
     function showClickInstruction(container) {
-      // Create simple instruction overlay
       const instruction = document.createElement('div');
       instruction.style.cssText = `
         position: absolute;
@@ -572,7 +567,6 @@
       
       container.appendChild(instruction);
       
-      // Remove instruction after 2 seconds
       setTimeout(() => {
         if (instruction.parentElement) {
           instruction.remove();
@@ -596,16 +590,13 @@
       }
     }
 
-    // Handle claim Pro button
     document.getElementById('claimProBtn').addEventListener('click', function() {
-      // Send message to parent window to upgrade user to Pro
       try {
         window.parent.postMessage({
           action: 'upgradeToPro',
           source: 'upgrade-page'
         }, '*');
         
-        // Show success and close
         this.textContent = 'Pro Status Activated for 1 Hour! ✓';
         this.disabled = true;
         

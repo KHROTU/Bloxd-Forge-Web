@@ -27,7 +27,6 @@
     background: linear-gradient(135deg, #1b1a1a 0%, #171616 100%);
   }
   
-  /* Header with search */
   .header {
     display: flex;
     justify-content: space-between;
@@ -59,7 +58,6 @@
     -webkit-text-fill-color: transparent;
   }
   
-  /* Search input */
   .search-container {
     position: relative;
     width: 60%;
@@ -97,7 +95,6 @@
     color: #888;
   }
   
-  /* Categories as horizontal scrollable buttons */
   .categories {
     display: flex;
     gap: 12px;
@@ -147,7 +144,6 @@
     box-shadow: 0 6px 12px rgba(255, 107, 57, 0.25);
   }
   
-  /* Wiki grid */
   #itemGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -155,7 +151,6 @@
     padding: 10px 0 40px 0;
   }
   
-  /* Each wiki card */
   .item-card {
     background: linear-gradient(145deg, #262525, #212020);
     border: 1px solid #3a3939;
@@ -257,7 +252,6 @@
     background: rgba(255, 107, 57, 0.1);
   }
   
-  /* No results message */
   .no-results {
     grid-column: 1 / -1;
     text-align: center;
@@ -266,7 +260,6 @@
     font-size: 1.1rem;
   }
   
-  /* Loading animation */
   .loading {
     display: flex;
     justify-content: center;
@@ -289,7 +282,6 @@
     100% { transform: rotate(360deg); }
   }
   
-  /* Responsive adjustments */
   @media (max-width: 768px) {
     .header {
       flex-direction: column;
@@ -306,7 +298,6 @@
     }
   }
   
-  /* Fade in animation for cards */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -337,7 +328,6 @@
 </div>
 
 <script>
-// Listen for messages from parent window about user type
 window.addEventListener('message', function(event) {
   if (event.data && event.data.action) {
     if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
@@ -348,11 +338,9 @@ window.addEventListener('message', function(event) {
   }
 });
 
-// Fetch data from wiki.json
 let itemsData = [];
 console.log('Starting to fetch wiki.json...');
 
-// Show loading state
 const grid = document.getElementById('itemGrid');
 grid.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>Loading wiki data...</p></div>';
 
@@ -371,11 +359,9 @@ fetch('data/wiki.json')
     }
     itemsData = data;
     
-    // Simulate loading data
     setTimeout(() => {
       renderItems(itemsData);
       
-      // Search filter
       const searchInput = document.getElementById('searchInput');
       searchInput.addEventListener('input', e => {
         const searchTerm = e.target.value.toLowerCase();
@@ -388,7 +374,6 @@ fetch('data/wiki.json')
         renderItems(filteredItems);
       });
 
-      // Category buttons
       const categoryButtons = document.querySelectorAll('.category-btn');
       categoryButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -404,7 +389,7 @@ fetch('data/wiki.json')
           }
         });
       });
-    }, 1000); // Simulate network delay
+    }, 1000);
   })
   .catch(error => {
     console.error('Error loading wiki data:', error);

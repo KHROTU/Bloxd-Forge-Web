@@ -397,7 +397,6 @@ iframe.blurred {
   box-shadow: 0 5px 15px rgba(255, 107, 57, 0.4);
 }
 
-/* Pro Upgrade Popup Styles */
 .showpop {
   position: fixed;
   top: 20px;
@@ -486,7 +485,6 @@ a {
   color: white;
 }
 
-/* Authentication System Styles */
 .auth-section {
   padding-top: 16px;
 }
@@ -841,7 +839,6 @@ a {
           <button class="long-btn active-btn" data-url="./assets/home.html"><i class="fas fa-home"></i></button>
         </div>
         
-        <!-- Authentication System -->
         <div class="auth-section">
           <div class="auth-user-info" id="auth-user-info">
             <div class="auth-avatar" id="auth-avatar">?</div>
@@ -853,7 +850,6 @@ a {
           </div>
         </div>
         
-        <!-- Authentication Popup Menu -->
         <div class="auth-popup" id="auth-popup" style="display: none;">
           <div class="auth-popup-content">
             <div class="auth-popup-header">
@@ -892,7 +888,6 @@ a {
                 <div class="profile-data" id="profile-data"></div>
               </div>
               
-              <!-- Upgrade and Code Redemption Section -->
               <div class="upgrade-section">
                 <h4>Upgrade Options</h4>
                 <button class="auth-btn" id="open-upgrade-btn">Upgrade with Ads</button>
@@ -918,10 +913,8 @@ a {
   </div>
   
   <script>
-    // Authentication System
     let CURRENT_USER = null;
     
-    // DOM Elements
     const authUserInfo = document.getElementById('auth-user-info');
     const authAvatar = document.getElementById('auth-avatar');
     const authUsername = document.getElementById('auth-username');
@@ -938,7 +931,6 @@ a {
     const profileData = document.getElementById('profile-data');
     const upgradeProBtn = document.getElementById('upgrade-pro-btn');
     
-    // Authentication Functions
     function filenameForUser() {
       return 'bloxdforge-userdata.json';
     }
@@ -990,56 +982,49 @@ a {
       
     function updateUserRank(section) {
       if (section && (section === 'Pro' || section === 'Free')) {
-        // Display expiration time for Pro users
         if (section === 'Pro' && CURRENT_USER?.proExpiration) {
           if (CURRENT_USER.proExpiration === 'forever') {
             authUserRank.textContent = 'Pro';
-            authUserRank.style.color = '#ffc850'; // Gold color for forever Pro
+            authUserRank.style.color = '#ffc850';
           } else {
             const expirationTime = new Date(CURRENT_USER.proExpiration);
-            const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60))); // minutes
-            if (timeLeft > 60 * 24) { // More than 1 day
+            const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60)));
+            if (timeLeft > 60 * 24) {
               authUserRank.textContent = `Pro (${Math.floor(timeLeft / (60 * 24))}d)`;
-            } else if (timeLeft > 60) { // More than 1 hour
+            } else if (timeLeft > 60) {
               authUserRank.textContent = `Pro (${Math.floor(timeLeft / 60)}h)`;
             } else {
               authUserRank.textContent = `Pro (${timeLeft}m)`;
             }
-            authUserRank.style.color = '#666'; // Reset to default color
+            authUserRank.style.color = '#666';
           }
         } else {
           authUserRank.textContent = section;
-          authUserRank.style.color = '#666'; // Reset to default color
+          authUserRank.style.color = '#666';
         }
         
         authUserRank.className = `auth-user-rank ${section.toLowerCase()}`;
         authUserRank.style.display = 'block';
         
-        // Show/hide upgrade button based on account type
         if (upgradeProBtn) {
           upgradeProBtn.style.display = section === 'Free' ? 'block' : 'none';
         }
         
-        // Update stored user type and manage ads
         if (CURRENT_USER) {
           CURRENT_USER.userType = section;
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
         }
         
-        // Manage ads based on user type
         manageAdsForUserType(section);
       } else {
         authUserRank.style.display = 'none';
-        // Show upgrade button for users without valid rank (assuming Free)
         if (upgradeProBtn) {
           upgradeProBtn.style.display = 'block';
         }
-        // Show ads for users without valid rank
         manageAdsForUserType('Free');
       }
     }
     
-    // Helper function to get current user type more reliably
     function getCurrentUserType() {
       console.log('=== Getting current user type ===');
       console.log('CURRENT_USER:', CURRENT_USER);
@@ -1049,17 +1034,14 @@ a {
         return 'Free';
       }
       
-      // Check if Pro status is forever or has expired
       if (CURRENT_USER.userType === 'Pro' && CURRENT_USER.proExpiration) {
         if (CURRENT_USER.proExpiration === 'forever') {
-          // Forever Pro status never expires
           console.log('Forever Pro status, returning Pro');
           return 'Pro';
         }
         
         const expirationTime = new Date(CURRENT_USER.proExpiration);
         if (Date.now() > expirationTime.getTime()) {
-          // Pro status has expired, downgrade to Free
           console.log('Pro status expired, downgrading to Free');
           CURRENT_USER.userType = 'Free';
           delete CURRENT_USER.proExpiration;
@@ -1069,16 +1051,13 @@ a {
         }
       }
       
-      // Check CURRENT_USER object first (most reliable)
       if (CURRENT_USER && CURRENT_USER.userType) {
         console.log('User type from CURRENT_USER:', CURRENT_USER.userType);
         return CURRENT_USER.userType;
       }
       
-      // Try to get from profileSection DOM element
       if (profileSection && profileSection.value && profileSection.value !== '') {
         console.log('User type from profileSection:', profileSection.value);
-        // Also update CURRENT_USER to keep it in sync
         if (CURRENT_USER) {
           CURRENT_USER.userType = profileSection.value;
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
@@ -1086,12 +1065,10 @@ a {
         return profileSection.value;
       }
       
-      // If DOM element is not set, try to get from stored user data
       const storedUser = loadFromLocalStorage('bloxdforge-user');
       console.log('Stored user data:', storedUser);
       if (storedUser && storedUser.userType) {
         console.log('User type from stored data:', storedUser.userType);
-        // Update CURRENT_USER and DOM element
         if (CURRENT_USER) {
           CURRENT_USER.userType = storedUser.userType;
         }
@@ -1101,7 +1078,6 @@ a {
         return storedUser.userType;
       }
       
-      // Default to Free if we can't determine the type
       console.log('Defaulting to Free user type');
       return 'Free';
     }
@@ -1111,24 +1087,20 @@ a {
       const iframe = document.getElementById('contentFrame');
       const container = document.querySelector('.container');
       
-      console.log('Managing ads for user type:', userType); // Debug log
+      console.log('Managing ads for user type:', userType);
       
       if (userType === 'Pro') {
-        // Hide ads and right sidebar for Pro users
         if (rightSidebar) {
           rightSidebar.style.display = 'none';
         }
-        // Update container layout for Pro users
         if (container) {
           container.classList.add('pro-layout');
         }
-        // Reset iframe styles to let CSS handle the layout
         if (iframe) {
           iframe.style.marginRight = '';
           iframe.style.width = '';
         }
         
-        // Send message to iframe to hide ads if supported
         if (iframe && iframe.contentWindow) {
           try {
             iframe.contentWindow.postMessage({ action: 'hideAds', userType: 'Pro' }, '*');
@@ -1137,30 +1109,25 @@ a {
           }
         }
         
-        // Force layout recalculation
         setTimeout(() => {
           if (container) {
             container.style.display = 'none';
-            container.offsetHeight; // Trigger reflow
+            container.offsetHeight;
             container.style.display = 'flex';
           }
         }, 10);
       } else {
-        // Show ads and right sidebar for Free users
         if (rightSidebar) {
           rightSidebar.style.display = 'block';
         }
-        // Reset container layout for Free users
         if (container) {
           container.classList.remove('pro-layout');
         }
-        // Reset iframe styles to default
         if (iframe) {
           iframe.style.marginRight = '';
           iframe.style.width = '';
         }
         
-        // Send message to iframe to show ads
         if (iframe && iframe.contentWindow) {
           try {
             iframe.contentWindow.postMessage({ action: 'showAds', userType: 'Free' }, '*');
@@ -1175,7 +1142,6 @@ a {
       CURRENT_USER = user || null;
       
       if (user && user.username) {
-        // User signed in - save to localStorage
         saveToLocalStorage('bloxdforge-user', user);
         
         authUserInfo.style.display = 'flex';
@@ -1188,11 +1154,9 @@ a {
         
         authStatus.textContent = 'signed in';
         
-        // Try to load existing profile
         try {
           await loadProfileFile();
         } catch (e) {
-          // Show profile form if no saved data exists
           profileForm.style.display = 'block';
           profileDescription.disabled = false;
           profileSection.disabled = false;
@@ -1203,13 +1167,11 @@ a {
           profileData.textContent = 'No saved profile found.';
         }
         
-        // Close auth popup
         document.getElementById('auth-popup').style.display = 'none';
         authMenuBtn.classList.remove('active');
         
         showNotification(`Welcome back, ${user.username}!`);
       } else {
-        // User signed out - clear localStorage
         clearLocalStorage('bloxdforge-user');
         
         authUserInfo.style.display = 'flex';
@@ -1227,7 +1189,6 @@ a {
         
         authStatus.textContent = 'signed out';
         
-        // Disable form controls
         profileDescription.disabled = true;
         profileDescription.value = '';
         profileSection.disabled = true;
@@ -1262,18 +1223,15 @@ a {
         await puter.fs.write(filenameForUser(), JSON.stringify(payload, null, 2));
         showNotification('Profile saved successfully!');
         
-        // Hide creation form and show only display data
         profileForm.style.display = 'none';
         applyVipStyle(payload.section);
         updateUserRank(payload.section);
         
-        // Update stored user data with the account type
         if (CURRENT_USER) {
           CURRENT_USER.userType = payload.section;
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
         }
         
-        // Display simplified format
         const expirationText = payload.section === 'Pro' && payload.proExpiration ? ' (Expires in 1 hour)' : '';
         profileData.style.display = 'block';
         profileData.innerHTML = `Description: ${payload.description}\nAccount Type: ${payload.section}${expirationText}\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
@@ -1289,21 +1247,17 @@ a {
         return;
       }
       
-      // Show the profile form for editing
       profileForm.style.display = 'block';
       profileDescription.disabled = false;
       profileSection.disabled = false;
       saveProfileBtn.disabled = false;
       loadProfileBtn.disabled = false;
       
-      // Hide the profile data display
       profileData.style.display = 'none';
     }
     
-    // Make showEditForm globally accessible
     window.showEditForm = showEditForm;
     
-    // Upgrade user to Pro for 1 hour (existing function)
     async function upgradeUserToPro() {
       if (!CURRENT_USER?.username) {
         showNotification('Please sign in first');
@@ -1311,8 +1265,7 @@ a {
       }
       
       try {
-        // Update profile to Pro with expiration time (1 hour from now)
-        const expirationTime = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+        const expirationTime = new Date(Date.now() + 60 * 60 * 1000);
         const payload = {
           description: profileDescription.value.trim() || 'Pro User',
           section: 'Pro',
@@ -1324,27 +1277,22 @@ a {
         
         await puter.fs.write(filenameForUser(), JSON.stringify(payload, null, 2));
         
-        // Update UI immediately
         profileSection.value = 'Pro';
         applyVipStyle('Pro');
         updateUserRank('Pro');
         
-        // Update stored user data with new type and expiration
         if (CURRENT_USER) {
           CURRENT_USER.userType = 'Pro';
           CURRENT_USER.proExpiration = expirationTime.toISOString();
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
         }
         
-        // Immediately apply Pro ad management
         manageAdsForUserType('Pro');
         
-        // Hide profile form and show display
         profileForm.style.display = 'none';
         profileData.style.display = 'block';
         profileData.innerHTML = `Description: ${payload.description}\nAccount Type: Pro (Expires in 1 hour)\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
         
-        // Update authUserRank to show expiration time
         if (authUserRank) {
           authUserRank.textContent = 'Pro (60m)';
         }
@@ -1357,7 +1305,6 @@ a {
       }
     }
     
-    // NEW FUNCTION: Upgrade user to Pro for 1 week
     async function upgradeUserToProWeek() {
       if (!CURRENT_USER?.username) {
         showNotification('Please sign in first');
@@ -1365,8 +1312,7 @@ a {
       }
       
       try {
-        // Update profile to Pro with expiration time (1 week from now)
-        const expirationTime = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 1 week from now
+        const expirationTime = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
         const payload = {
           description: profileDescription.value.trim() || 'Pro User',
           section: 'Pro',
@@ -1378,29 +1324,24 @@ a {
         
         await puter.fs.write(filenameForUser(), JSON.stringify(payload, null, 2));
         
-        // Update UI immediately
         profileSection.value = 'Pro';
         applyVipStyle('Pro');
         updateUserRank('Pro');
         
-        // Update stored user data with new type and expiration
         if (CURRENT_USER) {
           CURRENT_USER.userType = 'Pro';
           CURRENT_USER.proExpiration = expirationTime.toISOString();
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
         }
         
-        // Immediately apply Pro ad management
         manageAdsForUserType('Pro');
         
-        // Hide profile form and show display
         profileForm.style.display = 'none';
         profileData.style.display = 'block';
         profileData.innerHTML = `Description: ${payload.description}\nAccount Type: Pro (Expires in 1 week)\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
         
-        // Update authUserRank to show expiration time
         if (authUserRank) {
-          const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60))); // minutes
+          const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60)));
           authUserRank.textContent = `Pro (${Math.floor(timeLeft / 60)}h)`;
         }
         
@@ -1412,7 +1353,6 @@ a {
       }
     }
     
-    // NEW FUNCTION: Upgrade user to Pro forever
     async function upgradeUserToProForever() {
       if (!CURRENT_USER?.username) {
         showNotification('Please sign in first');
@@ -1420,42 +1360,36 @@ a {
       }
       
       try {
-        // Update profile to Pro with no expiration time
         const payload = {
           description: profileDescription.value.trim() || 'Pro User',
           section: 'Pro',
           savedAt: new Date().toISOString(),
           app: 'BloxdForge',
           upgradedAt: new Date().toISOString(),
-          proExpiration: 'forever' // Special value indicating forever Pro
+          proExpiration: 'forever'
         };
         
         await puter.fs.write(filenameForUser(), JSON.stringify(payload, null, 2));
         
-        // Update UI immediately
         profileSection.value = 'Pro';
         applyVipStyle('Pro');
         updateUserRank('Pro');
         
-        // Update stored user data with new type and forever status
         if (CURRENT_USER) {
           CURRENT_USER.userType = 'Pro';
           CURRENT_USER.proExpiration = 'forever';
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
         }
         
-        // Immediately apply Pro ad management
         manageAdsForUserType('Pro');
         
-        // Hide profile form and show display
         profileForm.style.display = 'none';
         profileData.style.display = 'block';
         profileData.innerHTML = `Description: ${payload.description}\nAccount Type: Pro (Forever)\n\n<button class="auth-btn" onclick="showEditForm()">Edit Profile</button>`;
         
-        // Update authUserRank to show forever status
         if (authUserRank) {
           authUserRank.textContent = 'Pro';
-          authUserRank.style.color = '#ffc850'; // Gold color for forever Pro
+          authUserRank.style.color = '#ffc850';
         }
         
         showNotification('🎉 Congratulations! You are now a Pro user forever!');
@@ -1479,30 +1413,24 @@ a {
         try {
           const obj = JSON.parse(text);
           if (obj.description && obj.section) {
-            // Check if Pro status is forever or has expired
             let userSection = obj.section;
             if (obj.section === 'Pro' && obj.proExpiration) {
               if (obj.proExpiration === 'forever') {
-                // Forever Pro status never expires
                 userSection = 'Pro';
               } else {
                 const expirationTime = new Date(obj.proExpiration);
                 if (Date.now() > expirationTime.getTime()) {
-                  // Pro status has expired, downgrade to Free
                   userSection = 'Free';
                   showNotification('Your Pro status has expired. You have been downgraded to Free.');
                 }
               }
             }
             
-            // Data exists - hide profile creation form and show only display data
             profileForm.style.display = 'none';
             
-            // Apply VIP styling if Pro
             applyVipStyle(userSection);
             updateUserRank(userSection);
             
-            // Update stored user data with loaded type
             if (CURRENT_USER) {
               CURRENT_USER.userType = userSection;
               if (obj.proExpiration && userSection === 'Pro') {
@@ -1513,17 +1441,15 @@ a {
               saveToLocalStorage('bloxdforge-user', CURRENT_USER);
             }
             
-            // Immediately apply ad management after loading profile
             manageAdsForUserType(userSection);
             
-            // Display only description and account type with edit button
             let expirationText = '';
             if (userSection === 'Pro' && obj.proExpiration) {
               if (obj.proExpiration === 'forever') {
                 expirationText = ' (Forever)';
               } else {
                 const expirationTime = new Date(obj.proExpiration);
-                const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60))); // minutes
+                const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60)));
                 expirationText = ` (Expires in ${timeLeft} minutes)`;
               }
             }
@@ -1532,7 +1458,6 @@ a {
             
             showNotification('Profile loaded successfully!');
           } else {
-            // Incomplete data - show creation form
             profileForm.style.display = 'block';
             profileDescription.disabled = false;
             profileSection.disabled = false;
@@ -1541,16 +1466,13 @@ a {
             
             if (obj.description) profileDescription.value = obj.description;
             if (obj.section) {
-              // Check if Pro status is forever or has expired
               let userSection = obj.section;
               if (obj.section === 'Pro' && obj.proExpiration) {
                 if (obj.proExpiration === 'forever') {
-                  // Forever Pro status never expires
                   userSection = 'Pro';
                 } else {
                   const expirationTime = new Date(obj.proExpiration);
                   if (Date.now() > expirationTime.getTime()) {
-                    // Pro status has expired, downgrade to Free
                     userSection = 'Free';
                   }
                 }
@@ -1560,7 +1482,6 @@ a {
               applyVipStyle(userSection);
               updateUserRank(userSection);
               
-              // Update stored user data with loaded type
               if (CURRENT_USER) {
                 CURRENT_USER.userType = userSection;
                 if (obj.proExpiration && userSection === 'Pro') {
@@ -1579,7 +1500,7 @@ a {
                 profileText += '\nPro status: Forever';
               } else {
                 const expirationTime = new Date(obj.proExpiration);
-                const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60))); // minutes
+                const timeLeft = Math.max(0, Math.floor((expirationTime.getTime() - Date.now()) / (1000 * 60)));
                 profileText += `\nPro status expires in ${timeLeft} minutes.`;
               }
             }
@@ -1597,7 +1518,6 @@ a {
           console.error('Error parsing profile data:', parseError);
         }
       } catch (e) {
-        // No saved profile - show creation form
         profileForm.style.display = 'block';
         profileDescription.disabled = false;
         profileSection.disabled = false;
@@ -1613,13 +1533,11 @@ a {
       }
     }
     
-    // Event Listeners
     signInBtn.addEventListener('click', async () => {
       try {
         const user = await puter.auth.signIn();
         let userData = user;
         
-        // Try different methods to get user data
         if (!user?.username) {
           if (typeof puter.auth.getUserData === 'function') {
             userData = await puter.auth.getUserData();
@@ -1654,11 +1572,9 @@ a {
     profileSection.addEventListener('change', (e) => {
       applyVipStyle(e.target.value);
       updateUserRank(e.target.value);
-      // Immediately apply ad management when user type changes
       manageAdsForUserType(e.target.value);
     });
     
-    // Toggle auth popup when clicking the menu button
     authMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       const authPopup = document.getElementById('auth-popup');
@@ -1673,13 +1589,11 @@ a {
       }
     });
     
-    // Close auth popup when clicking the close button
     document.getElementById('auth-popup-close').addEventListener('click', () => {
       document.getElementById('auth-popup').style.display = 'none';
       authMenuBtn.classList.remove('active');
     });
     
-    // Close auth popup when clicking outside
     document.getElementById('auth-popup').addEventListener('click', (e) => {
       if (e.target.id === 'auth-popup') {
         e.target.style.display = 'none';
@@ -1687,7 +1601,6 @@ a {
       }
     });
     
-    // Listen for messages from upgrade page
     window.addEventListener('message', function(event) {
       if (event.data && event.data.source === 'upgrade-page') {
         if (event.data.action === 'upgradeToPro') {
@@ -1695,7 +1608,6 @@ a {
         } else if (event.data.action === 'upgradeToProForever') {
           upgradeUserToProForever();
         } else if (event.data.action === 'closeUpgrade') {
-          // Close the upgrade iframe/window if it exists
           const upgradeFrame = document.getElementById('upgrade-frame');
           if (upgradeFrame) {
             upgradeFrame.remove();
@@ -1704,7 +1616,6 @@ a {
       }
     });
     
-    // Handle claim Pro button
     if (upgradeProBtn) {
       upgradeProBtn.addEventListener('click', function() {
         if (!CURRENT_USER?.username) {
@@ -1712,7 +1623,6 @@ a {
           return;
         }
         
-        // Create and show upgrade page in iframe
         const upgradeFrame = document.createElement('iframe');
         upgradeFrame.id = 'upgrade-frame';
         upgradeFrame.src = './assets/upgrade-pro.html';
@@ -1729,7 +1639,6 @@ a {
         
         document.body.appendChild(upgradeFrame);
         
-        // Add close button
         const closeBtn = document.createElement('button');
         closeBtn.innerHTML = '×';
         closeBtn.style.cssText = `
@@ -1757,14 +1666,12 @@ a {
       });
     }
     
-    // Open Upgrade iframe button
     document.getElementById('open-upgrade-btn').addEventListener('click', function() {
       if (!CURRENT_USER?.username) {
         showNotification('Please sign in first');
         return;
       }
       
-      // Create and show upgrade page in iframe
       const upgradeFrame = document.createElement('iframe');
       upgradeFrame.id = 'upgrade-frame';
       upgradeFrame.src = './assets/upgrade-pro.html';
@@ -1781,7 +1688,6 @@ a {
       
       document.body.appendChild(upgradeFrame);
       
-      // Add close button
       const closeBtn = document.createElement('button');
       closeBtn.innerHTML = '×';
       closeBtn.style.cssText = `
@@ -1808,13 +1714,11 @@ a {
       document.body.appendChild(closeBtn);
     });
     
-    // Code Redemption Functionality
     document.getElementById('redeem-code-btn').addEventListener('click', function() {
       const codeInput = document.getElementById('code-input');
       const codeMessage = document.getElementById('code-message');
       const code = codeInput.value.trim().toUpperCase();
       
-      // Clear previous messages
       codeMessage.textContent = '';
       codeMessage.className = '';
       
@@ -1824,7 +1728,6 @@ a {
         return;
       }
       
-      // codes
       const validCodes = {
         'ILF67': { type: 'pro_forever', description: 'Pro status forever' },
         'Bf-7': { type: 'pro_week', description: 'Pro status for 1 week' },
@@ -1836,17 +1739,14 @@ a {
         const codeData = validCodes[code];
         
         if (codeData.type === 'pro_forever') {
-          // Redeem Pro status forever
           upgradeUserToProForever();
           codeMessage.textContent = 'Code redeemed successfully! You now have Pro status forever.';
           codeMessage.className = 'success';
         } else if (codeData.type === 'pro_week') {
-          // Redeem Pro status for 1 week
           upgradeUserToProWeek();
           codeMessage.textContent = 'Code redeemed successfully! You now have Pro status for 1 week.';
           codeMessage.className = 'success';
         } else if (codeData.type === 'image') {
-          // Show popup image
           showPopupImage(codeData.imageUrl);
           codeMessage.textContent = 'Code redeemed successfully! Check out your reward.';
           codeMessage.className = 'success';
@@ -1856,13 +1756,10 @@ a {
         codeMessage.className = 'error';
       }
       
-      // Clear input
       codeInput.value = '';
     });
     
-    // Function to show popup image
     function showPopupImage(imageUrl) {
-      // Create popup container
       const popup = document.createElement('div');
       popup.id = 'image-popup';
       popup.style.cssText = `
@@ -1878,7 +1775,6 @@ a {
         z-index: 10002;
       `;
       
-      // Create popup content
       const popupContent = document.createElement('div');
       popupContent.style.cssText = `
         position: relative;
@@ -1886,7 +1782,6 @@ a {
         max-height: 90%;
       `;
       
-      // Create close button
       const closeBtn = document.createElement('button');
       closeBtn.innerHTML = '×';
       closeBtn.style.cssText = `
@@ -1906,7 +1801,6 @@ a {
         justify-content: center;
       `;
       
-      // Create image
       const img = document.createElement('img');
       img.src = imageUrl;
       img.style.cssText = `
@@ -1916,7 +1810,6 @@ a {
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       `;
       
-      // Add event listeners
       closeBtn.addEventListener('click', function() {
         popup.remove();
       });
@@ -1927,24 +1820,19 @@ a {
         }
       });
       
-      // Assemble popup
       popupContent.appendChild(closeBtn);
       popupContent.appendChild(img);
       popup.appendChild(popupContent);
       document.body.appendChild(popup);
     }
     
-    // Initialize auth state
     async function initializeAuth() {
-      // Check for stored user data
       const storedUser = loadFromLocalStorage('bloxdforge-user');
       if (storedUser) {
-        // Check if Pro status is forever or has expired
         if (storedUser.userType === 'Pro' && storedUser.proExpiration) {
           if (storedUser.proExpiration !== 'forever') {
             const expirationTime = new Date(storedUser.proExpiration);
             if (Date.now() > expirationTime.getTime()) {
-              // Pro status has expired, downgrade to Free
               storedUser.userType = 'Free';
               delete storedUser.proExpiration;
               saveToLocalStorage('bloxdforge-user', storedUser);
@@ -1953,7 +1841,6 @@ a {
         }
         
         await setSignedIn(storedUser);
-        // Wait for profile to be loaded, then apply ad management
         setTimeout(() => {
           const initialUserType = getCurrentUserType();
           console.log('Initial user type after auth:', initialUserType);
@@ -1965,20 +1852,16 @@ a {
       }
     }
     
-    // Call initialization
     initializeAuth();
     
-    // Periodically check for Pro status expiration (every minute)
     setInterval(() => {
       if (CURRENT_USER && CURRENT_USER.userType === 'Pro' && CURRENT_USER.proExpiration) {
-        // Skip expiration check for forever Pro status
         if (CURRENT_USER.proExpiration === 'forever') {
           return;
         }
         
         const expirationTime = new Date(CURRENT_USER.proExpiration);
         if (Date.now() > expirationTime.getTime()) {
-          // Pro status has expired, downgrade to Free
           CURRENT_USER.userType = 'Free';
           delete CURRENT_USER.proExpiration;
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
@@ -1986,13 +1869,11 @@ a {
           manageAdsForUserType('Free');
           showNotification('Your Pro status has expired. You have been downgraded to Free.');
         } else {
-          // Update the display with remaining time
           updateUserRank('Pro');
         }
       }
-    }, 60000); // Check every minute
+    }, 60000);
     
-    // Existing BloxdForge functionality
     const cards = document.querySelectorAll('.card');
     const homeBtn = document.querySelector('.long-btn');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
@@ -2010,29 +1891,24 @@ a {
       card.addEventListener('click', () => {
         const url = card.getAttribute('data-url');
         
-        // Add blur effect immediately when card is clicked
         console.log('Adding blur effect to iframe');
         iframe.classList.add('blurred');
         console.log('Iframe classes after adding blur:', iframe.className);
         
-        // Remove blur effect after exactly 0.5 seconds
         setTimeout(() => {
           console.log('Removing blur effect from iframe');
           iframe.classList.remove('blurred');
           console.log('Iframe classes after removing blur:', iframe.className);
         }, 500);
         
-        // Get user type immediately and apply ad management BEFORE iframe loads
         const currentUserType = getCurrentUserType();
-        console.log('Card clicked, user type:', currentUserType); // Debug log
+        console.log('Card clicked, user type:', currentUserType);
         
-        // Apply ad management immediately
         manageAdsForUserType(currentUserType);
         
         setTimeout(() => {
           iframe.src = url;
           iframe.onload = () => {
-            // Communicate user type to the loaded iframe using the reliable helper function
             const currentUserType = getCurrentUserType();
             try {
               iframe.contentWindow.postMessage({ 
@@ -2043,7 +1919,6 @@ a {
               console.log('Could not communicate with iframe:', e);
             }
             
-            // Apply proper layout based on user type again after iframe loads
             manageAdsForUserType(currentUserType);
           };
           
@@ -2058,28 +1933,23 @@ a {
     homeBtn.addEventListener('click', () => {
       const url = homeBtn.getAttribute('data-url');
       
-      // Add blur effect immediately when home button is clicked
       console.log('Adding blur effect to iframe (home button)');
       iframe.classList.add('blurred');
       console.log('Iframe classes after adding blur:', iframe.className);
       
-      // Remove blur effect after exactly 0.5 seconds
       setTimeout(() => {
         console.log('Removing blur effect from iframe (home button)');
         iframe.classList.remove('blurred');
         console.log('Iframe classes after removing blur:', iframe.className);
       }, 500);
       
-      // Get user type immediately and apply ad management BEFORE iframe loads
       const currentUserType = getCurrentUserType();
-      console.log('Home button clicked, user type:', currentUserType); // Debug log
+      console.log('Home button clicked, user type:', currentUserType);
       
-      // Apply ad management immediately
       manageAdsForUserType(currentUserType);
       
       iframe.src = url;
       iframe.onload = () => {
-        // Communicate user type to the loaded iframe using the reliable helper function
         const currentUserType = getCurrentUserType();
         try {
           iframe.contentWindow.postMessage({ 
@@ -2090,7 +1960,6 @@ a {
           console.log('Could not communicate with iframe:', e);
         }
         
-        // Apply proper layout based on user type again after iframe loads
         manageAdsForUserType(currentUserType);
       };
       
@@ -2118,49 +1987,39 @@ a {
       }, 3000);
     }
     
-    // Check if user already closed popup before
     if (localStorage.getItem("popupinfo")) {
       document.getElementById("popupinfo").style.display = "none";
     }
     
-    // Add button click logic
     document.getElementById("closePopup").addEventListener("click", () => {
       document.getElementById("popupinfo").style.display = "none";
       localStorage.setItem("popupinfo", Date.now());
     });
     
-    // Showpop functionality
     function initShowPop() {
       const showpop = document.getElementById('showpop');
       const showpopClose = document.getElementById('showpopClose');
       const showpopDismiss = document.getElementById('showpopDismiss');
       const showpopTry = document.getElementById('showpopTry');
       
-      // Check if user has dismissed the popup before
       if (!localStorage.getItem('showpopDismissed')) {
-        // Show popup after a delay
         setTimeout(() => {
           showpop.classList.add('show');
         }, 5000);
       }
       
-      // Close button
       showpopClose.addEventListener('click', () => {
         showpop.classList.remove('show');
       });
       
-      // Dismiss button
       showpopDismiss.addEventListener('click', () => {
         showpop.classList.remove('show');
         localStorage.setItem('showpopDismissed', Date.now());
       });
       
-      // Try Pro button
       showpopTry.addEventListener('click', () => {
         showpop.classList.remove('show');
-        // Trigger the upgrade process
         if (CURRENT_USER?.username) {
-          // User is signed in, open upgrade page
           const upgradeFrame = document.createElement('iframe');
           upgradeFrame.id = 'upgrade-frame';
           upgradeFrame.src = './assets/upgrade-pro.html';
@@ -2177,7 +2036,6 @@ a {
           
           document.body.appendChild(upgradeFrame);
           
-          // Add close button
           const closeBtn = document.createElement('button');
           closeBtn.innerHTML = '×';
           closeBtn.style.cssText = `
@@ -2203,9 +2061,7 @@ a {
           
           document.body.appendChild(closeBtn);
         } else {
-          // User not signed in, prompt to sign in first
           showNotification('Please sign in first to upgrade to Pro');
-          // Show sign in button if not already visible
           const authPopup = document.getElementById('auth-popup');
           if (authPopup.style.display !== 'flex') {
             authPopup.style.display = 'flex';
@@ -2215,10 +2071,8 @@ a {
       });
     }
     
-    // Initialize showpop
     initShowPop();
     
-    // Close auth popup when clicking outside
     document.addEventListener('click', (e) => {
       const authPopup = document.getElementById('auth-popup');
       if (authPopup.style.display === 'flex' && 

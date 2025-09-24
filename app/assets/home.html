@@ -157,7 +157,6 @@
       line-height: 1.5;
     }
 
-    /* Responsive design */
     @media (max-width: 900px) {
       .home-grid {
         grid-template-columns: 1fr;
@@ -184,7 +183,6 @@
       }
     }
 
-    /* Animation for elements */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -250,7 +248,6 @@
       z-index: 999;
     }
 
-    /* Tooltip styles */
     .tooltip {
       position: fixed;
       bottom: 80px;
@@ -348,7 +345,6 @@
       color: #aaa;
     }
 
-    /* Responsive */
     @media (max-width: 800px) {
       .modal-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -406,7 +402,6 @@
       resize: both;
     }
 
-    /* Responsive adjustments for floating windows */
     @media (max-width: 768px) {
       .floating-window {
         min-width: 90vw;
@@ -461,7 +456,6 @@
       overflow: auto;
     }
 
-    /* Remove padding when window contains only an iframe */
     .window-content:has(iframe:only-child),
     .window-content.iframe-only {
       padding: 0;
@@ -473,7 +467,6 @@
       border: none;
     }
 
-    /* Tall floating window variant for AI Assistant */
     .floating-window.tall {
       min-width: 400px;
       max-width: 450px;
@@ -544,7 +537,6 @@
       box-shadow: 0 4px 12px rgba(255, 107, 57, 0.3);
     }
 
-    /* Recording UI Styles */
     #recording-window {
       display: none;
       position: fixed;
@@ -687,16 +679,13 @@
   </style>
 </head>
 <body>
-  <!-- Bottom-right button -->
   <button class="bottomright-btn" id="menupopBtn"><i class="fas fa-bars"></i></button>
   
-  <!-- Tooltip for menu button -->
   <div class="tooltip" id="menuTooltip">
     <div class="tooltip-content">Lot of cool stuff in this menu check it out!</div>
     <div class="tooltip-arrow"></div>
   </div>
 
-  <!-- Modal overlay -->
   <div class="modal-overlay" id="popupModal">
     <div class="modal-content">
       <div class="modal-grid">
@@ -739,7 +728,6 @@
     </div>
   </div>
 
-  <!-- Worlds Modal -->
   <div class="modal-overlay" id="worldsModal" style="display: none;">
     <div class="modal-content" style="max-width: 1200px; width: 90%; padding: 0; overflow: hidden;">
       <div style="background: linear-gradient(90deg, #2e2e2e, #2a2a2a); padding: 15px 20px; border-bottom: 1px solid #444343; display: flex; justify-content: space-between; align-items: center;">
@@ -748,7 +736,6 @@
       </div>
       <div style="padding: 20px; max-height: 70vh; overflow-y: auto;">
         <div id="worldsContainer" class="modal-grid" style="grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 20px;">
-          <!-- World cards will be populated by JavaScript -->
         </div>
       </div>
     </div>
@@ -790,7 +777,6 @@
   <div class="modal-overlay" id="modal" style="display: none;"></div>
   <div class="popmenu" id="popmenu" style="display: none;"></div>
 
-  <!-- Recording Window -->
   <div id="recording-window" style="display: none;">
     <div class="recording-header" id="recording-drag-handle">
       <h3>Screen Recorder</h3>
@@ -820,7 +806,6 @@
   
 
   <script>
-    // Listen for messages from parent window about user type
     window.addEventListener('message', function(event) {
       if (event.data && event.data.action) {
         if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
@@ -831,12 +816,10 @@
       }
     });
     
-    // Screen Recording Variables
     let mediaStream = null;
     let mediaRecorder = null;
     let recordedChunks = [];
 
-    // Draggable window functionality
     function makeDraggable(element, header) {
       let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
       
@@ -845,42 +828,35 @@
       function dragMouseDown(e) {
         e = e || window.event;
         e.preventDefault();
-        // Get the mouse cursor position at startup
         pos3 = e.clientX;
         pos4 = e.clientY;
         document.onmouseup = closeDragElement;
-        // Call a function whenever the cursor moves
         document.onmousemove = elementDrag;
       }
 
       function elementDrag(e) {
         e = e || window.event;
         e.preventDefault();
-        // Calculate the new cursor position
         pos1 = pos3 - e.clientX;
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
-        // Set the element's new position
         element.style.top = (element.offsetTop - pos2) + "px";
         element.style.left = (element.offsetLeft - pos1) + "px";
       }
 
       function closeDragElement() {
-        // Stop moving when mouse button is released
         document.onmouseup = null;
         document.onmousemove = null;
       }
     }
 
-    // Create a new floating window
     function createFloatingWindow(title, content) {
       const windowId = 'window-' + Math.random().toString(36).substr(2, 9);
       const window = document.createElement('div');
       window.className = 'floating-window';
       window.id = windowId;
       
-      // Better responsive positioning
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
         window.style.top = '5vh';
@@ -890,7 +866,6 @@
         window.style.left = '100px';
       }
       
-      // Check if content is only an iframe
       const isIframeOnly = content.trim().startsWith('<iframe') && content.trim().endsWith('></iframe>');
       const contentClass = isIframeOnly ? 'window-content iframe-only' : 'window-content';
       
@@ -904,13 +879,11 @@
       
       document.body.appendChild(window);
       
-      // Make window draggable by its header (only if not mobile)
       if (!isMobile) {
         const header = window.querySelector('.window-header');
         makeDraggable(window, header);
       }
       
-      // Close button functionality
       const closeBtn = window.querySelector('.window-close');
       closeBtn.addEventListener('click', () => {
         document.body.removeChild(window);
@@ -919,14 +892,12 @@
       return window;
     }
 
-    // Create a new tall floating window (taller than wide)
     function createTallFloatingWindow(title, iframeSrc) {
       const windowId = 'window-' + Math.random().toString(36).substr(2, 9);
       const window = document.createElement('div');
       window.className = 'floating-window tall';
       window.id = windowId;
       
-      // Better responsive positioning for tall windows
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
         window.style.top = '2vh';
@@ -948,13 +919,11 @@
       
       document.body.appendChild(window);
       
-      // Make window draggable by its header (only if not mobile)
       if (!isMobile) {
         const header = window.querySelector('.window-header');
         makeDraggable(window, header);
       }
       
-      // Close button functionality
       const closeBtn = window.querySelector('.window-close');
       closeBtn.addEventListener('click', () => {
         document.body.removeChild(window);
@@ -963,7 +932,6 @@
       return window;
     }
 
-    // Big button iframe logic
     document.querySelectorAll('.big-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const url = btn.dataset.url;
@@ -974,7 +942,6 @@
       });
     });
 
-    // Modal open/close logic
     const modal = document.getElementById('popupModal');
     const openBtn = document.getElementById('menupopBtn');
     const closeBtn = document.getElementById('close-btn');
@@ -986,7 +953,6 @@
       if(e.target === modal) modal.style.display = 'none'; 
     });
 
-    // Create floating windows for menu items
     document.querySelectorAll('.modal-item').forEach(item => {
       if (item.id && item.id !== 'close-btn' && item.id !== 'record-btn' && item.id !== 'ai-assistant-btn') {
         item.style.cursor = 'pointer';
@@ -1024,7 +990,6 @@
       }
     });
 
-    // AI Assistant button specific handler
     const aiAssistantBtn = document.getElementById('ai-assistant-btn');
     if (aiAssistantBtn) {
       aiAssistantBtn.style.cursor = 'pointer';
@@ -1032,7 +997,6 @@
         e.preventDefault();
         e.stopPropagation();
         
-        // Create tall floating window with AI Assistant interface
         const aiAssistantUrl = './data/iframes/ai-assistant.html';
         createTallFloatingWindow('BForge Agent', aiAssistantUrl);
         
@@ -1040,7 +1004,6 @@
       });
     }
 
-    // Metrics toggle
     const fpsPingDisplay = document.getElementById('fps-ping-display');
     const fpsDisplay = document.getElementById('fps-display');
     const pingDisplay = document.getElementById('ping-display');
@@ -1066,12 +1029,10 @@
       if(showFpsPing) setTimeout(updatePing, 1000);
     }
 
-    // Initialize dark mode overlay
     const darkModeOverlay = document.createElement('div');
     darkModeOverlay.className = 'darkmode-overlay';
     document.body.appendChild(darkModeOverlay);
 
-    // Define metrics function
     function metrics() {
       if (!fpsPingDisplay || !fpsDisplay || !pingDisplay) return;
       
@@ -1086,16 +1047,13 @@
       if (modal) modal.style.display = 'none';
     }
 
-    // Connect metrics button if it exists
     if (metricsBtn) {
       metricsBtn.addEventListener('click', metrics);
     }
 
-    // Load saved filter preference on page load
     document.addEventListener('DOMContentLoaded', () => {
       const savedFilter = localStorage.getItem('gameFilter');
       if (savedFilter) {
-        // Find and click the corresponding filter button
         const filterButton = document.querySelector(`.filter-option[onclick*="'${savedFilter}'"]`);
         if (filterButton) {
           filterButton.click();
@@ -1103,7 +1061,6 @@
       }
     });
 
-    // Modal functions
     function openModal(link) {
       const modal = document.getElementById('modal');
       if (!modal) return;
@@ -1140,7 +1097,6 @@
       document.getElementById('overlay').classList.remove('show');
     }
 
-    // Filters function
     function filters() {
       const filterContent = `
         <div style="padding: 20px;">
@@ -1162,21 +1118,17 @@
     }
 
     function toggleFilter(button, filterValue) {
-      // Get the main game iframe
       const gameIframe = document.querySelector('.fullscreen-frame');
       if (!gameIframe) return;
       
-      // Remove active class from all filter options
       document.querySelectorAll('.filter-option').forEach(btn => {
         btn.classList.remove('active');
       });
       
-      // Add active class to clicked button
       if (button) {
         button.classList.add('active');
       }
       
-      // Apply the selected filter to the iframe
       switch(filterValue) {
         case 'blur':
           gameIframe.style.filter = 'blur(3px)';
@@ -1202,17 +1154,13 @@
           break;
       }
       
-      // Save the filter preference
       localStorage.setItem('gameFilter', filterValue);
     }
-    // Screen Recording Functions
     async function startStream() {
       try {
-        // Check if mic recording is enabled
         const recordMic = document.getElementById('mic-toggle')?.checked || false;
         
         if (recordMic) {
-          // Get both screen and microphone streams
           console.log('Getting screen stream with audio');
           const screenStream = await navigator.mediaDevices.getDisplayMedia({
             video: true,
@@ -1228,15 +1176,12 @@
             }
           });
           
-          // Create a new MediaStream and add all tracks
           mediaStream = new MediaStream();
           
-          // Add video track from screen share
           screenStream.getVideoTracks().forEach(track => {
             mediaStream.addTrack(track);
           });
           
-          // Add audio tracks
           screenStream.getAudioTracks().forEach(track => {
             mediaStream.addTrack(track);
           });
@@ -1247,7 +1192,6 @@
           
           console.log('Combined stream tracks:', mediaStream.getTracks().length);
         } else {
-          // Get only screen stream
           console.log('Getting screen stream only');
           mediaStream = await navigator.mediaDevices.getDisplayMedia({
             video: true,
@@ -1255,7 +1199,6 @@
           });
         }
         
-        // Log stream info
         console.log('Media stream tracks:', mediaStream.getTracks());
         mediaStream.getTracks().forEach((track, index) => {
           console.log(`Track ${index}:`, {
@@ -1291,7 +1234,6 @@
         return;
       }
       try {
-        // Check what tracks we have
         const hasVideo = mediaStream.getVideoTracks().length > 0;
         const hasAudio = mediaStream.getAudioTracks().length > 0;
         
@@ -1301,15 +1243,13 @@
           audioTracks: mediaStream.getAudioTracks().length
         });
         
-        // Try different mime types based on what we're recording
         let mimeType = '';
         
         if (hasVideo && hasAudio) {
-          // Try video+audio combinations
           const mimeTypes = [
-            'video/webm;codecs=vp9,opus',  // VP9 video with Opus audio
-            'video/webm;codecs=vp8,opus',  // VP8 video with Opus audio
-            'video/webm'                   // Generic webm (let browser choose)
+            'video/webm;codecs=vp9,opus',
+            'video/webm;codecs=vp8,opus',
+            'video/webm'
           ];
           
           for (const type of mimeTypes) {
@@ -1320,7 +1260,6 @@
             }
           }
         } else if (hasVideo) {
-          // Video only
           const mimeTypes = [
             'video/webm;codecs=vp9',
             'video/webm;codecs=vp8',
@@ -1335,7 +1274,6 @@
             }
           }
         } else if (hasAudio) {
-          // Audio only
           const mimeTypes = [
             'audio/webm;codecs=opus',
             'audio/webm'
@@ -1350,10 +1288,9 @@
           }
         }
         
-        // Fallback if no mime type is supported
         if (!mimeType) {
           console.warn('No supported MIME type found, using default');
-          mimeType = ''; // Use browser default
+          mimeType = '';
         }
         
         const options = { mimeType };
@@ -1447,33 +1384,26 @@
       }
     }
 
-    // Initialize recording UI
     document.addEventListener('DOMContentLoaded', () => {
-      // Tooltip functionality
       const tooltip = document.getElementById('menuTooltip');
       const menuBtn = document.getElementById('menupopBtn');
       const modal = document.getElementById('popupModal');
       
-      // Check if user has seen the tooltip before
       const hasSeenTooltip = localStorage.getItem('hasSeenMenuTooltip');
       
       if (!hasSeenTooltip) {
-        // Show tooltip after a short delay
         setTimeout(() => {
           tooltip.style.display = 'block';
         }, 1000);
       }
       
-      // Hide tooltip when menu button is clicked
       menuBtn.addEventListener('click', () => {
         if (tooltip.style.display === 'block') {
           tooltip.style.display = 'none';
-          // Mark that user has seen the tooltip
           localStorage.setItem('hasSeenMenuTooltip', 'true');
         }
       });
       
-      // Also hide tooltip when modal is opened
       if (modal) {
         const observer = new MutationObserver(() => {
           if (modal.style.display === 'flex') {
@@ -1491,12 +1421,10 @@
       const streamingBtn = document.getElementById('streamingbt');
       const recordingBtn = document.getElementById('recordingbt');
 
-      // Make the window draggable only once when the page loads
       if (recordingWindow) {
         makeDraggable(recordingWindow, document.getElementById('recording-drag-handle'));
       }
 
-      // Toggle recording window
       if (recordBtn) {
         recordBtn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -1511,7 +1439,6 @@
         });
       }
 
-      // Close recording window
       if (closeRecordingBtn) {
         closeRecordingBtn.addEventListener('click', () => {
           recordingWindow.style.display = 'none';
@@ -1519,7 +1446,6 @@
         });
       }
 
-      // Initialize recording buttons
       if (streamingBtn) {
         streamingBtn.addEventListener('click', startStream);
       }
@@ -1533,7 +1459,6 @@
         });
       }
       
-      // Add event listener for mic toggle
       const micToggle = document.getElementById('mic-toggle');
       const micIndicator = document.getElementById('mic-indicator');
       if (micToggle && micIndicator) {
@@ -1547,7 +1472,6 @@
       }
     });
 
-    // World data
     const worldsData = [
       {
         id: 1,
@@ -1593,7 +1517,6 @@
       }
     ];
 
-    // Function to populate world cards
     function populateWorldCards() {
       const container = document.getElementById('worldsContainer');
       container.innerHTML = '';
@@ -1636,7 +1559,6 @@
         container.appendChild(card);
       });
       
-      // Add event listeners to try buttons
       document.querySelectorAll('.try-world-btn').forEach(button => {
         button.addEventListener('click', function() {
           const url = this.getAttribute('data-url');
@@ -1649,18 +1571,15 @@
       });
     }
 
-    // Event listener for Try Something New button
     document.getElementById('trySomethingNewBtn').addEventListener('click', function() {
       populateWorldCards();
       document.getElementById('worldsModal').style.display = 'flex';
     });
 
-    // Event listener for closing the worlds modal
     document.getElementById('closeWorldsModal').addEventListener('click', function() {
       document.getElementById('worldsModal').style.display = 'none';
     });
 
-    // Close worlds modal when clicking outside
     document.getElementById('worldsModal').addEventListener('click', function(e) {
       if (e.target === this) {
         this.style.display = 'none';
