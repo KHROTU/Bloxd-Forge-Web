@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorldForge</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      background: #141313;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e0e0e0;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      padding: 20px;
+      gap: 20px;
+      justify-content: space-between;
+      align-items: stretch;
+      background: radial-gradient(circle at top right, #1e1c1c, #141313);
+      transition: all 0.3s ease;
+    }
+
+    .main-content {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .iframe-container {
+      flex: 1;
+      border-radius: 35px;
+      border: 1.5px solid #2c2b2b;
+      background: #000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #1b1a1a 0%, #191818 100%);
+      border: 1px solid #2c2b2b;
+      border-radius: 35px;
+      padding: 24px 20px;
+      width: 30vh;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      flex-shrink: 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #ff6b3944, transparent);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #e8e8e8;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #2c2b2b;
+      font-weight: 500;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: min-content;
+      gap: 12px;
+      overflow-y: auto;
+      padding: 5px;
+      max-height: 60vh;
+    }
+
+    .grid-container::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .grid-container::-webkit-scrollbar-thumb {
+      background: #ff6b39;
+      border-radius: 10px;
+    }
+
+    .grid-category-header {
+      grid-column: span 3;
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #3a3939;
+      color: #ff6b39;
+      padding: 8px;
+      border-radius: 14px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .grid-item {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #3a3939;
+      border-radius: 14px;
+      padding: 15px 10px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      color: #e8e8e8;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+      border-color: #4a4949;
+      background: linear-gradient(90deg, #2a2929 0%, #282727 100%);
+    }
+
+    .grid-item:nth-child(n+2):nth-child(-n+5) {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #3498db44;
+    }
+
+    .grid-item:nth-child(n+7):nth-child(-n+13) {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #e74c3c44;
+    }
+
+    .grid-item:nth-child(n+15):nth-child(-n+16) {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #9b59b644;
+    }
+
+    .grid-item:nth-child(n+18):nth-child(-n+21) {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #f39c1244;
+    }
+
+    .grid-item:nth-child(n+23):nth-child(-n+23) {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #2ecc7144;
+    }
+
+    .popup-window {
+      position: absolute;
+      background: linear-gradient(180deg, #1b1a1a 0%, #191818 100%);
+      border: 1px solid #2c2b2b;
+      border-radius: 35px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+      display: none;
+      min-width: 300px;
+      max-width: 500px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+    }
+
+    .popup-window.active {
+      display: block;
+    }
+
+    .popup-header {
+      background: linear-gradient(180deg, #1b1a1a 0%, #191818 100%);
+      border-bottom: 1px solid #2c2b2b;
+      padding: 15px;
+      border-radius: 35px 35px 0 0;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .popup-header h3 {
+      margin: 0;
+      color: #e8e8e8;
+      font-size: 1.2rem;
+    }
+
+    .popup-close {
+      background: none;
+      border: none;
+      color: #a0a0a0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .popup-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ff6b39;
+    }
+
+    .popup-content {
+      padding: 20px;
+    }
+
+    .upload-section,
+    .clipboard-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .upload-btn,
+    .clipboard-btn {
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #444343;
+      border-radius: 18px;
+      padding: 12px 20px;
+      color: #e8e8e8;
+      cursor: pointer;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .upload-btn:hover,
+    .clipboard-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      color: #ff6b39;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .uploaded-files {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .uploaded-files::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .uploaded-files::-webkit-scrollbar-thumb {
+      background: #ff6b39;
+      border-radius: 10px;
+    }
+
+    .file-item {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #3a3939;
+      border-radius: 14px;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: move;
+      transition: all 0.2s;
+    }
+
+    .file-item:hover {
+      background: linear-gradient(90deg, #2a2929 0%, #282727 100%);
+      border-color: #4a4949;
+    }
+
+    .file-icon {
+      color: #a0a0a0;
+    }
+
+    .text-editor {
+      border: 1px solid #3a3939;
+      border-radius: 14px;
+      padding: 15px;
+      min-height: 150px;
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+      color: #e8e8e8;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .text-editor:focus {
+      outline: none;
+      border-color: #ff6b39;
+    }
+
+    .saved-texts-section {
+      margin-top: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .saved-texts-section::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .saved-texts-section::-webkit-scrollbar-thumb {
+      background: #ff6b39;
+      border-radius: 10px;
+    }
+
+    .saved-text-item {
+      background: linear-gradient(90deg, #262525 0%, #242323 100%);
+      border: 1px solid #3a3939;
+      border-radius: 14px;
+      padding: 15px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .saved-text-content {
+      color: #e8e8e8;
+      margin-bottom: 10px;
+      max-height: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .saved-text-content.expanded {
+      max-height: none;
+    }
+
+    .saved-text-content::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: linear-gradient(to bottom, transparent, #242323);
+    }
+
+    .saved-text-content.expanded::after {
+      display: none;
+    }
+
+    .saved-text-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .saved-text-copy-btn,
+    .saved-text-delete-btn,
+    .saved-text-expand-btn {
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #444343;
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #e8e8e8;
+      cursor: pointer;
+      font-weight: 500;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .saved-text-copy-btn:hover,
+    .saved-text-expand-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      color: #ff6b39;
+    }
+
+    .saved-text-delete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      color: #e74c3c;
+    }
+
+    .no-saved-texts {
+      color: #a0a0a0;
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+    }
+
+    .copy-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #ff6b39;
+      color: #ff6b39;
+      padding: 10px 20px;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 1000;
+    }
+
+    .copy-notification.show {
+      opacity: 1;
+    }
+
+    footer {
+      background: linear-gradient(180deg, #1b1a1a 0%, #191818 100%);
+      border: 1px solid #2c2b2b;
+      border-radius: 35px;
+      color: #a0a0a0;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+
+    .popup-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .popup-btn {
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 1px solid #444343;
+      border-radius: 18px;
+      padding: 10px 15px;
+      color: #e8e8e8;
+      cursor: pointer;
+      font-weight: 500;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      flex: 1;
+    }
+
+    .popup-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      color: #ff6b39;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="main-content">
+      <div class="iframe-container">
+        <iframe src="https://bloxd.io" title="Main Content"></iframe>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="grid-section">
+        <h2 class="section-title">Quick commands</h2>
+        <div class="grid-container">
+          <div class="grid-category-header">Selection Tools</div>
+          <div class="grid-item" data-text="//pos1 (coords)">//pos1</div>
+          <div class="grid-item" data-text="//pos2 (coords)">//pos2</div>
+          <div class="grid-item" data-text="//shift [coords]">//shift</div>
+          <div class="grid-item" data-text="//stack [count] [axis]">//stack</div>
+
+          <div class="grid-category-header">Block Manipulation</div>
+          <div class="grid-item" data-text="//set [blockName]">//set</div>
+          <div class="grid-item" data-text="//replace [fromBlock] [toBlock]">//replace</div>
+          <div class="grid-item" data-text="//cut">//cut</div>
+          <div class="grid-item" data-text="//copy">//copy</div>
+          <div class="grid-item" data-text="//paste (coords)">//paste</div>
+          <div class="grid-item" data-text="//clear">//clear</div>
+          <div class="grid-item" data-text="//naturalize">//naturalize</div>
+
+          <div class="grid-category-header">Clipboard Tools</div>
+          <div class="grid-item" data-text="//rotate [angle]">//rotate</div>
+          <div class="grid-item" data-text="//flip [axis]">//flip</div>
+
+          <div class="grid-category-header">Schematics & Export</div>
+          <div class="grid-item" data-text="//schematic save">//schematic save</div>
+          <div class="grid-item" data-text="//schematic load">//schematic load</div>
+          <div class="grid-item" data-text="//schematic list">//schematic list</div>
+          <div class="grid-item" data-text="//exportworld">//exportworld</div>
+
+          <div class="grid-category-header">Utilities</div>
+          <div class="grid-item" data-text="//wand">//wand</div>
+        </div>
+      </div>
+
+      <div class="popup-buttons">
+        <button class="popup-btn" id="openUploadBtn">Schem Upload</button>
+        <button class="popup-btn" id="openClipboardBtn">Text Clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup-window" id="uploadPopup">
+    <div class="popup-header">
+      <h3>File Upload</h3>
+      <button class="popup-close">&times;</button>
+    </div>
+    <div class="popup-content">
+      <div class="upload-section">
+        <label for="fileInput" class="upload-btn">Choose Files</label>
+        <input type="file" id="fileInput" multiple>
+        <div class="uploaded-files" id="uploadedFiles">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup-window" id="clipboardPopup">
+    <div class="popup-header">
+      <h3>Text Clipboard</h3>
+      <button class="popup-close">&times;</button>
+    </div>
+    <div class="popup-content">
+      <div class="clipboard-section">
+        <div class="text-editor" contenteditable="true" id="textEditor">
+          Type or paste formatted text here...
+        </div>
+        <button class="clipboard-btn" id="saveTextBtn">Save Text to Clipboard</button>
+
+        <div class="saved-texts-section">
+          <h3 style="color: #e8e8e8; margin: 20px 0 10px 0; border-bottom: 1px solid #2c2b2b; padding-bottom: 5px;">
+            Saved Texts</h3>
+          <div class="saved-texts-container" id="savedTextsContainer">
+            <div class="no-saved-texts" id="noSavedTexts">No saved texts yet. Save some text above!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="copy-notification" id="copyNotification">Command copied to clipboard!</div>
+
+  <footer>
+    <p>BloxdForge WorldForge &copy; 2025</p>
+  </footer>
+
+  <script>
+    const gridItems = document.querySelectorAll('.grid-item');
+    const copyNotification = document.getElementById('copyNotification');
+
+    gridItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const textToCopy = item.getAttribute('data-text');
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            showNotification();
+          })
+          .catch(err => {
+            console.error('Failed to copy text: ', err);
+          });
+      });
+    });
+
+    function showNotification() {
+      copyNotification.classList.add('show');
+      setTimeout(() => {
+        copyNotification.classList.remove('show');
+      }, 2000);
+    }
+
+    const openUploadBtn = document.getElementById('openUploadBtn');
+    const openClipboardBtn = document.getElementById('openClipboardBtn');
+    const uploadPopup = document.getElementById('uploadPopup');
+    const clipboardPopup = document.getElementById('clipboardPopup');
+    const closeButtons = document.querySelectorAll('.popup-close');
+
+    openUploadBtn.addEventListener('click', () => {
+      uploadPopup.classList.add('active');
+      positionPopup(uploadPopup);
+    });
+
+    openClipboardBtn.addEventListener('click', () => {
+      clipboardPopup.classList.add('active');
+      positionPopup(clipboardPopup);
+    });
+
+    closeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        button.closest('.popup-window').classList.remove('active');
+      });
+    });
+
+    function positionPopup(popup) {
+      popup.style.transform = 'none';
+
+      const container = document.querySelector('.container');
+      const containerRect = container.getBoundingClientRect();
+
+      const left = (containerRect.width / 2 - popup.offsetWidth / 2) + containerRect.left;
+      const top = (containerRect.height / 2 - popup.offsetHeight / 2) + containerRect.top;
+
+      popup.style.left = left + 'px';
+      popup.style.top = top + 'px';
+    }
+
+    let draggedElement = null;
+    let offsetX, offsetY;
+    let isDragging = false;
+
+    document.querySelectorAll('.popup-header').forEach(header => {
+      header.addEventListener('mousedown', (e) => {
+        if (e.target.classList.contains('popup-close')) return;
+        draggedElement = header.parentElement;
+        const rect = draggedElement.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        draggedElement.style.zIndex = 1000;
+        isDragging = true;
+        e.preventDefault();
+      });
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (draggedElement && isDragging) {
+        const container = document.querySelector('.container');
+        const containerRect = container.getBoundingClientRect();
+
+        let newX = e.clientX - offsetX;
+        let newY = e.clientY - offsetY;
+
+        newX = Math.max(containerRect.left, Math.min(newX, containerRect.right - draggedElement.offsetWidth));
+        newY = Math.max(containerRect.top, Math.min(newY, containerRect.bottom - draggedElement.offsetHeight));
+
+        draggedElement.style.left = newX + 'px';
+        draggedElement.style.top = newY + 'px';
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (draggedElement) {
+        draggedElement.style.zIndex = 100;
+        draggedElement = null;
+        isDragging = false;
+      }
+    });
+
+    function setCookie(name, value, days) {
+      const compressedValue = encodeURIComponent(JSON.stringify(value));
+
+      if (compressedValue.length > 3000) {
+        const chunkSize = 3000;
+        const chunks = [];
+        for (let i = 0; i < compressedValue.length; i += chunkSize) {
+          chunks.push(compressedValue.substr(i, chunkSize));
+        }
+
+        document.cookie = name + '_chunks=' + chunks.length + ';path=/;max-age=' + (days * 24 * 60 * 60);
+
+        for (let i = 0; i < chunks.length; i++) {
+          document.cookie = name + '_chunk_' + i + '=' + chunks[i] + ';path=/;max-age=' + (days * 24 * 60 * 60);
+        }
+
+        document.cookie = name + '=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+      } else {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = name + '=' + compressedValue + ';expires=' + expires.toUTCString() + ';path=/';
+
+        const chunkCount = getCookie(name + '_chunks');
+        if (chunkCount) {
+          for (let i = 0; i < parseInt(chunkCount); i++) {
+            document.cookie = name + '_chunk_' + i + '=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+          }
+          document.cookie = name + '_chunks=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+        }
+      }
+    }
+
+    function getCookie(name) {
+      const chunkCount = getCookieSimple(name + '_chunks');
+      if (chunkCount) {
+        let compressedValue = '';
+        for (let i = 0; i < parseInt(chunkCount); i++) {
+          const chunk = getCookieSimple(name + '_chunk_' + i);
+          if (chunk) {
+            compressedValue += chunk;
+          } else {
+            return null;
+          }
+        }
+
+        try {
+          return JSON.parse(decodeURIComponent(compressedValue));
+        } catch (e) {
+          console.error('Failed to parse chunked cookie:', e);
+          return null;
+        }
+      }
+
+      const value = getCookieSimple(name);
+      if (value) {
+        try {
+          return JSON.parse(decodeURIComponent(value));
+        } catch (e) {
+          console.error('Failed to parse cookie:', e);
+          return null;
+        }
+      }
+
+      return null;
+    }
+
+    function getCookieSimple(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+    let uploadedFiles = [];
+
+    try {
+      const uploadedFilesData = getCookie('worldforgeUploadedFiles');
+      if (uploadedFilesData) {
+        uploadedFiles = uploadedFilesData;
+        renderUploadedFiles();
+      }
+    } catch (e) {
+      console.error('Failed to load uploaded files:', e);
+    }
+
+    function renderUploadedFiles() {
+      const uploadedFilesContainer = document.getElementById('uploadedFiles');
+      if (uploadedFilesContainer && uploadedFiles) {
+        uploadedFilesContainer.innerHTML = '';
+
+        uploadedFiles.forEach(file => {
+          const fileItem = document.createElement('div');
+          fileItem.className = 'file-item';
+          fileItem.draggable = true;
+          fileItem.setAttribute('data-file', file.name);
+
+          fileItem.innerHTML = `
+                        <span class="file-icon">📄</span>
+                        <span>${file.name}</span>
+                        <span style="margin-left: auto; font-size: 0.8rem; color: #a0a0a0;">${formatFileSize(file.size)}</span>
+                    `;
+
+          fileItem.addEventListener('dragstart', handleDragStart);
+
+          uploadedFilesContainer.appendChild(fileItem);
+        });
+      }
+    }
+
+    document.addEventListener('change', function (e) {
+      if (e.target.id === 'fileInput') {
+        const fileInput = e.target;
+
+        if (fileInput.files.length > 0) {
+          for (let i = 0; i < fileInput.files.length; i++) {
+            const file = fileInput.files[i];
+            uploadedFiles.unshift({
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              lastModified: file.lastModified,
+              id: Date.now() + i
+            });
+          }
+
+          if (uploadedFiles.length > 20) {
+            uploadedFiles = uploadedFiles.slice(0, 20);
+          }
+
+          try {
+            setCookie('worldforgeUploadedFiles', uploadedFiles, 30);
+          } catch (e) {
+            console.error('Failed to save files to cookies:', e);
+          }
+
+          renderUploadedFiles();
+
+          fileInput.value = '';
+        }
+      }
+    });
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    function handleDragStart(e) {
+      e.dataTransfer.setData('text/plain', e.target.getAttribute('data-file'));
+      e.dataTransfer.effectAllowed = 'copy';
+    }
+
+    document.addEventListener('focus', function (e) {
+      if (e.target.id === 'textEditor') {
+        if (e.target.textContent === 'Type or paste formatted text here...') {
+          e.target.textContent = '';
+        }
+      }
+    }, true);
+
+    document.addEventListener('blur', function (e) {
+      if (e.target.id === 'textEditor') {
+        if (e.target.textContent === '') {
+          e.target.textContent = 'Type or paste formatted text here...';
+        }
+      }
+    }, true);
+
+    let savedTexts = [];
+
+    try {
+      const savedTextsData = getCookie('worldforgeSavedTexts');
+      if (savedTextsData) {
+        savedTexts = savedTextsData;
+        renderSavedTexts();
+      }
+    } catch (e) {
+      console.error('Failed to load saved texts:', e);
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.target.id === 'saveTextBtn') {
+        const textEditor = document.getElementById('textEditor');
+        if (textEditor && textEditor.textContent !== 'Type or paste formatted text here...') {
+          const textContent = textEditor.textContent.trim();
+          if (textContent) {
+            savedTexts.unshift({
+              id: Date.now(),
+              content: textContent,
+              timestamp: new Date().toLocaleString()
+            });
+
+            if (savedTexts.length > 20) {
+              savedTexts = savedTexts.slice(0, 20);
+            }
+
+            try {
+              setCookie('worldforgeSavedTexts', savedTexts, 30);
+            } catch (e) {
+              console.error('Failed to save texts to cookies:', e);
+            }
+
+            renderSavedTexts();
+
+            showNotification();
+          }
+        }
+      }
+
+      if (e.target.classList.contains('saved-text-copy-btn')) {
+        const textId = e.target.getAttribute('data-text-id');
+        const savedText = savedTexts.find(t => t.id == textId);
+        if (savedText) {
+          navigator.clipboard.writeText(savedText.content)
+            .then(() => {
+              showNotification();
+            })
+            .catch(err => {
+              console.error('Failed to copy text: ', err);
+            });
+        }
+      }
+
+      if (e.target.classList.contains('saved-text-delete-btn')) {
+        const textId = e.target.getAttribute('data-text-id');
+        savedTexts = savedTexts.filter(t => t.id != textId);
+
+        try {
+          setCookie('worldforgeSavedTexts', savedTexts, 30);
+        } catch (e) {
+          console.error('Failed to save texts to cookies:', e);
+        }
+
+        renderSavedTexts();
+      }
+
+      if (e.target.classList.contains('saved-text-expand-btn')) {
+        const contentElement = e.target.closest('.saved-text-item').querySelector('.saved-text-content');
+        contentElement.classList.toggle('expanded');
+        e.target.textContent = contentElement.classList.contains('expanded') ? 'Collapse' : 'Expand';
+      }
+    });
+
+    function renderSavedTexts() {
+      const container = document.getElementById('savedTextsContainer');
+      const noSavedTexts = document.getElementById('noSavedTexts');
+
+      if (savedTexts.length === 0) {
+        noSavedTexts.style.display = 'block';
+        container.innerHTML = '';
+        container.appendChild(noSavedTexts);
+        return;
+      }
+
+      noSavedTexts.style.display = 'none';
+      container.innerHTML = '';
+
+      savedTexts.forEach(text => {
+        const textItem = document.createElement('div');
+        textItem.className = 'saved-text-item';
+
+        const truncatedContent = text.content.length > 100 ?
+          text.content.substring(0, 100) + '...' :
+          text.content;
+
+        textItem.innerHTML = `
+                    <div class="saved-text-content" title="${text.content}">
+                        ${truncatedContent}
+                    </div>
+                    <div class="saved-text-actions">
+                        <button class="saved-text-expand-btn" data-text-id="${text.id}">Expand</button>
+                        <button class="saved-text-copy-btn" data-text-id="${text.id}">Copy</button>
+                        <button class="saved-text-delete-btn" data-text-id="${text.id}">Delete</button>
+                    </div>
+                `;
+
+        container.appendChild(textItem);
+      });
+    }
+  </script>
+</body>
+
+</html>
