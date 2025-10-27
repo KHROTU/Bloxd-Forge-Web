@@ -408,6 +408,130 @@
       filter: drop-shadow(0 0 8px rgba(255, 200, 80, 0.5));
     }
 
+    /* New styles for ad encouragement */
+    .ad-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-radius: 18px;
+      z-index: 5;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .ad-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .ad-instruction {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+      color: #ff8c5a;
+    }
+
+    .ad-subinstruction {
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      color: #c0c0c0;
+    }
+
+    .click-indicator {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #ff6b39, #ff8c5a);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: pulse 2s infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 107, 57, 0.7);
+      }
+      70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(255, 107, 57, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 107, 57, 0);
+      }
+    }
+
+    .timer-section {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255, 107, 57, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 107, 57, 0.2);
+    }
+
+    .timer-text {
+      font-size: 0.9rem;
+      color: #ff8c5a;
+      margin-bottom: 8px;
+    }
+
+    .timer {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffc850;
+    }
+
+    .urgency-banner {
+      background: linear-gradient(135deg, #ff6b39, #ff8c5a);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 600;
+      animation: urgencyPulse 3s infinite;
+    }
+
+    @keyframes urgencyPulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.8;
+      }
+    }
+
+    .reward-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #ff6b39, #ff8c5a);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(255, 107, 57, 0.4);
+      z-index: 100;
+      transform: translateX(150%);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reward-notification.show {
+      transform: translateX(0);
+    }
+
     @media (max-width: 768px) {
       body {
         padding: 20px 15px;
@@ -444,6 +568,25 @@
         padding: 10px 12px;
         font-size: 0.95rem;
       }
+
+      .ad-overlay {
+        padding: 15px;
+      }
+
+      .ad-instruction {
+        font-size: 1rem;
+      }
+
+      .reward-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        transform: translateY(-150%);
+      }
+
+      .reward-notification.show {
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 480px) {
@@ -472,6 +615,9 @@
     <div class="header">
       <div class="logo">BLOXDFORGE</div>
       <div class="subtitle">Upgrade to Pro Experience</div>
+      <div class="urgency-banner">
+        ⏰ Limited Time Offer: Complete all ads to unlock Pro features!
+      </div>
     </div>
 
     <div class="progress-section">
@@ -479,46 +625,16 @@
       <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
       </div>
-      <div class="progress-text" id="progressText">Double-click each ad to unlock Pro features (0/9)</div>
+      <div class="progress-text" id="progressText">Double click each ad to unlock Pro features (0/9)</div>
+      
+      <div class="timer-section">
+        <div class="timer-text">Time remaining to complete:</div>
+        <div class="timer" id="timer">10:00</div>
+      </div>
     </div>
 
     <div class="ads-grid" id="adsGrid">
-      <div class="ad-container" data-ad="1">
-        <div class="ad-tracker" data-ad="1"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
-      <div class="ad-container" data-ad="2">
-        <div class="ad-tracker" data-ad="2"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
-      <div class="ad-container" data-ad="3">
-        <div class="ad-tracker" data-ad="3"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
-      <div class="ad-container" data-ad="4">
-        <div class="ad-tracker" data-ad="4"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
-      <div class="ad-container" data-ad="5">
-        <div class="ad-tracker" data-ad="5"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
-      <div class="ad-container" data-ad="6">
-        <div class="ad-tracker" data-ad="6"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
-      <div class="ad-container" data-ad="7">
-        <div class="ad-tracker" data-ad="7"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
-      <div class="ad-container" data-ad="8">
-        <div class="ad-tracker" data-ad="8"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
-      <div class="ad-container" data-ad="9">
-        <div class="ad-tracker" data-ad="9"></div>
-        <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
-      </div>
+      <!-- Ads will be generated by JavaScript -->
     </div>
 
     <div class="completion-section" id="completionSection">
@@ -540,58 +656,175 @@
     </div>
   </div>
 
+  <div class="reward-notification" id="rewardNotification">
+    <i class="fas fa-gift"></i> Ad viewed! +1 Progress
+  </div>
+
   <script>
     let clickedAds = new Set();
     const totalAds = 9;
+    let timeLeft = 600; // 10 minutes in seconds
+    let timerInterval;
 
-    window.addEventListener('message', function (event) {
-      if (event.data && event.data.action) {
-        console.log('Received message:', event.data);
+    // Initialize the page
+    function init() {
+      createAdContainers();
+      startTimer();
+      setupEventListeners();
+    }
+
+    // Create ad containers dynamically
+    function createAdContainers() {
+      const adsGrid = document.getElementById('adsGrid');
+      adsGrid.innerHTML = '';
+
+      for (let i = 1; i <= totalAds; i++) {
+        const adContainer = document.createElement('div');
+        adContainer.className = 'ad-container';
+        adContainer.setAttribute('data-ad', i);
+        
+        adContainer.innerHTML = `
+          <div class="ad-overlay" id="overlay-${i}">
+            <div class="click-indicator">
+              <i class="fas fa-hand-pointer"></i>
+            </div>
+            <div class="ad-instruction">Double click</div>
+            <div class="ad-subinstruction">Support our sponsors to unlock Pro</div>
+          </div>
+          <div class="ad-tracker" data-ad="${i}"></div>
+          <iframe src="https://www.bloxdforge.com/assets/iframes/ad.html" class="ad-iframe"></iframe>
+        `;
+        
+        adsGrid.appendChild(adContainer);
       }
-    });
+    }
 
-    document.querySelectorAll('.ad-tracker').forEach(tracker => {
-      tracker.addEventListener('click', function () {
-        const adId = this.getAttribute('data-ad');
-        const container = this.parentElement;
+    // Start countdown timer
+    function startTimer() {
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          showTimeUpMessage();
+        } else if (timeLeft <= 60) {
+          // Last minute urgency
+          document.getElementById('timer').style.color = '#ff6b39';
+          document.querySelector('.timer-section').style.background = 'rgba(255, 107, 57, 0.2)';
+        }
+      }, 1000);
+    }
 
-        if (!clickedAds.has(adId)) {
-          clickedAds.add(adId);
-          container.classList.add('clicked');
-          this.classList.add('clicked');
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      document.getElementById('timer').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
 
-          updateProgress();
+    function showTimeUpMessage() {
+      alert('Time is up! Please refresh the page to try again.');
+    }
 
-          showClickInstruction(container);
+    // Set up event listeners
+    function setupEventListeners() {
+      document.querySelectorAll('.ad-tracker').forEach(tracker => {
+        // Single click to mark as viewed
+        tracker.addEventListener('click', function() {
+          const adId = this.getAttribute('data-ad');
+          const container = this.parentElement;
+          const overlay = document.getElementById(`overlay-${adId}`);
+
+          if (!clickedAds.has(adId)) {
+            clickedAds.add(adId);
+            container.classList.add('clicked');
+            this.classList.add('clicked');
+            
+            // Hide the overlay with animation
+            overlay.classList.add('hidden');
+            
+            // Show reward notification
+            showRewardNotification();
+            
+            // Update progress
+            updateProgress();
+            
+            // Show encouragement for next ads
+            showEncouragement();
+          }
+        });
+        
+        // Hover effects to encourage clicking
+        tracker.addEventListener('mouseenter', function() {
+          const adId = this.getAttribute('data-ad');
+          const overlay = document.getElementById(`overlay-${adId}`);
+          if (!clickedAds.has(adId)) {
+            overlay.style.background = 'rgba(255, 107, 57, 0.8)';
+          }
+        });
+        
+        tracker.addEventListener('mouseleave', function() {
+          const adId = this.getAttribute('data-ad');
+          const overlay = document.getElementById(`overlay-${adId}`);
+          if (!clickedAds.has(adId)) {
+            overlay.style.background = 'rgba(0, 0, 0, 0.7)';
+          }
+        });
+      });
+
+      document.getElementById('claimProBtn').addEventListener('click', function() {
+        try {
+          window.parent.postMessage({
+            action: 'upgradeToPro',
+            source: 'upgrade-page'
+          }, '*');
+
+          this.textContent = 'Pro Status Activated for 1 Hour! ✓';
+          this.disabled = true;
+
+          setTimeout(() => {
+            window.parent.postMessage({
+              action: 'closeUpgrade',
+              source: 'upgrade-page'
+            }, '*');
+          }, 2000);
+
+        } catch (e) {
+          console.error('Could not communicate with parent:', e);
+          alert('Pro upgrade completed! Please close this page.');
         }
       });
-    });
+    }
 
-    function showClickInstruction(container) {
-      const instruction = document.createElement('div');
-      instruction.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 10px 15px;
-        border-radius: 8px;
-        font-size: 14px;
-        text-align: center;
-        z-index: 20;
-        pointer-events: none;
-      `;
-      instruction.textContent = '✓ Tracked! Click again to view ad';
-
-      container.appendChild(instruction);
-
+    function showRewardNotification() {
+      const notification = document.getElementById('rewardNotification');
+      notification.classList.add('show');
+      
       setTimeout(() => {
-        if (instruction.parentElement) {
-          instruction.remove();
-        }
-      }, 2000);
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    function showEncouragement() {
+      const remaining = totalAds - clickedAds.size;
+      
+      if (remaining > 0) {
+        const messages = [
+          `Only ${remaining} more ads to go!`,
+          `You're doing great! ${remaining} left.`,
+          `Almost there! Just ${remaining} more.`,
+          `Keep going! ${remaining} ads remaining.`
+        ];
+        
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        
+        // Update progress text with encouragement
+        document.getElementById('progressText').innerHTML = 
+          `Click each ad to unlock Pro features (${clickedAds.size}/${totalAds}) <br><span style="color: #ffc850;">${randomMessage}</span>`;
+      }
     }
 
     function updateProgress() {
@@ -600,38 +833,19 @@
       const progressText = document.getElementById('progressText');
 
       progressFill.style.width = progress + '%';
-      progressText.textContent = `Double-click each ad to unlock Pro features (${clickedAds.size}/${totalAds})`;
+      progressText.textContent = `Click each ad to unlock Pro features (${clickedAds.size}/${totalAds})`;
 
       if (clickedAds.size === totalAds) {
+        clearInterval(timerInterval);
         setTimeout(() => {
           document.getElementById('completionSection').classList.add('show');
-          progressText.textContent = 'All 9 ads viewed! Requirements completed! 🎉';
+          progressText.innerHTML = 'All 9 ads viewed! Requirements completed! 🎉';
         }, 500);
       }
     }
 
-    document.getElementById('claimProBtn').addEventListener('click', function () {
-      try {
-        window.parent.postMessage({
-          action: 'upgradeToPro',
-          source: 'upgrade-page'
-        }, '*');
-
-        this.textContent = 'Pro Status Activated for 1 Hour! ✓';
-        this.disabled = true;
-
-        setTimeout(() => {
-          window.parent.postMessage({
-            action: 'closeUpgrade',
-            source: 'upgrade-page'
-          }, '*');
-        }, 2000);
-
-      } catch (e) {
-        console.error('Could not communicate with parent:', e);
-        alert('Pro upgrade completed! Please close this page.');
-      }
-    });
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 
