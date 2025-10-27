@@ -431,6 +431,48 @@
       grid.innerHTML = '';
 
       items.forEach((item, index) => {
+        if (index > 0 && index % (Math.floor(Math.random() * 3) + 5) === 0) {
+          const adElement = document.createElement('div');
+          adElement.className = 'item-card';
+          adElement.style.animationDelay = `${index * 0.1}s`;
+          
+          adElement.innerHTML = `
+            <div class="item-header">
+              <h3 class="item-title">Advertisement</h3>
+              <span class="item-tag">Ad</span>
+            </div>
+            <div class="item-content">
+              <div id="ad-container-${index}"></div>
+            </div>
+          `;
+          
+          grid.appendChild(adElement);
+          
+          setTimeout(() => {
+            const adContainer = document.getElementById(`ad-container-${index}`);
+            if (adContainer) {
+              const script1 = document.createElement('script');
+              script1.type = 'text/javascript';
+              script1.textContent = `
+                var atOptions = {
+                  'key' : 'a367747b80d9de7b88fc47786c56aac2',
+                  'format' : 'iframe',
+                  'height' : 250,
+                  'width' : 300,
+                  'params' : {}
+                };
+              `;
+              
+              const script2 = document.createElement('script');
+              script2.type = 'text/javascript';
+              script2.src = '//www.highperformanceformat.com/a367747b80d9de7b88fc47786c56aac2/invoke.js';
+              
+              adContainer.appendChild(script1);
+              adContainer.appendChild(script2);
+            }
+          }, 100);
+        }
+
         const itemElement = document.createElement('div');
         itemElement.className = 'item-card';
         itemElement.style.animationDelay = `${index * 0.1}s`;
