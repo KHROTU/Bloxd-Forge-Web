@@ -1282,6 +1282,15 @@
           }
         }
 
+        // Hide popup permanently for Pro users
+        const showpop = document.getElementById('showpop');
+        if (showpop) {
+          showpop.classList.remove('show');
+        }
+        
+        // Mark popup as dismissed for Pro users (so it won't show again even if they downgrade temporarily)
+        localStorage.setItem('showpopDismissed', 'pro_user');
+
         setTimeout(() => {
           if (container) {
             container.style.display = 'none';
@@ -1372,6 +1381,9 @@
         profileData.style.display = 'none';
         profileData.textContent = '';
       }
+      
+      // Re-initialize popup based on new user status
+      initShowPop();
     }
 
     async function saveProfileFile() {
@@ -2257,7 +2269,27 @@
       const showpopDismiss = document.getElementById('showpopDismiss');
       const showpopTry = document.getElementById('showpopTry');
 
-      if (!localStorage.getItem('showpopDismissed')) {
+      // Check if user is Pro/YT Pro - if so, don't show popup at all
+      const currentUserType = getCurrentUserType();
+      const isProUser = currentUserType === 'Pro' || currentUserType === 'YT Pro';
+      
+      // If user is Pro, never show the popup
+      if (isProUser) {
+        return;
+      }
+
+      // For non-Pro users, check if 2 hours have passed since last dismissal
+      const lastDismissed = localStorage.getItem('showpopDismissed');
+      
+      // If marked as 'pro_user', it means they were previously Pro and we shouldn't show the popup
+      if (lastDismissed === 'pro_user') {
+        return;
+      }
+      
+      // Check if 2 hours have passed since last dismissal (or if never dismissed)
+      const shouldShowPopup = !lastDismissed || (Date.now() - parseInt(lastDismissed)) > (2 * 60 * 60 * 1000); // 2 hours
+      
+      if (shouldShowPopup) {
         setTimeout(() => {
           showpop.classList.add('show');
         }, 5000);

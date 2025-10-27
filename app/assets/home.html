@@ -727,6 +727,11 @@
           <h3 class="modal-title">AI Agent</h3>
           <p class="modal-desc">Boot the AI Agent</p>
         </div>
+        <div class="modal-item" id="clipboard-btn">
+          <div class="modal-icon"><i class="fas fa-clipboard"></i></div>
+          <h3 class="modal-title">Clipboard</h3>
+          <p class="modal-desc">Manage clipboard content</p>
+        </div>
         <div class="modal-item" id="close-btn">
           <div class="modal-icon"><i class="fas fa-times"></i></div>
           <h3 class="modal-title">Close</h3>
@@ -946,6 +951,253 @@
       return window;
     }
 
+    function createClipboardWindow() {
+      const windowId = 'clipboard-window-' + Math.random().toString(36).substr(2, 9);
+      const window = document.createElement('div');
+      window.className = 'floating-window';
+      window.id = windowId;
+      window.style.width = '500px';
+      window.style.height = '400px';
+
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        window.style.top = '5vh';
+        window.style.left = '2.5vw';
+      } else {
+        window.style.top = '100px';
+        window.style.left = '100px';
+      }
+
+      const content = `
+        <div style="padding: 20px; height: 100%; display: flex; flex-direction: column;">
+          <h3 style="margin-top: 0; color: #e8e8e8; text-align: center; background: linear-gradient(90deg, #2e2e2e, #2a2a2a); padding: 10px; border-radius: 10px; border: 1px solid #444343;">Clipboard</h3>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="clipboard-input" placeholder="Enter text to save" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #3a3939; background: #2f2e2e; color: #e8e8e8;">
+              <button id="copy-btn" style="background: linear-gradient(45deg, #ff6b39, #ff8c5a); border: none; color: white; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;">Save</button>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="note-input" placeholder="Add a note (optional)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #3a3939; background: #2f2e2e; color: #e8e8e8;">
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="margin: 0; color: #e8e8e8;">Clipboard History</h4>
+                <button id="clear-history-btn" style="background: #2f2e2e; border: 1px solid #3a3939; color: #e8e8e8; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">Clear</button>
+              </div>
+              <div id="clipboard-history" style="flex: 1; background: #2f2e2e; border: 1px solid #3a3939; border-radius: 8px; padding: 10px; overflow-y: auto; min-height: 150px;"></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      window.innerHTML = `
+        <div class="window-header">
+          <div class="window-title">Clipboard Manager</div>
+          <button class="window-close">&times;</button>
+        </div>
+        <div class="window-content">${content}</div>
+      `;
+
+      document.body.appendChild(window);
+
+      // Make the window draggable
+      if (!isMobile) {
+        const header = window.querySelector('.window-header');
+        makeDraggable(window, header);
+      }
+
+      const closeBtn = window.querySelector('.window-close');
+      closeBtn.addEventListener('click', () => {
+        document.body.removeChild(window);
+      });
+
+      // Initialize clipboard functionality
+      initializeClipboard(window);
+
+      return window;
+    }
+
+    function initializeClipboard(windowElement) {
+      const copyBtn = windowElement.querySelector('#copy-btn');
+      const clipboardInput = windowElement.querySelector('#clipboard-input');
+      const noteInput = windowElement.querySelector('#note-input');
+      const clipboardHistory = windowElement.querySelector('#clipboard-history');
+      const clearHistoryBtn = windowElement.querySelector('#clear-history-btn');
+
+      // Load clipboard history from localStorage
+      let clipboardItems = JSON.parse(localStorage.getItem('clipboardHistory') || '[]');
+
+      // Display clipboard history
+      function renderClipboardHistory() {
+        clipboardHistory.innerHTML = '';
+        if (clipboardItems.length === 0) {
+          clipboardHistory.innerHTML = '<p style="color: #aaa; text-align: center; margin: 20px 0;">No clipboard history</p>';
+          return;
+        }
+
+        clipboardItems.slice().reverse().forEach((item, index) => {
+          const itemElement = document.createElement('div');
+          itemElement.style.cssText = `
+            background: linear-gradient(145deg, #262525, #212020);
+            border: 1px solid #3a3939;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          `;
+          
+          // Format the timestamp
+          const timestamp = new Date(item.timestamp).toLocaleString();
+          const noteDisplay = item.note ? `<div style="font-size: 0.75rem; color: #ff8c5a; margin-top: 3px;">Note: ${item.note}</div>` : '';
+          
+          itemElement.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #e8e8e8;">${item.text}</div>
+              <button class="copy-history-item" data-text="${item.text}" data-note="${item.note || ''}" style="background: linear-gradient(45deg, #ff6b39, #ff8c5a); border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; margin-left: 10px;">Copy</button>
+            </div>
+            ${noteDisplay}
+            <div style="font-size: 0.7rem; color: #aaa; margin-top: 5px;">${timestamp}</div>
+          `;
+          
+          itemElement.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('copy-history-item')) {
+              clipboardInput.value = item.text;
+              if (item.note) {
+                noteInput.value = item.note;
+              }
+            }
+          });
+          
+          clipboardHistory.appendChild(itemElement);
+        });
+
+        // Add event listeners to copy buttons
+        windowElement.querySelectorAll('.copy-history-item').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const text = btn.getAttribute('data-text');
+            const note = btn.getAttribute('data-note');
+            copyToClipboard(text, note || null);
+          });
+        });
+      }
+
+      // Copy text to clipboard
+      function copyToClipboard(text, note = null) {
+        if (!text) return;
+        
+        navigator.clipboard.writeText(text).then(() => {
+          // Check if this text is already in history
+          const existingIndex = clipboardItems.findIndex(item => item.text === text);
+          
+          if (existingIndex !== -1) {
+            // Move existing item to the front
+            const existingItem = clipboardItems[existingIndex];
+            clipboardItems.splice(existingIndex, 1);
+            clipboardItems.unshift(existingItem);
+          } else {
+            // Add new item to clipboard history
+            const newItem = {
+              text: text,
+              timestamp: new Date().toISOString()
+            };
+            
+            // Add note if provided
+            if (note !== null) {
+              newItem.note = note;
+            } else if (noteInput.value.trim()) {
+              newItem.note = noteInput.value.trim();
+            }
+            
+            clipboardItems.unshift(newItem);
+          }
+          
+          // Limit history to 20 items
+          if (clipboardItems.length > 20) {
+            clipboardItems = clipboardItems.slice(0, 20);
+          }
+          
+          // Save to localStorage
+          localStorage.setItem('clipboardHistory', JSON.stringify(clipboardItems));
+          
+          // Update UI
+          renderClipboardHistory();
+          
+          // Show success feedback
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+          }, 1500);
+        }).catch(err => {
+          console.error('Failed to copy: ', err);
+          alert('Failed to copy text to clipboard');
+        });
+      }
+
+      // Save functionality (combined save and save note)
+      function saveItem() {
+        const text = clipboardInput.value.trim();
+        const note = noteInput.value.trim();
+        
+        if (!text) {
+          alert('Please enter some text to save');
+          return;
+        }
+        
+        // Add to clipboard history with note
+        clipboardItems.unshift({
+          text: text,
+          note: note,
+          timestamp: new Date().toISOString()
+        });
+        
+        // Limit history to 20 items
+        if (clipboardItems.length > 20) {
+          clipboardItems = clipboardItems.slice(0, 20);
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('clipboardHistory', JSON.stringify(clipboardItems));
+        
+        // Update UI
+        renderClipboardHistory();
+        
+        // Clear inputs
+        clipboardInput.value = '';
+        noteInput.value = '';
+        
+        // Show success feedback
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Saved!';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+        }, 1500);
+      }
+
+      // Copy button event listener
+      copyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (clipboardInput.value.trim()) {
+          saveItem();
+        } else {
+          alert('Please enter some text to save');
+        }
+      });
+
+      // Clear history button event listener
+      clearHistoryBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        clipboardItems = [];
+        localStorage.removeItem('clipboardHistory');
+        renderClipboardHistory();
+      });
+
+      // Render initial history
+      renderClipboardHistory();
+    }
+
     document.querySelectorAll('.big-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const url = btn.dataset.url;
@@ -968,7 +1220,7 @@
     });
 
     document.querySelectorAll('.modal-item').forEach(item => {
-      if (item.id && item.id !== 'close-btn' && item.id !== 'record-btn' && item.id !== 'ai-assistant-btn') {
+      if (item.id && item.id !== 'close-btn' && item.id !== 'record-btn' && item.id !== 'ai-assistant-btn' && item.id !== 'clipboard-btn') {
         item.style.cursor = 'pointer';
         item.addEventListener('click', (e) => {
           if (item.id === 'metrics-btn') {
@@ -1014,6 +1266,18 @@
         const aiAssistantUrl = './data/iframes/ai-assistant.html';
         createTallFloatingWindow('BForge Agent', aiAssistantUrl);
 
+        modal.style.display = 'none';
+      });
+    }
+
+    const clipboardBtn = document.getElementById('clipboard-btn');
+    if (clipboardBtn) {
+      clipboardBtn.style.cursor = 'pointer';
+      clipboardBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        createClipboardWindow();
         modal.style.display = 'none';
       });
     }

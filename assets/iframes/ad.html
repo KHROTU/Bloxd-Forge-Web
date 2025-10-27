@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Skibidi Ads</title>
-<style>
-  body {
-    margin: 0;
-    background-color: #181818;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* space between ads */
-    height: 100vh;
-  }
-  iframe {
-    border: none;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>safe Ads</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #181818;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      
+      height: 100vh;
+    }
+
+    iframe {
+      border: none;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- First Ad -->
-<iframe id="ad1"
-  width="160" 
-  height="600" 
-  sandbox="allow-scripts allow-same-origin allow-popups"
-  srcdoc="
+  <!-- First Ad -->
+  <iframe id="ad1" width="160" height="600" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
     <html>
       <head>
         <base target='_blank'>
@@ -41,18 +41,14 @@
             'params' : {}
           };
         </script>
-        <script src='//www.highperformanceformat.com/ad3947e867b6f05de07231d510257667/invoke.js'></script>
+        <script src='
       </body>
     </html>
   ">
-</iframe>
+  </iframe>
 
-<!-- Second Ad -->
-<iframe id="ad2"
-  width="468" 
-  height="60" 
-  sandbox="allow-scripts allow-same-origin allow-popups"
-  srcdoc="
+  <!-- Second Ad -->
+  <iframe id="ad2" width="468" height="60" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
     <html>
       <head>
         <base target='_blank'>
@@ -67,24 +63,25 @@
             'params' : {}
           };
         </script>
-        <script src='//www.highperformanceformat.com/c740cacfdd45f165f304b024442d5b28/invoke.js'></script>
+        <script src='
       </body>
     </html>
   ">
-</iframe>
+  </iframe>
 
-<script>
-  function refreshAd(id) {
-    const iframe = document.getElementById(id);
-    const srcdoc = iframe.srcdoc;
-    iframe.srcdoc = ''; // Clear first
-    setTimeout(() => { iframe.srcdoc = srcdoc; }, 50); // tiny delay to force reload
-  }
+  <script>
+    function refreshAd(id) {
+      const iframe = document.getElementById(id);
+      const srcdoc = iframe.srcdoc;
+      iframe.srcdoc = ''; 
+      setTimeout(() => { iframe.srcdoc = srcdoc; }, 50); 
+    }
 
-  // Refresh every 30 seconds
-  setInterval(() => refreshAd('ad1'), 30000);
-  setInterval(() => refreshAd('ad2'), 30000);
-</script>
+    
+    setInterval(() => refreshAd('ad1'), 30000);
+    setInterval(() => refreshAd('ad2'), 30000);
+  </script>
 
 </body>
+
 </html>
