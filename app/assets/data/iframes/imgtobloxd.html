@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +12,8 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       height: 100%;
       background: #141313;
@@ -248,7 +250,9 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     #tooltip {
@@ -278,14 +282,17 @@
       .grid-container {
         grid-template-columns: 1fr;
       }
-      
-      .upload-area, .dimensions, .actions {
+
+      .upload-area,
+      .dimensions,
+      .actions {
         grid-column: 1;
       }
     }
   </style>
   <script src="https://unpkg.com/fflate@0.8.0/umd/index.js"></script>
 </head>
+
 <body>
   <div id="loadingOverlay">
     <div class="spinner"></div>
@@ -297,7 +304,7 @@
       <h1>Image to bloxd</h1>
       <p class="subtitle">Transform your images into bloxd.io pixel art</p>
     </header>
-    
+
     <div class="grid-container">
       <div class="grid-item upload-area">
         <h3><i class="fas fa-upload"></i>Upload Image</h3>
@@ -305,7 +312,7 @@
         <label for="upload" class="file-label"><i class="fas fa-image"></i> Choose Image</label>
         <div class="file-name">No file selected</div>
       </div>
-      
+
       <div class="grid-item dimensions">
         <h3><i class="fas fa-border-all"></i>Grid Dimensions</h3>
         <div class="input-group">
@@ -317,13 +324,13 @@
           <input type="number" id="gridY" placeholder="Grid Height" value="50" min="1" max="200">
         </div>
       </div>
-      
+
       <div class="grid-item actions">
         <h3><i class="fas fa-sliders-h"></i>Actions</h3>
         <button onclick="generateMosaic()"><i class="fas fa-cog"></i> Generate Mosaic</button>
         <button id="fullscreenBtn"><i class="fas fa-expand"></i> Fullscreen</button>
       </div>
-      
+
       <div class="grid-item canvas-container">
         <h3><i class="fas fa-eye"></i>Preview</h3>
         <canvas id="mainCanvas"></canvas>
@@ -333,7 +340,7 @@
       </div>
     </div>
   </div>
-  
+
   <div id="tooltip"></div>
 
   <script>
@@ -343,7 +350,6 @@
     let tileFileNames = [];
     let tilesLoaded = false;
 
-    // Load tiles from zip and save their file names for tooltip
     async function loadTilesFromZip() {
       const res = await fetch('./data/packs.zip');
       const zipData = new Uint8Array(await res.arrayBuffer());
@@ -364,7 +370,7 @@
             const avg = getAverageColor(img);
             tileImages.push(img);
             tileColors.push(avg);
-            tileFileNames.push(fileName); // Store filename for tooltip
+            tileFileNames.push(fileName);
             resolve();
           };
         }));
@@ -406,7 +412,6 @@
       return best;
     }
 
-    // Store the tile indices for hover tooltip
     let mosaicTileIndices = [];
     let currentGridX = 0;
     let currentGridY = 0;
@@ -425,7 +430,7 @@
       currentGridX = gridX;
       currentGridY = gridY;
       mosaicTileIndices = new Array(gridY);
-      for(let y=0; y<gridY; y++) mosaicTileIndices[y] = new Array(gridX);
+      for (let y = 0; y < gridY; y++) mosaicTileIndices[y] = new Array(gridX);
 
       const img = new Image();
       img.src = URL.createObjectURL(fileInput.files[0]);
@@ -457,7 +462,6 @@
       };
     }
 
-    // Tooltip setup
     const tooltip = document.getElementById('tooltip');
     const canvas = document.getElementById('mainCanvas');
 
@@ -470,21 +474,17 @@
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      // find tile coords under mouse
       const tileX = Math.floor(mouseX / tileSize);
       const tileY = Math.floor(mouseY / tileSize);
 
-      // space check
       if (tileX < 0 || tileY < 0 || tileX >= currentGridX || tileY >= currentGridY) {
         tooltip.style.display = 'none';
         return;
       }
 
-      // get tile image index and filename
       const tileIndex = mosaicTileIndices[tileY][tileX];
       const fileName = tileFileNames[tileIndex] || 'Unknown';
 
-      // show tooltip near cursor
       tooltip.textContent = fileName;
       tooltip.style.left = (e.clientX + 12) + 'px';
       tooltip.style.top = (e.clientY + 12) + 'px';
@@ -497,7 +497,8 @@
 
 
     window.addEventListener('load', loadTilesFromZip);
-    
+
   </script>
 </body>
+
 </html>

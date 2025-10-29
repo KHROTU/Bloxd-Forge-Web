@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ForceForge coder</title>
-  <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    html, body {
+    html,
+    body {
       margin: 0;
       height: 100%;
       background: #141313;
@@ -16,8 +17,10 @@
       overflow: hidden;
       box-sizing: border-box;
     }
-    
-    *, *:before, *:after {
+
+    *,
+    *:before,
+    *:after {
       box-sizing: inherit;
     }
 
@@ -59,11 +62,11 @@
       overflow: hidden;
     }
 
-    .sidebar > div:first-child {
+    .sidebar>div:first-child {
       flex: 1;
       overflow-y: auto;
     }
-    
+
     .bottom-section {
       border-top: 1px solid #2c2b2b;
       padding-top: 20px;
@@ -74,7 +77,7 @@
     .right-sidebar {
       padding: 0;
       overflow: hidden;
-      width: 20vh!important;
+      width: 20vh !important;
     }
 
     .right-sidebar iframe {
@@ -208,7 +211,6 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
 
-    /* Chat area styles */
     .chat-container {
       flex: 1;
       display: flex;
@@ -273,6 +275,7 @@
       0% {
         left: -50%;
       }
+
       100% {
         left: 150%;
       }
@@ -371,12 +374,11 @@
       color: #a0a0a0;
       font-size: 0.8rem;
     }
-    
+
     .hidden {
       display: none;
     }
-    
-    /* Code block styling */
+
     .code-block {
       background: #1e1e1e;
       border-radius: 10px;
@@ -388,7 +390,7 @@
       font-size: 0.9rem;
       line-height: 1.4;
     }
-    
+
     .code-header {
       display: flex;
       justify-content: space-between;
@@ -397,7 +399,7 @@
       padding-bottom: 5px;
       border-bottom: 1px solid #3a3939;
     }
-    
+
     .code-lang {
       color: #ff6b39;
       font-weight: bold;
@@ -406,7 +408,7 @@
       align-items: center;
       gap: 8px;
     }
-    
+
     .copy-btn {
       background: rgba(255, 107, 57, 0.2);
       border: none;
@@ -419,16 +421,15 @@
       align-items: center;
       gap: 5px;
     }
-    
+
     .copy-btn:hover {
       background: rgba(255, 107, 57, 0.3);
     }
-    
+
     .code-content {
       white-space: pre;
     }
-    
-    /* Improved UI elements */
+
     .status-indicator {
       display: inline-flex;
       align-items: center;
@@ -438,17 +439,17 @@
       font-size: 0.85rem;
       font-weight: 500;
     }
-    
+
     .status-loaded {
       background: rgba(46, 204, 113, 0.2);
       color: #2ecc71;
     }
-    
+
     .status-loading {
       background: rgba(241, 196, 15, 0.2);
       color: #f1c40f;
     }
-    
+
     .file-count {
       display: inline-flex;
       align-items: center;
@@ -462,6 +463,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="chat-container">
@@ -479,7 +481,7 @@
             <div class="card-title"> Example Question</div>
             <div class="card-icon"><i class="fas fa-question"></i></div>
           </div>
-          
+
           <div class="card" id="clearChat">
             <div class="card-title"> Clear Chat</div>
             <div class="card-icon"><i class="fas fa-trash"></i></div>
@@ -501,7 +503,6 @@
 
   <script src="https://js.puter.com/v2/"></script>
   <script>
-    // UI refs
     const input = document.getElementById('input');
     const send = document.getElementById('send');
     const messages = document.getElementById('messages');
@@ -512,7 +513,7 @@
     const statusIndicator = document.getElementById('status');
 
     const docs = [];
-    
+
     const extraInfo = `Application Context:
 You are ForceForge coder, your job is to help the user with coding with the bloxd.io api.
 Do not use markdown, Try to give the best code. try to Talk less but give a short overview of what you are going to do.
@@ -520,10 +521,9 @@ make sure to give the code in one code block.
 `;
 
     async function loadMarkdownFiles() {
-      // Update status to loading
       statusIndicator.className = 'status-indicator status-loading';
       statusIndicator.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading';
-      
+
       const fileNames = [
         'md/CALLBACKS.md',
         'md/CLIENT_OPTIONS.md',
@@ -532,9 +532,9 @@ make sure to give the code in one code block.
         'md/EXTRA.md',
         'md/PARTICLES.md'
       ];
-      
+
       docs.length = 0;
-      
+
       for (const fileName of fileNames) {
         try {
           const response = await fetch(fileName);
@@ -551,8 +551,7 @@ make sure to give the code in one code block.
           console.error(`Error loading ${fileName}:`, err);
         }
       }
-      
-      // Update status to loaded
+
       statusIndicator.className = 'status-indicator status-loaded';
       statusIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Loaded';
       fileCount.innerHTML = '<i class="fas fa-file-alt"></i> ' + `${docs.length} files`;
@@ -563,14 +562,13 @@ make sure to give the code in one code block.
     function createCodeBlock(code, language = 'javascript') {
       const codeBlock = document.createElement('div');
       codeBlock.className = 'code-block';
-      
+
       const header = document.createElement('div');
       header.className = 'code-header';
-      
+
       const langSpan = document.createElement('span');
       langSpan.className = 'code-lang';
-      
-      // Set language icon based on language
+
       let langIcon = 'fas fa-code';
       if (language === 'javascript' || language === 'js') langIcon = 'fab fa-js';
       else if (language === 'typescript' || language === 'ts') langIcon = 'fab fa-js';
@@ -578,9 +576,9 @@ make sure to give the code in one code block.
       else if (language === 'html') langIcon = 'fab fa-html5';
       else if (language === 'css') langIcon = 'fab fa-css3';
       else if (language === 'json') langIcon = 'fas fa-brackets-curly';
-      
+
       langSpan.innerHTML = `<i class="${langIcon}"></i> ${language}`;
-      
+
       const copyBtn = document.createElement('button');
       copyBtn.className = 'copy-btn';
       copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
@@ -592,97 +590,88 @@ make sure to give the code in one code block.
           copyBtn.innerHTML = originalText;
         }, 2000);
       };
-      
+
       header.appendChild(langSpan);
       header.appendChild(copyBtn);
-      
+
       const content = document.createElement('div');
       content.className = 'code-content';
       content.textContent = code;
-      
+
       codeBlock.appendChild(header);
       codeBlock.appendChild(content);
-      
+
       return codeBlock;
     }
 
-    // Function to parse and format messages with code blocks
     function formatMessage(text) {
-      // Simple regex to detect code blocks
       const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
       const parts = [];
       let lastIndex = 0;
       let match;
-      
+
       while ((match = codeBlockRegex.exec(text)) !== null) {
-        // Add text before the code block
         if (match.index > lastIndex) {
           parts.push(document.createTextNode(text.substring(lastIndex, match.index)));
         }
-        
-        // Add the code block
+
         const language = match[1] || 'text';
         const code = match[2].trim();
         parts.push(createCodeBlock(code, language));
-        
+
         lastIndex = match.index + match[0].length;
       }
-      
-      // Add remaining text
+
       if (lastIndex < text.length) {
         parts.push(document.createTextNode(text.substring(lastIndex)));
       }
-      
+
       return parts;
     }
 
-    function appendMessage(text, cls='ai') {
-      const msgEl = document.createElement('div'); 
-      msgEl.className = 'msg ' + cls; 
-      
-      // Format the message content
+    function appendMessage(text, cls = 'ai') {
+      const msgEl = document.createElement('div');
+      msgEl.className = 'msg ' + cls;
+
       const formattedContent = formatMessage(text);
       formattedContent.forEach(part => msgEl.appendChild(part));
-      
-      messages.appendChild(msgEl); 
+
+      messages.appendChild(msgEl);
       messages.scrollTop = messages.scrollHeight;
-      
+
       return msgEl;
     }
 
-    async function sendPrompt(userText){
-      if(!userText.trim()) return;
-      appendMessage(userText,'user');
-      
-      // Step 1: Send just metadata (filenames) to AI for selection
+    async function sendPrompt(userText) {
+      if (!userText.trim()) return;
+      appendMessage(userText, 'user');
+
       const fileList = docs.map(d => d.name).join(', ');
-      
+
       const selectorPrompt = `
 You are a document selector for Bloxd.io coding docs.
 The user asked: "${userText}"
 Here is the list of files available: ${fileList}
 Which files are likely needed to answer this question? Respond with the file names only, separated by commas.
 `;
-      
-      // Show loading message
+
       const loadingMsg = appendMessage('Analyzing which documentation files are most relevant...', 'ai');
       if (loadingMsg) {
         loadingMsg.classList.add('thinking');
       }
-      
+
       try {
-        // Get AI's file selection
         const selectionResponse = await puter.ai.chat(selectorPrompt);
         let selectedFilesText = '';
-        
-        if(typeof selectionResponse === 'string') {
+
+        if (typeof selectionResponse === 'string') {
           selectedFilesText = selectionResponse;
-        } else if(selectionResponse && typeof selectionResponse === 'object') {
-          if(selectionResponse.message && selectionResponse.message.content) {
+        } else if (selectionResponse && typeof selectionResponse === 'object') {
+          if (selectionResponse.message && selectionResponse.message.content) {
             selectedFilesText = selectionResponse.message.content;
-          } else if(selectionResponse.text) {
+          } else if (selectionResponse.text) {
             selectedFilesText = selectionResponse.text;
-          } else if(selectionResponse.content) {
+          } else if (selectionResponse.content) {
             selectedFilesText = selectionResponse.content;
           } else {
             selectedFilesText = JSON.stringify(selectionResponse);
@@ -690,56 +679,47 @@ Which files are likely needed to answer this question? Respond with the file nam
         } else {
           selectedFilesText = String(selectionResponse);
         }
-        
-        // Parse the selected files
+
         const selectedFileNames = selectedFilesText
           .split(',')
           .map(name => name.trim())
           .filter(name => name.length > 0);
-        
-        // Filter docs to only include selected files
-        // Always include EXTRA.md and SIMPLES.md as they contain important general information
-        const selectedDocs = docs.filter(d => 
-          d.name === 'EXTRA.md' ||  // Always include EXTRA.md
-          d.name === 'SIMPLES.md' ||  // Always include SIMPLES.md
-          selectedFileNames.some(selectedName => 
+
+        const selectedDocs = docs.filter(d =>
+          d.name === 'EXTRA.md' ||
+          d.name === 'SIMPLES.md' ||
+          selectedFileNames.some(selectedName =>
             d.name.toLowerCase() === selectedName.toLowerCase()
           )
         );
-        
-        // Build prompt with only selected files
-        const filesConcat = selectedDocs.map(d=>`--- ${d.name} ---\n${d.text}`).join('\n\n');
+
+        const filesConcat = selectedDocs.map(d => `--- ${d.name} ---\n${d.text}`).join('\n\n');
         const extras = extraInfo || '';
         const promptParts = [];
-        if(filesConcat) promptParts.push('CONTEXT:\n'+filesConcat);
-        if(extras) promptParts.push('SYSTEM CONTEXT:\n'+extras);
-        promptParts.push('USER QUESTION:\n'+userText);
+        if (filesConcat) promptParts.push('CONTEXT:\n' + filesConcat);
+        if (extras) promptParts.push('SYSTEM CONTEXT:\n' + extras);
+        promptParts.push('USER QUESTION:\n' + userText);
         const prompt = promptParts.join('\n\n');
 
-        // Update loading message
         if (loadingMsg) {
           loadingMsg.textContent = 'One sec, Melting... Forging... Cooling...';
         }
 
-        // Call Puter AI with the optimized prompt
         const response = await puter.ai.chat(prompt);
-        
-        // Remove the loading message
-        if(loadingMsg) {
+
+        if (loadingMsg) {
           loadingMsg.remove();
         }
 
-        // Handle response - extract content from JSON response
         let text = '';
-        if(typeof response === 'string') {
+        if (typeof response === 'string') {
           text = response;
-        } else if(response && typeof response === 'object') {
-          // Handle the case where response is a JSON object with message.content
-          if(response.message && response.message.content) {
+        } else if (response && typeof response === 'object') {
+          if (response.message && response.message.content) {
             text = response.message.content;
-          } else if(response.text) {
+          } else if (response.text) {
             text = response.text;
-          } else if(response.content) {
+          } else if (response.content) {
             text = response.content;
           } else {
             text = JSON.stringify(response);
@@ -748,39 +728,37 @@ Which files are likely needed to answer this question? Respond with the file nam
           text = String(response);
         }
 
-        appendMessage(text,'ai');
-      }catch(err){
-        const last = messages.querySelectorAll('.msg.ai.thinking'); if(last.length) last[last.length-1].remove();
-        appendMessage('Error: '+err.message,'ai');
+        appendMessage(text, 'ai');
+      } catch (err) {
+        const last = messages.querySelectorAll('.msg.ai.thinking'); if (last.length) last[last.length - 1].remove();
+        appendMessage('Error: ' + err.message, 'ai');
         console.error(err);
       }
     }
 
-    send.addEventListener('click', ()=>{ sendPrompt(input.value); input.value=''; input.focus(); });
-    input.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send.click(); } });
+    send.addEventListener('click', () => { sendPrompt(input.value); input.value = ''; input.focus(); });
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send.click(); } });
 
-    runExampleBtn.onclick = ()=>{
+    runExampleBtn.onclick = () => {
       input.value = 'How can I create an aura effect around the player with particles?'; send.click();
     }
 
-    clearChatBtn.onclick = ()=>{ messages.innerHTML=''; }
+    clearChatBtn.onclick = () => { messages.innerHTML = ''; }
 
-    reloadContextBtn.onclick = ()=>{
-      messages.innerHTML='';
+    reloadContextBtn.onclick = () => {
+      messages.innerHTML = '';
       loadMarkdownFiles();
       appendMessage('Context files reloaded successfully!', 'ai');
     }
 
-    // Small demo message
     const demoMsg = appendMessage('I have automatically loaded documentation files as context. Ask me anything about the available documentation!', 'ai');
-    // Add thinking class for initial shine effect
     if (demoMsg) {
       demoMsg.classList.add('thinking');
-      // Remove the thinking effect after a few seconds for the demo message
       setTimeout(() => {
         demoMsg.classList.remove('thinking');
       }, 3000);
     }
   </script>
 </body>
+
 </html>

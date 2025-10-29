@@ -282,7 +282,6 @@
 
     <script src="https://js.puter.com/v2/"></script>
     <script>
-        // Initialize chat system
         class BForgeAgent {
             constructor() {
                 this.messagesContainer = document.getElementById('messagesContainer');
@@ -297,7 +296,6 @@
             }
 
             async testPuterConnection() {
-                // Wait a bit for Puter to load
                 setTimeout(() => {
                     if (typeof puter === 'undefined') {
                         console.error('Puter is not loaded!');
@@ -313,7 +311,6 @@
 
             async loadWikiData() {
                 try {
-                    // Load wiki data from the JSON file
                     const response = await fetch('../wiki.json');
                     this.wikiData = await response.json();
                     console.log('Wiki data loaded:', this.wikiData?.length || 0, 'items');
@@ -332,7 +329,6 @@
                     }
                 });
 
-                // Auto-resize textarea
                 this.messageInput.addEventListener('input', () => {
                     this.messageInput.style.height = 'auto';
                     this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 120) + 'px';
@@ -350,12 +346,10 @@
                 const contentDiv = document.createElement('div');
                 contentDiv.className = 'message-content';
                 
-                // Handle different response formats from Puter AI
                 let textContent = '';
                 if (typeof content === 'string') {
                     textContent = content;
                 } else if (content && typeof content === 'object') {
-                    // Handle Puter AI response object format
                     if (content.message && content.message.content) {
                         textContent = content.message.content;
                     } else if (content.content) {
@@ -363,7 +357,6 @@
                     } else if (content.text) {
                         textContent = content.text;
                     } else {
-                        // Fallback: stringify the object to see its structure
                         textContent = JSON.stringify(content, null, 2);
                         console.log('Unexpected response format:', content);
                     }
@@ -376,7 +369,6 @@
                 messageDiv.appendChild(avatarDiv);
                 messageDiv.appendChild(contentDiv);
                 
-                // Remove welcome message if it exists
                 const welcomeMsg = this.messagesContainer.querySelector('.welcome-message');
                 if (welcomeMsg) {
                     welcomeMsg.remove();
@@ -409,38 +401,33 @@
                 const lowerMessage = userMessage.toLowerCase();
                 const keywords = lowerMessage.split(/\s+/).filter(word => word.length > 2);
                 
-                // Find relevant items based on keywords with improved matching
                 const relevantItems = this.wikiData.filter(item => {
                     const itemText = `${item.title} ${item.description} ${item.content} ${item.tag}`.toLowerCase();
                     
-                    // Check for exact phrase matches first
                     if (itemText.includes(lowerMessage)) {
                         return true;
                     }
                     
-                    // Check if all keywords are present (for multi-word searches like "moonstone pickaxe")
                     const allKeywordsMatch = keywords.every(keyword => itemText.includes(keyword));
                     if (allKeywordsMatch && keywords.length > 1) {
                         return true;
                     }
                     
-                    // Check individual keywords for single word searches
                     return keywords.some(keyword => itemText.includes(keyword));
-                }).slice(0, 15); // Increased limit to 15 for better coverage
+                }).slice(0, 15);
                 
                 console.log('Search query:', lowerMessage);
                 console.log('Keywords:', keywords);
                 console.log('Found relevant items:', relevantItems.length);
                 console.log('Relevant items:', relevantItems.map(item => item.title));
                 
-                // If no specific matches, return a sample of different categories
                 if (relevantItems.length === 0) {
                     const categories = ['Tool', 'Weapon', 'Armor', 'Food', 'Natural Block'];
                     const samples = [];
                     categories.forEach(category => {
                         const categoryItems = this.wikiData.filter(item => item.tag === category);
                         if (categoryItems.length > 0) {
-                            samples.push(categoryItems[0]); // Add one item from each category
+                            samples.push(categoryItems[0]);
                         }
                     });
                     console.log('No matches found, using category samples:', samples.map(item => item.title));
@@ -498,22 +485,17 @@ Guidelines:
                 const message = this.messageInput.value.trim();
                 if (!message) return;
 
-                // Disable input
                 this.messageInput.disabled = true;
                 this.sendButton.disabled = true;
 
-                // Add user message
                 this.addMessage(message, true);
                 
-                // Clear input
                 this.messageInput.value = '';
                 this.messageInput.style.height = 'auto';
 
-                // Show typing indicator
                 this.showTyping();
 
                 try {
-                    // Check if Puter is available
                     if (typeof puter === 'undefined') {
                         throw new Error('Puter is not loaded');
                     }
@@ -529,7 +511,6 @@ Guidelines:
                     let messages;
                     
                     try {
-                        // First attempt: Try with complete wiki data
                         console.log('Attempting to use full wiki database...');
                         messages = this.createSystemPrompt(message, true);
                         console.log('Sending full wiki messages:', messages.length, 'messages');
@@ -539,7 +520,6 @@ Guidelines:
                     } catch (fullWikiError) {
                         console.log('Full wiki failed, trying filtered approach:', fullWikiError.message);
                         
-                        // Fallback: Use filtered relevant data
                         const relevantWikiData = this.getRelevantWikiData(message);
                         messages = this.createSystemPrompt(message, false, relevantWikiData);
                         console.log('Sending filtered messages:', messages.length, 'messages, items:', relevantWikiData.length);
@@ -551,7 +531,6 @@ Guidelines:
                     console.log('Response type:', typeof response);
                     console.log('Response structure:', JSON.stringify(response, null, 2));
                     
-                    // Hide typing and add bot response
                     this.hideTyping();
                     this.addMessage(response);
                     
@@ -576,14 +555,12 @@ Guidelines:
                     this.addMessage(errorMsg, false);
                 }
 
-                // Re-enable input
                 this.messageInput.disabled = false;
                 this.sendButton.disabled = false;
                 this.messageInput.focus();
             }
         }
 
-        // Initialize the chat when the page loads
         document.addEventListener('DOMContentLoaded', () => {
             new BForgeAgent();
         });

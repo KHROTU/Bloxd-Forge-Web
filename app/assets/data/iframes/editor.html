@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,8 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       height: 100%;
       background: #141313;
@@ -440,8 +442,13 @@
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     #error-message {
@@ -478,7 +485,8 @@
       visibility: visible;
     }
 
-    h3, h4 {
+    h3,
+    h4 {
       margin: 0 0 15px 0;
       color: #e8e8e8;
       font-weight: 500;
@@ -496,6 +504,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="loading-overlay">
     <div id="loading-spinner"></div>
@@ -505,26 +514,25 @@
   </div>
 
   <div class="container">
-    <!-- Left Sidebar -->
     <div class="sidebar">
       <div class="logo">
 
         <span>TPACK EDITOR</span>
       </div>
-      
+
       <div class="section-title">
         <h3>Textures:</h3>
       </div>
-      
+
       <div class="file-list-container">
         <ul id="file-list"></ul>
       </div>
-      
+
       <button id="upload-folder-btn" class="upload-btn tooltip" data-tooltip="Upload texture images">
         <i class="fas fa-upload"></i>&nbsp; Upload Textures
       </button>
       <input type="file" id="folder-input" accept="image/png" multiple directory style="display: none;" />
-      
+
       <div class="bottom-buttons">
         <button style="display: none;" class="cube-btn tooltip" id="fullscreenBtn" data-tooltip="Toggle fullscreen">
           <i style="display: none;" class="fas fa-expand"></i>
@@ -535,18 +543,17 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
       <div class="canvas-container">
         <canvas id="canvas" width="500" height="500"></canvas>
       </div>
-      
+
       <div class="tools-section">
         <div class="card tooltip" data-tooltip="Basic drawing tool">
           <span class="card-title">Pencil Tool</span>
           <div class="card-icon"><i class="fas fa-pencil-alt"></i></div>
         </div>
-        
+
         <div class="tool-grid">
           <button id="undo-btn" class="tool-btn tooltip" data-tooltip="Undo last action">
             <i class="fas fa-undo"></i>
@@ -570,23 +577,22 @@
       </div>
     </div>
 
-    <!-- Right Sidebar -->
     <div class="color-section">
       <div class="section-title">
         <h3>Color Palette</h3>
       </div>
-      
+
       <div class="color-picker-container">
         <input type="color" id="color-picker">
-        
+
         <div class="color-input-container">
           <input type="text" id="color-text-input" class="color-text-input" maxlength="7" placeholder="Hex Color">
         </div>
       </div>
-      
+
       <h4>Custom Colors</h4>
       <div id="custom-colors"></div>
-      
+
       <button id="add-color-btn" class="upload-btn tooltip" data-tooltip="Add current color to palette">
         <i class="fas fa-plus"></i>&nbsp; Add Color
       </button>
@@ -594,543 +600,487 @@
   </div>
 
 </body>
+
 </html>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-  <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script>
   (() => {
-  // DOM elements
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  const fileList = document.getElementById('file-list');
-  const folderInput = document.getElementById('folder-input');
-  const uploadFolderBtn = document.getElementById('upload-folder-btn');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const fileList = document.getElementById('file-list');
+    const folderInput = document.getElementById('folder-input');
+    const uploadFolderBtn = document.getElementById('upload-folder-btn');
 
-  const colorPicker = document.getElementById('color-picker');
-  const colorTextInput = document.getElementById('color-text-input');
-  const customColorsContainer = document.getElementById('custom-colors');
-  const addColorBtn = document.getElementById('add-color-btn');
+    const colorPicker = document.getElementById('color-picker');
+    const colorTextInput = document.getElementById('color-text-input');
+    const customColorsContainer = document.getElementById('custom-colors');
+    const addColorBtn = document.getElementById('add-color-btn');
 
-  const undoBtn = document.getElementById('undo-btn');
-  const darkenBtn = document.getElementById('darken-tool');
-  const lightenBtn = document.getElementById('lighten-tool');
-  const eraserBtn = document.getElementById('eraser-tool');
-  const eyedropperBtn = document.getElementById('eyedropper-tool');
-  const saveBtn = document.getElementById('save-btn');
+    const undoBtn = document.getElementById('undo-btn');
+    const darkenBtn = document.getElementById('darken-tool');
+    const lightenBtn = document.getElementById('lighten-tool');
+    const eraserBtn = document.getElementById('eraser-tool');
+    const eyedropperBtn = document.getElementById('eyedropper-tool');
+    const saveBtn = document.getElementById('save-btn');
 
-  const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
 
-  // Tools state
-  let currentTool = 'pencil'; // pencil default
-  let selectedColor = '#ff6b39';
-  let customColors = [];
+    let currentTool = 'pencil';
+    let selectedColor = '#ff6b39';
+    let customColors = [];
 
-  // Undo stack
-  const undoStack = [];
-  const MAX_UNDO = 20;
+    const undoStack = [];
+    const MAX_UNDO = 20;
 
-  // Currently loaded image info
-  let currentImage = null; // ImageData of the current texture
-  let textureSize = 16; // 8 or 16 pixels side length (default 16)
-  let currentFileName = 'texture.png'; // Track current file name
-  
-  // Canvas size is 500x500 (fixed), so pixel scale is:
-  const CANVAS_SIZE = 500;
-  let pixelScale = CANVAS_SIZE / textureSize; // size of one pixel block on canvas
+    let currentImage = null;
+    let textureSize = 16;
+    let currentFileName = 'texture.png';
 
-  // Disable image smoothing for pixel art crispness
-  ctx.imageSmoothingEnabled = false;
+    const CANVAS_SIZE = 500;
+    let pixelScale = CANVAS_SIZE / textureSize;
 
-  // Helper: draw image data on canvas scaled up (nearest neighbor)
-  function drawTexture(imageData) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Put original image at (0,0)
-    // We'll scale pixels up manually
-    // Let's do per-pixel drawing for best control:
-
-    // Create an offscreen canvas to hold the small texture
-    const off = document.createElement('canvas');
-    off.width = textureSize;
-    off.height = textureSize;
-    const offCtx = off.getContext('2d');
-    offCtx.putImageData(imageData, 0, 0);
-
-    // Draw scaled on main canvas
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(off, 0, 0, textureSize, textureSize, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  }
 
-  // Helper: create blank transparent image data for given texture size
-  function createBlankTexture(size) {
-    return ctx.createImageData(size, size);
-  }
+    function drawTexture(imageData) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Helper: push current canvas state to undo stack
-  function pushUndo() {
-    if (!currentImage) return;
-    if (undoStack.length >= MAX_UNDO) undoStack.shift();
-    // Save a copy of currentImage (clone ImageData)
-    undoStack.push(new ImageData(new Uint8ClampedArray(currentImage.data), currentImage.width, currentImage.height));
-  }
+      const off = document.createElement('canvas');
+      off.width = textureSize;
+      off.height = textureSize;
+      const offCtx = off.getContext('2d');
+      offCtx.putImageData(imageData, 0, 0);
 
-  // Helper: apply undo
-  function undo() {
-    if (undoStack.length === 0) return;
-    currentImage = undoStack.pop();
-    drawTexture(currentImage);
-  }
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(off, 0, 0, textureSize, textureSize, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    }
 
-  // Helper: update pixel at (x, y) with RGBA color
-  function setPixel(imageData, x, y, rgba) {
-    if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) return;
-    const idx = (y * imageData.width + x) * 4;
-    imageData.data[idx] = rgba[0];
-    imageData.data[idx + 1] = rgba[1];
-    imageData.data[idx + 2] = rgba[2];
-    imageData.data[idx + 3] = rgba[3];
-  }
+    function createBlankTexture(size) {
+      return ctx.createImageData(size, size);
+    }
 
-  // Helper: get pixel color at (x,y) RGBA array
-  function getPixel(imageData, x, y) {
-    if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) return [0,0,0,0];
-    const idx = (y * imageData.width + x) * 4;
-    return [
-      imageData.data[idx],
-      imageData.data[idx + 1],
-      imageData.data[idx + 2],
-      imageData.data[idx + 3],
-    ];
-  }
+    function pushUndo() {
+      if (!currentImage) return;
+      if (undoStack.length >= MAX_UNDO) undoStack.shift();
+      undoStack.push(new ImageData(new Uint8ClampedArray(currentImage.data), currentImage.width, currentImage.height));
+    }
 
-  // Convert hex to rgba array [r,g,b,255]
-  function hexToRgba(hex) {
-    if (!hex || hex[0] !== '#' || (hex.length !== 7 && hex.length !== 4)) return [0,0,0,255];
-    if (hex.length === 7) {
+    function undo() {
+      if (undoStack.length === 0) return;
+      currentImage = undoStack.pop();
+      drawTexture(currentImage);
+    }
+
+    function setPixel(imageData, x, y, rgba) {
+      if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) return;
+      const idx = (y * imageData.width + x) * 4;
+      imageData.data[idx] = rgba[0];
+      imageData.data[idx + 1] = rgba[1];
+      imageData.data[idx + 2] = rgba[2];
+      imageData.data[idx + 3] = rgba[3];
+    }
+
+    function getPixel(imageData, x, y) {
+      if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) return [0, 0, 0, 0];
+      const idx = (y * imageData.width + x) * 4;
       return [
-        parseInt(hex.substr(1,2), 16),
-        parseInt(hex.substr(3,2), 16),
-        parseInt(hex.substr(5,2), 16),
-        255,
-      ];
-    } else if (hex.length === 4) {
-      return [
-        parseInt(hex[1] + hex[1], 16),
-        parseInt(hex[2] + hex[2], 16),
-        parseInt(hex[3] + hex[3], 16),
-        255,
+        imageData.data[idx],
+        imageData.data[idx + 1],
+        imageData.data[idx + 2],
+        imageData.data[idx + 3],
       ];
     }
-  }
 
-  // Convert RGBA to hex string (ignore alpha)
-  function rgbaToHex(rgba) {
-    const r = rgba[0].toString(16).padStart(2, '0');
-    const g = rgba[1].toString(16).padStart(2, '0');
-    const b = rgba[2].toString(16).padStart(2, '0');
-    return `#${r}${g}${b}`;
-  }
-
-  // Check if hex string is valid
-  function isValidHex(hex) {
-    return /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(hex);
-  }
-
-  // Tool handlers
-
-  // We'll track if mouse is down and current tool action
-  let mouseDown = false;
-
-  // Convert canvas pixel coords to texture pixel coords
-  function getTextureCoords(clientX, clientY) {
-    const rect = canvas.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
-
-    const tx = Math.floor(x / pixelScale);
-    const ty = Math.floor(y / pixelScale);
-    return { tx, ty };
-  }
-
-  // Draw pixel depending on tool
-  function drawAtPixel(x, y) {
-    if (!currentImage) return;
-
-    switch (currentTool) {
-      case 'pencil': {
-        const rgba = hexToRgba(selectedColor);
-        setPixel(currentImage, x, y, rgba);
-        break;
+    function hexToRgba(hex) {
+      if (!hex || hex[0] !== '#' || (hex.length !== 7 && hex.length !== 4)) return [0, 0, 0, 255];
+      if (hex.length === 7) {
+        return [
+          parseInt(hex.substr(1, 2), 16),
+          parseInt(hex.substr(3, 2), 16),
+          parseInt(hex.substr(5, 2), 16),
+          255,
+        ];
+      } else if (hex.length === 4) {
+        return [
+          parseInt(hex[1] + hex[1], 16),
+          parseInt(hex[2] + hex[2], 16),
+          parseInt(hex[3] + hex[3], 16),
+          255,
+        ];
       }
-      case 'eraser': {
-        // Eraser clears pixel (transparent)
-        setPixel(currentImage, x, y, [0, 0, 0, 0]);
-        break;
-      }
-      case 'darken': {
-        const px = getPixel(currentImage, x, y);
-        const darkened = darkenColor(px, 0.15);
-        setPixel(currentImage, x, y, darkened);
-        break;
-      }
-      case 'lighten': {
-        const px = getPixel(currentImage, x, y);
-        const lightened = lightenColor(px, 0.15);
-        setPixel(currentImage, x, y, lightened);
-        break;
-      }
-      // eyedropper handled separately
-    }
-  }
-
-  // Color manipulation helpers
-
-  // Convert RGBA to HSL (0-1 ranges)
-  function rgbaToHsl(rgba) {
-    let r = rgba[0]/255, g = rgba[1]/255, b = rgba[2]/255;
-    let max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h, s, l = (max + min) / 2;
-
-    if (max === min) {
-      h = s = 0; // achromatic
-    } else {
-      let d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch(max) {
-        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-        case g: h = (b - r) / d + 2; break;
-        case b: h = (r - g) / d + 4; break;
-      }
-      h /= 6;
-    }
-    return [h, s, l];
-  }
-
-  // Convert HSL to RGBA (alpha = original alpha)
-  function hslToRgba(h, s, l, alpha=255) {
-    let r, g, b;
-
-    if (s === 0) {
-      r = g = b = l; // achromatic
-    } else {
-      function hue2rgb(p, q, t) {
-        if(t < 0) t += 1;
-        if(t > 1) t -= 1;
-        if(t < 1/6) return p + (q - p) * 6 * t;
-        if(t < 1/2) return q;
-        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-        return p;
-      }
-      let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      let p = 2 * l - q;
-      r = hue2rgb(p, q, h + 1/3);
-      g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1/3);
-    }
-    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), alpha];
-  }
-
-  // Darken pixel by amount (0-1)
-  function darkenColor(rgba, amount) {
-    if (rgba[3] === 0) return rgba; // transparent no change
-    let [h,s,l] = rgbaToHsl(rgba);
-    l = Math.max(0, l - amount);
-    return hslToRgba(h, s, l, rgba[3]);
-  }
-
-  // Lighten pixel by amount (0-1)
-  function lightenColor(rgba, amount) {
-    if (rgba[3] === 0) return rgba;
-    let [h,s,l] = rgbaToHsl(rgba);
-    l = Math.min(1, l + amount);
-    return hslToRgba(h, s, l, rgba[3]);
-  }
-
-  // Handle mouse events on canvas
-  function onPointerDown(e) {
-    mouseDown = true;
-    const { tx, ty } = getTextureCoords(e.clientX, e.clientY);
-    if (tx < 0 || ty < 0 || tx >= textureSize || ty >= textureSize) return;
-
-    if (currentTool === 'eyedropper') {
-      const px = getPixel(currentImage, tx, ty);
-      if (px[3] !== 0) {
-        selectedColor = rgbaToHex(px);
-        updateColorInputs(selectedColor);
-      }
-      setActiveTool('pencil'); // switch back to pencil after eyedropper
-      return;
     }
 
-    pushUndo();
-    drawAtPixel(tx, ty);
-    drawTexture(currentImage);
-  }
+    function rgbaToHex(rgba) {
+      const r = rgba[0].toString(16).padStart(2, '0');
+      const g = rgba[1].toString(16).padStart(2, '0');
+      const b = rgba[2].toString(16).padStart(2, '0');
+      return `#${r}${g}${b}`;
+    }
 
-  function onPointerMove(e) {
-    if (!mouseDown) return;
-    const { tx, ty } = getTextureCoords(e.clientX, e.clientY);
-    if (tx < 0 || ty < 0 || tx >= textureSize || ty >= textureSize) return;
+    function isValidHex(hex) {
+      return /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(hex);
+    }
 
-    if (currentTool !== 'eyedropper') {
+
+    let mouseDown = false;
+
+    function getTextureCoords(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      const tx = Math.floor(x / pixelScale);
+      const ty = Math.floor(y / pixelScale);
+      return { tx, ty };
+    }
+
+    function drawAtPixel(x, y) {
+      if (!currentImage) return;
+
+      switch (currentTool) {
+        case 'pencil': {
+          const rgba = hexToRgba(selectedColor);
+          setPixel(currentImage, x, y, rgba);
+          break;
+        }
+        case 'eraser': {
+          setPixel(currentImage, x, y, [0, 0, 0, 0]);
+          break;
+        }
+        case 'darken': {
+          const px = getPixel(currentImage, x, y);
+          const darkened = darkenColor(px, 0.15);
+          setPixel(currentImage, x, y, darkened);
+          break;
+        }
+        case 'lighten': {
+          const px = getPixel(currentImage, x, y);
+          const lightened = lightenColor(px, 0.15);
+          setPixel(currentImage, x, y, lightened);
+          break;
+        }
+      }
+    }
+
+
+    function rgbaToHsl(rgba) {
+      let r = rgba[0] / 255, g = rgba[1] / 255, b = rgba[2] / 255;
+      let max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return [h, s, l];
+    }
+
+    function hslToRgba(h, s, l, alpha = 255) {
+      let r, g, b;
+
+      if (s === 0) {
+        r = g = b = l;
+      } else {
+        function hue2rgb(p, q, t) {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1 / 6) return p + (q - p) * 6 * t;
+          if (t < 1 / 2) return q;
+          if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+          return p;
+        }
+        let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        let p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+      }
+      return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), alpha];
+    }
+
+    function darkenColor(rgba, amount) {
+      if (rgba[3] === 0) return rgba;
+      let [h, s, l] = rgbaToHsl(rgba);
+      l = Math.max(0, l - amount);
+      return hslToRgba(h, s, l, rgba[3]);
+    }
+
+    function lightenColor(rgba, amount) {
+      if (rgba[3] === 0) return rgba;
+      let [h, s, l] = rgbaToHsl(rgba);
+      l = Math.min(1, l + amount);
+      return hslToRgba(h, s, l, rgba[3]);
+    }
+
+    function onPointerDown(e) {
+      mouseDown = true;
+      const { tx, ty } = getTextureCoords(e.clientX, e.clientY);
+      if (tx < 0 || ty < 0 || tx >= textureSize || ty >= textureSize) return;
+
+      if (currentTool === 'eyedropper') {
+        const px = getPixel(currentImage, tx, ty);
+        if (px[3] !== 0) {
+          selectedColor = rgbaToHex(px);
+          updateColorInputs(selectedColor);
+        }
+        setActiveTool('pencil');
+        return;
+      }
+
+      pushUndo();
       drawAtPixel(tx, ty);
       drawTexture(currentImage);
     }
-  }
 
-  function onPointerUp(e) {
-    mouseDown = false;
-  }
+    function onPointerMove(e) {
+      if (!mouseDown) return;
+      const { tx, ty } = getTextureCoords(e.clientX, e.clientY);
+      if (tx < 0 || ty < 0 || tx >= textureSize || ty >= textureSize) return;
 
-  // Sync color picker and hex input
-  function updateColorInputs(hex) {
-    if (isValidHex(hex)) {
-      colorPicker.value = hex;
-      colorTextInput.value = hex.toUpperCase();
-      colorTextInput.classList.remove('invalid');
-    } else {
-      colorTextInput.classList.add('invalid');
-    }
-  }
-
-  // Add a custom color box
-  function addCustomColor(hex) {
-    if (!isValidHex(hex)) return;
-    if (customColors.includes(hex.toUpperCase())) return; // no duplicates
-
-    customColors.push(hex.toUpperCase());
-    renderCustomColors();
-  }
-
-  // Render custom colors grid
-  function renderCustomColors() {
-    customColorsContainer.innerHTML = '';
-    customColors.forEach(color => {
-      const div = document.createElement('div');
-      div.className = 'color-box';
-      div.style.backgroundColor = color;
-      div.title = color;
-      div.addEventListener('click', () => {
-        selectedColor = color;
-        updateColorInputs(color);
-      });
-      customColorsContainer.appendChild(div);
-    });
-  }
-
-  // Load texture image into canvas
-  function loadTexture(img) {
-    textureSize = img.width;
-    if (textureSize !== 8 && textureSize !== 16) {
-      alert('Texture must be 8x8 or 16x16 pixels');
-      return;
+      if (currentTool !== 'eyedropper') {
+        drawAtPixel(tx, ty);
+        drawTexture(currentImage);
+      }
     }
 
-    pixelScale = CANVAS_SIZE / textureSize;
-
-    // Draw image on offscreen canvas at native size
-    const off = document.createElement('canvas');
-    off.width = textureSize;
-    off.height = textureSize;
-    const offCtx = off.getContext('2d');
-    offCtx.clearRect(0, 0, textureSize, textureSize);
-    offCtx.drawImage(img, 0, 0);
-
-    // Get ImageData
-    currentImage = offCtx.getImageData(0, 0, textureSize, textureSize);
-    undoStack.length = 0; // clear undo
-    drawTexture(currentImage);
-  }
-
-  // Handle files selected for upload
-  function handleFiles(files) {
-    for (const file of files) {
-      if (!file.type.startsWith('image/png')) continue;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.onload = () => {
-          addFileToList(file.name, img);
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
+    function onPointerUp(e) {
+      mouseDown = false;
     }
-  }
 
-  // Add file to file list UI
-  function addFileToList(name, img) {
-    const li = document.createElement('li');
-    li.textContent = name;
-    li.title = `Load ${name}`;
-    li.addEventListener('click', () => {
-      loadTexture(img);
-      currentFileName = name; // Remember the file name when loading
-      highlightActiveFile(li);
-    });
-    fileList.appendChild(li);
-  }
-
-  // Highlight active file in list
-  function highlightActiveFile(activeLi) {
-    [...fileList.children].forEach(li => li.classList.remove('active-btn'));
-    activeLi.classList.add('active-btn');
-  }
-
-  // Tool selection UI update
-  const toolButtons = {
-    pencil: null,
-    undo: undoBtn,
-    darken: darkenBtn,
-    lighten: lightenBtn,
-    eraser: eraserBtn,
-    eyedropper: eyedropperBtn,
-    save: saveBtn
-  };
-
-  // Only pencil is a card, tools are buttons, so set active class accordingly
-  function setActiveTool(toolName) {
-    currentTool = toolName;
-
-    // Update pencil card active style
-    document.querySelectorAll('.card').forEach(card => {
-      if (card.querySelector('.card-title').textContent.toLowerCase().includes(toolName)) {
-        card.classList.add('active-card');
+    function updateColorInputs(hex) {
+      if (isValidHex(hex)) {
+        colorPicker.value = hex;
+        colorTextInput.value = hex.toUpperCase();
+        colorTextInput.classList.remove('invalid');
       } else {
-        card.classList.remove('active-card');
+        colorTextInput.classList.add('invalid');
+      }
+    }
+
+    function addCustomColor(hex) {
+      if (!isValidHex(hex)) return;
+      if (customColors.includes(hex.toUpperCase())) return;
+
+      customColors.push(hex.toUpperCase());
+      renderCustomColors();
+    }
+
+    function renderCustomColors() {
+      customColorsContainer.innerHTML = '';
+      customColors.forEach(color => {
+        const div = document.createElement('div');
+        div.className = 'color-box';
+        div.style.backgroundColor = color;
+        div.title = color;
+        div.addEventListener('click', () => {
+          selectedColor = color;
+          updateColorInputs(color);
+        });
+        customColorsContainer.appendChild(div);
+      });
+    }
+
+    function loadTexture(img) {
+      textureSize = img.width;
+      if (textureSize !== 8 && textureSize !== 16) {
+        alert('Texture must be 8x8 or 16x16 pixels');
+        return;
+      }
+
+      pixelScale = CANVAS_SIZE / textureSize;
+
+      const off = document.createElement('canvas');
+      off.width = textureSize;
+      off.height = textureSize;
+      const offCtx = off.getContext('2d');
+      offCtx.clearRect(0, 0, textureSize, textureSize);
+      offCtx.drawImage(img, 0, 0);
+
+      currentImage = offCtx.getImageData(0, 0, textureSize, textureSize);
+      undoStack.length = 0;
+      drawTexture(currentImage);
+    }
+
+    function handleFiles(files) {
+      for (const file of files) {
+        if (!file.type.startsWith('image/png')) continue;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = new Image();
+          img.onload = () => {
+            addFileToList(file.name, img);
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function addFileToList(name, img) {
+      const li = document.createElement('li');
+      li.textContent = name;
+      li.title = `Load ${name}`;
+      li.addEventListener('click', () => {
+        loadTexture(img);
+        currentFileName = name;
+        highlightActiveFile(li);
+      });
+      fileList.appendChild(li);
+    }
+
+    function highlightActiveFile(activeLi) {
+      [...fileList.children].forEach(li => li.classList.remove('active-btn'));
+      activeLi.classList.add('active-btn');
+    }
+
+    const toolButtons = {
+      pencil: null,
+      undo: undoBtn,
+      darken: darkenBtn,
+      lighten: lightenBtn,
+      eraser: eraserBtn,
+      eyedropper: eyedropperBtn,
+      save: saveBtn
+    };
+
+    function setActiveTool(toolName) {
+      currentTool = toolName;
+
+      document.querySelectorAll('.card').forEach(card => {
+        if (card.querySelector('.card-title').textContent.toLowerCase().includes(toolName)) {
+          card.classList.add('active-card');
+        } else {
+          card.classList.remove('active-card');
+        }
+      });
+
+      [undoBtn, darkenBtn, lightenBtn, eraserBtn, eyedropperBtn, saveBtn].forEach(btn => {
+        btn.classList.remove('active-btn');
+      });
+
+      if (toolName !== 'pencil' && toolName !== 'save' && toolButtons[toolName]) {
+        toolButtons[toolName].classList.add('active-btn');
+      }
+    }
+
+    function saveTexture() {
+      if (!currentImage) return;
+      const off = document.createElement('canvas');
+      off.width = textureSize;
+      off.height = textureSize;
+      const offCtx = off.getContext('2d');
+
+      offCtx.putImageData(currentImage, 0, 0);
+
+      off.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = currentFileName || `texture_${textureSize}x${textureSize}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+
+    fullscreenBtn.addEventListener('click', () => {
+      const container = document.querySelector('.canvas-container');
+      if (!document.fullscreenElement) {
+        container.requestFullscreen().catch(err => alert(`Error attempting to enable fullscreen: ${err.message}`));
+      } else {
+        document.exitFullscreen();
       }
     });
 
-    // Update tool buttons active style
-    [undoBtn, darkenBtn, lightenBtn, eraserBtn, eyedropperBtn, saveBtn].forEach(btn => {
-      btn.classList.remove('active-btn');
+    document.querySelector('.card').addEventListener('click', () => {
+      setActiveTool('pencil');
     });
 
-    if (toolName !== 'pencil' && toolName !== 'save' && toolButtons[toolName]) {
-      toolButtons[toolName].classList.add('active-btn');
+    undoBtn.addEventListener('click', () => {
+      undo();
+    });
+
+    darkenBtn.addEventListener('click', () => {
+      setActiveTool('darken');
+    });
+
+    lightenBtn.addEventListener('click', () => {
+      setActiveTool('lighten');
+    });
+
+    eraserBtn.addEventListener('click', () => {
+      setActiveTool('eraser');
+    });
+
+    eyedropperBtn.addEventListener('click', () => {
+      setActiveTool('eyedropper');
+    });
+
+    saveBtn.addEventListener('click', () => {
+      saveTexture();
+    });
+
+    colorPicker.addEventListener('input', e => {
+      const val = e.target.value.toUpperCase();
+      selectedColor = val;
+      colorTextInput.value = val;
+    });
+
+    colorTextInput.addEventListener('input', e => {
+      const val = e.target.value;
+      if (isValidHex(val)) {
+        selectedColor = val.toUpperCase();
+        colorPicker.value = selectedColor;
+        colorTextInput.classList.remove('invalid');
+      } else {
+        colorTextInput.classList.add('invalid');
+      }
+    });
+
+    addColorBtn.addEventListener('click', () => {
+      if (isValidHex(selectedColor)) {
+        addCustomColor(selectedColor);
+      }
+    });
+
+    uploadFolderBtn.addEventListener('click', () => {
+      folderInput.click();
+    });
+
+    folderInput.addEventListener('change', e => {
+      if (e.target.files.length > 0) {
+        handleFiles(e.target.files);
+        e.target.value = '';
+      }
+    });
+
+    canvas.addEventListener('pointerdown', onPointerDown);
+    canvas.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+
+    function init() {
+      currentImage = createBlankTexture(16);
+      textureSize = 16;
+      pixelScale = CANVAS_SIZE / textureSize;
+      drawTexture(currentImage);
+      setActiveTool('pencil');
+      updateColorInputs(selectedColor);
+      renderCustomColors();
     }
-  }
 
-  // Save canvas as PNG (scaled down to original texture size)
-  function saveTexture() {
-    if (!currentImage) return;
-    const off = document.createElement('canvas');
-    off.width = textureSize;
-    off.height = textureSize;
-    const offCtx = off.getContext('2d');
+    init();
 
-    offCtx.putImageData(currentImage, 0, 0);
+  })();
 
-    off.toBlob(blob => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      // Use the current file name or fallback to a generated name
-      a.download = currentFileName || `texture_${textureSize}x${textureSize}.png`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }, 'image/png');
-  }
-
-  // Fullscreen toggle for canvas container
-  fullscreenBtn.addEventListener('click', () => {
-    const container = document.querySelector('.canvas-container');
-    if (!document.fullscreenElement) {
-      container.requestFullscreen().catch(err => alert(`Error attempting to enable fullscreen: ${err.message}`));
-    } else {
-      document.exitFullscreen();
-    }
-  });
-
-  // Initial tool card click handler (pencil)
-  document.querySelector('.card').addEventListener('click', () => {
-    setActiveTool('pencil');
-  });
-
-  // Tool buttons click handlers
-  undoBtn.addEventListener('click', () => {
-    undo();
-  });
-
-  darkenBtn.addEventListener('click', () => {
-    setActiveTool('darken');
-  });
-
-  lightenBtn.addEventListener('click', () => {
-    setActiveTool('lighten');
-  });
-
-  eraserBtn.addEventListener('click', () => {
-    setActiveTool('eraser');
-  });
-
-  eyedropperBtn.addEventListener('click', () => {
-    setActiveTool('eyedropper');
-  });
-
-  saveBtn.addEventListener('click', () => {
-    saveTexture();
-  });
-
-  // Color picker change sync
-  colorPicker.addEventListener('input', e => {
-    const val = e.target.value.toUpperCase();
-    selectedColor = val;
-    colorTextInput.value = val;
-  });
-
-  // Hex input change sync + validation
-  colorTextInput.addEventListener('input', e => {
-    const val = e.target.value;
-    if (isValidHex(val)) {
-      selectedColor = val.toUpperCase();
-      colorPicker.value = selectedColor;
-      colorTextInput.classList.remove('invalid');
-    } else {
-      colorTextInput.classList.add('invalid');
-    }
-  });
-
-  // Add custom color button
-  addColorBtn.addEventListener('click', () => {
-    if (isValidHex(selectedColor)) {
-      addCustomColor(selectedColor);
-    }
-  });
-
-  // Upload folder button triggers hidden input
-  uploadFolderBtn.addEventListener('click', () => {
-    folderInput.click();
-  });
-
-  // Handle folder input files
-  folderInput.addEventListener('change', e => {
-    if (e.target.files.length > 0) {
-      handleFiles(e.target.files);
-      e.target.value = ''; // reset input so same files can be re-uploaded if needed
-    }
-  });
-
-  // Canvas pointer events
-  canvas.addEventListener('pointerdown', onPointerDown);
-  canvas.addEventListener('pointermove', onPointerMove);
-  window.addEventListener('pointerup', onPointerUp);
-
-  // Initialize default blank texture 16x16 on load
-  function init() {
-    currentImage = createBlankTexture(16);
-    textureSize = 16;
-    pixelScale = CANVAS_SIZE / textureSize;
-    drawTexture(currentImage);
-    setActiveTool('pencil');
-    updateColorInputs(selectedColor);
-    renderCustomColors();
-  }
-
-  init();
-
-})();
-
-  </script>
+</script>
 </body>
+
 </html>

@@ -1000,7 +1000,6 @@
 
       document.body.appendChild(window);
 
-      // Make the window draggable
       if (!isMobile) {
         const header = window.querySelector('.window-header');
         makeDraggable(window, header);
@@ -1011,7 +1010,6 @@
         document.body.removeChild(window);
       });
 
-      // Initialize clipboard functionality
       initializeClipboard(window);
 
       return window;
@@ -1024,10 +1022,8 @@
       const clipboardHistory = windowElement.querySelector('#clipboard-history');
       const clearHistoryBtn = windowElement.querySelector('#clear-history-btn');
 
-      // Load clipboard history from localStorage
       let clipboardItems = JSON.parse(localStorage.getItem('clipboardHistory') || '[]');
 
-      // Display clipboard history
       function renderClipboardHistory() {
         clipboardHistory.innerHTML = '';
         if (clipboardItems.length === 0) {
@@ -1046,11 +1042,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
           `;
-          
-          // Format the timestamp
+
           const timestamp = new Date(item.timestamp).toLocaleString();
           const noteDisplay = item.note ? `<div style="font-size: 0.75rem; color: #ff8c5a; margin-top: 3px;">Note: ${item.note}</div>` : '';
-          
+
           itemElement.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #e8e8e8;">${item.text}</div>
@@ -1059,7 +1054,7 @@
             ${noteDisplay}
             <div style="font-size: 0.7rem; color: #aaa; margin-top: 5px;">${timestamp}</div>
           `;
-          
+
           itemElement.addEventListener('click', (e) => {
             if (!e.target.classList.contains('copy-history-item')) {
               clipboardInput.value = item.text;
@@ -1068,11 +1063,10 @@
               }
             }
           });
-          
+
           clipboardHistory.appendChild(itemElement);
         });
 
-        // Add event listeners to copy buttons
         windowElement.querySelectorAll('.copy-history-item').forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1083,48 +1077,39 @@
         });
       }
 
-      // Copy text to clipboard
       function copyToClipboard(text, note = null) {
         if (!text) return;
-        
+
         navigator.clipboard.writeText(text).then(() => {
-          // Check if this text is already in history
           const existingIndex = clipboardItems.findIndex(item => item.text === text);
-          
+
           if (existingIndex !== -1) {
-            // Move existing item to the front
             const existingItem = clipboardItems[existingIndex];
             clipboardItems.splice(existingIndex, 1);
             clipboardItems.unshift(existingItem);
           } else {
-            // Add new item to clipboard history
             const newItem = {
               text: text,
               timestamp: new Date().toISOString()
             };
-            
-            // Add note if provided
+
             if (note !== null) {
               newItem.note = note;
             } else if (noteInput.value.trim()) {
               newItem.note = noteInput.value.trim();
             }
-            
+
             clipboardItems.unshift(newItem);
           }
-          
-          // Limit history to 20 items
+
           if (clipboardItems.length > 20) {
             clipboardItems = clipboardItems.slice(0, 20);
           }
-          
-          // Save to localStorage
+
           localStorage.setItem('clipboardHistory', JSON.stringify(clipboardItems));
-          
-          // Update UI
+
           renderClipboardHistory();
-          
-          // Show success feedback
+
           const originalText = copyBtn.textContent;
           copyBtn.textContent = 'Copied!';
           setTimeout(() => {
@@ -1136,39 +1121,32 @@
         });
       }
 
-      // Save functionality (combined save and save note)
       function saveItem() {
         const text = clipboardInput.value.trim();
         const note = noteInput.value.trim();
-        
+
         if (!text) {
           alert('Please enter some text to save');
           return;
         }
-        
-        // Add to clipboard history with note
+
         clipboardItems.unshift({
           text: text,
           note: note,
           timestamp: new Date().toISOString()
         });
-        
-        // Limit history to 20 items
+
         if (clipboardItems.length > 20) {
           clipboardItems = clipboardItems.slice(0, 20);
         }
-        
-        // Save to localStorage
+
         localStorage.setItem('clipboardHistory', JSON.stringify(clipboardItems));
-        
-        // Update UI
+
         renderClipboardHistory();
-        
-        // Clear inputs
+
         clipboardInput.value = '';
         noteInput.value = '';
-        
-        // Show success feedback
+
         const originalText = copyBtn.textContent;
         copyBtn.textContent = 'Saved!';
         setTimeout(() => {
@@ -1176,7 +1154,6 @@
         }, 1500);
       }
 
-      // Copy button event listener
       copyBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (clipboardInput.value.trim()) {
@@ -1186,7 +1163,6 @@
         }
       });
 
-      // Clear history button event listener
       clearHistoryBtn.addEventListener('click', (e) => {
         e.preventDefault();
         clipboardItems = [];
@@ -1194,7 +1170,6 @@
         renderClipboardHistory();
       });
 
-      // Render initial history
       renderClipboardHistory();
     }
 
