@@ -488,6 +488,92 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
+    .ban-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+    }
+
+    .ban-popup-content {
+      background: linear-gradient(145deg, #262525, #212020);
+      border: 2px solid #ff0000;
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5);
+      animation: banPopupAppear 0.5s ease-out;
+    }
+
+    @keyframes banPopupAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .ban-popup-content h2 {
+      color: #ff0000;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    .ban-popup-content p {
+      color: #e0e0e0;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .ban-popup-content a {
+      color: #ff6b39;
+      text-decoration: none;
+      display: inline-block;
+      margin: 10px;
+      padding: 8px 16px;
+      border: 1px solid #ff6b39;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .ban-popup-content a:hover {
+      background: rgba(255, 107, 57, 0.2);
+      transform: translateY(-2px);
+    }
+
+    #banCloseBtn {
+      background: linear-gradient(145deg, #ff0000, #cc0000);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+    }
+
+    #banCloseBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 0, 0, 0.6);
+    }
+
     a {
       color: white;
     }
@@ -558,8 +644,7 @@
       gap: 12px;
     }
 
-    .upgrade-section {
-    }
+    .upgrade-section {}
 
     .upgrade-section h4 {
       margin: 0 0 12px 0;
@@ -904,6 +989,25 @@
   <button id="closePopup">Never show up again</button>
 </div>
 
+<div class="ban-popup" id="banPopup" style="display: none;">
+  <div class="ban-popup-content">
+    <h2>Access Denied</h2>
+    <p>Your account has been restricted from accessing BloxdForge.</p>
+    <p>This restriction is due to violation of our Terms of Service.</p>
+    <p>If you believe this is an error, please contact our support team.</p>
+    <div style="margin: 20px 0;">
+      <a href="https://discord.com/invite/nVgUe4qrhr" target="_blank"
+        style="color: #ff6b39; text-decoration: none; display: inline-block; margin: 10px;">
+        <i class="fab fa-discord"></i> Discord Support
+      </a>
+      <a href="mailto:support@bloxdforge.com"
+        style="color: #ff6b39; text-decoration: none; display: inline-block; margin: 10px;">
+        <i class="fas fa-envelope"></i> Email Support
+      </a>
+    </div>
+  </div>
+</div>
+
 <div class="showpop" id="showpop">
   <button class="showpop-close" id="showpopClose">&times;</button>
   <h3>Try BloxdForge Pro!</h3>
@@ -968,15 +1072,12 @@
             </div>
 
             <div class="auth-popup-body">
-              <!-- Tab Navigation -->
               <div class="settings-tabs">
                 <button class="tab-btn active" data-tab="account">Account</button>
                 <button class="tab-btn" data-tab="upgrade">Upgrade</button>
                 <button class="tab-btn" data-tab="credits">Credits</button>
               </div>
-              <!-- Tab Content -->
               <div class="tab-content">
-                <!-- Account Tab -->
                 <div class="tab-pane active" id="account-tab">
                   <div class="auth-status" id="auth-status">signed out</div>
 
@@ -1008,7 +1109,6 @@
                     <div class="profile-data" id="profile-data"></div>
                   </div>
                 </div>
-                <!-- Upgrade Tab -->
                 <div class="tab-pane" id="upgrade-tab">
                   <div class="upgrade-section">
                     <h4>Upgrade Options</h4>
@@ -1023,7 +1123,6 @@
                     <div id="code-message" style="font-size: 12px; min-height: 18px;"></div>
                   </div>
                 </div>
-                <!-- Credits Tab -->
                 <div class="tab-pane" id="credits-tab">
                   <div class="upgrade-section credits-section">
                     <h4>Project Credits</h4>
@@ -1142,7 +1241,7 @@
           } else {
             authUserRank.textContent = `YT Pro (${timeLeft}m)`;
           }
-          authUserRank.style.color = '#ff0000'; 
+          authUserRank.style.color = '#ff0000';
           authUserRank.className = 'auth-user-rank yt-pro';
         } else if (section === 'Pro' && CURRENT_USER?.proExpiration) {
           if (CURRENT_USER.proExpiration === 'forever') {
@@ -1178,7 +1277,7 @@
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
         }
 
-        manageAdsForUserType(section === 'Free' ? 'Free' : 'Pro'); 
+        manageAdsForUserType(section === 'Free' ? 'Free' : 'Pro');
       } else {
         authUserRank.style.display = 'none';
         if (upgradeProBtn) {
@@ -1208,7 +1307,7 @@
           return 'Free';
         }
         console.log('YT Pro status, returning YT Pro');
-        return 'YT Pro'; 
+        return 'YT Pro';
       }
 
       if (CURRENT_USER.userType === 'Pro' && CURRENT_USER.proExpiration) {
@@ -1230,7 +1329,7 @@
 
       if (CURRENT_USER && CURRENT_USER.userType) {
         console.log('User type from CURRENT_USER:', CURRENT_USER.userType);
-        return CURRENT_USER.userType; 
+        return CURRENT_USER.userType;
       }
 
       if (profileSection && profileSection.value && profileSection.value !== '') {
@@ -1266,7 +1365,7 @@
 
       console.log('Managing ads for user type:', userType);
 
-      if (userType === 'Pro' || userType === 'YT Pro') { 
+      if (userType === 'Pro' || userType === 'YT Pro') {
         if (rightSidebar) {
           rightSidebar.style.display = 'none';
         }
@@ -1286,13 +1385,11 @@
           }
         }
 
-        // Hide popup permanently for Pro users
         const showpop = document.getElementById('showpop');
         if (showpop) {
           showpop.classList.remove('show');
         }
-        
-        // Mark popup as dismissed for Pro users (so it won't show again even if they downgrade temporarily)
+
         localStorage.setItem('showpopDismissed', 'pro_user');
 
         setTimeout(() => {
@@ -1385,14 +1482,18 @@
         profileData.style.display = 'none';
         profileData.textContent = '';
       }
-      
-      // Re-initialize popup based on new user status
+
       initShowPop();
     }
 
     async function saveProfileFile() {
       if (!CURRENT_USER?.username) {
         showNotification('Please sign in first');
+        return;
+      }
+
+      if (checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
         return;
       }
 
@@ -1436,6 +1537,11 @@
         return;
       }
 
+      if (checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       profileForm.style.display = 'block';
       profileDescription.disabled = false;
       profileSection.disabled = false;
@@ -1450,6 +1556,11 @@
     async function upgradeUserToPro() {
       if (!CURRENT_USER?.username) {
         showNotification('Please sign in first');
+        return;
+      }
+
+      if (checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
         return;
       }
 
@@ -1497,6 +1608,11 @@
     async function upgradeUserToProWeek() {
       if (!CURRENT_USER?.username) {
         showNotification('Please sign in first');
+        return;
+      }
+
+      if (checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
         return;
       }
 
@@ -1548,6 +1664,11 @@
         return;
       }
 
+      if (checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       try {
         const payload = {
           description: profileDescription.value.trim() || 'Pro User',
@@ -1595,6 +1716,11 @@
         return;
       }
 
+      if (checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       try {
         const expirationTime = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
         const payload = {
@@ -1613,7 +1739,7 @@
 
         if (authUserRank) {
           authUserRank.textContent = 'YT Pro';
-          authUserRank.style.color = '#ff0000'; 
+          authUserRank.style.color = '#ff0000';
           authUserRank.className = 'auth-user-rank yt-pro';
           authUserRank.style.display = 'block';
         }
@@ -1624,7 +1750,7 @@
           saveToLocalStorage('bloxdforge-user', CURRENT_USER);
         }
 
-        manageAdsForUserType('Pro'); 
+        manageAdsForUserType('Pro');
 
         profileForm.style.display = 'none';
         profileData.style.display = 'block';
@@ -1644,6 +1770,11 @@
         return;
       }
 
+      if (checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       try {
         const blob = await puter.fs.read(filenameForUser());
         const text = await blob.text();
@@ -1654,7 +1785,7 @@
             let userSection = obj.section;
             if ((obj.section === 'Pro' || obj.section === 'YT Pro') && obj.proExpiration) {
               if (obj.proExpiration === 'forever') {
-                userSection = obj.section; 
+                userSection = obj.section;
               } else {
                 const expirationTime = new Date(obj.proExpiration);
                 if (Date.now() > expirationTime.getTime()) {
@@ -1838,6 +1969,12 @@
 
     authMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
+
+      if (CURRENT_USER?.username && checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       const authPopup = document.getElementById('auth-popup');
       const isOpen = authPopup.style.display === 'flex';
 
@@ -1933,6 +2070,11 @@
         return;
       }
 
+      if (checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       const upgradeFrame = document.createElement('iframe');
       upgradeFrame.id = 'upgrade-frame';
       upgradeFrame.src = './assets/upgrade-pro.html';
@@ -1978,7 +2120,7 @@
     document.getElementById('redeem-code-btn').addEventListener('click', function () {
       const codeInput = document.getElementById('code-input');
       const codeMessage = document.getElementById('code-message');
-      const code = codeInput.value.trim(); 
+      const code = codeInput.value.trim();
 
       codeMessage.textContent = '';
       codeMessage.className = '';
@@ -1989,12 +2131,17 @@
         return;
       }
 
+      if (CURRENT_USER?.username && checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       const validCodes = {
         'ILF67': { type: 'pro_forever', description: 'Pro status forever' },
         'Bf-7': { type: 'pro_week', description: 'Pro status for 1 week' },
         'CAT': { type: 'image', imageUrl: './assets/data/img/cat.png' },
         'FEMBOYS': { type: 'image', imageUrl: 'https://i.pinimg.com/originals/48/fa/45/48fa45e3d81916b3a198551e4dc0326b.jpg' },
-        'YTUBE': { type: 'yt_pro_month', description: 'YT Pro status for 1 month' } 
+        'YTUBE': { type: 'yt_pro_month', description: 'YT Pro status for 1 month' }
       };
 
       const codeKeys = Object.keys(validCodes);
@@ -2122,6 +2269,84 @@
       }
     }
 
+    function checkIfUserIsBanned(username) {
+      const bannedUsernames = [
+        'cray',
+        'crazy'
+      ];
+
+      return bannedUsernames.some(bannedUser =>
+        bannedUser.toLowerCase() === username.toLowerCase()
+      );
+    }
+
+    function showBanPopup() {
+      const banPopup = document.getElementById('banPopup');
+      if (banPopup) {
+        banPopup.style.display = 'flex';
+
+        document.getElementById('banCloseBtn').addEventListener('click', function () {
+          banPopup.style.display = 'none';
+        });
+      }
+    }
+
+    async function initializeAuth() {
+      const storedUser = loadFromLocalStorage('bloxdforge-user');
+      if (storedUser) {
+        if (storedUser.username && checkIfUserIsBanned(storedUser.username)) {
+          setTimeout(showBanPopup, 1000);
+          return;
+        }
+
+        if (storedUser.userType === 'Pro' && storedUser.proExpiration) {
+          if (storedUser.proExpiration !== 'forever') {
+            const expirationTime = new Date(storedUser.proExpiration);
+            if (Date.now() > expirationTime.getTime()) {
+              storedUser.userType = 'Free';
+              delete storedUser.proExpiration;
+              saveToLocalStorage('bloxdforge-user', storedUser);
+            }
+          }
+        }
+
+        await setSignedIn(storedUser);
+        setTimeout(() => {
+          const initialUserType = getCurrentUserType();
+          console.log('Initial user type after auth:', initialUserType);
+          manageAdsForUserType(initialUserType);
+        }, 100);
+      } else {
+        setSignedIn(null);
+        manageAdsForUserType('Free');
+      }
+    }
+
+    signInBtn.addEventListener('click', async () => {
+      try {
+        const user = await puter.auth.signIn();
+        let userData = user;
+
+        if (!user?.username) {
+          if (typeof puter.auth.getUserData === 'function') {
+            userData = await puter.auth.getUserData();
+          } else if (typeof puter.auth.getUser === 'function') {
+            userData = await puter.auth.getUser();
+          }
+        }
+
+        if (userData?.username && checkIfUserIsBanned(userData.username)) {
+          showBanPopup();
+          return;
+        }
+
+        await setSignedIn(userData || user);
+      } catch (e) {
+        showNotification('Sign in failed');
+        console.error(e);
+      }
+    });
+
     initializeAuth();
 
     setInterval(() => {
@@ -2160,6 +2385,11 @@
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
+        if (CURRENT_USER?.username && checkIfUserIsBanned(CURRENT_USER.username)) {
+          showBanPopup();
+          return;
+        }
+
         const url = card.getAttribute('data-url');
 
         console.log('Adding blur effect to iframe');
@@ -2202,6 +2432,11 @@
     });
 
     homeBtn.addEventListener('click', () => {
+      if (CURRENT_USER?.username && checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       const url = homeBtn.getAttribute('data-url');
 
       console.log('Adding blur effect to iframe (home button)');
@@ -2240,6 +2475,11 @@
     });
 
     fullscreenBtn.addEventListener('click', () => {
+      if (CURRENT_USER?.username && checkIfUserIsBanned(CURRENT_USER.username)) {
+        showBanPopup();
+        return;
+      }
+
       if (!document.fullscreenElement) {
         iframe.requestFullscreen().catch(err => {
           showNotification('Fullscreen failed: ' + err.message);
@@ -2273,26 +2513,21 @@
       const showpopDismiss = document.getElementById('showpopDismiss');
       const showpopTry = document.getElementById('showpopTry');
 
-      // Check if user is Pro/YT Pro - if so, don't show popup at all
       const currentUserType = getCurrentUserType();
       const isProUser = currentUserType === 'Pro' || currentUserType === 'YT Pro';
-      
-      // If user is Pro, never show the popup
+
       if (isProUser) {
         return;
       }
 
-      // For non-Pro users, check if 2 hours have passed since last dismissal
       const lastDismissed = localStorage.getItem('showpopDismissed');
-      
-      // If marked as 'pro_user', it means they were previously Pro and we shouldn't show the popup
+
       if (lastDismissed === 'pro_user') {
         return;
       }
-      
-      // Check if 2 hours have passed since last dismissal (or if never dismissed)
-      const shouldShowPopup = !lastDismissed || (Date.now() - parseInt(lastDismissed)) > (2 * 60 * 60 * 1000); // 2 hours
-      
+
+      const shouldShowPopup = !lastDismissed || (Date.now() - parseInt(lastDismissed)) > (2 * 60 * 60 * 1000);
+
       if (shouldShowPopup) {
         setTimeout(() => {
           showpop.classList.add('show');
@@ -2389,4 +2624,4 @@
   </script>
 </body>
 
-</html> 
+</html>
