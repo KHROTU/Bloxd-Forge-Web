@@ -99,12 +99,17 @@
     }
 
     .grid-container::-webkit-scrollbar {
-      width: 4px;
+      width: 3px;
     }
+
+    .grid-container::-webkit-scrollbar {
+      height: 3px;
+    }
+
 
     .grid-container::-webkit-scrollbar-thumb {
       background: #ff6b39;
-      border-radius: 10px;
+      border-radius: 2px;
     }
 
     .grid-category-header {
@@ -945,6 +950,62 @@
         container.appendChild(textItem);
       });
     }
+
+    const gridContainer = document.querySelector('.grid-container');
+    let isGridDragging = false;
+    let startX;
+    let startY;
+    let scrollLeft;
+    let scrollTop;
+
+    let animationId;
+
+    gridContainer.addEventListener('mousedown', (e) => {
+      isGridDragging = true;
+      startX = e.pageX - gridContainer.offsetLeft;
+      startY = e.pageY - gridContainer.offsetTop;
+      scrollLeft = gridContainer.scrollLeft;
+      scrollTop = gridContainer.scrollTop;
+      gridContainer.style.cursor = 'grabbing';
+      e.preventDefault();
+      
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    });
+
+    gridContainer.addEventListener('mouseleave', () => {
+      isGridDragging = false;
+      gridContainer.style.cursor = 'default';
+    });
+
+    gridContainer.addEventListener('mouseup', () => {
+      isGridDragging = false;
+      gridContainer.style.cursor = 'default';
+    });
+
+    gridContainer.addEventListener('mousemove', (e) => {
+      if (!isGridDragging) return;
+      
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      
+      animationId = requestAnimationFrame(() => {
+        const x = e.pageX - gridContainer.offsetLeft;
+        const y = e.pageY - gridContainer.offsetTop;
+        const walkX = (x - startX) * 2;
+        const walkY = (y - startY) * 2;
+        gridContainer.scrollLeft = scrollLeft - walkX;
+        gridContainer.scrollTop = scrollTop - walkY;
+      });
+    });
+    
+    gridContainer.addEventListener('selectstart', (e) => {
+      if (isGridDragging) {
+        e.preventDefault();
+      }
+    });
   </script>
 </body>
 
