@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>safe Ads</title>
+  <title>Safe Ads</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +13,6 @@
       justify-content: center;
       align-items: center;
       gap: 20px;
-      
       height: 100vh;
     }
 
@@ -25,49 +24,45 @@
 
 <body>
 
-  <!-- First Ad -->
-  <iframe id="ad1" width="160" height="600" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
+  <iframe id="ad1" width="728" height="90" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
     <html>
       <head>
         <base target='_blank'>
       </head>
       <body style='margin:0;'>
-        <script>
+        <script type='text/javascript'>
           atOptions = {
-            'key' : 'ad3947e867b6f05de07231d510257667',
-            'format' : 'iframe',
-            'height' : 600,
-            'width' : 160,
-            'params' : {}
+            'key': '5fd16b54a3364728e861e9b89b342c43',
+            'format': 'iframe',
+            'height': 90,
+            'width': 728,
+            'params': {}
           };
         </script>
-        <script src='
+        <script type='text/javascript' src='//www.highperformanceformat.com/5fd16b54a3364728e861e9b89b342c43/invoke.js'></script>
       </body>
     </html>
-  ">
-  </iframe>
+  "></iframe>
 
-  <!-- Second Ad -->
   <iframe id="ad2" width="468" height="60" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
     <html>
       <head>
         <base target='_blank'>
       </head>
       <body style='margin:0;'>
-        <script>
+        <script type='text/javascript'>
           atOptions = {
-            'key' : 'c740cacfdd45f165f304b024442d5b28',
-            'format' : 'iframe',
-            'height' : 60,
-            'width' : 468,
-            'params' : {}
+            'key': 'c740cacfdd45f165f304b024442d5b28',
+            'format': 'iframe',
+            'height': 60,
+            'width': 468,
+            'params': {}
           };
         </script>
-        <script src='
+        <script type='text/javascript' src='//www.highperformanceformat.com/c740cacfdd45f165f304b024442d5b28/invoke.js'></script>
       </body>
     </html>
-  ">
-  </iframe>
+  "></iframe>
 
   <script>
     function refreshAd(id) {
@@ -77,11 +72,9 @@
       setTimeout(() => { iframe.srcdoc = srcdoc; }, 50); 
     }
 
-    
     setInterval(() => refreshAd('ad1'), 30000);
     setInterval(() => refreshAd('ad2'), 30000);
   </script>
 
 </body>
-
 </html>
