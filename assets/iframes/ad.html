@@ -13,7 +13,7 @@
       justify-content: center;
       align-items: center;
       gap: 20px;
-      height: 100vh;
+      min-height: 100vh;
     }
 
     iframe {
@@ -24,7 +24,7 @@
 
 <body>
 
-  <iframe id="ad1" width="160" height="600" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
+  <iframe id="tallAd" width="160" height="600" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
     <html>
       <head>
         <base target='_blank'>
@@ -44,22 +44,14 @@
     </html>
   "></iframe>
 
-  <iframe id="ad2" width="468" height="60" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
+  <iframe id="bottomAd" width="468" height="60" sandbox="allow-scripts allow-same-origin allow-popups" srcdoc="
     <html>
       <head>
         <base target='_blank'>
       </head>
       <body style='margin:0;'>
-        <script type='text/javascript'>
-          atOptions = {
-            'key': 'c740cacfdd45f165f304b024442d5b28',
-            'format': 'iframe',
-            'height': 60,
-            'width': 468,
-            'params': {}
-          };
-        </script>
-        <script type='text/javascript' src='//www.highperformanceformat.com/c740cacfdd45f165f304b024442d5b28/invoke.js'></script>
+        <script async='async' data-cfasync='false' src='//pl27524901.effectivegatecpm.com/025a28ee6ce5c5514fa0aa0a6e1a65c8/invoke.js'></script>
+        <div id='container-025a28ee6ce5c5514fa0aa0a6e1a65c8'></div>
       </body>
     </html>
   "></iframe>
@@ -68,12 +60,12 @@
     function refreshAd(id) {
       const iframe = document.getElementById(id);
       const srcdoc = iframe.srcdoc;
-      iframe.srcdoc = ''; 
-      setTimeout(() => { iframe.srcdoc = srcdoc; }, 50); 
+      iframe.srcdoc = '';
+      setTimeout(() => { iframe.srcdoc = srcdoc; }, 50);
     }
 
-    setInterval(() => refreshAd('ad1'), 30000);
-    setInterval(() => refreshAd('ad2'), 30000);
+    setInterval(() => refreshAd('tallAd'), 30000);
+    setInterval(() => refreshAd('bottomAd'), 30000);
   </script>
 
 </body>
