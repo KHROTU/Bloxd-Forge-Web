@@ -13,6 +13,11 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    * {
+      transition: all 0.1s ease-out;
+    }
+
+
     html,
     body {
       margin: 0;
@@ -982,12 +987,6 @@
   </style>
   <link rel="stylesheet" href="./assets/data/scroll.css">
 </head>
-<div class="popupinfo" id="popupinfo">
-  <p>The advertisements are not affiliated with BloxdForge. Any actions you take in response to them are your own
-    responsibility.<a href="https://www.bloxdforge.com/privacy" target="_blank">Privacy Policy</a>
-  </p>
-  <button id="closePopup">Never show up again</button>
-</div>
 
 <div class="ban-popup" id="banPopup" style="display: none;">
   <div class="ban-popup-content">
@@ -1019,6 +1018,11 @@
 </div>
 
 <body>
+  <div id="walkthrough-overlay" style="display: none;">
+    <iframe src="./assets/walkthrough.html"
+      style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 9999;"></iframe>
+  </div>
+
   <div class="notification" id="notification">Welcome to BloxdForge 3.0!</div>
 
   <div class="container">
@@ -1078,11 +1082,13 @@
                 <button class="tab-btn" data-tab="credits">Credits</button>
               </div>
               <div class="tab-content">
-                <div class="tab-pane active" id="account-tab">
+                <div class="tab-pane" id="account-tab">
                   <div class="auth-status" id="auth-status">signed out</div>
 
                   <button class="auth-btn" id="sign-in-btn">Sign In</button>
                   <button class="auth-btn secondary" id="sign-out-btn" style="display: none;">Sign Out</button>
+                  <button class="auth-btn secondary" id="show-walkthrough-btn" style="margin-top: 10px;">Show
+                    Walkthrough</button>
 
                   <div class="profile-form" id="profile-form" style="display: none;">
                     <div class="form-group">
@@ -1161,6 +1167,21 @@
   </div>
 
   <script>
+    if (!localStorage.getItem('bloxdforge-walkthrough-completed')) {
+      document.getElementById('walkthrough-overlay').style.display = 'block';
+    }
+
+    window.addEventListener('message', function (event) {
+      if (event.data && event.data.action === 'walkthroughComplete') {
+        document.getElementById('walkthrough-overlay').style.display = 'none';
+        localStorage.setItem('bloxdforge-walkthrough-completed', 'true');
+      }
+
+      if (event.data && event.data.action === 'userSignedIn') {
+        setSignedIn(event.data.user);
+      }
+    });
+
     let CURRENT_USER = null;
 
     const authUserInfo = document.getElementById('auth-user-info');
@@ -1990,6 +2011,21 @@
     document.getElementById('auth-popup-close').addEventListener('click', () => {
       document.getElementById('auth-popup').style.display = 'none';
       authMenuBtn.classList.remove('active');
+    });
+
+    document.getElementById('show-walkthrough-btn').addEventListener('click', () => {
+      document.getElementById('auth-popup').style.display = 'none';
+      authMenuBtn.classList.remove('active');
+      document.getElementById('walkthrough-overlay').style.display = 'block';
+
+      const cards = document.querySelectorAll('.walkthrough-card');
+      cards.forEach((card, index) => {
+        if (index === 0) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
     });
 
     document.getElementById('auth-popup').addEventListener('click', (e) => {

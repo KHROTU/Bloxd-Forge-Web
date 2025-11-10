@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdForge Walkthrough</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #141313;
+            color: #e0e0e0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .walkthrough-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 19, 19, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .walkthrough-card {
+            background: linear-gradient(145deg, #262525, #212020);
+            border: 1px solid #444343;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 700px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+            margin-bottom: 20px;
+        }
+
+        .walkthrough-card.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-content {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-icon {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 107, 57, 0.1);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: #ff6b39;
+            flex-shrink: 0;
+            align-self: flex-start;
+        }
+
+        .card-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-header {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .card-body {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #a0a0a0;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .zoom-instruction {
+            background: rgba(255, 107, 57, 0.1);
+            border: 1px solid #ff6b3944;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .zoom-icon {
+            font-size: 2rem;
+            color: #ff6b39;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: auto;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-next {
+            background: linear-gradient(45deg, #ff6b39, #ff8c5a);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 57, 0.4);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 57, 0.6);
+        }
+
+        .signin-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #444343;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .signin-option p {
+            margin-bottom: 15px;
+            color: #a0a0a0;
+        }
+
+        .btn-signin {
+            background: linear-gradient(145deg, #262525, #1b1a1a);
+            color: #e0e0e0;
+            border: 1px solid #444343;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-signin:hover {
+            background: linear-gradient(145deg, #2c2b2b, #212020);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-card {
+            background: linear-gradient(145deg, #262525, #212020);
+            border: 1px solid #444343;
+            border-radius: 20px;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .progress-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #2c2b2b;
+            border: 2px solid #444343;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: #ff6b39;
+            border-color: #ff6b39;
+            transform: scale(1.2);
+            box-shadow: 0 0 8px rgba(255, 107, 57, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .walkthrough-card {
+                padding: 30px;
+            }
+
+            .card-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 20px;
+                height: 100%;
+            }
+
+            .card-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+                align-self: center;
+            }
+
+            .card-header {
+                font-size: 1.7rem;
+            }
+
+            .card-body {
+                font-size: 1rem;
+            }
+
+            .card-footer {
+                justify-content: center;
+                margin-top: auto;
+            }
+
+            .signin-option {
+                text-align: center;
+            }
+
+            .zoom-instruction {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .progress-card {
+                padding: 12px 20px;
+                gap: 12px;
+                margin-top: 15px;
+            }
+
+            .progress-dot {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .walkthrough-card {
+                padding: 25px;
+            }
+
+            .card-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+
+            .card-header {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .zoom-instruction {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .signin-option {
+                padding: 15px;
+                margin: 15px 0;
+            }
+
+            .progress-card {
+                padding: 10px 15px;
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            .progress-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .progress-dot.active {
+                transform: scale(1.3);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="walkthrough-container" id="walkthroughContainer">
+        <div class="walkthrough-card active" id="card1">
+            <div class="card-content">
+                <div class="card-icon">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <div class="card-text">
+                    <h2 class="card-header">Terms Agreement</h2>
+                    <p class="card-body">By clicking Next, you agree to our terms of service. Note that advertisements
+                        displayed are not affiliated with BloxdForge.</p>
+                    <div class="card-footer">
+                        <button class="btn btn-next" id="next1">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="walkthrough-card" id="card2">
+            <div class="card-content">
+                <div class="card-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="card-text">
+                    <h2 class="card-header">Try BloxdForge Pro</h2>
+                    <p class="card-body">Enhance your experience with BloxdForge Pro, it's completely free! Enjoy an
+                        ad-free environment and exclusive features.</p>
+                    <div class="signin-option">
+                        <p>Sign in with Puter for a better experience:</p>
+                        <button class="btn-signin" id="signinBtn">
+                            <i class="fas fa-sign-in-alt"></i> Sign in with Puter
+                        </button>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-next" id="next2">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="walkthrough-card" id="card3">
+            <div class="card-content">
+                <div class="card-icon">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+                <div class="card-text">
+                    <h2 class="card-header">Screen Optimization</h2>
+                    <p class="card-body">For the best experience, adjust your browser zoom to fit BloxdForge perfectly
+                        on your screen.</p>
+                    <div class="zoom-instruction">
+                        <div class="zoom-icon">
+                            <i class="fas fa-mouse"></i>
+                        </div>
+                        <div>
+                            <p><strong>Tip:</strong> Use <kbd>Ctrl</kbd> + <kbd>+</kbd> to zoom in or <kbd>Ctrl</kbd> +
+                                <kbd>-</kbd> to zoom out.</p>
+                            <p>Press <kbd>Ctrl</kbd> + <kbd>0</kbd> to reset to default zoom.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-next" id="next3">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="walkthrough-card" id="card4">
+            <div class="card-content">
+                <div class="card-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="card-text">
+                    <h2 class="card-header">Get Started</h2>
+                    <p class="card-body">You're all set! Click Finish to begin using BloxdForge.</p>
+                    <div class="card-footer">
+                        <button class="btn btn-next" id="finishBtn">Finish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-card">
+            <div class="progress-dot active" data-card="1"></div>
+            <div class="progress-dot" data-card="2"></div>
+            <div class="progress-dot" data-card="3"></div>
+            <div class="progress-dot" data-card="4"></div>
+        </div>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        document.getElementById('next1').addEventListener('click', function () {
+            document.getElementById('card1').classList.remove('active');
+            document.getElementById('card2').classList.add('active');
+
+            updateProgressIndicators(2);
+        });
+
+        document.getElementById('next2').addEventListener('click', function () {
+            document.getElementById('card2').classList.remove('active');
+            document.getElementById('card3').classList.add('active');
+
+            updateProgressIndicators(3);
+        });
+
+        document.getElementById('next3').addEventListener('click', function () {
+            document.getElementById('card3').classList.remove('active');
+            document.getElementById('card4').classList.add('active');
+
+            updateProgressIndicators(4);
+        });
+
+        document.getElementById('finishBtn').addEventListener('click', function () {
+            document.getElementById('walkthroughContainer').style.display = 'none';
+
+            if (window.parent) {
+                window.parent.postMessage({ action: 'walkthroughComplete' }, '*');
+            }
+        });
+
+        function updateProgressIndicators(activeCard) {
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                if (index + 1 === activeCard) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        document.getElementById('signinBtn').addEventListener('click', async function () {
+            try {
+                const user = await puter.auth.signIn();
+                if (user && user.username) {
+                    if (window.parent) {
+                        window.parent.postMessage({
+                            action: 'userSignedIn',
+                            user: user
+                        }, '*');
+                    }
+
+                    alert(`Welcome, ${user.username}! You now have access to Pro features.`);
+                }
+            } catch (error) {
+                console.error('Sign-in failed:', error);
+                alert('Sign-in failed. Please try again.');
+            }
+        });
+
+        window.addEventListener('message', function (event) {
+            if (event.data && event.data.action === 'closeWalkthrough') {
+                document.getElementById('walkthroughContainer').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
