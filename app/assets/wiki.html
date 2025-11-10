@@ -343,16 +343,39 @@
   </div>
 
   <script>
+    let isProUser = false;
+    
+    // Request user status from parent on page load
+    window.addEventListener('load', function() {
+      if (window.parent) {
+        window.parent.postMessage({ action: 'getUserStatus' }, '*');
+      }
+    });
+    
     window.addEventListener('message', function (event) {
       if (event.data && event.data.action) {
-        if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
-          console.log('Pro user detected - no ads to hide on wiki page');
+        if (event.data.action === 'hideAds' && (event.data.userType === 'Pro' || event.data.userType === 'YT Pro')) {
+          console.log('Pro user detected - hiding ads on wiki page');
+          isProUser = true;
+          // Hide existing ads
+          hideExistingAds();
         } else if (event.data.action === 'showAds') {
-          console.log('Free user detected - no ads to show on wiki page');
+          console.log('Free user detected - showing ads on wiki page');
+          isProUser = false;
         }
       }
     });
-
+    
+    function hideExistingAds() {
+      // Hide all ad elements that are already rendered
+      const adElements = document.querySelectorAll('.item-card .item-tag');
+      adElements.forEach(element => {
+        if (element.textContent === 'Ad') {
+          element.closest('.item-card').style.display = 'none';
+        }
+      });
+    }
+    
     let itemsData = [];
     console.log('Starting to fetch wiki.json...');
 
@@ -431,7 +454,8 @@
       grid.innerHTML = '';
 
       items.forEach((item, index) => {
-        if (index > 0 && index % (Math.floor(Math.random() * 3) + 5) === 0) {
+        // Skip ad insertion for Pro users
+        if (!isProUser && index > 0 && index % (Math.floor(Math.random() * 3) + 5) === 0) {
           const adElement = document.createElement('div');
           adElement.className = 'item-card';
           adElement.style.animationDelay = `${index * 0.1}s`;
