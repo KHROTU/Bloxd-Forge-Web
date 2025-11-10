@@ -1018,6 +1018,7 @@
 </div>
 
 <body>
+  <!-- Walkthrough Overlay -->
   <div id="walkthrough-overlay" style="display: none;">
     <iframe src="./assets/walkthrough.html"
       style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 9999;"></iframe>
@@ -1082,7 +1083,7 @@
                 <button class="tab-btn" data-tab="credits">Credits</button>
               </div>
               <div class="tab-content">
-                <div class="tab-pane" id="account-tab">
+                <div class="tab-pane active" id="account-tab">
                   <div class="auth-status" id="auth-status">signed out</div>
 
                   <button class="auth-btn" id="sign-in-btn">Sign In</button>
@@ -1946,6 +1947,86 @@
       }
     }
 
+
+    async function initializeAuth() {
+      const storedUser = loadFromLocalStorage('bloxdforge-user');
+      if (storedUser) {
+        if (storedUser.userType === 'Pro' && storedUser.proExpiration) {
+          if (storedUser.proExpiration !== 'forever') {
+            const expirationTime = new Date(storedUser.proExpiration);
+            if (Date.now() > expirationTime.getTime()) {
+              storedUser.userType = 'Free';
+              delete storedUser.proExpiration;
+              saveToLocalStorage('bloxdforge-user', storedUser);
+            }
+          }
+        }
+
+        await setSignedIn(storedUser);
+        setTimeout(() => {
+          const initialUserType = getCurrentUserType();
+          console.log('Initial user type after auth:', initialUserType);
+          manageAdsForUserType(initialUserType);
+        }, 100);
+      } else {
+        setSignedIn(null);
+        manageAdsForUserType('Free');
+      }
+    }
+
+    function checkIfUserIsBanned(username) {
+      const bannedUsernames = [
+        'cray',
+        'crazy'
+      ];
+
+      return bannedUsernames.some(bannedUser =>
+        bannedUser.toLowerCase() === username.toLowerCase()
+      );
+    }
+
+    function showBanPopup() {
+      const banPopup = document.getElementById('banPopup');
+      if (banPopup) {
+        banPopup.style.display = 'flex';
+
+        document.getElementById('banCloseBtn').addEventListener('click', function () {
+          banPopup.style.display = 'none';
+        });
+      }
+    }
+
+    async function initializeAuth() {
+      const storedUser = loadFromLocalStorage('bloxdforge-user');
+      if (storedUser) {
+        if (storedUser.username && checkIfUserIsBanned(storedUser.username)) {
+          setTimeout(showBanPopup, 1000);
+          return;
+        }
+
+        if (storedUser.userType === 'Pro' && storedUser.proExpiration) {
+          if (storedUser.proExpiration !== 'forever') {
+            const expirationTime = new Date(storedUser.proExpiration);
+            if (Date.now() > expirationTime.getTime()) {
+              storedUser.userType = 'Free';
+              delete storedUser.proExpiration;
+              saveToLocalStorage('bloxdforge-user', storedUser);
+            }
+          }
+        }
+
+        await setSignedIn(storedUser);
+        setTimeout(() => {
+          const initialUserType = getCurrentUserType();
+          console.log('Initial user type after auth:', initialUserType);
+          manageAdsForUserType(initialUserType);
+        }, 100);
+      } else {
+        setSignedIn(null);
+        manageAdsForUserType('Free');
+      }
+    }
+
     signInBtn.addEventListener('click', async () => {
       try {
         const user = await puter.auth.signIn();
@@ -1957,6 +2038,37 @@
           } else if (typeof puter.auth.getUser === 'function') {
             userData = await puter.auth.getUser();
           }
+        }
+
+        if (userData?.username && checkIfUserIsBanned(userData.username)) {
+          showBanPopup();
+          return;
+        }
+
+        await setSignedIn(userData || user);
+      } catch (e) {
+        showNotification('Sign in failed');
+        console.error(e);
+      }
+    });
+
+    // Authentication menu event listeners
+    signInBtn.addEventListener('click', async () => {
+      try {
+        const user = await puter.auth.signIn();
+        let userData = user;
+
+        if (!user?.username) {
+          if (typeof puter.auth.getUserData === 'function') {
+            userData = await puter.auth.getUserData();
+          } else if (typeof puter.auth.getUser === 'function') {
+            userData = await puter.auth.getUser();
+          }
+        }
+
+        if (userData?.username && checkIfUserIsBanned(userData.username)) {
+          showBanPopup();
+          return;
         }
 
         await setSignedIn(userData || user);
@@ -2035,6 +2147,7 @@
       }
     });
 
+    // Upgrade and code redemption event listeners
     window.addEventListener('message', function (event) {
       if (event.data && event.data.source === 'upgrade-page') {
         if (event.data.action === 'upgradeToPro') {
@@ -2195,7 +2308,6 @@
           codeMessage.textContent = 'Code redeemed successfully! You now have Pro status for 1 week.';
           codeMessage.className = 'success';
         } else if (codeData.type === 'yt_pro_month') {
-
           upgradeUserToYTPro();
           codeMessage.textContent = 'Code redeemed successfully! You now have YT Pro status for 1 month.';
           codeMessage.className = 'success';
@@ -2279,110 +2391,6 @@
       document.body.appendChild(popup);
     }
 
-    async function initializeAuth() {
-      const storedUser = loadFromLocalStorage('bloxdforge-user');
-      if (storedUser) {
-        if (storedUser.userType === 'Pro' && storedUser.proExpiration) {
-          if (storedUser.proExpiration !== 'forever') {
-            const expirationTime = new Date(storedUser.proExpiration);
-            if (Date.now() > expirationTime.getTime()) {
-              storedUser.userType = 'Free';
-              delete storedUser.proExpiration;
-              saveToLocalStorage('bloxdforge-user', storedUser);
-            }
-          }
-        }
-
-        await setSignedIn(storedUser);
-        setTimeout(() => {
-          const initialUserType = getCurrentUserType();
-          console.log('Initial user type after auth:', initialUserType);
-          manageAdsForUserType(initialUserType);
-        }, 100);
-      } else {
-        setSignedIn(null);
-        manageAdsForUserType('Free');
-      }
-    }
-
-    function checkIfUserIsBanned(username) {
-      const bannedUsernames = [
-        'cray',
-        'crazy'
-      ];
-
-      return bannedUsernames.some(bannedUser =>
-        bannedUser.toLowerCase() === username.toLowerCase()
-      );
-    }
-
-    function showBanPopup() {
-      const banPopup = document.getElementById('banPopup');
-      if (banPopup) {
-        banPopup.style.display = 'flex';
-
-        document.getElementById('banCloseBtn').addEventListener('click', function () {
-          banPopup.style.display = 'none';
-        });
-      }
-    }
-
-    async function initializeAuth() {
-      const storedUser = loadFromLocalStorage('bloxdforge-user');
-      if (storedUser) {
-        if (storedUser.username && checkIfUserIsBanned(storedUser.username)) {
-          setTimeout(showBanPopup, 1000);
-          return;
-        }
-
-        if (storedUser.userType === 'Pro' && storedUser.proExpiration) {
-          if (storedUser.proExpiration !== 'forever') {
-            const expirationTime = new Date(storedUser.proExpiration);
-            if (Date.now() > expirationTime.getTime()) {
-              storedUser.userType = 'Free';
-              delete storedUser.proExpiration;
-              saveToLocalStorage('bloxdforge-user', storedUser);
-            }
-          }
-        }
-
-        await setSignedIn(storedUser);
-        setTimeout(() => {
-          const initialUserType = getCurrentUserType();
-          console.log('Initial user type after auth:', initialUserType);
-          manageAdsForUserType(initialUserType);
-        }, 100);
-      } else {
-        setSignedIn(null);
-        manageAdsForUserType('Free');
-      }
-    }
-
-    signInBtn.addEventListener('click', async () => {
-      try {
-        const user = await puter.auth.signIn();
-        let userData = user;
-
-        if (!user?.username) {
-          if (typeof puter.auth.getUserData === 'function') {
-            userData = await puter.auth.getUserData();
-          } else if (typeof puter.auth.getUser === 'function') {
-            userData = await puter.auth.getUser();
-          }
-        }
-
-        if (userData?.username && checkIfUserIsBanned(userData.username)) {
-          showBanPopup();
-          return;
-        }
-
-        await setSignedIn(userData || user);
-      } catch (e) {
-        showNotification('Sign in failed');
-        console.error(e);
-      }
-    });
-
     initializeAuth();
 
     setInterval(() => {
@@ -2405,6 +2413,18 @@
         }
       }
     }, 60000);
+
+    // Tab functionality for settings menu
+    document.querySelectorAll('.tab-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+        button.classList.add('active');
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+      });
+    });
 
     const cards = document.querySelectorAll('.card');
     const homeBtn = document.querySelector('.long-btn');
