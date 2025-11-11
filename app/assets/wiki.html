@@ -344,20 +344,18 @@
 
   <script>
     let isProUser = false;
-    
-    // Request user status from parent on page load
-    window.addEventListener('load', function() {
+
+    window.addEventListener('load', function () {
       if (window.parent) {
         window.parent.postMessage({ action: 'getUserStatus' }, '*');
       }
     });
-    
+
     window.addEventListener('message', function (event) {
       if (event.data && event.data.action) {
         if (event.data.action === 'hideAds' && (event.data.userType === 'Pro' || event.data.userType === 'YT Pro')) {
           console.log('Pro user detected - hiding ads on wiki page');
           isProUser = true;
-          // Hide existing ads
           hideExistingAds();
         } else if (event.data.action === 'showAds') {
           console.log('Free user detected - showing ads on wiki page');
@@ -365,9 +363,8 @@
         }
       }
     });
-    
+
     function hideExistingAds() {
-      // Hide all ad elements that are already rendered
       const adElements = document.querySelectorAll('.item-card .item-tag');
       adElements.forEach(element => {
         if (element.textContent === 'Ad') {
@@ -375,7 +372,7 @@
         }
       });
     }
-    
+
     let itemsData = [];
     console.log('Starting to fetch wiki.json...');
 
@@ -454,12 +451,11 @@
       grid.innerHTML = '';
 
       items.forEach((item, index) => {
-        // Skip ad insertion for Pro users
         if (!isProUser && index > 0 && index % (Math.floor(Math.random() * 3) + 5) === 0) {
           const adElement = document.createElement('div');
           adElement.className = 'item-card';
           adElement.style.animationDelay = `${index * 0.1}s`;
-          
+
           adElement.innerHTML = `
             <div class="item-header">
               <h3 class="item-title">Advertisement</h3>
@@ -469,9 +465,9 @@
               <div id="ad-container-${index}"></div>
             </div>
           `;
-          
+
           grid.appendChild(adElement);
-          
+
           setTimeout(() => {
             const adContainer = document.getElementById(`ad-container-${index}`);
             if (adContainer) {
@@ -486,11 +482,11 @@
                   'params' : {}
                 };
               `;
-              
+
               const script2 = document.createElement('script');
               script2.type = 'text/javascript';
               script2.src = '//www.highperformanceformat.com/a367747b80d9de7b88fc47786c56aac2/invoke.js';
-              
+
               adContainer.appendChild(script1);
               adContainer.appendChild(script2);
             }

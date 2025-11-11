@@ -1825,7 +1825,6 @@
     }
 
     document.getElementById('trySomethingNewBtn').addEventListener('click', function () {
-      // Array of game URLs to randomly select from with their names
       const games = [
         { url: 'https://bloxd.io/play/classic/!coin-clicker!', name: 'Coin Clicker' },
         { url: 'https://bloxd.io/play/classic/towers_of_hell', name: 'Towers of Hell' },
@@ -1835,22 +1834,18 @@
         { url: 'https://bloxd.io/play/classic/hypixel_1v1', name: 'Hypixel 1v1' },
         { url: 'https://bloxd.io/play/classic/wildsurvivalwrld', name: 'Wild Survival' }
       ];
-      
-      // Select a random game from the array
+
       const randomGame = games[Math.floor(Math.random() * games.length)];
-      
-      // Open the random URL in the fullscreen iframe
+
       const iframe = document.querySelector('.fullscreen-frame');
       iframe.src = randomGame.url;
       iframe.style.display = 'block';
       document.getElementById('main-content').style.display = 'none';
-      
-      // Create and show popup notification
+
       showGameNotification(randomGame.name);
     });
-    
+
     function showGameNotification(gameName) {
-      // Create notification element
       const notification = document.createElement('div');
       notification.id = 'game-notification';
       notification.textContent = `Opened: ${gameName}`;
@@ -1871,16 +1866,13 @@
         opacity: 0;
         transition: opacity 0.3s ease;
       `;
-      
-      // Add to document
+
       document.body.appendChild(notification);
-      
-      // Fade in
+
       setTimeout(() => {
         notification.style.opacity = '1';
       }, 100);
-      
-      // Remove after 3 seconds
+
       setTimeout(() => {
         notification.style.opacity = '0';
         setTimeout(() => {
