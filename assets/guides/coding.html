@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,34 +22,41 @@
             padding: 15px 20px;
             text-align: center;
         }
+
         .container {
             padding: 20px;
         }
+
         .guide-section {
             background-color: #222222;
             margin-bottom: 20px;
             border-radius: 8px;
             padding: 20px;
         }
+
         .guide-title {
             font-size: 1.7em;
             color: #FF7F00;
         }
+
         .guide-content {
             font-size: 1.1em;
             line-height: 1.7;
             color: #ddd;
         }
+
         .subheading {
             font-size: 1.3em;
             color: #fa932c;
         }
+
         .note {
             background-color: #0e0e0e;
             padding: 10px;
             border-left: 5px solid #FF7F00;
             margin: 15px 0;
         }
+
         code {
             background-color: #333;
             padding: 2px 5px;
@@ -56,6 +64,7 @@
             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
             color: #ffcc99;
         }
+
         pre code {
             display: block;
             background-color: #1e1e1e;
@@ -72,97 +81,117 @@
         }
     </style>
 </head>
+
 <body>
 
-<header>
-    <h1>BloxdForge Coder Guide</h1>
-    <p>Your AI assistant for writing Bloxd.io JavaScript code.</p>
-    <p style="color: #fa932c; font-size: 0.9em;">Powered by AI - Use responsibly and always test generated code.</p>
-</header>
+    <header>
+        <h1>BloxdForge Coder Guide</h1>
+        <p>Your AI assistant for writing Bloxd.io JavaScript code.</p>
+        <p style="color: #fa932c; font-size: 0.9em;">Powered by AI - Use responsibly and always test generated code.</p>
+    </header>
 
-<div class="container">
-    <div class="guide-section">
-        <h2 class="guide-title">Introduction to BloxdForge Coder</h2>
-        <p class="guide-content">
-            The BloxdForge Coder is an AI-powered tool designed to help you write JavaScript code specifically for the Bloxd.io API. Think of it as a chat assistant that understands Bloxd.io's scripting capabilities. You describe what you want the code to do, and the AI attempts to generate the corresponding JavaScript.
-        </p>
-        <div class="note">
-            <strong>Note:</strong> The Coder interacts with a backend AI service. Your interactions help improve the tool, but always be mindful of the information you share.
+    <div class="container">
+        <div class="guide-section">
+            <h2 class="guide-title">Introduction to BloxdForge Coder</h2>
+            <p class="guide-content">
+                The BloxdForge Coder is an AI-powered tool designed to help you write JavaScript code specifically for
+                the Bloxd.io API. Think of it as a chat assistant that understands Bloxd.io's scripting capabilities.
+                You describe what you want the code to do, and the AI attempts to generate the corresponding JavaScript.
+            </p>
+            <div class="note">
+                <strong>Note:</strong> The Coder interacts with a backend AI service. Your interactions help improve the
+                tool, but always be mindful of the information you share.
+            </div>
         </div>
-    </div>
 
-    <div class="guide-section">
-        <h2 class="guide-title">How to Use the Coder</h2>
-        <p class="guide-content">Using the Coder is straightforward:</p>
+        <div class="guide-section">
+            <h2 class="guide-title">How to Use the Coder</h2>
+            <p class="guide-content">Using the Coder is straightforward:</p>
 
-        <div class="subheading">1. Input Your Request</div>
-        <p class="guide-content">
-            Type a description of the code you need into the input box at the bottom. Be as clear and specific as possible. For example, instead of "make player jump", try "write code to make the player jump when they press the spacebar".
-        </p>
+            <div class="subheading">1. Input Your Request</div>
+            <p class="guide-content">
+                Type a description of the code you need into the input box at the bottom. Be as clear and specific as
+                possible. For example, instead of "make player jump", try "write code to make the player jump when they
+                press the spacebar".
+            </p>
 
-        <div class="subheading">2. Send Your Request</div>
-        <p class="guide-content">
-            Click the "Send" button or press Enter (without Shift) to submit your request to the AI. The logo will spin while the AI processes your request.
-        </p>
+            <div class="subheading">2. Send Your Request</div>
+            <p class="guide-content">
+                Click the "Send" button or press Enter (without Shift) to submit your request to the AI. The logo will
+                spin while the AI processes your request.
+            </p>
 
-        <div class="subheading">3. Review the Response</div>
-        <p class="guide-content">
-            The AI's response will appear in the chat area. It might include explanations, code snippets (often in <code>javascript</code> blocks), or ask for clarification. Code blocks will look like this:
-        </p>
-        <pre><code class="javascript">// Example code block
+            <div class="subheading">3. Review the Response</div>
+            <p class="guide-content">
+                The AI's response will appear in the chat area. It might include explanations, code snippets (often in
+                <code>javascript</code> blocks), or ask for clarification. Code blocks will look like this:
+            </p>
+            <pre><code class="javascript">// Example code block
 function onKeyPress(event) {
     if (event.key === ' ') {
         player.jump();
     }
 }</code></pre>
-        <p class="guide-content">
-            You can copy the code directly from these blocks.
-        </p>
+            <p class="guide-content">
+                You can copy the code directly from these blocks.
+            </p>
 
-        <div class="subheading">4. Iterate and Refine</div>
-        <p class="guide-content">
-            AI isn't perfect. If the first response isn't quite right, refine your request or ask for modifications. For example: "Modify the previous code to only jump if the player is on the ground."
-        </p>
+            <div class="subheading">4. Iterate and Refine</div>
+            <p class="guide-content">
+                AI isn't perfect. If the first response isn't quite right, refine your request or ask for modifications.
+                For example: "Modify the previous code to only jump if the player is on the ground."
+            </p>
 
-        <div class="note">
-            <strong>Error Handling:</strong> If the AI encounters an error or cannot fulfill the request, it will usually display an error message in the chat. If you see issues like "Could not initialize security token", try refreshing the page.
+            <div class="note">
+                <strong>Error Handling:</strong> If the AI encounters an error or cannot fulfill the request, it will
+                usually display an error message in the chat. If you see issues like "Could not initialize security
+                token", try refreshing the page.
+            </div>
+        </div>
+
+        <div class="guide-section">
+            <h2 class="guide-title">Tips for Effective AI Coding</h2>
+            <p class="guide-content">Working with AI code generators requires a slightly different approach:</p>
+
+            <div class="subheading">1. Be Specific</div>
+            <p class="guide-content">
+                Vague requests lead to vague or incorrect code. Provide context, specify variable names if important,
+                and mention relevant Bloxd.io API functions if you know them (e.g., <code>player.sendMessage()</code>,
+                <code>world.getBlock()</code>).
+            </p>
+
+            <div class="subheading">2. Start Simple, Build Complexity</div>
+            <p class="guide-content">
+                Don't ask for a complex system all at once. Start with a core piece of functionality and gradually ask
+                the AI to add more features or handle edge cases.
+            </p>
+
+            <div class="subheading">3. Understand the Bloxd.io API</div>
+            <p class="guide-content">
+                While the AI assists, having some familiarity with the Bloxd.io API helps you formulate better prompts
+                and understand the generated code. Refer to official or community documentation when possible.
+            </p>
+
+            <div class="subheading">4. Always Test Generated Code</div>
+            <p class="guide-content">
+                <strong>Crucial:</strong> AI-generated code can contain bugs, security vulnerabilities, or simply not
+                work as intended. Always test the code thoroughly in a safe environment (like a private world) before
+                using it widely. Understand what the code does before running it.
+            </p>
+
+            <div class="subheading">5. Provide Feedback (Implicitly)</div>
+            <p class="guide-content">
+                By refining your prompts and continuing the conversation when the code isn't right, you implicitly
+                provide feedback that helps the underlying AI model improve over time.
+            </p>
+
+            <div class="note">
+                <strong>Limitations:</strong> The AI might not know about the very latest Bloxd.io features or have
+                perfect knowledge of all API nuances. It cannot perform actions outside of generating text and code.
+            </div>
         </div>
     </div>
-
-    <div class="guide-section">
-        <h2 class="guide-title">Tips for Effective AI Coding</h2>
-        <p class="guide-content">Working with AI code generators requires a slightly different approach:</p>
-
-        <div class="subheading">1. Be Specific</div>
-        <p class="guide-content">
-            Vague requests lead to vague or incorrect code. Provide context, specify variable names if important, and mention relevant Bloxd.io API functions if you know them (e.g., <code>player.sendMessage()</code>, <code>world.getBlock()</code>).
-        </p>
-
-        <div class="subheading">2. Start Simple, Build Complexity</div>
-        <p class="guide-content">
-            Don't ask for a complex system all at once. Start with a core piece of functionality and gradually ask the AI to add more features or handle edge cases.
-        </p>
-
-        <div class="subheading">3. Understand the Bloxd.io API</div>
-        <p class="guide-content">
-            While the AI assists, having some familiarity with the Bloxd.io API helps you formulate better prompts and understand the generated code. Refer to official or community documentation when possible.
-        </p>
-
-        <div class="subheading">4. Always Test Generated Code</div>
-        <p class="guide-content">
-            <strong>Crucial:</strong> AI-generated code can contain bugs, security vulnerabilities, or simply not work as intended. Always test the code thoroughly in a safe environment (like a private world) before using it widely. Understand what the code does before running it.
-        </p>
-
-        <div class="subheading">5. Provide Feedback (Implicitly)</div>
-        <p class="guide-content">
-            By refining your prompts and continuing the conversation when the code isn't right, you implicitly provide feedback that helps the underlying AI model improve over time.
-        </p>
-
-        <div class="note">
-            <strong>Limitations:</strong> The AI might not know about the very latest Bloxd.io features or have perfect knowledge of all API nuances. It cannot perform actions outside of generating text and code.
-        </div>
-    </div>
-</div>
 
 </body>
+
 </html>

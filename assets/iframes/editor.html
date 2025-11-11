@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +52,7 @@
       padding: 10px;
       background-color: #111;
       border-radius: 10px;
-      
+
     }
 
     canvas {
@@ -87,7 +88,7 @@
       cursor: pointer;
       transition: all 0.2s;
       border-radius: 5px;
-      
+
     }
 
     #toolbar button:hover {
@@ -123,7 +124,7 @@
       border-radius: 5px;
     }
 
-    
+
     #color-picker:hover {
       outline: none;
       border-color: #e67300;
@@ -183,7 +184,7 @@
       margin-top: 5px;
       width: 82%;
       padding: 10px;
-      margin: 5px ;
+      margin: 5px;
       color: #fff;
       background-image: linear-gradient(to bottom, #181818, #151515);
       border: 1px solid #28282885;
@@ -218,92 +219,97 @@
 
 
     .tooltip {
-        position: relative;
-        display: inline-block;
+      position: relative;
+      display: inline-block;
     }
 
     .tooltip .tooltiptext {
-        visibility: hidden;
-        width: 120px;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -60px;
-        opacity: 0;
-        transition: opacity 0.3s;
+      visibility: hidden;
+      width: 120px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -60px;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
 
 
     #loading-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
     }
 
     #loading-spinner {
-        width: 50px;
-        height: 50px;
-        border: 5px solid #f3f3f3;
-        border-top: 5px solid #3498db;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
     }
 
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     #error-message {
-        color: #ff6b6b;
-        text-align: center;
-        margin-top: 20px;
-        display: none;
+      color: #ff6b6b;
+      text-align: center;
+      margin-top: 20px;
+      display: none;
     }
 
-    /* New color input styles */
     .color-input-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
     }
 
     .color-text-input {
-        width: 93.5%;
-        padding: 5px;
-        background-image: linear-gradient(to bottom, #181818, #151515);
-        color: #fff;
-        border: 1px solid #38383885;
-        border-radius: 5px;
-        text-align: center;
-        text-transform: uppercase;
+      width: 93.5%;
+      padding: 5px;
+      background-image: linear-gradient(to bottom, #181818, #151515);
+      color: #fff;
+      border: 1px solid #38383885;
+      border-radius: 5px;
+      text-align: center;
+      text-transform: uppercase;
     }
 
     .color-text-input:focus {
-        outline: none;
-        border-color: #e67300;
+      outline: none;
+      border-color: #e67300;
     }
 
     .color-text-input.invalid {
-        border-color: #ff6b6b;
+      border-color: #ff6b6b;
     }
   </style>
 </head>
+
 <body>
   <div id="loading-overlay">
     <div id="loading-spinner"></div>
@@ -335,13 +341,13 @@
     <button id="pencil-tool">Pencil</button>
     <button id="save-btn">Save Texture</button>
   </div>
-  
+
   <div id="color-palette">
-  <h4>Colors:</h4>
-  <div id="custom-colors"></div>
-  <input type="color" id="color-input" />
-  <button id="add-color-btn">Add Color</button>
-</div>
+    <h4>Colors:</h4>
+    <div id="custom-colors"></div>
+    <input type="color" id="color-input" />
+    <button id="add-color-btn">Add Color</button>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
   <script>
@@ -376,10 +382,10 @@
       Array.from(files).forEach(file => {
         if (file.type === 'image/png') {
           const fileReader = new FileReader();
-          fileReader.onload = function(e) {
+          fileReader.onload = function (e) {
             let img = new Image();
             img.src = e.target.result;
-            img.onload = function() {
+            img.onload = function () {
               textures.push(img);
               let listItem = document.createElement('li');
               listItem.textContent = file.name;
@@ -428,13 +434,48 @@
     const MAX_UNDO_STEPS = 50;
 
     function trackAction(action) {
-        if (undoStack.length >= MAX_UNDO_STEPS) {
-            undoStack.shift();
-        }
-        undoStack.push(action);
+      if (undoStack.length >= MAX_UNDO_STEPS) {
+        undoStack.shift();
+      }
+      undoStack.push(action);
     }
 
     canvas.addEventListener('mousedown', (e) => {
+      const { offsetX, offsetY } = e;
+      const pixelX = Math.floor(offsetX / (500 / selectedTexture.width));
+      const pixelY = Math.floor(offsetY / (500 / selectedTexture.height));
+      const x = pixelX * (500 / selectedTexture.width);
+      const y = pixelY * (500 / selectedTexture.height);
+
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.getImageData(x, y, texturePixelSize, texturePixelSize);
+
+      const originalPixelData = {
+        x: x,
+        y: y,
+        imageData: imageData
+      };
+
+      if (currentTool === 'pencil') {
+        ctx.fillStyle = currentColor;
+        ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
+        trackAction(originalPixelData);
+      } else if (currentTool === 'darken') {
+        ctx.fillStyle = `rgba(${Math.max(0, imageData.data[0] - 50)}, ${Math.max(0, imageData.data[1] - 50)}, ${Math.max(0, imageData.data[2] - 50)}, ${imageData.data[3] / 255})`;
+        ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
+        trackAction(originalPixelData);
+      } else if (currentTool === 'lighten') {
+        ctx.fillStyle = `rgba(${Math.min(255, imageData.data[0] + 50)}, ${Math.min(255, imageData.data[1] + 50)}, ${Math.min(255, imageData.data[2] + 50)}, ${imageData.data[3] / 255})`;
+        ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
+        trackAction(originalPixelData);
+      } else if (currentTool === 'eraser') {
+        ctx.clearRect(x, y, texturePixelSize, texturePixelSize);
+        trackAction(originalPixelData);
+      }
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (e.buttons === 1) {
         const { offsetX, offsetY } = e;
         const pixelX = Math.floor(offsetX / (500 / selectedTexture.width));
         const pixelY = Math.floor(offsetY / (500 / selectedTexture.height));
@@ -443,78 +484,27 @@
 
         const ctx = canvas.getContext('2d');
         const imageData = ctx.getImageData(x, y, texturePixelSize, texturePixelSize);
-        
-        const originalPixelData = {
-            x: x,
-            y: y,
-            imageData: imageData
-        };
 
         if (currentTool === 'pencil') {
-            ctx.fillStyle = currentColor;
-            ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
-            trackAction(originalPixelData);
+          ctx.fillStyle = currentColor;
+          ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
         } else if (currentTool === 'darken') {
-            ctx.fillStyle = `rgba(${
-                Math.max(0, imageData.data[0] - 50)}, ${
-                Math.max(0, imageData.data[1] - 50)}, ${
-                Math.max(0, imageData.data[2] - 50)}, ${
-                imageData.data[3]/255})`;
-            ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
-            trackAction(originalPixelData);
+          ctx.fillStyle = `rgba(${Math.max(0, imageData.data[0] - 50)}, ${Math.max(0, imageData.data[1] - 50)}, ${Math.max(0, imageData.data[2] - 50)}, ${imageData.data[3] / 255})`;
+          ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
         } else if (currentTool === 'lighten') {
-            ctx.fillStyle = `rgba(${
-                Math.min(255, imageData.data[0] + 50)}, ${
-                Math.min(255, imageData.data[1] + 50)}, ${
-                Math.min(255, imageData.data[2] + 50)}, ${
-                imageData.data[3]/255})`;
-            ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
-            trackAction(originalPixelData);
-        } else if (currentTool === 'eraser') {
-            ctx.clearRect(x, y, texturePixelSize, texturePixelSize);
-            trackAction(originalPixelData);
+          ctx.fillStyle = `rgba(${Math.min(255, imageData.data[0] + 50)}, ${Math.min(255, imageData.data[1] + 50)}, ${Math.min(255, imageData.data[2] + 50)}, ${imageData.data[3] / 255})`;
+          ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
         }
-    });
-
-    canvas.addEventListener('mousemove', (e) => {
-        if (e.buttons === 1) {
-            const { offsetX, offsetY } = e;
-            const pixelX = Math.floor(offsetX / (500 / selectedTexture.width));
-            const pixelY = Math.floor(offsetY / (500 / selectedTexture.height));
-            const x = pixelX * (500 / selectedTexture.width);
-            const y = pixelY * (500 / selectedTexture.height);
-
-            const ctx = canvas.getContext('2d');
-            const imageData = ctx.getImageData(x, y, texturePixelSize, texturePixelSize);
-            
-            if (currentTool === 'pencil') {
-                ctx.fillStyle = currentColor;
-                ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
-            } else if (currentTool === 'darken') {
-                ctx.fillStyle = `rgba(${
-                    Math.max(0, imageData.data[0] - 50)}, ${
-                    Math.max(0, imageData.data[1] - 50)}, ${
-                    Math.max(0, imageData.data[2] - 50)}, ${
-                    imageData.data[3]/255})`;
-                ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
-            } else if (currentTool === 'lighten') {
-                ctx.fillStyle = `rgba(${
-                    Math.min(255, imageData.data[0] + 50)}, ${
-                    Math.min(255, imageData.data[1] + 50)}, ${
-                    Math.min(255, imageData.data[2] + 50)}, ${
-                    imageData.data[3]/255})`;
-                ctx.fillRect(x, y, texturePixelSize, texturePixelSize);
-            }
-        }
+      }
     });
 
     document.getElementById('undo-btn').addEventListener('click', () => {
-        if (undoStack.length > 0) {
-            const lastAction = undoStack.pop();
-            const ctx = canvas.getContext('2d');
-            
-            ctx.putImageData(lastAction.imageData, lastAction.x, lastAction.y);
-        }
+      if (undoStack.length > 0) {
+        const lastAction = undoStack.pop();
+        const ctx = canvas.getContext('2d');
+
+        ctx.putImageData(lastAction.imageData, lastAction.x, lastAction.y);
+      }
     });
 
     let customColors = [];
@@ -599,48 +589,48 @@
     });
 
     function showLoading() {
-        document.getElementById('loading-overlay').style.display = 'flex';
+      document.getElementById('loading-overlay').style.display = 'flex';
     }
 
     function hideLoading() {
-        document.getElementById('loading-overlay').style.display = 'none';
+      document.getElementById('loading-overlay').style.display = 'none';
     }
 
     function showError(message) {
-        const errorElement = document.getElementById('error-message');
-        errorElement.textContent = message || 'An error occurred. Please try again.';
-        errorElement.style.display = 'block';
-        hideLoading();
+      const errorElement = document.getElementById('error-message');
+      errorElement.textContent = message || 'An error occurred. Please try again.';
+      errorElement.style.display = 'block';
+      hideLoading();
     }
 
     function hideError() {
-        document.getElementById('error-message').style.display = 'none';
+      document.getElementById('error-message').style.display = 'none';
     }
 
     function enhancedHandleFiles(event) {
-        try {
-            showLoading();
-            hideError();
-            handleFiles(event);
-        } catch (error) {
-            showError(error.message);
-        } finally {
-            hideLoading();
-        }
+      try {
+        showLoading();
+        hideError();
+        handleFiles(event);
+      } catch (error) {
+        showError(error.message);
+      } finally {
+        hideLoading();
+      }
     }
 
     Object.entries({
-        'darken': document.getElementById('darken-tool'),
-        'lighten': document.getElementById('lighten-tool'),
-        'eraser': document.getElementById('eraser-tool'),
-        'pencil': document.getElementById('pencil-tool'),
-        'eyedropper': document.getElementById('eyedropper-tool')
+      'darken': document.getElementById('darken-tool'),
+      'lighten': document.getElementById('lighten-tool'),
+      'eraser': document.getElementById('eraser-tool'),
+      'pencil': document.getElementById('pencil-tool'),
+      'eyedropper': document.getElementById('eyedropper-tool')
     }).forEach(([toolName, button]) => {
-        button.classList.add('tooltip');
-        const tooltipSpan = document.createElement('span');
-        tooltipSpan.classList.add('tooltiptext');
-        tooltipSpan.textContent = toolName.charAt(0).toUpperCase() + toolName.slice(1);
-        button.appendChild(tooltipSpan);
+      button.classList.add('tooltip');
+      const tooltipSpan = document.createElement('span');
+      tooltipSpan.classList.add('tooltiptext');
+      tooltipSpan.textContent = toolName.charAt(0).toUpperCase() + toolName.slice(1);
+      button.appendChild(tooltipSpan);
     });
 
     const colorTextInput = document.getElementById('color-text-input');
@@ -654,7 +644,7 @@
 
     colorTextInput.addEventListener('input', (e) => {
       let input = e.target.value.trim();
-      
+
       if (!input.startsWith('#')) {
         input = '#' + input;
       }
@@ -667,7 +657,7 @@
 
         colorPicker.value = input;
         currentColor = input;
-        
+
         colorTextInput.classList.remove('invalid');
       } else {
         colorTextInput.classList.add('invalid');
@@ -682,4 +672,5 @@
     });
   </script>
 </body>
+
 </html>

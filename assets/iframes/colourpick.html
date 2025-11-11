@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Color maker</title>
   <script src="https://cdn.jsdelivr.net/npm/chroma-js@2.4.2/chroma.min.js"></script>
   <style>
@@ -25,7 +26,7 @@
       background: #181818;
       border-radius: 10px;
       padding: 1rem;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
       min-height: 180px;
       display: flex;
       flex-direction: column;
@@ -104,7 +105,6 @@
       width: 100%;
       margin-top: 1rem;
       padding: 0.5rem;
-      /* Removed fixed background color */
       border: none;
       color: white;
       font-weight: bold;
@@ -133,11 +133,13 @@
       padding: 0;
       transition: transform 0.3s ease;
     }
+
     .max-button:hover {
       transform: scale(1.05);
     }
   </style>
 </head>
+
 <body>
 
   <div class="grid-container">
@@ -215,7 +217,7 @@
       navigator.clipboard.writeText(hex).then(() => {
         console.log(`Copied: ${hex}`);
       });
-    }       
+    }
 
     function copyAllHex() {
       const base = document.getElementById('baseColor').value;
@@ -229,4 +231,5 @@
     updateAll();
   </script>
 </body>
+
 </html>

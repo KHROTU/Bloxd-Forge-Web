@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>BloxdForge Launcher</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../css/1page.css">
 </head>
+
 <body>
   <div id="start">
     <div id="iframe-modal">
@@ -18,15 +20,16 @@
       <span2 id="featured-world-name">Loading...</span2>
     </bigbutton>
     <button id="bloxd">
-      <img alt="Bloxd Logo" src="../images/b.png" width="200"/>
+      <img alt="Bloxd Logo" src="../images/b.png" width="200" />
       Bloxd.io
+      
     </button>
     <button id="bloxd-staging">
-      <img alt="Bloxd Staging Logo" src="../images/bs.png" width="200"/>
+      <img alt="Bloxd Staging Logo" src="../images/bs.png" width="200" />
       Bloxd.io Staging
     </button>
     <button id="world-forge">
-      <img alt="World Forge Logo" src="../images/wf.png" width="200"/>
+      <img alt="World Forge Logo" src="../images/wf.png" width="200" />
       World Forge
     </button>
   </div>
@@ -110,7 +113,7 @@
       <h1>Resolution Settings</h1>
       <div id="resolution-form">
         <label for="resolution-scale">Resolution Scale:</label>
-        <input id="resolution-scale" type="text" inputmode="numeric" pattern="[0-9.]*" placeholder="e.g., 1 or 0.75"/>
+        <input id="resolution-scale" type="text" inputmode="numeric" pattern="[0-9.]*" placeholder="e.g., 1 or 0.75" />
         <div class="resolution-buttons">
           <button id="apply-resolution">Apply</button>
           <button id="close-resolution-menu">Close</button>
@@ -131,17 +134,20 @@
     <h1>Coordinate Saver</h1>
     <div id="coordinate-form">
       <label for="x">X Coordinate:</label>
-      <input id="x" required type="text" inputmode="numeric" pattern="[0-9\-]*" oninput="this.value=this.value.replace(/[^0-9\-]/g,'')"/>
-      <br/>
+      <input id="x" required type="text" inputmode="numeric" pattern="[0-9\-]*"
+        oninput="this.value=this.value.replace(/[^0-9\-]/g,'')" />
+      <br />
       <label for="y">Y Coordinate:</label>
-      <input id="y" required type="text" inputmode="numeric" pattern="[0-9\-]*" oninput="this.value=this.value.replace(/[^0-9\-]/g,'')"/>
-      <br/>
+      <input id="y" required type="text" inputmode="numeric" pattern="[0-9\-]*"
+        oninput="this.value=this.value.replace(/[^0-9\-]/g,'')" />
+      <br />
       <label for="z">Z Coordinate:</label>
-      <input id="z" required type="text" inputmode="numeric" pattern="[0-9\-]*" oninput="this.value=this.value.replace(/[^0-9\-]/g,'')"/>
-      <br/>
+      <input id="z" required type="text" inputmode="numeric" pattern="[0-9\-]*"
+        oninput="this.value=this.value.replace(/[^0-9\-]/g,'')" />
+      <br />
       <label for="name">Name:</label>
-      <input id="name" required type="text"/>
-      <br/>
+      <input id="name" required type="text" />
+      <br />
       <button id="save-button">Save Coordinates</button>
     </div>
     <div id="saved-coordinates">
@@ -196,4 +202,5 @@
   <div class="recording-indicator" id="recordingIndicator"></div>
   <script src="../js/1page.js"></script>
 </body>
+
 </html>

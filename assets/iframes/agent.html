@@ -1,118 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BloxdForge Agent</title>
     <style>
         :root {
-          --bkg-color: #181818;
-          --surface-color: #282828;
-          --primary-color: #ff8c42;
-          --text-color: #e0e0e0;
+            --bkg-color: #181818;
+            --surface-color: #282828;
+            --primary-color: #ff8c42;
+            --text-color: #e0e0e0;
         }
+
         body {
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-            Arial, sans-serif;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 100vh;
-          margin: 0;
-          background-color: var(--bkg-color);
-          color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+                Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--bkg-color);
+            color: var(--text-color);
         }
+
         #container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
+
         #logo {
-          width: 100px;
-          margin-bottom: 20px;
-          transition: transform 0.5s ease-in-out;
+            width: 100px;
+            margin-bottom: 20px;
+            transition: transform 0.5s ease-in-out;
         }
+
         #logo.spinning {
-          animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
         }
+
         #output {
-          width: 90%;
-          max-width: 400px;
-          min-height: 150px;
-          padding: 15px;
-          border: 1px solid var(--primary-color);
-          border-radius: 8px;
-          background-color: var(--surface-color);
-          overflow-y: auto;
-          margin-bottom: 20px;
-          white-space: pre-wrap;
-          line-height: 1.6;
-          text-align: left;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+            width: 90%;
+            max-width: 400px;
+            min-height: 150px;
+            padding: 15px;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: var(--surface-color);
+            overflow-y: auto;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
         #userInput {
-          width: 90%;
-          max-width: 400px;
-          padding: 12px;
-          border: 1px solid var(--primary-color);
-          border-radius: 8px;
-          margin-bottom: 10px;
-          background-color: var(--surface-color);
-          color: var(--text-color);
-          font-size: 1em;
-          box-sizing: border-box;
+            width: 90%;
+            max-width: 400px;
+            padding: 12px;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            font-size: 1em;
+            box-sizing: border-box;
         }
+
         button {
-          padding: 12px 25px;
-          border: none;
-          border-radius: 8px;
-          background-color: var(--primary-color);
-          color: var(--bkg-color);
-          cursor: pointer;
-          font-weight: bold;
-          font-size: 1em;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: var(--bkg-color);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
         }
+
         button:disabled {
-          background-color: #555;
-          color: #888;
-          cursor: not-allowed;
+            background-color: #555;
+            color: #888;
+            cursor: not-allowed;
         }
+
         button:hover:not(:disabled) {
-          background-color: #e67e3f;
+            background-color: #e67e3f;
         }
+
         .status-text {
-          color: #aaa;
-          font-style: italic;
+            color: #aaa;
+            font-style: italic;
         }
+
         .spinner {
-          border: 4px solid #444;
-          border-top: 4px solid var(--primary-color);
-          border-radius: 50%;
-          width: 30px;
-          height: 30px;
-          animation: spin 1s linear infinite;
+            border: 4px solid #444;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
     <div id="container">
         <img id="logo" src="/assets/images/spinner.png" alt="Logo">
         <div id="output">
             <span class="status-text">Ask the BloxdForge Agent a question about Bloxd.io!</span>
         </div>
-        <input id="userInput" type="text" placeholder="e.g., How do I get diamonds?" autocomplete="off" disabled/>
+        <input id="userInput" type="text" placeholder="e.g., How do I get diamonds?" autocomplete="off" disabled />
         <button id="sendBtn" disabled>Send</button>
     </div>
 
@@ -151,7 +166,7 @@
             textElement.textContent = text;
             ui.output.appendChild(textElement);
         };
-        
+
         const getUserId = () => {
             let id = localStorage.getItem('userId');
             if (!id) {
@@ -225,7 +240,7 @@
 
                     const chunk = decoder.decode(value, { stream: true });
                     const lines = chunk.split('\n\n');
-                    
+
                     for (const line of lines) {
                         if (line.startsWith('data:')) {
                             const data = line.substring(5).trim();
@@ -239,7 +254,7 @@
                                 }
                             } catch (e) { console.warn('Could not parse SSE JSON chunk:', data); }
                         } else if (line.startsWith('event: error')) {
-                             throw new Error("An error occurred with the AI service.");
+                            throw new Error("An error occurred with the AI service.");
                         }
                     }
                 }
@@ -254,7 +269,7 @@
                 setTimeout(() => { ui.sendBtn.disabled = false; }, state.rateLimitSeconds * 1000);
             }
         };
-        
+
         window.onload = () => {
             fetchCsrfToken();
             ui.sendBtn.addEventListener('click', askAgent);
@@ -267,4 +282,5 @@
         };
     </script>
 </body>
+
 </html>

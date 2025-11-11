@@ -1,501 +1,531 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxdForge Coder</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloxdForge Coder</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
-    <style>
-        :root {
-          --background-color: #181818;
-          --surface-color: #282828;
-          --primary-color: #ff8c42;
-          --text-color: #e0e0e0;
-          --border-color: #444;
-          --user-msg-bg: #3a3a3a;
-          --assistant-msg-bg: #2c2c2c;
-          --code-bg: #1e1e1e;
-        }
-        body {
-          font-family: "Segoe UI", sans-serif;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          height: 100vh;
-          margin: 0;
-          padding: 10px;
-          box-sizing: border-box;
-          background-color: var(--background-color);
-          color: var(--text-color);
-        }
-        #chatWrapper {
-          width: 100%;
-          max-width: 800px;
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          overflow: hidden;
-        }
-        #header {
-          text-align: center;
-          margin-bottom: 15px;
-          flex-shrink: 0;
-        }
-        #header img {
-          width: 80px;
-        }
-        #header h2 {
-          margin-top: 5px;
-          color: var(--primary-color);
-        }
-        #chatContainer {
-          flex-grow: 1;
-          overflow-y: auto;
-          padding: 15px;
-          border: 1px solid var(--border-color);
-          border-radius: 8px;
-          background-color: var(--surface-color);
-          display: flex;
-          flex-direction: column;
-          gap: 15px;
-        }
-        .message {
-          padding: 0; 
-          border-radius: 12px;
-          max-width: 90%;
-          word-wrap: break-word;
-          line-height: 1.6;
-          overflow: hidden;
-        }
-        .user-message {
-          background-color: var(--user-msg-bg);
-          align-self: flex-end;
-          padding: 12px 18px;
-        }
-        .assistant-message {
-          background-color: var(--assistant-msg-bg);
-          align-self: flex-start;
-          width: 100%;
-        }
-        .message.error {
-          background-color: #5c3030;
-          color: #ffcccc;
-          font-weight: bold;
-          padding: 12px 18px;
-        }
-        
-        .main-content {
-            padding: 12px 18px;
-        }
-        
-        .assistant-message pre {
-          position: relative;
-          background-color: var(--code-bg);
-          padding: 15px;
-          padding-top: 40px;
-          border-radius: 6px;
-          margin: 10px 0;
-          overflow-x: auto;
-          border: 1px solid #333;
-        }
-        .assistant-message pre code {
-          font-family: Consolas, Monaco, monospace;
-          font-size: 0.9em;
-        }
-        .assistant-message .copy-btn {
-          position: absolute;
-          top: 8px;
-          right: 8px;
-          background: #444;
-          color: #eee;
-          border: none;
-          padding: 5px 10px;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 0.8em;
-          opacity: 0.7;
-        }
-        .assistant-message .copy-btn:hover {
-          background: #555;
-          opacity: 1;
-        }
-        
-        #inputContainer {
-          flex-shrink: 0;
-          display: flex;
-          width: 100%;
-          gap: 10px;
-          padding-top: 15px;
-        }
-        #userInput {
-          flex-grow: 1;
-          padding: 12px;
-          border: 1px solid var(--primary-color);
-          border-radius: 8px;
-          background-color: var(--surface-color);
-          color: var(--text-color);
-          font-size: 1em;
-          resize: none;
-        }
-        button {
-          padding: 12px 25px;
-          border: none;
-          border-radius: 8px;
-          background-color: var(--primary-color);
-          color: var(--background-color);
-          cursor: pointer;
-          font-size: 1em;
-          font-weight: bold;
-        }
-        button:disabled {
-          background-color: #555;
-          color: #888;
-          cursor: not-allowed;
-        }
-        button:hover:not(:disabled) {
-          background-color: #e67e3f;
-        }
-        
-        .spinner {
-          border: 3px solid #555;
-          border-top: 3px solid var(--primary-color);
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          animation: spin 1s linear infinite;
-          display: inline-block;
-          margin-left: 10px;
-          vertical-align: middle;
-        }
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-        
-        .think-box {
-          border-bottom: 1px solid #4a4a4a;
-          font-size: 0.9em;
-          background: #222;
-        }
-        .think-header {
-          cursor: pointer;
-          padding: 8px 18px;
-          display: flex;
-          align-items: center;
-          user-select: none;
-        }
-        .think-arrow {
-          margin-right: 8px;
-          transition: transform 0.2s;
-          color: var(--primary-color);
-          font-weight: bold;
-        }
-        .think-label {
-          font-weight: bold;
-          color: var(--primary-color);
-        }
-        .think-content {
-          padding: 10px 18px;
-          color: #c0c0c0;
-          font-family: Consolas, Monaco, monospace;
-          white-space: pre-wrap;
-          word-break: break-word;
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-        }
-        .think-box:not(.open) .think-content {
-          padding-top: 0;
-          padding-bottom: 0;
-        }
-        .think-box.open .think-content {
-          max-height: 500px;
-          overflow-y: auto;
-        }
-        .think-box.open .think-arrow {
-          transform: rotate(90deg);
-        }
-    </style>
+  <style>
+    :root {
+      --background-color: #181818;
+      --surface-color: #282828;
+      --primary-color: #ff8c42;
+      --text-color: #e0e0e0;
+      --border-color: #444;
+      --user-msg-bg: #3a3a3a;
+      --assistant-msg-bg: #2c2c2c;
+      --code-bg: #1e1e1e;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 10px;
+      box-sizing: border-box;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+
+    #chatWrapper {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #header {
+      text-align: center;
+      margin-bottom: 15px;
+      flex-shrink: 0;
+    }
+
+    #header img {
+      width: 80px;
+    }
+
+    #header h2 {
+      margin-top: 5px;
+      color: var(--primary-color);
+    }
+
+    #chatContainer {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--surface-color);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      padding: 0;
+      border-radius: 12px;
+      max-width: 90%;
+      word-wrap: break-word;
+      line-height: 1.6;
+      overflow: hidden;
+    }
+
+    .user-message {
+      background-color: var(--user-msg-bg);
+      align-self: flex-end;
+      padding: 12px 18px;
+    }
+
+    .assistant-message {
+      background-color: var(--assistant-msg-bg);
+      align-self: flex-start;
+      width: 100%;
+    }
+
+    .message.error {
+      background-color: #5c3030;
+      color: #ffcccc;
+      font-weight: bold;
+      padding: 12px 18px;
+    }
+
+    .main-content {
+      padding: 12px 18px;
+    }
+
+    .assistant-message pre {
+      position: relative;
+      background-color: var(--code-bg);
+      padding: 15px;
+      padding-top: 40px;
+      border-radius: 6px;
+      margin: 10px 0;
+      overflow-x: auto;
+      border: 1px solid #333;
+    }
+
+    .assistant-message pre code {
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.9em;
+    }
+
+    .assistant-message .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #444;
+      color: #eee;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8em;
+      opacity: 0.7;
+    }
+
+    .assistant-message .copy-btn:hover {
+      background: #555;
+      opacity: 1;
+    }
+
+    #inputContainer {
+      flex-shrink: 0;
+      display: flex;
+      width: 100%;
+      gap: 10px;
+      padding-top: 15px;
+    }
+
+    #userInput {
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid var(--primary-color);
+      border-radius: 8px;
+      background-color: var(--surface-color);
+      color: var(--text-color);
+      font-size: 1em;
+      resize: none;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--primary-color);
+      color: var(--background-color);
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    button:disabled {
+      background-color: #555;
+      color: #888;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #e67e3f;
+    }
+
+    .spinner {
+      border: 3px solid #555;
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .think-box {
+      border-bottom: 1px solid #4a4a4a;
+      font-size: 0.9em;
+      background: #222;
+    }
+
+    .think-header {
+      cursor: pointer;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      user-select: none;
+    }
+
+    .think-arrow {
+      margin-right: 8px;
+      transition: transform 0.2s;
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+
+    .think-label {
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    .think-content {
+      padding: 10px 18px;
+      color: #c0c0c0;
+      font-family: Consolas, Monaco, monospace;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+
+    .think-box:not(.open) .think-content {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .think-box.open .think-content {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .think-box.open .think-arrow {
+      transform: rotate(90deg);
+    }
+  </style>
 </head>
+
 <body>
-    <div id="chatWrapper">
-        <div id="header">
-            <img id="logo" src="../images/spinner.png" alt="Logo">
-            <h2>BloxdForge Coder</h2>
-        </div>
-        <div id="chatContainer"></div>
-        <div id="inputContainer">
-            <textarea id="userInput" placeholder="Describe the code you need..." rows="1" disabled></textarea>
-            <button id="sendBtn" disabled>Send</button>
-        </div>
+  <div id="chatWrapper">
+    <div id="header">
+      <img id="logo" src="../images/spinner.png" alt="Logo">
+      <h2>BloxdForge Coder</h2>
     </div>
+    <div id="chatContainer"></div>
+    <div id="inputContainer">
+      <textarea id="userInput" placeholder="Describe the code you need..." rows="1" disabled></textarea>
+      <button id="sendBtn" disabled>Send</button>
+    </div>
+  </div>
 
-    <script>
-        const ui = {
-            chatContainer: document.getElementById('chatContainer'),
-            input: document.getElementById('userInput'),
-            sendBtn: document.getElementById('sendBtn'),
-        };
+  <script>
+    const ui = {
+      chatContainer: document.getElementById('chatContainer'),
+      input: document.getElementById('userInput'),
+      sendBtn: document.getElementById('sendBtn'),
+    };
 
-        const state = {
-            csrfToken: null, userId: null, chatHistory: [], isWaiting: false,
-            messageIdCounter: 0, apiBaseUrl: 'https://khrotu.pythonanywhere.com', rateLimitSeconds: 3,
-        };
+    const state = {
+      csrfToken: null, userId: null, chatHistory: [], isWaiting: false,
+      messageIdCounter: 0, apiBaseUrl: 'https://khrotu.pythonanywhere.com', rateLimitSeconds: 3,
+    };
 
-        marked.setOptions({
-            highlight: (code, lang) => hljs.highlight(code, { language: hljs.getLanguage(lang) ? lang : 'plaintext', ignoreIllegals: true }).value,
-            gfm: true, breaks: true,
-        });
+    marked.setOptions({
+      highlight: (code, lang) => hljs.highlight(code, { language: hljs.getLanguage(lang) ? lang : 'plaintext', ignoreIllegals: true }).value,
+      gfm: true, breaks: true,
+    });
 
-        const getUserId = () => {
-            let id = localStorage.getItem('userId');
-            if (!id) {
-                id = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-                localStorage.setItem('userId', id);
-            }
-            return id;
-        };
-        const scrollToBottom = () => ui.chatContainer.scrollTo({ top: ui.chatContainer.scrollHeight, behavior: 'smooth' });
+    const getUserId = () => {
+      let id = localStorage.getItem('userId');
+      if (!id) {
+        id = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        localStorage.setItem('userId', id);
+      }
+      return id;
+    };
+    const scrollToBottom = () => ui.chatContainer.scrollTo({ top: ui.chatContainer.scrollHeight, behavior: 'smooth' });
 
-        const appendMessage = (role, content, extraClass = '') => {
-            const messageId = `msg-${state.messageIdCounter++}`;
-            const messageDiv = document.createElement('div');
-            messageDiv.id = messageId;
-            messageDiv.className = `message ${role}-message ${extraClass}`;
-            
-            if (role === 'assistant') {
-                const mainContent = document.createElement('div');
-                mainContent.className = 'main-content';
-                mainContent.innerHTML = content;
-                messageDiv.appendChild(mainContent);
-            } else {
-                 messageDiv.innerHTML = content;
-            }
-            
-            ui.chatContainer.appendChild(messageDiv);
-            scrollToBottom();
-            return messageId;
-        };
-        
-        const updateMessage = (messageId, reasoningText, contentText, isStreamingThinking = false) => {
-            const messageDiv = document.getElementById(messageId);
-            if (!messageDiv) return;
+    const appendMessage = (role, content, extraClass = '') => {
+      const messageId = `msg-${state.messageIdCounter++}`;
+      const messageDiv = document.createElement('div');
+      messageDiv.id = messageId;
+      messageDiv.className = `message ${role}-message ${extraClass}`;
 
-            const initialContent = messageDiv.querySelector('.main-content');
-            if (initialContent && initialContent.innerText.includes('Waiting for response...')) {
-                initialContent.innerHTML = '';
-            }
+      if (role === 'assistant') {
+        const mainContent = document.createElement('div');
+        mainContent.className = 'main-content';
+        mainContent.innerHTML = content;
+        messageDiv.appendChild(mainContent);
+      } else {
+        messageDiv.innerHTML = content;
+      }
 
-            let thinkBox = messageDiv.querySelector('.think-box');
-            if (reasoningText) {
-                if (!thinkBox) {
-                    thinkBox = document.createElement('div');
-                    thinkBox.className = 'think-box';
-                    thinkBox.innerHTML = `
+      ui.chatContainer.appendChild(messageDiv);
+      scrollToBottom();
+      return messageId;
+    };
+
+    const updateMessage = (messageId, reasoningText, contentText, isStreamingThinking = false) => {
+      const messageDiv = document.getElementById(messageId);
+      if (!messageDiv) return;
+
+      const initialContent = messageDiv.querySelector('.main-content');
+      if (initialContent && initialContent.innerText.includes('Waiting for response...')) {
+        initialContent.innerHTML = '';
+      }
+
+      let thinkBox = messageDiv.querySelector('.think-box');
+      if (reasoningText) {
+        if (!thinkBox) {
+          thinkBox = document.createElement('div');
+          thinkBox.className = 'think-box';
+          thinkBox.innerHTML = `
                         <div class="think-header">
                             <span class="think-arrow">▶</span>
                             <span class="think-label">Thinking Process</span>
                         </div>
                         <div class="think-content"></div>`;
-                    
-                    messageDiv.prepend(thinkBox);
 
-                    const header = thinkBox.querySelector('.think-header');
-                    header.onclick = () => {
-                        thinkBox.classList.toggle('open');
-                        thinkBox.classList.add('user-touched');
-                    };
-                }
+          messageDiv.prepend(thinkBox);
 
-                thinkBox.querySelector('.think-content').textContent = reasoningText;
+          const header = thinkBox.querySelector('.think-header');
+          header.onclick = () => {
+            thinkBox.classList.toggle('open');
+            thinkBox.classList.add('user-touched');
+          };
+        }
 
-                if (!thinkBox.classList.contains('user-touched')) {
-                    thinkBox.classList.toggle('open', isStreamingThinking);
-                }
-            }
-            
-            let mainContent = messageDiv.querySelector('.main-content');
-            if (!mainContent) {
-                mainContent = document.createElement('div');
-                mainContent.className = 'main-content';
-                messageDiv.appendChild(mainContent);
-            }
+        thinkBox.querySelector('.think-content').textContent = reasoningText;
 
-            if (contentText) {
-                mainContent.innerHTML = marked.parse(contentText);
-    
-                mainContent.querySelectorAll('pre:not(:has(.copy-btn))').forEach(pre => {
-                    const code = pre.querySelector('code');
-                    if (!code) return;
-                    const copyButton = document.createElement('button');
-                    copyButton.className = 'copy-btn';
-                    copyButton.textContent = 'Copy';
-                    copyButton.onclick = () => {
-                        navigator.clipboard.writeText(code.innerText);
-                        copyButton.textContent = 'Copied!';
-                        setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
-                    };
-                    pre.appendChild(copyButton);
-                });
-            }
+        if (!thinkBox.classList.contains('user-touched')) {
+          thinkBox.classList.toggle('open', isStreamingThinking);
+        }
+      }
 
-            scrollToBottom();
-        };
+      let mainContent = messageDiv.querySelector('.main-content');
+      if (!mainContent) {
+        mainContent = document.createElement('div');
+        mainContent.className = 'main-content';
+        messageDiv.appendChild(mainContent);
+      }
 
-        const initializeChat = async () => {
-            appendMessage('assistant', 'Hello! I can help you write JavaScript for the Bloxd.io API.');
-            const statusId = appendMessage('assistant', 'Authenticating... <div class="spinner"></div>', 'status');
-            try {
-                state.userId = getUserId();
-                const response = await fetch(`${state.apiBaseUrl}/get-csrf-token`, { headers: { 'X-User-ID': state.userId } });
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({error: `Server responded with status ${response.status}`}));
-                    throw new Error(errorData.error);
-                }
-                const data = await response.json();
-                if (!data.csrf_token) throw new Error("No CSRF token received.");
-                state.csrfToken = data.csrf_token;
+      if (contentText) {
+        mainContent.innerHTML = marked.parse(contentText);
 
-                document.getElementById(statusId)?.remove();
-                ui.input.disabled = false;
-                ui.sendBtn.disabled = false;
-                ui.input.placeholder = "Describe the code you need...";
-                ui.input.focus();
-            } catch (error) {
-                const statusDiv = document.getElementById(statusId);
-                if (statusDiv) {
-                    statusDiv.classList.add('error');
-                    statusDiv.innerHTML = `<strong>Security Error:</strong> Could not initialize. (${error.message})`;
-                }
-            }
-        };
+        mainContent.querySelectorAll('pre:not(:has(.copy-btn))').forEach(pre => {
+          const code = pre.querySelector('code');
+          if (!code) return;
+          const copyButton = document.createElement('button');
+          copyButton.className = 'copy-btn';
+          copyButton.textContent = 'Copy';
+          copyButton.onclick = () => {
+            navigator.clipboard.writeText(code.innerText);
+            copyButton.textContent = 'Copied!';
+            setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
+          };
+          pre.appendChild(copyButton);
+        });
+      }
 
-        const askCodeAgent = async () => {
-            const userInput = ui.input.value.trim();
-            if (!userInput || state.isWaiting || !state.csrfToken) return;
+      scrollToBottom();
+    };
 
-            state.isWaiting = true;
-            ui.sendBtn.disabled = true;
-            ui.input.disabled = true;
+    const initializeChat = async () => {
+      appendMessage('assistant', 'Hello! I can help you write JavaScript for the Bloxd.io API.');
+      const statusId = appendMessage('assistant', 'Authenticating... <div class="spinner"></div>', 'status');
+      try {
+        state.userId = getUserId();
+        const response = await fetch(`${state.apiBaseUrl}/get-csrf-token`, { headers: { 'X-User-ID': state.userId } });
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ error: `Server responded with status ${response.status}` }));
+          throw new Error(errorData.error);
+        }
+        const data = await response.json();
+        if (!data.csrf_token) throw new Error("No CSRF token received.");
+        state.csrfToken = data.csrf_token;
 
-            state.chatHistory.push({ role: 'user', content: userInput });
-            appendMessage('user', userInput);
-            const assistantMsgId = appendMessage('assistant', 'Waiting for response... <div class="spinner"></div>');
+        document.getElementById(statusId)?.remove();
+        ui.input.disabled = false;
+        ui.sendBtn.disabled = false;
+        ui.input.placeholder = "Describe the code you need...";
+        ui.input.focus();
+      } catch (error) {
+        const statusDiv = document.getElementById(statusId);
+        if (statusDiv) {
+          statusDiv.classList.add('error');
+          statusDiv.innerHTML = `<strong>Security Error:</strong> Could not initialize. (${error.message})`;
+        }
+      }
+    };
 
-            let accumulatedReasoning = "";
-            let accumulatedContent = "";
-            let hasStartedContent = false;
+    const askCodeAgent = async () => {
+      const userInput = ui.input.value.trim();
+      if (!userInput || state.isWaiting || !state.csrfToken) return;
 
-            try {
-                const response = await fetch(`${state.apiBaseUrl}/api/code`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-User-ID': state.userId, 'X-CSRF-Token': state.csrfToken },
-                    body: JSON.stringify({ messages: state.chatHistory }),
-                });
+      state.isWaiting = true;
+      ui.sendBtn.disabled = true;
+      ui.input.disabled = true;
 
-                if (!response.ok || !response.body) {
-                    const errorText = await response.text();
-                    try {
-                        const match = errorText.match(/data:\s*(\{.*\})\s*/);
-                        const errorJson = JSON.parse(match[1]);
-                        throw new Error(errorJson.error);
-                    } catch { throw new Error(`Network response error: ${response.status} ${response.statusText}`); }
-                }
+      state.chatHistory.push({ role: 'user', content: userInput });
+      appendMessage('user', userInput);
+      const assistantMsgId = appendMessage('assistant', 'Waiting for response... <div class="spinner"></div>');
 
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let buffer = "";
+      let accumulatedReasoning = "";
+      let accumulatedContent = "";
+      let hasStartedContent = false;
 
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
+      try {
+        const response = await fetch(`${state.apiBaseUrl}/api/code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-User-ID': state.userId, 'X-CSRF-Token': state.csrfToken },
+          body: JSON.stringify({ messages: state.chatHistory }),
+        });
 
-                    buffer += decoder.decode(value, { stream: true });
-                    let boundary;
-                    while ((boundary = buffer.indexOf('\n\n')) >= 0) {
-                        const messageString = buffer.substring(0, boundary);
-                        buffer = buffer.substring(boundary + 2);
+        if (!response.ok || !response.body) {
+          const errorText = await response.text();
+          try {
+            const match = errorText.match(/data:\s*(\{.*\})\s*/);
+            const errorJson = JSON.parse(match[1]);
+            throw new Error(errorJson.error);
+          } catch { throw new Error(`Network response error: ${response.status} ${response.statusText}`); }
+        }
 
-                        if (messageString.startsWith('data: ')) {
-                            const data = messageString.substring(6).trim();
-                            if (data === '[DONE]') continue;
-                            try {
-                                const jsonData = JSON.parse(data);
-                                const delta = jsonData.choices?.[0]?.delta;
-                                if (delta) {
-                                    if (delta.reasoning) {
-                                        accumulatedReasoning += delta.reasoning;
-                                    }
-                                    if (delta.content) {
-                                        const thinkMatch = delta.content.match(/<think>([\s\S]*?)<\/think>/);
-                                        if (thinkMatch && thinkMatch[1]) {
-                                            accumulatedReasoning += thinkMatch[1];
-                                            delta.content = delta.content.replace(thinkMatch[0], '');
-                                        }
-                                        accumulatedContent += delta.content;
-                                        hasStartedContent = true;
-                                    }
-                                    const isStreamingThinking = accumulatedReasoning.length > 0 && !hasStartedContent;
-                                    updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent, isStreamingThinking);
-                                }
-                            } catch (e) {
-                                console.debug('Could not parse partial SSE chunk. Buffer will handle it.', data);
-                            }
-                        }
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          let boundary;
+          while ((boundary = buffer.indexOf('\n\n')) >= 0) {
+            const messageString = buffer.substring(0, boundary);
+            buffer = buffer.substring(boundary + 2);
+
+            if (messageString.startsWith('data: ')) {
+              const data = messageString.substring(6).trim();
+              if (data === '[DONE]') continue;
+              try {
+                const jsonData = JSON.parse(data);
+                const delta = jsonData.choices?.[0]?.delta;
+                if (delta) {
+                  if (delta.reasoning) {
+                    accumulatedReasoning += delta.reasoning;
+                  }
+                  if (delta.content) {
+                    const thinkMatch = delta.content.match(/<think>([\s\S]*?)<\/think>/);
+                    if (thinkMatch && thinkMatch[1]) {
+                      accumulatedReasoning += thinkMatch[1];
+                      delta.content = delta.content.replace(thinkMatch[0], '');
                     }
+                    accumulatedContent += delta.content;
+                    hasStartedContent = true;
+                  }
+                  const isStreamingThinking = accumulatedReasoning.length > 0 && !hasStartedContent;
+                  updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent, isStreamingThinking);
                 }
-
-                updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent, false);
-
-                const finalContentToSave = accumulatedContent.replace(/<think>[\s\S]*?<\/think>/, '').trim();
-                if (finalContentToSave || accumulatedReasoning) {
-                    let historyContent = finalContentToSave;
-                    if(accumulatedReasoning) {
-                        historyContent = `<think>${accumulatedReasoning}</think>\n${finalContentToSave}`;
-                    }
-                    state.chatHistory.push({ role: 'assistant', content: historyContent });
-                } else {
-                    updateMessage(assistantMsgId, "", "The AI returned an empty or invalid response.", false);
-                }
-            } catch (error) {
-                console.error('Code Agent Error:', error);
-                const errorDiv = document.getElementById(assistantMsgId);
-                if (errorDiv) {
-                    errorDiv.innerHTML = `<div class="main-content">**Error:** ${error.message}</div>`;
-                    errorDiv.classList.add('error');
-                }
-            } finally {
-                state.isWaiting = false;
-                ui.input.disabled = false;
-                ui.input.value = '';
-                ui.input.style.height = 'auto';
-                ui.input.focus();
-                setTimeout(() => { ui.sendBtn.disabled = false; }, state.rateLimitSeconds * 1000);
+              } catch (e) {
+                console.debug('Could not parse partial SSE chunk. Buffer will handle it.', data);
+              }
             }
-        };
+          }
+        }
 
-        window.onload = () => {
-            initializeChat();
+        updateMessage(assistantMsgId, accumulatedReasoning, accumulatedContent, false);
 
-            ui.sendBtn.addEventListener('click', askCodeAgent);
-            ui.input.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey && !ui.sendBtn.disabled) {
-                    e.preventDefault();
-                    askCodeAgent();
-                }
-            });
-            ui.input.addEventListener('input', () => {
-                ui.input.style.height = 'auto';
-                ui.input.style.height = `${ui.input.scrollHeight}px`;
-            });
-        };
-    </script>
+        const finalContentToSave = accumulatedContent.replace(/<think>[\s\S]*?<\/think>/, '').trim();
+        if (finalContentToSave || accumulatedReasoning) {
+          let historyContent = finalContentToSave;
+          if (accumulatedReasoning) {
+            historyContent = `<think>${accumulatedReasoning}</think>\n${finalContentToSave}`;
+          }
+          state.chatHistory.push({ role: 'assistant', content: historyContent });
+        } else {
+          updateMessage(assistantMsgId, "", "The AI returned an empty or invalid response.", false);
+        }
+      } catch (error) {
+        console.error('Code Agent Error:', error);
+        const errorDiv = document.getElementById(assistantMsgId);
+        if (errorDiv) {
+          errorDiv.innerHTML = `<div class="main-content">**Error:** ${error.message}</div>`;
+          errorDiv.classList.add('error');
+        }
+      } finally {
+        state.isWaiting = false;
+        ui.input.disabled = false;
+        ui.input.value = '';
+        ui.input.style.height = 'auto';
+        ui.input.focus();
+        setTimeout(() => { ui.sendBtn.disabled = false; }, state.rateLimitSeconds * 1000);
+      }
+    };
+
+    window.onload = () => {
+      initializeChat();
+
+      ui.sendBtn.addEventListener('click', askCodeAgent);
+      ui.input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey && !ui.sendBtn.disabled) {
+          e.preventDefault();
+          askCodeAgent();
+        }
+      });
+      ui.input.addEventListener('input', () => {
+        ui.input.style.height = 'auto';
+        ui.input.style.height = `${ui.input.scrollHeight}px`;
+      });
+    };
+  </script>
 </body>
+
 </html>

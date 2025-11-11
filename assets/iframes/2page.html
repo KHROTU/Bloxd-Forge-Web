@@ -6,60 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BloxdForge Workshop</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" rel="stylesheet">
-  <link href="https://api.github.com/repos/KHROTU/Bloxd-Forge-Web/contents/assets/tpacks?ref=main" as="fetch" fetchpriority="high" crossorigin="anonymous">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5775871151193839" crossorigin="anonymous" fetchpriority="low"></script>
+  <link href="https://api.github.com/repos/KHROTU/Bloxd-Forge-Web/contents/assets/tpacks?ref=main" as="fetch"
+    fetchpriority="high" crossorigin="anonymous">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5775871151193839"
+    crossorigin="anonymous" fetchpriority="low"></script>
   <link rel="stylesheet" href="../css/2page.css">
 </head>
 
 <body>
   <div id="main-content">
-      <div class="search-bar">
-        <i class="fas fa-search icon" aria-hidden="true"></i>
-        <input id="search-input" type="text" placeholder="Search..." aria-label="Search">
-      </div>
-      <div class="add-box">
-        <button id="add-button"><i class="fas fa-plus"></i></button>
-      </div>
-      <div id="popup-menu" class="popup-menu" style="display:none;">
-        <p>If you want your texture pack to be added on BloxdForge, you need to Join our Creator server.</p>
-        <button id="join-creator-server-button" onclick="window.open('https://discord.gg/nNvX9BNXBN', '_blank');">Join Creators Server</button>
-      </div>
-      <div class="loading-spinner" id="loading-spinner"></div>
-      <div class="cards-container" id="cards-container">
-      </div>
-      <div class="popup" id="popup">
-        <div class="popup-content">
-          <div style="display: flex;">
-            <img id="popup-image" src="" alt="Banner">
-            <div class="desc-text" id="popup-text"></div>
-          </div>
-          <div class="popup-buttons">
-            <button id="share-btn"><i class="fas fa-share"></i></button>
-            <button id="reviews-btn"><i class="fas fa-comments"></i></button>
-            <button id="preview-btn"><i class="fas fa-eye"></i> Preview Pack</button>
-            <button id="download-btn"><i class="fas fa-download"></i> Download Texture Pack</button>
-          </div>
+    <div class="search-bar">
+      <i class="fas fa-search icon" aria-hidden="true"></i>
+      <input id="search-input" type="text" placeholder="Search..." aria-label="Search">
+    </div>
+    <div class="add-box">
+      <button id="add-button"><i class="fas fa-plus"></i></button>
+    </div>
+    <div id="popup-menu" class="popup-menu" style="display:none;">
+      <p>If you want your texture pack to be added on BloxdForge, you need to Join our Creator server.</p>
+      <button id="join-creator-server-button" onclick="window.open('https://discord.gg/nNvX9BNXBN', '_blank');">Join
+        Creators Server</button>
+    </div>
+    <div class="loading-spinner" id="loading-spinner"></div>
+    <div class="cards-container" id="cards-container">
+    </div>
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <div style="display: flex;">
+          <img id="popup-image" src="" alt="Banner">
+          <div class="desc-text" id="popup-text"></div>
+        </div>
+        <div class="popup-buttons">
+          <button id="share-btn"><i class="fas fa-share"></i></button>
+          <button id="reviews-btn"><i class="fas fa-comments"></i></button>
+          <button id="preview-btn"><i class="fas fa-eye"></i> Preview Pack</button>
+          <button id="download-btn"><i class="fas fa-download"></i> Download Texture Pack</button>
         </div>
       </div>
-      <div class="preview-window" id="preview-window">
-        <div class="preview-content">
-          <canvas id="preview-canvas"></canvas>
-          <button class="close-preview" onclick="closePreview()">Close</button>
-        </div>
+    </div>
+    <div class="preview-window" id="preview-window">
+      <div class="preview-content">
+        <canvas id="preview-canvas"></canvas>
+        <button class="close-preview" onclick="closePreview()">Close</button>
       </div>
-      <div class="reviews-window" id="reviews-window">
-        <div class="popup-content">
-          <div id="disqus_thread"></div>
-          <button class="close-popup" onclick="closeReviews()">Close</button>
-        </div>
+    </div>
+    <div class="reviews-window" id="reviews-window">
+      <div class="popup-content">
+        <div id="disqus_thread"></div>
+        <button class="close-popup" onclick="closeReviews()">Close</button>
       </div>
+    </div>
   </div>
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" fetchpriority="high"></script>
   <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js" fetchpriority="high"></script>
   <script src="../js/2page.js"></script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+      Disqus.</a></noscript>
 </body>
 
 </html>
