@@ -1825,9 +1825,70 @@
     }
 
     document.getElementById('trySomethingNewBtn').addEventListener('click', function () {
-      populateWorldCards();
-      document.getElementById('worldsModal').style.display = 'flex';
+      // Array of game URLs to randomly select from with their names
+      const games = [
+        { url: 'https://bloxd.io/play/classic/!coin-clicker!', name: 'Coin Clicker' },
+        { url: 'https://bloxd.io/play/classic/towers_of_hell', name: 'Towers of Hell' },
+        { url: 'https://bloxd.io/play/classic/citdel_of_void', name: 'Citadel of Void' },
+        { url: 'https://bloxd.io/play/classic/thecoolcodelobby', name: 'The Cool Code Lobby' },
+        { url: 'https://bloxd.io/play/classic/-maplecity-', name: 'Maple City' },
+        { url: 'https://bloxd.io/play/classic/wildsurvivalwrld', name: 'Wild Survival' }
+      ];
+      
+      // Select a random game from the array
+      const randomGame = games[Math.floor(Math.random() * games.length)];
+      
+      // Open the random URL in the fullscreen iframe
+      const iframe = document.querySelector('.fullscreen-frame');
+      iframe.src = randomGame.url;
+      iframe.style.display = 'block';
+      document.getElementById('main-content').style.display = 'none';
+      
+      // Create and show popup notification
+      showGameNotification(randomGame.name);
     });
+    
+    function showGameNotification(gameName) {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.id = 'game-notification';
+      notification.textContent = `Opened: ${gameName}`;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(145deg, #262525, #212020);
+        border: 1px solid #3a3939;
+        border-radius: 12px;
+        padding: 15px 25px;
+        color: #e8e8e8;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        z-index: 10001;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      
+      // Add to document
+      document.body.appendChild(notification);
+      
+      // Fade in
+      setTimeout(() => {
+        notification.style.opacity = '1';
+      }, 100);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
 
     document.getElementById('closeWorldsModal').addEventListener('click', function () {
       document.getElementById('worldsModal').style.display = 'none';
