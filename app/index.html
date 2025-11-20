@@ -1146,7 +1146,7 @@
                       <div class="credit-item">
                         <div class="credit-name">GEORGECR</div>
                         <div class="credit-role">Developer</div>
-                        <div class="credit-desc">Helped with the WorldForge, and more</div>
+                        <div class="credit-desc">Helped with the backend things and more</div>
                       </div>
                     </div>
                   </div>
@@ -2510,6 +2510,9 @@
 
       manageAdsForUserType(currentUserType);
 
+      cards.forEach(c => c.classList.remove('active-card'));
+      homeBtn.classList.add('active-btn');
+
       iframe.src = url;
       iframe.onload = () => {
         const currentUserType = getCurrentUserType();
@@ -2523,6 +2526,7 @@
         }
       };
     });
+
 
     window.addEventListener('message', function (event) {
       if (event.data && event.data.action === 'walkthroughComplete') {

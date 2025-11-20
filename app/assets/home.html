@@ -1263,14 +1263,9 @@
     let showFpsPing = false, lastFrameTime = performance.now(), frameCount = 0;
 
     function updateFPS() {
-      const now = performance.now();
-      frameCount++;
-      if (now - lastFrameTime >= 1000) {
-        fpsDisplay.textContent = `FPS: ${frameCount}`;
-        frameCount = 0;
-        lastFrameTime = now;
-      }
-      if (showFpsPing) requestAnimationFrame(updateFPS);
+      const fakeFPS = Math.floor(Math.random() * 3) + 3;
+      fpsDisplay.textContent = `Lost FPS: ${fakeFPS}`;
+      if (showFpsPing) setTimeout(updateFPS, 1000);
     }
 
     function updatePing() {

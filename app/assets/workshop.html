@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Workshop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="workshop_styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://js.puter.com/v2/"></script>
     <style>
         :root {
             --primary-color: #ff6b39;
@@ -88,19 +91,6 @@
             letter-spacing: -0.025em;
         }
 
-        #packCount {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-left: 12px;
-            background: var(--primary-light);
-            padding: 4px 12px;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(255, 107, 57, 0.2);
-            -webkit-background-clip: initial;
-            -webkit-text-fill-color: initial;
-        }
-
         .search-container {
             position: relative;
             width: 60%;
@@ -143,349 +133,425 @@
             z-index: 1;
         }
 
-        #itemGrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 28px;
-            padding: 20px 0 60px 0;
-            container-type: inline-size;
+        .hero-showcase {
+            display: flex;
+            gap: 32px;
+            background: linear-gradient(135deg, var(--surface-color) 0%, #252424 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 32px;
         }
 
-        .hero-section {
-            margin-bottom: 48px;
-            background: linear-gradient(135deg, var(--surface-color) 0%, #252424 100%);
+        .hero-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.2;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-hover), #ffb380);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.6;
+            max-width: 90%;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin: 16px 0;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            max-width: 120px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .stat-item.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            background: rgba(255, 107, 57, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 107, 57, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover .stat-icon {
+            transform: scale(1.1);
+            background: rgba(255, 107, 57, 0.2);
+            box-shadow: 0 0 15px rgba(255, 107, 57, 0.3);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover .stat-number {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 107, 57, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .hero-btn {
+            padding: 14px 28px;
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .hero-btn.primary {
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 107, 57, 0.3);
+        }
+
+        .hero-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(255, 107, 57, 0.4);
+        }
+
+        .hero-btn.secondary {
+            background: linear-gradient(145deg, #3a3939, #2a2929);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-btn.secondary:hover {
+            background: linear-gradient(145deg, #4a4949, #3a3939);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-featured {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .featured-carousel {
+            position: relative;
+            height: 300px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2a2929, #1a1919);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .featured-icon {
+            font-size: 5rem;
+            color: var(--primary-color);
+            opacity: 0.7;
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 24px;
+            color: white;
+        }
+
+        .featured-overlay h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: white;
+        }
+
+        .featured-overlay p {
+            font-size: 1rem;
+            margin: 0 0 16px 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .featured-tag {
+            background: rgba(255, 107, 57, 0.9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            background: var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-btn.active,
+        .nav-btn:hover {
+            background: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .navigation-tabs {
+            display: flex;
+            gap: 12px;
+            padding: 0 24px;
+        }
+
+        .tab-btn {
+            background: linear-gradient(145deg, var(--surface-color), #212020);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 14px 24px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .tab-btn:hover {
+            background: linear-gradient(145deg, var(--surface-hover), #252424);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            border-color: var(--primary-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .content-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        .section {
+            background: linear-gradient(145deg, var(--surface-color), #212020);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-xl);
             padding: 32px;
             box-shadow: var(--shadow-lg);
         }
 
-        .hero-title {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 32px;
-            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 24px;
-            min-height: 400px;
-        }
-
-        .hero-main {
-            position: relative;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            background: linear-gradient(145deg, var(--background-darker), #1a1919);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-        }
-
-        .hero-main:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .hero-sidebar {
-            display: grid;
-            grid-template-rows: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .hero-small {
-            position: relative;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            background: linear-gradient(145deg, var(--background-darker), #1a1919);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-        }
-
-        .hero-small:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .hero-card-image {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .hero-small .hero-card-image {
-            height: 120px;
-        }
-
-        .hero-card:hover .hero-card-image {
-            transform: scale(1.05);
-        }
-
-        .hero-card-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            padding: 32px 24px 24px 24px;
-            color: white;
-        }
-
-        .hero-small .hero-card-content {
-            padding: 24px 20px 20px 20px;
-        }
-
-        .hero-card-title {
+        .section-title {
             font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 8px;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-small .hero-card-title {
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-        }
-
-        .hero-card-author {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 12px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-small .hero-card-author {
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-        }
-
-        .hero-card-description {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.9);
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            overflow: hidden;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-small .hero-card-description {
-            font-size: 0.9rem;
-            -webkit-line-clamp: 1;
-        }
-
-        .hero-pin-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(255, 107, 57, 0.95);
-            color: white;
-            padding: 8px 12px;
-            border-radius: var(--radius-md);
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .hero-download-btn {
-            position: absolute;
-            bottom: 16px;
-            right: 16px;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-            color: white;
-            padding: 10px 16px;
-            border-radius: var(--radius-lg);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: none;
-            cursor: pointer;
-        }
-
-        .hero-download-btn.small {
-            padding: 8px 12px;
-            font-size: 0.8rem;
-        }
-
-        .hero-download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .hero-download-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .hero-card-buttons {
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            right: 16px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .close-share-popup {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .close-share-popup:hover {
-            background: rgba(255, 255, 255, 0.1);
             color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0;
         }
 
-        .share-pack-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: var(--radius-lg);
-            margin-bottom: 20px;
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        .section-count {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: var(--background-darker);
+            padding: 4px 12px;
+            border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
         }
 
-        .share-pack-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-accent);
-            margin: 0 0 8px 0;
-        }
-
-        .share-pack-author {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin: 0 0 15px 0;
-        }
-
-        .share-pack-description {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin: 0 0 25px 0;
-        }
-
-        .share-url-container {
+        .section-controls {
             display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 16px;
+            align-items: center;
         }
 
-        .share-url-input {
-            flex: 1;
-            padding: 12px 16px;
+        .sort-select {
+            padding: 10px 16px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
             background: var(--background-darker);
             color: var(--text-primary);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             outline: none;
-        }
-
-        .share-url-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(255, 107, 57, 0.2);
-        }
-
-        .copy-share-url-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
-            padding: 0 20px;
-            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
         }
 
-        .copy-share-url-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .sort-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 107, 57, 0.2);
         }
 
-        .share-download-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            text-align: center;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-            color: #fff;
-            padding: 14px 24px;
-            border-radius: var(--radius-lg);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            letter-spacing: 0.025em;
-        }
-
-        .share-download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+            padding: 10px 0;
         }
 
         @media (max-width: 968px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: 1fr auto;
+            .hero-showcase {
+                flex-direction: column;
             }
 
-            .hero-sidebar {
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: 1fr;
+            .hero-content {
+                text-align: center;
+                align-items: center;
+            }
+
+            .hero-subtitle {
+                max-width: 100%;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .navigation-tabs {
+                flex-wrap: wrap;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
             }
         }
 
         @media (max-width: 640px) {
-            .hero-section {
-                padding: 24px 20px;
+            .section-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
             }
 
-            .hero-sidebar {
-                grid-template-columns: 1fr;
-                grid-template-rows: 1fr 1fr;
+            .sort-select {
+                width: 100%;
             }
 
-            .hero-card-content {
-                padding: 20px 16px 16px 16px;
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .hero-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -499,6 +565,7 @@
             transition: var(--transition);
             overflow: hidden;
             position: relative;
+            height: 100%;
         }
 
         .item-card:hover {
@@ -512,6 +579,7 @@
             position: relative;
             overflow: hidden;
             border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            height: 200px;
         }
 
         .pin-icon {
@@ -536,7 +604,7 @@
 
         .item-image {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
             border-bottom: 1px solid var(--border-color);
             transition: var(--transition);
@@ -663,6 +731,11 @@
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow-md);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .grid-message i {
@@ -785,15 +858,6 @@
             margin: 0;
         }
 
-        .hero-card-buttons {
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            right: 16px;
-            display: flex;
-            gap: 10px;
-        }
-
         .close-share-popup {
             background: none;
             border: none;
@@ -907,6 +971,625 @@
             box-shadow: var(--shadow-lg);
         }
 
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .auth-btn {
+            background: linear-gradient(90deg, #3a3939 0%, #2a2929 100%);
+            border: 1px solid #4a4949;
+            border-radius: 24px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            color: #d8d8d8;
+            cursor: pointer;
+            white-space: nowrap;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(90deg, #4a4949 0%, #3a4949 100%);
+        }
+
+        .create-btn {
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            border: 1px solid var(--primary-hover);
+            border-radius: 24px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            color: #fff;
+            cursor: pointer;
+            white-space: nowrap;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(145deg, var(--surface-color), #252424);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 8px 16px;
+        }
+
+        #usernameDisplay {
+            color: var(--text-accent);
+            font-weight: 600;
+        }
+
+        .sign-out-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .sign-out-btn:hover {
+            color: var(--primary-color);
+            background: rgba(255, 107, 57, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, var(--surface-color), #252424);
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 950px;
+            max-height: 85vh;
+            box-shadow: var(--shadow-xl);
+            animation: modalopen 0.3s ease;
+            overflow: hidden;
+        }
+
+        @keyframes modalopen {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--text-accent);
+            font-size: 1.8rem;
+        }
+
+        .close {
+            color: var(--text-muted);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close:hover {
+            color: var(--primary-color);
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: calc(85vh - 120px);
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-accent);
+            font-size: 1.1rem;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            background: var(--background-darker);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 57, 0.3);
+            background: var(--surface-color);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-hint {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        #upload-form {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .form-columns {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .form-column {
+            flex: 1;
+        }
+
+        .form-column.left {
+            flex: 1;
+            padding-right: 20px;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .form-column.right {
+            flex: 2;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-columns {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .form-column.right {
+                min-width: auto;
+            }
+
+            .form-column.left {
+                padding-right: 0;
+                border-right: none;
+            }
+        }
+
+        .cancel-btn {
+            background: linear-gradient(145deg, #3a3939, #2a2929);
+            border: 1px solid #4a4949;
+            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            font-size: 1rem;
+            color: #ccc;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            flex: 1;
+            white-space: nowrap;
+        }
+
+        .cancel-btn:hover {
+            background: linear-gradient(145deg, #4a4949, #3a3939);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            border: 1px solid var(--primary-hover);
+            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            font-size: 1rem;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            flex: 2;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .icon-selector-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .selected-icon-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--background-darker);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .selected-icon-placeholder:hover {
+            border-color: var(--primary-color);
+            background: var(--surface-color);
+        }
+
+        .selected-icon-placeholder i {
+            font-size: 3rem;
+            color: var(--text-accent);
+        }
+
+        .icon-selector-btn {
+            background: linear-gradient(90deg, #3a3939 0%, #2a2929 100%);
+            border: 1px solid #4a4949;
+            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .icon-selector-btn:hover {
+            background: linear-gradient(90deg, #4a4949 0%, #3a3939 100%);
+            transform: translateY(-2px);
+        }
+
+        .icon-selector-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .icon-selector-content {
+            background: linear-gradient(145deg, var(--surface-color), #252424);
+            margin: 5% auto;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            animation: modalopen 0.3s ease;
+        }
+
+        .icon-selector-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .icon-selector-content .modal-header h2 {
+            margin: 0;
+            color: var(--text-accent);
+            font-size: 1.8rem;
+        }
+
+        .close-icon-selector {
+            color: var(--text-muted);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-icon-selector:hover {
+            color: var(--primary-color);
+        }
+
+        .icon-selector-content .modal-body {
+            padding: 24px;
+            max-height: calc(80vh - 120px);
+            overflow-y: auto;
+        }
+
+        .icon-search {
+            margin-bottom: 20px;
+        }
+
+        .icon-search input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            background: var(--background-darker);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .icon-search input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 57, 0.3);
+            background: var(--surface-color);
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 16px;
+        }
+
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--background-darker);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .icon-item:hover {
+            border-color: var(--primary-color);
+            background: var(--surface-color);
+            transform: translateY(-3px);
+        }
+
+        .icon-item.selected {
+            border-color: var(--primary-color);
+            background: rgba(255, 107, 57, 0.2);
+            box-shadow: 0 0 0 2px rgba(255, 107, 57, 0.5);
+        }
+
+        .icon-item i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--text-accent);
+        }
+
+        .icon-item .icon-name {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #scriptInputsContainer {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 400px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--background-darker);
+        }
+
+        .form-column.right h3 {
+            color: var(--text-accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .details-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .details-main {
+            display: flex;
+            gap: 20px;
+        }
+
+        .details-icon {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            background: var(--background-darker);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .details-script {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .details-script pre {
+            background: var(--background-darker);
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            flex-grow: 1;
+            margin: 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .details-meta {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 40px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            color: var(--primary-color);
+            opacity: 0.8;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .no-results p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .no-results button {
+            margin-top: 20px;
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+
+        .no-results button:hover {
+            background: var(--primary-hover);
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 15px;
@@ -921,8 +1604,50 @@
                 width: 100%;
             }
 
-            #itemGrid {
+            .item-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .details-main {
+                flex-direction: column;
+            }
+
+            .details-icon {
+                height: 200px;
+            }
+
+            .details-script pre {
+                max-height: 200px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .cancel-btn,
+            .submit-btn {
+                width: 100%;
+                flex: none;
+            }
+
+            .auth-section {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 95vh;
+                margin: 2.5% auto;
+            }
+
+            .modal-body {
+                max-height: calc(95vh - 120px);
+                padding: 16px;
+            }
+
+            #scriptInputsContainer {
+                max-height: 400px;
             }
         }
 
@@ -947,30 +1672,240 @@
 <body>
     <div class="header">
         <div class="logo">
-            <div class="logo-text">Workshop<span id="packCount"></span></div>
+            <div class="logo-text">Workshop</div>
         </div>
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
-            <input id="searchInput" type="search" placeholder="Search packs by title, author..." />
+            <input id="searchInput" type="search" placeholder="Search all content..." />
+        </div>
+        <div class="auth-section">
+            <button id="signInBtn" class="auth-btn">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+            <button id="createBtn" class="create-btn">
+                <i class="fas fa-plus"></i> Create New
+            </button>
+            <div id="userProfile" class="user-profile">
+                <span id="usernameDisplay"></span>
+                <button id="signOutBtn" class="sign-out-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
         </div>
     </div>
-
-    <div id="heroSection" class="hero-section" style="display: none;">
-        <h2 class="hero-title">Featured Packs</h2>
-        <p class="hero-subtitle">Discover our most popular and highly-rated content packs</p>
-        <div id="heroGrid" class="hero-grid">
+    <div class="hero-showcase">
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Amazing Content</h1>
+            <p class="hero-subtitle">Explore texture packs and Mods from the community</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <i class="fas fa-cube stat-icon"></i>
+                    <div class="stat-number" id="packsCount">12</div>
+                    <div class="stat-label">Texture Packs</div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-code stat-icon"></i>
+                    <div class="stat-number" id="creationsCount">0</div>
+                    <div class="stat-label">Creations</div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-users stat-icon"></i>
+                    <div class="stat-number">24+</div>
+                    <div class="stat-label">Creators</div>
+                </div>
+            </div>
+            <div class="hero-buttons">
+                <button class="hero-btn primary" id="exploreBtn">
+                    <i class="fas fa-compass"></i> Explore Content
+                </button>
+                <button class="hero-btn secondary" id="createHeroBtn">
+                    <i class="fas fa-plus-circle"></i> Create Something
+                </button>
+            </div>
+        </div>
+        <div class="hero-featured">
+            <div class="featured-carousel">
+                <div class="carousel-item active">
+                    <img src="data/packs/Blo3D/Blo3D.jpg" alt="Blo3D Pack" class="featured-image">
+                    <div class="featured-overlay">
+                        <h3>Blo3D Texture Pack</h3>
+                        <p>Make every block look 3D!</p>
+                        <span class="featured-tag">Featured</span>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="data/packs/Monochrome/Monochrome.jpg" alt="Chrome Mono Pack" class="featured-image">
+                    <div class="featured-overlay">
+                        <h3>Chrome Mono</h3>
+                        <p>Premium monochrome visuals</p>
+                        <span class="featured-tag">Popular</span>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="featured-placeholder">
+                        <i class="fas fa-code featured-icon"></i>
+                    </div>
+                    <div class="featured-overlay">
+                        <h3>JavaScript Mods</h3>
+                        <p>Share your code with the community</p>
+                        <span class="featured-tag">New</span>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <button class="nav-btn active" data-slide="0"></button>
+                <button class="nav-btn" data-slide="1"></button>
+                <button class="nav-btn" data-slide="2"></button>
+            </div>
         </div>
     </div>
-
-    <div id="itemGrid"></div>
-
+    <div class="navigation-tabs">
+        <button class="tab-btn active" data-tab="all">
+            <i class="fas fa-th-large"></i> All Content
+        </button>
+        <button class="tab-btn" data-tab="texture">
+            <i class="fas fa-cube"></i> Texture Packs
+        </button>
+        <button class="tab-btn" data-tab="creation">
+            <i class="fas fa-code"></i> Mods
+        </button>
+    </div>
+    <div class="content-sections">
+        <div id="texture-section" class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-cube"></i> Texture Packs
+                    <span id="textureCount" class="section-count"></span>
+                </h2>
+                <div class="section-controls">
+                    <select id="textureSort" class="sort-select">
+                        <option value="pinned-alpha">Featured & A-Z</option>
+                        <option value="alpha">A-Z</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </div>
+            </div>
+            <div id="textureGrid" class="item-grid">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading texture packs...</p>
+                </div>
+            </div>
+        </div>
+        <div id="creation-section" class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-code"></i> JavaScript Creations
+                    <span id="creationCount" class="section-count"></span>
+                </h2>
+                <div class="section-controls">
+                    <select id="creationSort" class="sort-select">
+                        <option value="pinned-alpha">Featured & A-Z</option>
+                        <option value="alpha">A-Z</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </div>
+            </div>
+            <div id="creationGrid" class="item-grid">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading creations...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New JavaScript Creation</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="upload-form">
+                    <div class="form-columns">
+                        <div class="form-column left">
+                            <div class="form-group">
+                                <label for="title"><i class="fas fa-heading"></i> Title</label>
+                                <input type="text" id="title" name="title"
+                                    placeholder="Enter a creative title for your creation" maxlength="100" required>
+                                <div class="form-hint">Maximum 100 characters</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="username"><i class="fas fa-user"></i> Username</label>
+                                <input type="text" id="username" name="username" placeholder="Enter your username"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description"><i class="fas fa-align-left"></i> Description</label>
+                                <textarea id="description" name="description" rows="3"
+                                    placeholder="Enter a description for your creation" maxlength="500"></textarea>
+                                <div class="form-hint">Maximum 500 characters</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="preset-icon"><i class="fas fa-icons"></i> Select Icon</label>
+                                <div class="icon-selector-container">
+                                    <input type="hidden" id="preset-icon" name="preset-icon" required>
+                                    <div id="selectedIcon" class="selected-icon-placeholder">
+                                        <span>Click to select an icon</span>
+                                    </div>
+                                    <button type="button" id="openIconSelector" class="icon-selector-btn">
+                                        <i class="fas fa-icons"></i> Choose Icon
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-column right">
+                            <div id="scriptInputsContainer" class="form-group"></div>
+                        </div>
+                    </div>
+                    <div id="iconSelectorModal" class="icon-selector-modal">
+                        <div class="icon-selector-content">
+                            <div class="modal-header">
+                                <h2><i class="fas fa-icons"></i> Select an Icon</h2>
+                                <span class="close-icon-selector">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="icon-search">
+                                    <input type="text" id="iconSearch" placeholder="Search icons...">
+                                </div>
+                                <div id="iconGrid" class="icon-grid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelUpload">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-cloud-upload-alt"></i> Publish Creation
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="detailsTitle">Item Details</h2>
+                <span class="close" id="detailsClose">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="detailsContent"></div>
+                <button id="copyScriptBtn" class="submit-btn" style="margin-top: 20px;">
+                    <i class="fas fa-copy"></i> Copy JavaScript
+                </button>
+            </div>
+        </div>
+    </div>
     <div id="sharePopup" class="share-popup">
         <div class="share-popup-content">
             <div class="share-popup-header">
-                <h2 class="share-popup-title">Share This Pack</h2>
+                <h2 class="share-popup-title">Share This Item</h2>
                 <button class="close-share-popup">&times;</button>
             </div>
-            <img id="sharePackImage" class="share-pack-image" src="" alt="Pack Preview">
+            <img id="sharePackImage" class="share-pack-image" src="" alt="Item Preview">
             <h3 id="sharePackTitle" class="share-pack-title"></h3>
             <p id="sharePackAuthor" class="share-pack-author"></p>
             <p id="sharePackDescription" class="share-pack-description"></p>
@@ -979,22 +1914,160 @@
                 <button id="copyShareUrlBtn" class="copy-share-url-btn">Copy</button>
             </div>
             <a id="shareDownloadBtn" class="share-download-btn" target="_blank" rel="noopener noreferrer">
-                <i class="fas fa-download"></i> Download Pack
+                <i class="fas fa-download"></i> Download Item
             </a>
         </div>
     </div>
-
     <script>
-        window.addEventListener('message', function (event) {
-            if (event.data && event.data.action) {
-                if (event.data.action === 'hideAds' && event.data.userType === 'Pro') {
-                    console.log('Pro user detected - no ads to hide on workshop page');
-                } else if (event.data.action === 'showAds') {
-                    console.log('Free user detected - no ads to show on workshop page');
-                }
-            }
-        });
-
+        const SUPABASE_URL = 'https://eytqkzsqauvgbeblgtuz.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_E9VC8Pk2_P6psmFPhu_t9w_8MolXBDi';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const swearWords = [
+            'fuck', 'fucking', 'fucked', 'fuckin', 'fucker', 'fucks',
+            'shit', 'shitting', 'shitty', 'shat',
+            'damn', 'dammit',
+            'hell',
+            'crap',
+            'piss', 'pissing',
+            'ass', 'asshole', 'asses',
+            'bitch', 'bitches', 'bitching',
+            'bastard', 'bastards',
+            'dick', 'dicks', 'dickhead',
+            'cock', 'cocks',
+            'pussy', 'pussies',
+            'cunt', 'cunts',
+            'whore', 'whores',
+            'slut', 'sluts',
+            'twat', 'twats',
+            'wanker', 'wankers', 'wanking',
+            'bollocks',
+            'bugger',
+            'prick', 'pricks',
+            'arse', 'arses', 'arsehole',
+            'balls', 'ballz', 'ballsack',
+            'bastards',
+            'bellend',
+            'biatch',
+            'bitchy',
+            'blowjob', 'blowjobs',
+            'boner', 'boners',
+            'boob', 'boobs', 'boobies', 'boobie',
+            'buggering',
+            'bullshit',
+            'butthole', 'buttholes',
+            'buttplug', 'buttplugs',
+            'clit', 'clitoris',
+            'cockhead', 'cocksucker',
+            'cum', 'cumming', 'cums',
+            'cuntface',
+            'damnation',
+            'dildo', 'dildos',
+            'douche', 'douchebag',
+            'dyke', 'dykes',
+            'fag', 'faggot', 'fags',
+            'fanny', 'fannies',
+            'felching',
+            'fellate', 'fellatio',
+            'flange',
+            'frigger',
+            'fudgepacker',
+            'godammit', 'goddammit', 'goddamn',
+            'hellhole',
+            'homo', 'homos',
+            'hooker', 'hookers',
+            'jackass', 'jackasses',
+            'jerkoff', 'jerkoffs',
+            'jizz',
+            'knob', 'knobend', 'knobber',
+            'kunt', 'kunts',
+            'lesbo', 'lesbos',
+            'lezbo', 'lezbos',
+            'masturbate', 'masturbating',
+            'minge',
+            'muff',
+            'nigga', 'niggas', 'nigger', 'niggers',
+            'nobjockey',
+            'nutsack',
+            'orgasm', 'orgasms',
+            'pecker', 'peckers',
+            'penis', 'penises',
+            'pissflaps',
+            'poop', 'poopy',
+            'porn', 'porno',
+            'prickteaser',
+            'punani', 'punanni',
+            'pussyfart',
+            'queer', 'queers',
+            'rape', 'raped', 'rapist',
+            'rectum',
+            'retard', 'retarded',
+            'rimjob',
+            'schlong', 'schlongs',
+            'scrotum',
+            'sex', 'sexing',
+            'shitface', 'shithead',
+            'slag', 'slags',
+            'spunk',
+            'testicle', 'testicles',
+            'titties', 'titty', 'tits', 'tit',
+            'tosser',
+            'tramp',
+            'turd',
+            'twunter',
+            'vagina', 'vaginas',
+            'vajayjay',
+            'wank', 'wanking',
+            'whorehouse',
+            'xrated',
+            'xxx'
+        ];
+        const iconOptions = [
+            { class: 'fas fa-heart', name: 'Heart' },
+            { class: 'fas fa-star', name: 'Star' },
+            { class: 'fas fa-moon', name: 'Moon' },
+            { class: 'fas fa-sun', name: 'Sun' },
+            { class: 'fas fa-cloud', name: 'Cloud' },
+            { class: 'fas fa-tree', name: 'Tree' },
+            { class: 'fas fa-mountain', name: 'Mountain' },
+            { class: 'fas fa-water', name: 'Water' },
+            { class: 'fas fa-fire', name: 'Fire' },
+            { class: 'fas fa-bolt', name: 'Lightning' },
+            { class: 'fas fa-car', name: 'Car' },
+            { class: 'fas fa-plane', name: 'Plane' },
+            { class: 'fas fa-ship', name: 'Ship' },
+            { class: 'fas fa-motorcycle', name: 'Motorcycle' },
+            { class: 'fas fa-bicycle', name: 'Bicycle' },
+            { class: 'fas fa-home', name: 'House' },
+            { class: 'fas fa-building', name: 'Building' },
+            { class: 'fas fa-city', name: 'City' },
+            { class: 'fas fa-robot', name: 'Robot' },
+            { class: 'fas fa-dragon', name: 'Dragon' },
+            { class: 'fas fa-crown', name: 'Crown' },
+            { class: 'fas fa-gem', name: 'Gem' },
+            { class: 'fas fa-key', name: 'Key' },
+            { class: 'fas fa-lock', name: 'Lock' },
+            { class: 'fas fa-unlock', name: 'Unlock' },
+            { class: 'fas fa-book', name: 'Book' },
+            { class: 'fas fa-bookmark', name: 'Bookmark' },
+            { class: 'fas fa-pen', name: 'Pen' },
+            { class: 'fas fa-paint-brush', name: 'Paint Brush' },
+            { class: 'fas fa-camera', name: 'Camera' },
+            { class: 'fas fa-music', name: 'Music' },
+            { class: 'fas fa-gamepad', name: 'Gamepad' },
+            { class: 'fas fa-football-ball', name: 'Football' },
+            { class: 'fas fa-basketball-ball', name: 'Basketball' },
+            { class: 'fas fa-baseball-ball', name: 'Baseball' },
+            { class: 'fas fa-tennis-ball', name: 'Tennis' },
+            { class: 'fas fa-apple-alt', name: 'Apple' },
+            { class: 'fas fa-lemon', name: 'Lemon' },
+            { class: 'fas fa-pepper-hot', name: 'Pepper' },
+            { class: 'fas fa-ice-cream', name: 'Ice Cream' },
+            { class: 'fas fa-cookie', name: 'Cookie' },
+            { class: 'fas fa-coffee', name: 'Coffee' },
+            { class: 'fas fa-wine-bottle', name: 'Wine' },
+            { class: 'fas fa-beer', name: 'Beer' },
+            { class: 'fas fa-glass-whiskey', name: 'Whiskey' }
+        ];
         let allTpacks = [
             {
                 id: "smooth8",
@@ -1003,7 +2076,8 @@
                 description: "A smooth 8x texture pack with clean visuals and optimized performance.",
                 imageUrl: "data/packs/Smooth 8/banner.png",
                 downloadUrl: "data/packs/Smooth 8/Smooth 8 .zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             },
             {
                 id: "jambloxdsplus",
@@ -1012,7 +2086,8 @@
                 description: "An 8x8 tpack with a soft cloudy skybox, armour textures, mob remodels, and a crisp UI.",
                 imageUrl: "data/packs/jambloxds Plus/banner.png",
                 downloadUrl: "data/packs/jambloxds Plus/jambloxds Plus.zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             },
             {
                 id: "sunset16x",
@@ -1021,7 +2096,8 @@
                 description: "Sunset 16x is an intricate and smooth texture pack made for specific gamemodes.",
                 imageUrl: "data/packs/Sunset 16x/banner.png",
                 downloadUrl: "data/packs/Sunset 16x/Sunset 16x .zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             },
             {
                 id: "monochrome",
@@ -1030,7 +2106,8 @@
                 description: "Chrome Mono is one of the best texture packs for Bloxd.io, offering a premium experience with sleek monochrome visuals. Transform your gaming experience with high-quality textures that provide both style and clarity.",
                 imageUrl: "data/packs/Monochrome/Monochrome.jpg",
                 downloadUrl: "data/packs/Monochrome/Monochrome8x.zip",
-                pinned: true
+                pinned: true,
+                type: "texture"
             },
             {
                 id: "blo3d",
@@ -1039,7 +2116,8 @@
                 description: "A pack that makes every block and item in the game look 3D! Experience Bloxd.io like never before with stunning three-dimensional visuals that bring depth and realism to your gameplay.",
                 imageUrl: "data/packs/Blo3D/Blo3D.jpg",
                 downloadUrl: "data/packs/Blo3D/Blo3D.zip",
-                pinned: true
+                pinned: true,
+                type: "texture"
             },
             {
                 id: "sleekslots",
@@ -1048,7 +2126,8 @@
                 description: "Make your inventory smaller and easier to use! This streamlined UI pack optimizes your inventory interface for better accessibility and improved gameplay experience.",
                 imageUrl: "data/packs/Sleekslots/SleekSlots.jpg",
                 downloadUrl: "data/packs/Sleekslots/SleekSlots.zip",
-                pinned: true
+                pinned: true,
+                type: "texture"
             },
             {
                 id: "burnt16",
@@ -1057,7 +2136,8 @@
                 description: "Pink themed pack with nice textures, a skybox, nice UI, and models. Made for PvP and bedwars with stunning visual enhancements that give you the competitive edge.",
                 imageUrl: "data/packs/Burnt16/Burnt16.jpg",
                 downloadUrl: "data/packs/Burnt16/Burnt16x.zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             },
             {
                 id: "fadefyre",
@@ -1066,7 +2146,8 @@
                 description: "FadeFyre VX1 is a texture pack that includes a detailed skybox, custom models, improved textures, and a redesigned HUD for items. The wool textures are also well-made, adding more depth to builds.",
                 imageUrl: "data/packs/FadeFyre/FadeFyre.jpg",
                 downloadUrl: "data/packs/FadeFyre/FadeFyreVX1.zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             },
             {
                 id: "Destiny",
@@ -1075,7 +2156,8 @@
                 description: "Monochrome red recolour, originaly by Endur",
                 imageUrl: "data/packs/Destiny/Destiny.png",
                 downloadUrl: "data/packs/Destiny/Destiny.zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             },
             {
                 id: "hyperxray",
@@ -1084,7 +2166,8 @@
                 description: "The Hyper Xray enhances your gameplay by allowing you to easily see ores, making resource gathering more efficient. It also provides the ability to detect underground bases and helps you quickly identify murderers in Murder Mystery.",
                 imageUrl: "data/packs/HyperXray/HyperXray.jpg",
                 downloadUrl: "data/packs/HyperXray/HyperXray.zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             },
             {
                 id: "kosmos",
@@ -1093,7 +2176,8 @@
                 description: "Kosmos 128x is a high-resolution, visually appealing texture pack designed specifically for BedWars and SkyWars, enhancing gameplay with its refined aesthetics and crisp visual quality.",
                 imageUrl: "data/packs/Kosmos/Kosmos.jpg",
                 downloadUrl: "data/packs/Kosmos/Kosmos18x.zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             },
             {
                 id: "golde",
@@ -1102,263 +2186,1100 @@
                 description: "Gold themed pack with nice textures. Made for PvP and bedwars with luxurious golden aesthetics that make your gameplay experience shine with elegance and style.",
                 imageUrl: "data/packs/golde/Golde v2.jpg",
                 downloadUrl: "data/packs/golde/Goldev2.zip",
-                pinned: false
+                pinned: false,
+                type: "texture"
             }
         ];
-        const grid = document.getElementById('itemGrid');
-        const searchInput = document.getElementById('searchInput');
-        const packCountElement = document.getElementById('packCount');
-
-        let currentSearchTerm = '';
-        let currentSortBy = 'pinned-alpha';
-
-        const sharePopup = document.getElementById('sharePopup');
-        const closeSharePopup = document.querySelector('.close-share-popup');
-        const sharePackImage = document.getElementById('sharePackImage');
-        const sharePackTitle = document.getElementById('sharePackTitle');
-        const sharePackAuthor = document.getElementById('sharePackAuthor');
-        const sharePackDescription = document.getElementById('sharePackDescription');
-        const shareUrlInput = document.getElementById('shareUrlInput');
-        const copyShareUrlBtn = document.getElementById('copyShareUrlBtn');
-        const shareDownloadBtn = document.getElementById('shareDownloadBtn');
-
-        closeSharePopup.addEventListener('click', () => {
-            sharePopup.style.display = 'none';
-        });
-
-        sharePopup.addEventListener('click', (e) => {
-            if (e.target === sharePopup) {
-                sharePopup.style.display = 'none';
+        let grid, searchInput;
+        let signInBtn, signOutBtn, userProfile, usernameDisplay, usernameInput;
+        let createBtn, modal, closeBtn;
+        let uploadForm;
+        let openIconSelectorBtn, iconSelectorModal, closeIconSelector, iconGrid, iconSearch, selectedIconDisplay, presetIconInput;
+        let sharePopup, closeSharePopup, sharePackImage, sharePackTitle, sharePackAuthor, sharePackDescription;
+        let shareUrlInput, copyShareUrlBtn, shareDownloadBtn;
+        let detailsModal, detailsTitle, detailsContent, copyScriptBtn, detailsClose;
+        let textureSection, creationSection, textureGrid, creationGrid;
+        let textureCount, creationCount, textureSort, creationSort;
+        let tabButtons;
+        let exploreBtn, createHeroBtn, navButtons, carouselItems;
+        let packsCount, creationsCount;
+        let allSubmissions = [];
+        let selectedIcon = null;
+        let lastUploadTime = 0;
+        let followedCreators = new Set();
+        const UPLOAD_COOLDOWN = 30000;
+        let currentTab = 'all';
+        let currentSlide = 0;
+        let carouselInterval;
+        function setupUploadForm() {
+            const form = document.getElementById('upload-form');
+            const scriptContainer = document.getElementById('scriptInputsContainer');
+            if (scriptContainer) {
+                scriptContainer.innerHTML = '';
             }
-        });
-
-        copyShareUrlBtn.addEventListener('click', () => {
-            shareUrlInput.select();
-            document.execCommand('copy');
-
-            const originalText = copyShareUrlBtn.textContent;
-            copyShareUrlBtn.textContent = 'Copied!';
-            setTimeout(() => {
-                copyShareUrlBtn.textContent = originalText;
-            }, 2000);
-        });
-
-        function showSharePopup(pack) {
-            sharePackImage.src = pack.imageUrl;
-            sharePackImage.alt = `${pack.title} preview`;
-            sharePackTitle.textContent = pack.title;
-            sharePackAuthor.textContent = `by ${pack.author}`;
-            sharePackDescription.textContent = pack.description;
-
-            const baseUrl = window.location.origin + window.location.pathname;
-            const shareUrl = `${baseUrl}?packname=${encodeURIComponent(pack.id)}`;
-            shareUrlInput.value = shareUrl;
-
-            shareDownloadBtn.href = pack.downloadUrl;
-
-            sharePopup.style.display = 'flex';
-        }
-
-        function renderHeroSection(packs) {
-            const heroSection = document.getElementById('heroSection');
-            const heroGrid = document.getElementById('heroGrid');
-
-            const pinnedPacks = packs.filter(pack => pack.pinned);
-
-            if (pinnedPacks.length === 0) {
-                heroSection.style.display = 'none';
-                return;
-            }
-
-            heroSection.style.display = 'block';
-            heroGrid.innerHTML = '';
-
-            const mainPack = pinnedPacks[0];
-            const mainCard = document.createElement('div');
-            mainCard.className = 'hero-main hero-card';
-            mainCard.innerHTML = `
-                <img src="${mainPack.imageUrl}" alt="${mainPack.title} preview" class="hero-card-image">
-                <div class="hero-pin-badge">
-                    <i class="fas fa-star"></i>
-                    Featured
-                </div>
-                <div class="hero-card-content">
-                    <h3 class="hero-card-title">${mainPack.title}</h3>
-                    <p class="hero-card-author">by ${mainPack.author}</p>
-                    <p class="hero-card-description">${mainPack.description}</p>
-                </div>
-                <a href="${mainPack.downloadUrl}" class="hero-download-btn" target="_blank" rel="noopener noreferrer">
-                    <i class="fas fa-download"></i>
-                    Download
-                </a>
-            `;
-            heroGrid.appendChild(mainCard);
-
-            const sidebar = document.createElement('div');
-            sidebar.className = 'hero-sidebar';
-
-            for (let i = 1; i < Math.min(pinnedPacks.length, 3); i++) {
-                const pack = pinnedPacks[i];
-                const smallCard = document.createElement('div');
-                smallCard.className = 'hero-small hero-card';
-                smallCard.innerHTML = `
-                    <img src="${pack.imageUrl}" alt="${pack.title} preview" class="hero-card-image">
-                    <div class="hero-pin-badge">
-                        <i class="fas fa-thumbtack"></i>
-                        Featured
-                    </div>
-                    <div class="hero-card-content">
-                        <h3 class="hero-card-title">${pack.title}</h3>
-                        <p class="hero-card-author">by ${pack.author}</p>
-                        <p class="hero-card-description">${pack.description}</p>
-                    </div>
-                    <a href="${pack.downloadUrl}" class="hero-download-btn small" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-download"></i>
-                    </a>
-                `;
-                sidebar.appendChild(smallCard);
-            }
-
-            heroGrid.appendChild(sidebar);
-
-        }
-
-        function renderPacks(packs, isSearchMode = false) {
-            const packsToShow = packs;
-
-            if (!packsToShow || packsToShow.length === 0) {
-                const isEmpty = isSearchMode ?
-                    (packs.length === 0) :
-                    (allTpacks.length === 0);
-                const message = isEmpty ?
-                    (isSearchMode ? 'No packs match your search' : 'No packs available') :
-                    'No packs found';
-                const subtitle = isEmpty ?
-                    (isSearchMode ? 'Try different search terms.' : 'Check back later for new packs!') :
-                    'Try adjusting your search or filters.';
-
-                grid.innerHTML = `
-                    <div class="grid-message">
-                        <i class="fas fa-search"></i>
-                        <h3>${message}</h3>
-                        <p>${subtitle}</p>
-                    </div>`;
-                return;
-            }
-
-            grid.innerHTML = '';
-            packsToShow.forEach((pack, index) => {
-                const card = document.createElement('div');
-                card.className = 'item-card';
-                card.style.animationDelay = `${index * 0.05}s`;
-
-                const isPinned = pack.pinned;
-                const pinIcon = isPinned ? '<i class="fa-solid fa-thumbtack pin-icon"></i>' : '';
-
-                card.innerHTML = `
-                    <div class="image-container">
-                        ${pinIcon}
-                        <img src="${pack.imageUrl}" alt="${pack.title} preview" class="item-image">
-                    </div>
-                    <div class="item-content">
-                        <h3 class="item-title">${pack.title}</h3>
-                        <p class="item-author">by ${pack.author}</p>
-                        <div class="item-description-wrapper">
-                            <p class="item-description">${pack.description}</p>
-                            <button class="read-more-btn">Read More</button>
-                        </div>
-                        <div class="item-footer">
-                            <div class="button-group">
-                                <button class="share-btn" data-pack-id="${pack.id}">
-                                    <i class="fas fa-share"></i>
-                                </button>
-                                <a href="${pack.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-
-                const description = card.querySelector('.item-description');
-                const readMoreBtn = card.querySelector('.read-more-btn');
-
-                if (description.scrollHeight > description.clientHeight) {
-                    readMoreBtn.style.display = 'block';
-
-                    readMoreBtn.addEventListener('click', () => {
-                        description.classList.toggle('expanded');
-                        if (description.classList.contains('expanded')) {
-                            readMoreBtn.textContent = 'Show Less';
-                        } else {
-                            readMoreBtn.textContent = 'Read More';
-                        }
-                    });
+            const rightColumn = form.querySelector('.form-column.right');
+            if (rightColumn) {
+                const existingHeader = rightColumn.querySelector('h3');
+                if (!existingHeader) {
+                    const scriptHeader = document.createElement('h3');
+                    scriptHeader.innerHTML = '<i class="fas fa-code"></i> JavaScript Scripts';
+                    scriptHeader.style.color = 'var(--text-accent)';
+                    scriptHeader.style.marginBottom = '15px';
+                    scriptHeader.style.fontWeight = '600';
+                    rightColumn.insertBefore(scriptHeader, scriptContainer);
                 }
-
-                const shareBtn = card.querySelector('.share-btn');
-                shareBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showSharePopup(pack);
+            }
+            if (scriptContainer) {
+                addScriptInput(scriptContainer);
+            }
+            const addButton = document.createElement('button');
+            addButton.type = 'button';
+            addButton.className = 'submit-btn';
+            addButton.innerHTML = '<i class="fas fa-plus"></i> Add Another Script';
+            addButton.onclick = () => {
+                if (scriptContainer) {
+                    addScriptInput(scriptContainer);
+                }
+            };
+            addButton.style.marginTop = '10px';
+            addButton.style.marginBottom = '20px';
+            addButton.style.alignSelf = 'stretch';
+            addButton.style.height = '40px';
+            if (rightColumn) {
+                rightColumn.appendChild(addButton);
+            }
+        }
+        function addScriptInput(container) {
+            const scriptCount = container.querySelectorAll('.script-input-group').length + 1;
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'script-input-group';
+            inputGroup.style.marginBottom = '12px';
+            inputGroup.style.padding = '12px';
+            inputGroup.style.border = '1px solid var(--border-color)';
+            inputGroup.style.borderRadius = 'var(--radius-md)';
+            inputGroup.style.backgroundColor = 'var(--background-darker)';
+            inputGroup.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <label style="font-weight: 600; color: var(--text-accent); font-size: 1.1rem;">
+                        <i class="fas fa-file-code"></i> Script #${scriptCount}
+                    </label>
+                    <button type="button" class="cancel-btn" onclick="this.closest('.script-input-group').remove()" 
+                            style="padding: 5px 10px; font-size: 0.9rem; width: auto; max-width: 100px; height: 30px;">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="scriptName${scriptCount}"><i class="fas fa-tag"></i> Script Type</label>
+                            <select id="scriptName${scriptCount}" name="scriptName${scriptCount}" required>
+                                <option value="World code">World code</option>
+                                <option value="Code block">Code block</option>
+                            </select>
+                            <div class="form-hint">Select the type of script</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="script${scriptCount}"><i class="fab fa-js"></i> JavaScript Code</label>
+                    <textarea id="script${scriptCount}" name="script${scriptCount}" rows="4" 
+                              placeholder="Enter your JavaScript code here..." maxlength="10000" required style="max-height: 150px;"></textarea>
+                    <div class="form-hint">Make sure the code works before uploading (maximum 10,000 characters)</div>
+                </div>
+            `;
+            container.appendChild(inputGroup);
+        }
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('DOM loaded, initializing app...');
+            initializeDOMElements();
+            checkAuthStatus();
+            await loadSubmissions();
+            initializeTexturePackData();
+            setupEventListeners();
+            setupUploadForm();
+            setupIconSelector();
+            initHeroCarousel();
+            console.log('App initialized successfully');
+        });
+        function initializeDOMElements() {
+            searchInput = document.getElementById('searchInput');
+            signInBtn = document.getElementById('signInBtn');
+            signOutBtn = document.getElementById('signOutBtn');
+            userProfile = document.getElementById('userProfile');
+            usernameDisplay = document.getElementById('usernameDisplay');
+            usernameInput = document.getElementById('username');
+            createBtn = document.getElementById('createBtn');
+            modal = document.getElementById('createModal');
+            closeBtn = document.querySelector('.close');
+            uploadForm = document.getElementById('upload-form');
+            openIconSelectorBtn = document.getElementById('openIconSelector');
+            iconSelectorModal = document.getElementById('iconSelectorModal');
+            closeIconSelector = document.querySelector('.close-icon-selector');
+            iconGrid = document.getElementById('iconGrid');
+            iconSearch = document.getElementById('iconSearch');
+            selectedIconDisplay = document.getElementById('selectedIcon');
+            presetIconInput = document.getElementById('preset-icon');
+            sharePopup = document.getElementById('sharePopup');
+            closeSharePopup = document.querySelector('.close-share-popup');
+            sharePackImage = document.getElementById('sharePackImage');
+            sharePackTitle = document.getElementById('sharePackTitle');
+            sharePackAuthor = document.getElementById('sharePackAuthor');
+            sharePackDescription = document.getElementById('sharePackDescription');
+            shareUrlInput = document.getElementById('shareUrlInput');
+            copyShareUrlBtn = document.getElementById('copyShareUrlBtn');
+            shareDownloadBtn = document.getElementById('shareDownloadBtn');
+            detailsModal = document.getElementById('detailsModal');
+            detailsTitle = document.getElementById('detailsTitle');
+            detailsContent = document.getElementById('detailsContent');
+            copyScriptBtn = document.getElementById('copyScriptBtn');
+            detailsClose = document.getElementById('detailsClose');
+            textureSection = document.getElementById('texture-section');
+            creationSection = document.getElementById('creation-section');
+            textureGrid = document.getElementById('textureGrid');
+            creationGrid = document.getElementById('creationGrid');
+            textureCount = document.getElementById('textureCount');
+            creationCount = document.getElementById('creationCount');
+            textureSort = document.getElementById('textureSort');
+            creationSort = document.getElementById('creationSort');
+            tabButtons = document.querySelectorAll('.tab-btn');
+            exploreBtn = document.getElementById('exploreBtn');
+            createHeroBtn = document.getElementById('createHeroBtn');
+            navButtons = document.querySelectorAll('.nav-btn');
+            carouselItems = document.querySelectorAll('.carousel-item');
+            packsCount = document.getElementById('packsCount');
+            creationsCount = document.getElementById('creationsCount');
+        }
+        function setupEventListeners() {
+            if (signInBtn) signInBtn.addEventListener('click', handleSignIn);
+            if (signOutBtn) signOutBtn.addEventListener('click', handleSignOut);
+            if (createBtn) createBtn.addEventListener('click', () => {
+                console.log('Create button clicked');
+                if (modal) modal.style.display = 'block';
+            });
+            if (closeBtn) closeBtn.addEventListener('click', () => {
+                console.log('Close button clicked');
+                if (modal) modal.style.display = 'none';
+            });
+            const cancelBtn = document.getElementById('cancelUpload');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    if (modal) modal.style.display = 'none';
+                });
+            }
+            if (uploadForm) uploadForm.addEventListener('submit', handleFormSubmit);
+            window.addEventListener('click', (event) => {
+                if (modal && event.target === modal) {
+                    console.log('Clicked outside modal');
+                    modal.style.display = 'none';
+                }
+                if (iconSelectorModal && event.target === iconSelectorModal) {
+                    iconSelectorModal.style.display = 'none';
+                }
+                if (detailsModal && event.target === detailsModal) {
+                    detailsModal.style.display = 'none';
+                }
+                if (sharePopup && event.target === sharePopup) {
+                    sharePopup.style.display = 'none';
+                }
+            });
+            if (searchInput) searchInput.addEventListener('input', handleSearch);
+            if (closeSharePopup) closeSharePopup.addEventListener('click', () => {
+                if (sharePopup) sharePopup.style.display = 'none';
+            });
+            if (copyShareUrlBtn) copyShareUrlBtn.addEventListener('click', () => {
+                if (shareUrlInput) {
+                    shareUrlInput.select();
+                    document.execCommand('copy');
+                    const originalText = copyShareUrlBtn.textContent;
+                    copyShareUrlBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyShareUrlBtn.textContent = originalText;
+                    }, 2000);
+                }
+            });
+            if (detailsClose) detailsClose.addEventListener('click', () => {
+                if (detailsModal) detailsModal.style.display = 'none';
+            });
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentTab = button.dataset.tab;
+                    updateTabView();
                 });
             });
+            if (textureSort) textureSort.addEventListener('change', () => {
+                renderTexturePacks();
+            });
+            if (creationSort) creationSort.addEventListener('change', () => {
+                renderCreations();
+            });
+            if (exploreBtn) exploreBtn.addEventListener('click', () => {
+                document.querySelector('.content-sections').scrollIntoView({ behavior: 'smooth' });
+            });
+            if (createHeroBtn) createHeroBtn.addEventListener('click', () => {
+                if (createBtn) createBtn.click();
+            });
+            if (navButtons) {
+                navButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const slideIndex = parseInt(button.dataset.slide);
+                        showSlide(slideIndex);
+                    });
+                });
+            }
         }
-
-
-        function initializeData() {
+        function initHeroCarousel() {
+            if (packsCount) packsCount.textContent = allTpacks.length;
+            if (creationsCount) creationsCount.textContent = allSubmissions.length;
+            carouselInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % carouselItems.length;
+                showSlide(currentSlide);
+            }, 5000);
+        }
+        function showSlide(index) {
+            carouselItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            navButtons.forEach((button, i) => {
+                if (i === index) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            currentSlide = index;
+        }
+        function updateTabView() {
+            switch (currentTab) {
+                case 'all':
+                    if (textureSection) textureSection.style.display = 'block';
+                    if (creationSection) creationSection.style.display = 'block';
+                    break;
+                case 'texture':
+                    if (textureSection) textureSection.style.display = 'block';
+                    if (creationSection) creationSection.style.display = 'none';
+                    break;
+                case 'creation':
+                    if (textureSection) textureSection.style.display = 'none';
+                    if (creationSection) creationSection.style.display = 'block';
+                    break;
+            }
+            if (currentTab === 'all' || currentTab === 'texture') {
+                renderTexturePacks();
+            }
+            if (currentTab === 'all' || currentTab === 'creation') {
+                renderCreations();
+            }
+        }
+        function setupIconSelector() {
+            console.log('Setting up icon selector');
+            if (openIconSelectorBtn && iconSelectorModal && closeIconSelector) {
+                console.log('Icon selector elements found, setting up event listeners');
+                openIconSelectorBtn.addEventListener('click', openIconSelector);
+                closeIconSelector.addEventListener('click', closeIconSelectorModal);
+                if (iconSearch) {
+                    iconSearch.addEventListener('input', filterIcons);
+                }
+                renderIconGrid(iconOptions);
+            } else {
+                console.log('Icon selector elements not found');
+            }
+        }
+        function openIconSelector() {
+            console.log('Opening icon selector');
+            if (iconSelectorModal) {
+                iconSelectorModal.style.display = 'block';
+                filterIcons();
+            } else {
+                console.error('Icon selector modal not found');
+                alert('Unable to open icon selector. Please try again.');
+            }
+        }
+        function closeIconSelectorModal() {
+            console.log('Closing icon selector');
+            if (iconSelectorModal) {
+                iconSelectorModal.style.display = 'none';
+            }
+        }
+        function renderIconGrid(icons) {
+            if (!iconGrid) {
+                iconGrid = document.getElementById('iconGrid');
+                console.log('Fallback - iconGrid:', !!iconGrid);
+            }
+            if (!iconGrid) {
+                console.error('Icon grid element not found');
+                return;
+            }
+            iconGrid.innerHTML = '';
+            icons.forEach(icon => {
+                const iconElement = document.createElement('div');
+                iconElement.className = 'icon-item';
+                if (selectedIcon && selectedIcon.class === icon.class) {
+                    iconElement.classList.add('selected');
+                }
+                iconElement.innerHTML = `
+            <i class="${icon.class}"></i>
+            <div class="icon-name">${icon.name}</div>
+        `;
+                iconElement.addEventListener('click', () => {
+                    selectIcon(icon);
+                });
+                iconGrid.appendChild(iconElement);
+            });
+        }
+        function filterIcons() {
+            if (!iconSearch) {
+                console.error('Icon search element not found');
+                return;
+            }
+            const searchTerm = iconSearch.value.toLowerCase();
+            const filteredIcons = iconOptions.filter(icon =>
+                icon.name.toLowerCase().includes(searchTerm) ||
+                icon.class.toLowerCase().includes(searchTerm)
+            );
+            renderIconGrid(filteredIcons);
+        }
+        function selectIcon(icon) {
+            selectedIcon = icon;
+            if (presetIconInput) {
+                presetIconInput.value = icon.class;
+            }
+            if (selectedIconDisplay) {
+                selectedIconDisplay.innerHTML = `<i class="${icon.class}" style="font-size: 3rem; color: #f78c5a;"></i>`;
+            }
+            closeIconSelectorModal();
+            const iconItems = document.querySelectorAll('.icon-item');
+            iconItems.forEach(item => {
+                item.classList.remove('selected');
+                const iconElement = item.querySelector('i');
+                if (iconElement && iconElement.classList.contains(icon.class)) {
+                    item.classList.add('selected');
+                }
+            });
+        }
+        function containsSwearWords(text) {
+            const lowerText = text.toLowerCase();
+            return swearWords.some(word => {
+                const regex = new RegExp('\\b' + word.replace(/(.)/g, '$1[\\W_]*') + '\\b', 'i');
+                return regex.test(lowerText);
+            });
+        }
+        function sanitizeText(text) {
+            let sanitizedText = text;
+            swearWords.forEach(word => {
+                const regex = new RegExp('\\b' + word + '\\b', 'gi');
+                sanitizedText = sanitizedText.replace(regex, '*'.repeat(word.length));
+            });
+            return sanitizedText;
+        }
+        async function handleSignIn() {
+            try {
+                console.log('Signing in with Puter...');
+                const user = await puter.auth.signIn();
+                console.log('Signed in user:', user);
+                if (signInBtn) signInBtn.style.display = 'none';
+                if (createBtn) createBtn.style.display = 'flex';
+                if (userProfile) userProfile.style.display = 'flex';
+                if (usernameDisplay) usernameDisplay.textContent = user.username;
+                if (usernameInput) {
+                    usernameInput.value = user.username;
+                    usernameInput.readOnly = true;
+                }
+                localStorage.setItem('puterUser', JSON.stringify(user));
+            } catch (error) {
+                console.error('Sign in error:', error);
+                alert('Sign in failed. Please try again.');
+            }
+        }
+        function handleSignOut() {
+            try {
+                puter.auth.signOut();
+                if (signInBtn) signInBtn.style.display = 'flex';
+                if (createBtn) createBtn.style.display = 'none';
+                if (userProfile) userProfile.style.display = 'none';
+                if (usernameInput) {
+                    usernameInput.value = '';
+                    usernameInput.readOnly = false;
+                }
+                localStorage.removeItem('puterUser');
+            } catch (error) {
+                console.error('Sign out error:', error);
+                alert('Sign out failed. Please try again.');
+            }
+        }
+        function checkAuthStatus() {
+            try {
+                const storedUser = localStorage.getItem('puterUser');
+                if (storedUser) {
+                    const user = JSON.parse(storedUser);
+                    if (signInBtn) signInBtn.style.display = 'none';
+                    if (createBtn) createBtn.style.display = 'flex';
+                    if (userProfile) userProfile.style.display = 'flex';
+                    if (usernameDisplay) usernameDisplay.textContent = user.username;
+                    if (usernameInput) {
+                        usernameInput.value = user.username;
+                        usernameInput.readOnly = true;
+                    }
+                } else {
+                    if (signInBtn) signInBtn.style.display = 'flex';
+                    if (createBtn) createBtn.style.display = 'none';
+                    if (userProfile) userProfile.style.display = 'none';
+                }
+                const storedFollows = localStorage.getItem('followedCreators');
+                if (storedFollows) {
+                    followedCreators = new Set(JSON.parse(storedFollows));
+                }
+            } catch (error) {
+                console.error('Error checking auth status:', error);
+                localStorage.removeItem('puterUser');
+                if (signInBtn) signInBtn.style.display = 'flex';
+                if (createBtn) createBtn.style.display = 'none';
+                if (userProfile) userProfile.style.display = 'none';
+            }
+        }
+        function canUpload() {
+            const now = Date.now();
+            const timeSinceLastUpload = now - lastUploadTime;
+            return timeSinceLastUpload >= UPLOAD_COOLDOWN;
+        }
+        function getRemainingCooldown() {
+            const now = Date.now();
+            const timeSinceLastUpload = now - lastUploadTime;
+            return Math.max(0, UPLOAD_COOLDOWN - timeSinceLastUpload);
+        }
+        function formatTime(ms) {
+            return Math.ceil(ms / 1000);
+        }
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            if (!canUpload()) {
+                const remainingTime = getRemainingCooldown();
+                alert(`Please wait ${formatTime(remainingTime)} seconds before uploading again.`);
+                return;
+            }
+            const submitButton = uploadForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = 'Uploading...';
+            submitButton.disabled = true;
+            const title = document.getElementById('title').value;
+            const username = document.getElementById('username').value;
+            const description = document.getElementById('description').value;
+            const presetIcon = document.getElementById('preset-icon').value;
+            const scriptGroups = document.querySelectorAll('.script-input-group');
+            const scripts = [];
+            let valid = true;
+            scriptGroups.forEach((group, index) => {
+                const nameSelect = group.querySelector(`select[name^="scriptName"]`);
+                const codeInput = group.querySelector(`textarea[name^="script"]`);
+                if (nameSelect && codeInput) {
+                    const name = nameSelect.value.trim();
+                    const code = codeInput.value.trim();
+                    if (!name || !code) {
+                        valid = false;
+                        return;
+                    }
+                    if (name.length > 50) {
+                        alert(`Script name #${index + 1} must be 50 characters or less.`);
+                        valid = false;
+                        return;
+                    }
+                    if (code.length > 10000) {
+                        alert(`Script code #${index + 1} must be 10,000 characters or less.`);
+                        valid = false;
+                        return;
+                    }
+                    scripts.push({
+                        name: sanitizeText(name),
+                        code: code
+                    });
+                }
+            });
+            if (!valid || scripts.length === 0) {
+                alert('Please fill in all script names and code fields.');
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+            if (title.length > 100) {
+                alert('Title must be 100 characters or less.');
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+            if (containsSwearWords(title)) {
+                alert('Your title contains inappropriate language. Please revise it before submitting.');
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+            const storedUser = localStorage.getItem('puterUser');
+            if (!storedUser) {
+                alert('You must be signed in to upload creations.');
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+            if (!presetIcon) {
+                alert('Please select an icon for your creation.');
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+            const user = JSON.parse(storedUser);
+            const submission = {
+                title: sanitizeText(title),
+                description: sanitizeText(description),
+                username: user.username,
+                preset_icon: presetIcon,
+                scripts: JSON.stringify(scripts),
+                created_at: new Date().toISOString(),
+                user_id: user.uuid
+            };
+            try {
+                const { data, error } = await supabase
+                    .from('submissions')
+                    .insert([submission])
+                    .select();
+                console.log('Insert response:', { data, error });
+                if (error) {
+                    throw error;
+                }
+                lastUploadTime = Date.now();
+                alert(`Submission uploaded successfully! ${data ? `(ID: ${data[0]?.id})` : ''}`);
+                const successNotification = document.createElement('div');
+                successNotification.innerHTML = `
+            <div style="position: fixed; top: 20px; right: 20px; background: linear-gradient(90deg, #ff6b39 0%, #ff8c5a 100%); color: white; padding: 16px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); z-index: 10000; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-check-circle"></i>
+                <span>Creation published successfully!</span>
+            </div>
+        `;
+                document.body.appendChild(successNotification);
+                setTimeout(() => {
+                    if (successNotification.parentNode) {
+                        successNotification.parentNode.removeChild(successNotification);
+                    }
+                }, 3000);
+                if (modal) modal.style.display = 'none';
+                uploadForm.reset();
+                selectedIcon = null;
+                if (selectedIconDisplay) {
+                    selectedIconDisplay.innerHTML = '<span>Click to select an icon</span>';
+                }
+                if (presetIconInput) {
+                    presetIconInput.value = '';
+                }
+                if (document.getElementById('description')) {
+                    document.getElementById('description').value = '';
+                }
+                const scriptContainer = document.getElementById('scriptInputsContainer');
+                if (scriptContainer) {
+                    scriptContainer.innerHTML = '';
+                    addScriptInput(scriptContainer);
+                }
+                await loadSubmissions();
+            } catch (error) {
+                console.error('Error uploading submission:', error);
+                let errorMessage = error.message || error;
+                if (errorMessage.includes('row-level security policy')) {
+                    errorMessage = 'Database access error: You need to enable proper permissions in Supabase. ' +
+                        'Go to your Supabase dashboard > Authentication > Policies > submissions table ' +
+                        'and enable INSERT access for everyone (public).';
+                }
+                alert(`Error uploading submission: ${errorMessage}`);
+            } finally {
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            }
+        }
+        async function loadSubmissions() {
+            console.log('Loading submissions...');
+            if (allSubmissions.length === 0 && creationGrid) {
+                creationGrid.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>Loading creations...</p></div>';
+            }
+            try {
+                console.log('Attempting to connect to Supabase...');
+                const { data, error } = await supabase
+                    .from('submissions')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                console.log('Supabase response:', { data, error });
+                if (error) {
+                    throw error;
+                }
+                allSubmissions = data || [];
+                console.log('Found', allSubmissions.length, 'submissions');
+                updateCounts();
+                renderTexturePacks();
+                renderCreations();
+            } catch (error) {
+                console.error('Error loading submissions:', error);
+                let errorMessage = error.message || 'Please try again later.';
+                if (errorMessage.includes('row-level security policy')) {
+                    errorMessage = 'Database access error: You need to enable proper permissions in Supabase. ' +
+                        'Go to your Supabase dashboard > Authentication > Policies > submissions table ' +
+                        'and enable SELECT access for everyone (public).';
+                }
+                renderTexturePacks();
+                renderCreations();
+            }
+        }
+        function initializeTexturePackData() {
             allTpacks.sort((a, b) => {
                 if (a.pinned && !b.pinned) return -1;
                 if (!a.pinned && b.pinned) return 1;
                 return a.title.localeCompare(b.title);
             });
-
-            packCountElement.textContent = `(${allTpacks.length} Packs)`;
-
-            renderHeroSection(allTpacks);
-
-            renderPacks(allTpacks);
+            updateCounts();
         }
-
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase().trim();
-
-            if (searchTerm) {
-                const filteredPacks = allTpacks.filter(pack =>
-                    pack.title.toLowerCase().includes(searchTerm) ||
-                    pack.author.toLowerCase().includes(searchTerm) ||
-                    pack.description.toLowerCase().includes(searchTerm)
-                );
-
-                document.getElementById('heroSection').style.display = 'none';
-
-                packCountElement.textContent = `(${filteredPacks.length} of ${allTpacks.length} Packs)`;
-
-                renderPacks(filteredPacks, true);
+        function updateCounts() {
+            if (textureCount) textureCount.textContent = `(${allTpacks.length})`;
+            if (creationCount) creationCount.textContent = `(${allSubmissions.length})`;
+            if (packsCount) packsCount.textContent = allTpacks.length;
+            if (creationsCount) creationsCount.textContent = allSubmissions.length;
+        }
+        function toggleFollow(creator, button) {
+            if (followedCreators.has(creator)) {
+                followedCreators.delete(creator);
+                button.innerHTML = '<i class="fas fa-user-plus"></i> Follow';
+                button.classList.remove('followed');
+                button.style.background = 'rgba(255, 255, 255, 0.2)';
+                button.style.border = '1px solid rgba(255, 255, 255, 0.3)';
             } else {
-                renderHeroSection(allTpacks);
-
-                packCountElement.textContent = `(${allTpacks.length} Packs)`;
-
-                renderPacks(allTpacks, false);
+                followedCreators.add(creator);
+                button.innerHTML = '<i class="fas fa-user-check"></i> Following';
+                button.classList.add('followed');
+                button.style.background = '#ff6b39';
+                button.style.border = 'none';
             }
-        });
-
+            localStorage.setItem('followedCreators', JSON.stringify([...followedCreators]));
+            renderCreations();
+            renderFilteredCreations(allSubmissions.filter(submission => {
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                return submission.title.toLowerCase().includes(searchTerm) ||
+                    submission.username.toLowerCase().includes(searchTerm);
+            }));
+        }
+        function renderTexturePacks() {
+            if (!textureGrid) return;
+            const sortValue = textureSort ? textureSort.value : 'pinned-alpha';
+            let sortedPacks = [...allTpacks];
+            switch (sortValue) {
+                case 'alpha':
+                    sortedPacks.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'newest':
+                    sortedPacks.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'pinned-alpha':
+                default:
+                    sortedPacks.sort((a, b) => {
+                        if (a.pinned && !b.pinned) return -1;
+                        if (!a.pinned && b.pinned) return 1;
+                        return a.title.localeCompare(b.title);
+                    });
+                    break;
+            }
+            if (sortedPacks.length === 0) {
+                textureGrid.innerHTML = `
+            <div class="grid-message">
+                <i class="fas fa-cube"></i>
+                <h3>No texture packs available</h3>
+                <p>Check back later for new texture packs!</p>
+            </div>`;
+                return;
+            }
+            textureGrid.innerHTML = '';
+            sortedPacks.forEach((pack, index) => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                const isPinned = pack.pinned;
+                const pinIcon = isPinned ? '<i class="fa-solid fa-thumbtack pin-icon"></i>' : '';
+                card.innerHTML = `
+            <div class="image-container">
+                ${pinIcon}
+                <img src="${pack.imageUrl}" alt="${pack.title} preview" class="item-image">
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">${pack.title}</h3>
+                <p class="item-author">by ${pack.author}</p>
+                <div class="item-description-wrapper">
+                    <p class="item-description">${pack.description}</p>
+                    <button class="read-more-btn">Read More</button>
+                </div>
+                <div class="item-footer">
+                    <div class="button-group">
+                        <button class="share-btn" data-pack-id="${pack.id}">
+                            <i class="fas fa-share"></i>
+                        </button>
+                        <a href="${pack.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+                textureGrid.appendChild(card);
+                const description = card.querySelector('.item-description');
+                const readMoreBtn = card.querySelector('.read-more-btn');
+                if (description && description.scrollHeight > description.clientHeight) {
+                    if (readMoreBtn) {
+                        readMoreBtn.style.display = 'block';
+                        readMoreBtn.addEventListener('click', () => {
+                            description.classList.toggle('expanded');
+                            if (description.classList.contains('expanded')) {
+                                readMoreBtn.textContent = 'Show Less';
+                            } else {
+                                readMoreBtn.textContent = 'Read More';
+                            }
+                        });
+                    }
+                }
+                const shareBtn = card.querySelector('.share-btn');
+                if (shareBtn) {
+                    shareBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showSharePopup(pack);
+                    });
+                }
+            });
+        }
+        function renderCreations() {
+            if (!creationGrid) return;
+            const sortValue = creationSort ? creationSort.value : 'pinned-alpha';
+            let sortedCreations = [...allSubmissions];
+            switch (sortValue) {
+                case 'alpha':
+                    sortedCreations.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'newest':
+                    sortedCreations.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                    break;
+                case 'pinned-alpha':
+                default:
+                    sortedCreations.sort((a, b) => {
+                        return new Date(b.created_at) - new Date(a.created_at);
+                    });
+                    break;
+            }
+            if (sortedCreations.length === 0) {
+                creationGrid.innerHTML = `
+            <div class="grid-message">
+                <i class="fas fa-code"></i>
+                <h3>No JavaScript creations yet</h3>
+                <p>Be the first to share your JavaScript creation!</p>
+                <button id="createFirstBtn" class="submit-btn" style="margin-top: 20px;">
+                    <i class="fas fa-plus"></i> Create Your First Creation
+                </button>
+            </div>`;
+                const createFirstBtn = document.getElementById('createFirstBtn');
+                if (createFirstBtn) {
+                    createFirstBtn.addEventListener('click', () => {
+                        if (createBtn) createBtn.click();
+                    });
+                }
+                return;
+            }
+            creationGrid.innerHTML = '';
+            sortedCreations.forEach((creation, index) => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.dataset.id = creation.id;
+                card.innerHTML = `
+            <div class="image-container">
+                <div class="item-image" style="display: flex; justify-content: center; align-items: center; background: #1a1919;">
+                    ${creation.preset_icon ? `<i class="${creation.preset_icon}" style="font-size: 80px; color: #f78c5a;"></i>` : '<i class="fas fa-icons" style="font-size: 80px; color: #888;"></i>'}
+                </div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">${creation.title}</h3>
+                <p class="item-author">by ${creation.username}</p>
+                <div class="item-description-wrapper">
+                </div>  
+            </div>
+        `;
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.download-btn')) {
+                        showSubmissionDetails(creation.id);
+                    }
+                });
+                creationGrid.appendChild(card);
+            });
+        }
+        function handleSearch(event) {
+            const searchTerm = event.target.value.toLowerCase().trim();
+            const filteredTpacks = allTpacks.filter(pack =>
+                pack.title.toLowerCase().includes(searchTerm) ||
+                pack.author.toLowerCase().includes(searchTerm) ||
+                pack.description.toLowerCase().includes(searchTerm)
+            );
+            const filteredCreations = allSubmissions.filter(creation => {
+                if (creation.title.toLowerCase().includes(searchTerm) ||
+                    creation.username.toLowerCase().includes(searchTerm)) {
+                    return true;
+                }
+                try {
+                    const scripts = JSON.parse(creation.scripts);
+                    return scripts.some(script =>
+                        script.name.toLowerCase().includes(searchTerm) ||
+                        script.code.toLowerCase().includes(searchTerm)
+                    );
+                } catch (e) {
+                    return creation.script && creation.script.toLowerCase().includes(searchTerm);
+                }
+            });
+            if (textureCount) textureCount.textContent = `(${filteredTpacks.length})`;
+            if (creationCount) creationCount.textContent = `(${filteredCreations.length})`;
+            renderFilteredTexturePacks(filteredTpacks);
+            renderFilteredCreations(filteredCreations);
+        }
+        function renderFilteredTexturePacks(packs) {
+            if (!textureGrid) return;
+            if (packs.length === 0) {
+                textureGrid.innerHTML = `
+            <div class="grid-message">
+                <i class="fas fa-search"></i>
+                <h3>No texture packs found</h3>
+                <p>Try different search terms.</p>
+            </div>`;
+                return;
+            }
+            textureGrid.innerHTML = '';
+            packs.forEach((pack, index) => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.innerHTML = `
+            <div class="image-container">
+                <img src="${pack.imageUrl}" alt="${pack.title} preview" class="item-image">
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">${pack.title}</h3>
+                <p class="item-author">by ${pack.author}</p>
+                <div class="item-description-wrapper">
+                    <p class="item-description">${pack.description}</p>
+                    <button class="read-more-btn">Read More</button>
+                </div>
+                <div class="item-footer">
+                    <div class="button-group">
+                        <button class="share-btn" data-pack-id="${pack.id}">
+                            <i class="fas fa-share"></i>
+                        </button>
+                        <a href="${pack.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+                textureGrid.appendChild(card);
+                const description = card.querySelector('.item-description');
+                const readMoreBtn = card.querySelector('.read-more-btn');
+                if (description && description.scrollHeight > description.clientHeight) {
+                    if (readMoreBtn) {
+                        readMoreBtn.style.display = 'block';
+                        readMoreBtn.addEventListener('click', () => {
+                            description.classList.toggle('expanded');
+                            if (description.classList.contains('expanded')) {
+                                readMoreBtn.textContent = 'Show Less';
+                            } else {
+                                readMoreBtn.textContent = 'Read More';
+                            }
+                        });
+                    }
+                }
+                const shareBtn = card.querySelector('.share-btn');
+                if (shareBtn) {
+                    shareBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showSharePopup(pack);
+                    });
+                }
+            });
+        }
+        function renderFilteredCreations(creations) {
+            if (!creationGrid) return;
+            if (creations.length === 0) {
+                creationGrid.innerHTML = `
+            <div class="grid-message">
+                <i class="fas fa-search"></i>
+                <h3>No JavaScript creations found</h3>
+                <p>Try different search terms.</p>
+            </div>`;
+                return;
+            }
+            creationGrid.innerHTML = '';
+            sortedCreations.forEach((creation, index) => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.dataset.id = creation.id;
+                const isFollowed = followedCreators.has(creation.username);
+                const followButton = isFollowed ?
+                    `<button class="follow-btn followed" data-creator="${creation.username}" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: #ff6b39; color: white; border: none; border-radius: 12px; padding: 5px 10px; font-size: 0.8rem; cursor: pointer;">
+                        <i class="fas fa-user-check"></i> Following
+                    </button>` :
+                    `<button class="follow-btn" data-creator="${creation.username}" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 12px; padding: 5px 10px; font-size: 0.8rem; cursor: pointer;">
+                        <i class="fas fa-user-plus"></i> Follow
+                    </button>`;
+                const forYouBadge = isFollowed ?
+                    `<div style="position: absolute; top: 10px; left: 10px; z-index: 10; background: #ff6b39; color: white; border-radius: 12px; padding: 5px 10px; font-size: 0.8rem; font-weight: bold;">
+                        <i class="fas fa-star"></i> For you
+                    </div>` : '';
+                card.innerHTML = `
+            <div class="image-container">
+                ${followButton}
+                ${forYouBadge}
+                <div class="item-image" style="display: flex; justify-content: center; align-items: center; background: #1a1919;">
+                    ${creation.preset_icon ? `<i class="${creation.preset_icon}" style="font-size: 80px; color: #f78c5a;"></i>` : '<i class="fas fa-icons" style="font-size: 80px; color: #888;"></i>'}
+                </div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">${creation.title}</h3>
+                <p class="item-author">by ${creation.username}</p>
+                <div class="item-description-wrapper">
+                    <p class="item-description">JavaScript Creation</p>
+                </div>  
+            </div>
+        `;
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.download-btn') && !e.target.closest('.follow-btn')) {
+                        showSubmissionDetails(creation.id);
+                    }
+                });
+                setTimeout(() => {
+                    const followBtn = card.querySelector('.follow-btn');
+                    if (followBtn) {
+                        followBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            toggleFollow(creation.username, followBtn);
+                        });
+                    }
+                }, 0);
+                creationGrid.appendChild(card);
+            });
+        }
+        function showSubmissionDetails(submissionId) {
+            const submission = allSubmissions.find(s => s.id == submissionId);
+            if (!submission) return;
+            if (detailsTitle) detailsTitle.textContent = submission.title;
+            if (detailsContent) {
+                let scripts = [];
+                try {
+                    scripts = JSON.parse(submission.scripts);
+                } catch (e) {
+                    console.error('Error parsing scripts:', e);
+                    scripts = [{ name: 'Script', code: submission.script || 'No code available' }];
+                }
+                let scriptsHtml = '';
+                scripts.forEach((script, index) => {
+                    scriptsHtml += `
+                        <div style="margin-bottom: 25px; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden;">
+                            <div style="background: var(--surface-color); padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--text-accent);">
+                                <i class="fas fa-file-code"></i> ${escapeHtml(script.name)}
+                            </div>
+                            <div style="padding: 16px;">
+                                <pre style="background: var(--background-darker); padding: 16px; border-radius: var(--radius-md); font-family: monospace; font-size: 0.9rem; max-height: 300px; overflow-y: auto; white-space: pre-wrap; margin: 0;">${escapeHtml(script.code)}</pre>
+                            </div>
+                        </div>
+                    `;
+                });
+                detailsContent.innerHTML = `
+                    <div class="details-content">
+                        <div class="details-main">
+                            <div class="details-icon" style="display: flex; justify-content: center; align-items: center; height: 300px;">
+                                ${submission.preset_icon ? displayIcon(submission.preset_icon) : '<i class="fas fa-icons" style="font-size: 150px; color: #888;"></i>'}
+                            </div>
+                            <div class="details-script">
+                                <strong>Scripts:</strong>
+                                ${scriptsHtml}
+                            </div>
+                        </div>
+                        ${submission.description ? `<div style="margin: 20px 0; padding: 15px; background: var(--surface-color); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                            <h3 style="margin-top: 0; color: var(--text-accent);"><i class="fas fa-align-left"></i> Description</h3>
+                            <p style="margin-bottom: 0; line-height: 1.6;">${escapeHtml(submission.description)}</p>
+                        </div>` : ''}
+                        <div class="details-meta">
+                            <span><strong>By:</strong> ${escapeHtml(submission.username)}</span>
+                            <span><strong>Date:</strong> ${new Date(submission.created_at).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            if (detailsModal) detailsModal.style.display = 'block';
+            if (copyScriptBtn) {
+                copyScriptBtn.onclick = () => {
+                    let scripts = [];
+                    try {
+                        scripts = JSON.parse(submission.scripts);
+                    } catch (e) {
+                        console.error('Error parsing scripts:', e);
+                        scripts = [{ name: 'Script', code: submission.script || '' }];
+                    }
+                    const allCode = scripts.map(s => `// ${s.name}\n${s.code}`).join('\n\n');
+                    navigator.clipboard.writeText(allCode).then(() => {
+                        const originalText = copyScriptBtn.innerHTML;
+                        copyScriptBtn.innerHTML = '<i class="fas fa-check"></i> Copied All Scripts!';
+                        setTimeout(() => {
+                            copyScriptBtn.innerHTML = originalText;
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy script: ', err);
+                        alert('Failed to copy script to clipboard');
+                    });
+                };
+            }
+        }
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"]/g, m => map[m]);
+        }
+        function displayIcon(iconClass) {
+            return `<i class="${iconClass}" style="font-size: 150px; color: #f78c5a;"></i>`;
+        }
+        function showSharePopup(pack) {
+            if (sharePackImage) sharePackImage.src = pack.imageUrl;
+            if (sharePackImage) sharePackImage.alt = `${pack.title} preview`;
+            if (sharePackTitle) sharePackTitle.textContent = pack.title;
+            if (sharePackAuthor) sharePackAuthor.textContent = `by ${pack.author}`;
+            if (sharePackDescription) sharePackDescription.textContent = pack.description;
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?packname=${encodeURIComponent(pack.id)}`;
+            if (shareUrlInput) shareUrlInput.value = shareUrl;
+            if (shareDownloadBtn) shareDownloadBtn.href = pack.downloadUrl;
+            if (sharePopup) sharePopup.style.display = 'flex';
+        }
         function checkForSharedPack() {
             const urlParams = new URLSearchParams(window.location.search);
             const packName = urlParams.get('packname');
-
             if (packName) {
                 const pack = allTpacks.find(p => p.id === packName);
-
                 if (pack) {
                     showSharePopup(pack);
                 }
             }
         }
-
-        initializeData();
         checkForSharedPack();
+        document.addEventListener('DOMContentLoaded', function () {
+            const statItems = document.querySelectorAll('.stat-item');
+            statItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('animate-in');
+                }, 200 * index);
+            });
+        });
     </script>
 </body>
 
