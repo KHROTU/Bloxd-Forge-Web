@@ -1078,11 +1078,13 @@
             border: 1px solid var(--border-color);
             border-radius: var(--radius-xl);
             width: 90%;
-            max-width: 950px;
+            max-width: 1200px;
             max-height: 85vh;
             box-shadow: var(--shadow-xl);
             animation: modalopen 0.3s ease;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         @keyframes modalopen {
@@ -1099,16 +1101,18 @@
 
         .modal-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             padding: 24px;
             border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .modal-header h2 {
             margin: 0;
             color: var(--text-accent);
             font-size: 1.8rem;
+            display: none;
         }
 
         .close {
@@ -1124,9 +1128,12 @@
         }
 
         .modal-body {
-            padding: 20px;
+            padding: 24px;
             max-height: calc(85vh - 120px);
             overflow-y: auto;
+            background: var(--background-darker);
+            display: flex;
+            flex-direction: column;
         }
 
         .form-group {
@@ -1205,11 +1212,13 @@
             display: flex;
             gap: 30px;
             margin-bottom: 20px;
-            align-items: flex-start;
+            align-items: stretch;
         }
 
         .form-column {
             flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .form-column.left {
@@ -1245,6 +1254,9 @@
                 padding-right: 0;
                 border-right: none;
             }
+        }
+
+        .cancel-btn {
         }
 
         .cancel-btn {
@@ -1495,11 +1507,13 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            height: 100%;
         }
 
         .details-main {
             display: flex;
             gap: 20px;
+            height: 100%;
         }
 
         .details-icon {
@@ -1532,6 +1546,7 @@
             flex-grow: 1;
             margin: 0;
             border: 1px solid var(--border-color);
+            line-height: 1.4;
         }
 
         .details-meta {
@@ -3168,7 +3183,7 @@
         function showSubmissionDetails(submissionId) {
             const submission = allSubmissions.find(s => s.id == submissionId);
             if (!submission) return;
-            if (detailsTitle) detailsTitle.textContent = submission.title;
+            if (detailsTitle) detailsTitle.textContent = '';
             if (detailsContent) {
                 let scripts = [];
                 try {
@@ -3191,50 +3206,98 @@
                     `;
                 });
                 detailsContent.innerHTML = `
-                    <div class="details-content">
-                        <div class="details-main">
-                            <div class="details-icon" style="display: flex; justify-content: center; align-items: center; height: 300px;">
-                                ${submission.preset_icon ? displayIcon(submission.preset_icon) : '<i class="fas fa-icons" style="font-size: 150px; color: #888;"></i>'}
+                    <div class="details-content" style="display: flex; flex-direction: column; height: 100%;">
+                        <div class="details-main" style="display: flex; gap: 25px; flex: 1; min-height: 0;">
+                            <div class="details-info" style="flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 250px; max-width: 300px; padding: 10px;">
+                                <div class="details-icon" style="display: flex; justify-content: center; align-items: center; height: 180px; background: var(--background-darker); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md);">
+                                    ${submission.preset_icon ? displayIcon(submission.preset_icon) : '<i class="fas fa-icons" style="font-size: 80px; color: #888;"></i>'}
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 15px;">
+                                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-accent); margin: 0; line-height: 1.3;">${escapeHtml(submission.title)}</h2>
+                                    <div style="display: flex; flex-direction: column; gap: 8px; padding: 12px; background: var(--surface-color); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                                        <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+                                            <span><strong>By:</strong> ${escapeHtml(submission.username)}</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted);">
+                                            <span><i class="fas fa-calendar-alt"></i> ${new Date(submission.created_at).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                    <button id="copyAllScriptsBtn" class="submit-btn" style="margin-top: 5px; padding: 12px; font-size: 1rem;">
+                                        <i class="fas fa-copy"></i> Copy All Scripts
+                                    </button>
+                                </div>
                             </div>
-                            <div class="details-script">
-                                <strong>Scripts:</strong>
-                                ${scriptsHtml}
+                            <div class="details-script" style="flex: 2; display: flex; flex-direction: column; gap: 20px; padding: 10px; border-left: 1px solid var(--border-color);">
+                                <div style="display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
+                                    <i class="fas fa-file-code" style="font-size: 1.4rem; color: var(--text-accent);"></i>
+                                    <h3 style="font-size: 1.4rem; font-weight: 600; color: var(--text-accent); margin: 0;">Scripts</h3>
+                                </div>
+                                <div style="overflow-y: auto; flex: 1; padding-right: 10px;">
+                                    ${scriptsHtml}
+                                </div>
                             </div>
                         </div>
-                        ${submission.description ? `<div style="margin: 20px 0; padding: 15px; background: var(--surface-color); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-                            <h3 style="margin-top: 0; color: var(--text-accent);"><i class="fas fa-align-left"></i> Description</h3>
-                            <p style="margin-bottom: 0; line-height: 1.6;">${escapeHtml(submission.description)}</p>
+                        ${submission.description ? `<div style="margin: 25px 0 5px 0; padding: 20px; background: var(--surface-color); border-radius: var(--radius-md); border: 1px solid var(--border-color); flex-shrink: 0;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                                <i class="fas fa-align-left" style="font-size: 1.3rem; color: var(--text-accent);"></i>
+                                <h3 style="margin: 0; color: var(--text-accent); font-size: 1.4rem;">Description</h3>
+                            </div>
+                            <p style="margin-bottom: 0; line-height: 1.8; font-size: 1.05rem;">${escapeHtml(submission.description)}</p>
                         </div>` : ''}
-                        <div class="details-meta">
-                            <span><strong>By:</strong> ${escapeHtml(submission.username)}</span>
-                            <span><strong>Date:</strong> ${new Date(submission.created_at).toLocaleDateString()}</span>
-                        </div>
                     </div>
                 `;
             }
             if (detailsModal) detailsModal.style.display = 'block';
-            if (copyScriptBtn) {
-                copyScriptBtn.onclick = () => {
-                    let scripts = [];
-                    try {
-                        scripts = JSON.parse(submission.scripts);
-                    } catch (e) {
-                        console.error('Error parsing scripts:', e);
-                        scripts = [{ name: 'Script', code: submission.script || '' }];
-                    }
-                    const allCode = scripts.map(s => `// ${s.name}\n${s.code}`).join('\n\n');
-                    navigator.clipboard.writeText(allCode).then(() => {
-                        const originalText = copyScriptBtn.innerHTML;
-                        copyScriptBtn.innerHTML = '<i class="fas fa-check"></i> Copied All Scripts!';
-                        setTimeout(() => {
-                            copyScriptBtn.innerHTML = originalText;
-                        }, 2000);
-                    }).catch(err => {
-                        console.error('Failed to copy script: ', err);
-                        alert('Failed to copy script to clipboard');
-                    });
-                };
-            }
+            // Handle the copy functionality for the new button
+            setTimeout(() => {
+                const copyAllBtn = document.getElementById('copyAllScriptsBtn');
+                if (copyAllBtn) {
+                    copyAllBtn.onclick = () => {
+                        let scripts = [];
+                        try {
+                            scripts = JSON.parse(submission.scripts);
+                        } catch (e) {
+                            console.error('Error parsing scripts:', e);
+                            scripts = [{ name: 'Script', code: submission.script || '' }];
+                        }
+                        const allCode = scripts.map(s => `// ${s.name}\n${s.code}`).join('\n\n');
+                        navigator.clipboard.writeText(allCode).then(() => {
+                            const originalText = copyAllBtn.innerHTML;
+                            copyAllBtn.innerHTML = '<i class="fas fa-check"></i> Copied All Scripts!';
+                            setTimeout(() => {
+                                copyAllBtn.innerHTML = originalText;
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy script: ', err);
+                            alert('Failed to copy script to clipboard');
+                        });
+                    };
+                }
+                
+                // Keep the original copy button functionality for individual scripts
+                if (copyScriptBtn) {
+                    copyScriptBtn.onclick = () => {
+                        let scripts = [];
+                        try {
+                            scripts = JSON.parse(submission.scripts);
+                        } catch (e) {
+                            console.error('Error parsing scripts:', e);
+                            scripts = [{ name: 'Script', code: submission.script || '' }];
+                        }
+                        const allCode = scripts.map(s => `// ${s.name}\n${s.code}`).join('\n\n');
+                        navigator.clipboard.writeText(allCode).then(() => {
+                            const originalText = copyScriptBtn.innerHTML;
+                            copyScriptBtn.innerHTML = '<i class="fas fa-check"></i> Copied All Scripts!';
+                            setTimeout(() => {
+                                copyScriptBtn.innerHTML = originalText;
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy script: ', err);
+                            alert('Failed to copy script to clipboard');
+                        });
+                    };
+                }
+            }, 100);
         }
         function escapeHtml(text) {
             const map = {
